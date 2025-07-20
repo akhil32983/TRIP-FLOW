@@ -10,7 +10,29 @@
 > 
 > This **Final Degree Project (TFG)** develops a travel planning application using Spring Boot and React, with AI-powered itinerary generation and route optimization algorithms. The project demonstrates the integration of modern web technologies to solve real-world travel planning challenges.
 > 
+> This project is developed as part of the Final Degree Project (TFG) for the **Bachelor’s Degree in Software Engineering** at **ETSII - Universidad Rey Juan Carlos**.
+
+
+> ---
+
+> **⚙️ Methodology**
+> 
+> This TFG will follow an incremental and iterative development model following the next phases:
+> 
+> | Phase   | Description                                 | Deadline          |
+> | ------- | ------------------------------------------- | ----------------- |
+> | Phase 1 | Functionality Definition and prototype      | 15 September 2025 |
+> | Phase 2 | Repository setup, testing and CI/CD         | 15 October 2025   |
+> | Phase 3 | v0.1 - Basic functionality and Docker setup | 15 December 2025  |
+> | Phase 4 | v0.2 - Intermediate functionality           | 1 March 2026      |
+> | Phase 5 | v1.0 - Advanced functionality               | 15 April 2026     |
+> | Phase 6 | TFG Memory                                  | 15 May 2026       |
+> | Phase 7 | Final Presentation and Defense              | 15 June 2026      |
+> 
 > See the [Roadmap](docs/roadmap.md) for detailed project features and timelines.
+> 
+> You can also check my [Medium Blog](https://medium.com/@cub1z) for more information about the project development and updates.
+
 
 ---
 
@@ -23,7 +45,7 @@
 
 ---
 
-## 📋 Phase 0 - Functionality Definition
+## 📋 Phase 1 - Functionality Definition
 
 > **TripFlow**
 > The application to be developed is a Progressive Web App (PWA) for travel itinerary management and optimized route planning.
@@ -32,93 +54,118 @@
 >
 > The system will feature a backend developed in Spring Boot, frontend in React with Vite, and PostgreSQL storage.
 
-> ---
+---
 
-> **🎯 Core Objectives**
-> - 🧳 *Travel Itinerary Planning*: Comprehensive trip planning and route management for travelers
-> - 📱 *Progressive Web App*: Full offline capabilities with responsive, native-like experience
-> - 🔐 *Secure User Management*: JWT-based authentication with comprehensive user profiles
-> - 🗺️ *Intelligent Route Planning*: Advanced TSP (Traveling Salesman Problem) algorithms for optimal daily routes
-> - 🤖 *AI-Powered Generation*: Automatic itinerary creation based on user preferences and constraints
-> - 📊 *Gamified Experience*: Achievement system and detailed travel statistics
+### 🎯 Objectives
 
-> ---
-
-> **🛠️ Technology Stack**
+> **✅ Functional Objectives**
 > 
-> *🔧 Backend*
-> - **Framework**: Spring Boot with Spring Security (JWT)
-> - **Database**: PostgreSQL with JPA Repository
-> - **Testing**: JUnit 5, Mockito, RestAssured
-> - **AI Integration**: OpenRouter API
-> - **Algorithms**: TSP optimization (Greedy, 2-Opt)
+> The goal of the application is to allow users to plan, organize, and optimize their travel itineraries in a personalized and intelligent way. Users will be able to manage trips, add activities and interact with features that enrich their travel experience.
+> 
+> - Users can create, edit, and delete travel itineraries.
+> - Each itinerary can include multiple days and scheduled activities.
+> - Activities can be manually added or automatically generated through AI.
+> - Users can visualize trip statistics such as total distance or days planned.
+> - The app will offer an optimization algorithm service to improve daily routes.
+> - Users can unlock achievements based on usage and travel goals.
+> - Itineraries can be exported as PDF files.
+> - A responsive web interface allows access across devices.
+> - The app will ensure offline access.
+
+> ---
+
+> **🧪 Technical Objectives**
 >
-> *⚛️ Frontend*
-> - **Framework**: React with TypeScript + Vite
-> - **Routing**: React Router
-> - **HTTP Client**: Axios
-> - **Testing**: Vitest, React Testing Library, Puppeteer
-> - **PWA**: Service Workers, vite-plugin-pwa
+> The technical objectives focus on the implementation of a full-stack application using modern technologies and best practices in software development. It will follow a client-server architecture with a RESTful API, it will integrate AI services and an optimization service for route planning enhancement.
+> 
+> - Client-side application developed using React-Router + Vite + TypeScript.
+> - Server-side application developed using Spring Boot exposing a RESTful API.
+> - Testing coverage for both frontend and backend using JUnit, TestingContainers, Vitest, and Puppeteer.
+> - Database management using PostgreSQL with JPA Repository from SpringBoot.
+> - Integration with OpenRouter API for AI itinerary generation.
+> - Implementation of TSP optimization algorithms.
+> - Use of Docker for containerization and making easier CI/CD processes.
+> - Implementation of a Progressive Web App (PWA) with offline capabilities.
+> - User authentication and session management using JWT tokens.
+> - Generation of PDF summaries through PDFjs library.
+> - Data visualization using interactive charts.
+
+---
+
+### ✨ Features
+
+> **⚡ Basic Functionality (Core MVP)**
 >
-> *🗄️ Storage*
-> - **Database**: PostgreSQL
-> - **Local Storage**: localStorage, IndexedDB
-> - **Caching**: AI responses and API calls
->
-> *🐳 DevOps*
-> - **Containerization**: Docker + Docker Compose
+> Minimal features required for the application to be usable and testable by the end user.
+> 
+> - User registration, login, logout, and token refresh system.
+> - Role-based access control.
+> - Public landing page and user dashboard.
+> - CRUD operations for itineraries, including days, activities, and locations.
+> - View, create, update and delete itineraries.
+> - Basic profile page for logout and basic user details.
+> - Frontend-backend integration via REST API.
+> - 404 error page and basic routing.
 
 > ---
 
-> **✨ Features**
+> **🚀 Intermediate Functionality**
+>
+> Additional features that enhance the user experience and add value to the application.
 > 
-> *🔐 Users and Authentication*
-> - 📝 New users registration
-> - 🚪 Secure login through JWT tokens
-> - 🚫 Session management with token invalidation on logout
-> - 🖼️ Avatar management - upload and retrieve user profile pictures
-> - 👤 Profile visualization
-> - ❌ Account deletion
-> - 🛡️ JWT-based security for all protected resources
-> 
-> *🗺️ Itineraries*
-> - ➕ Create new itineraries
-> - 📋 View all itineraries in an organized dashboard
-> - 🔍Detailed itinerary view
-> - ✏️ Edit existing itineraries
-> - 🗑️ Delete itineraries
-> - 🎯 Activity management - add, edit, and remove activities
-> - 📅 Time organization - structure activities by days, dates, and hours
-> 
-> *📊 User Statistics*
-> - ✅ Completed activities tracking
-> - 📍 Places visited
-> - 📆 Total planned days accumulation
-> - 🛣️ Total distance traveled
-> 
-> *🤖 AI Itinerary Generation*
-> - 🎨 Automatic generation of itineraries based on preferences
-> - 🌐 OpenRouter integration by FREE Tier AI models
-> - ⚡ Response caching for identical requests optimization
-> - 📝 Query history storage with rate limiting capabilities
-> 
-> *🏆 Achievements and Gamification*
-> - 🎖️ Achievement visualization with progress tracking
-> - 🔓 Unlocked achievements personal gallery
-> 
-> *📱 PWA (Progressive Web App)*
-> - 🌐 Offline access
-> - 💾 Local storage using localStorage and IndexedDB
-> 
-> *🚀 Advanced Features*
-> - 🧮 TSP optimization for efficient route planning
-> - 📄 Advanced PDF export with customizable styling and branding
+> - Avatar functionality for user profile pictures.
+> - User profile page with detailed information.
+> - Editing and deleting profiles.
+> - Display of itinerary statistics (number of trips, days, destinations).
+> - AI-powered itinerary generation based on user preferences.
+> - Administration panel for user and AI logs management.
 
 > ---
 
-> **📦 Entities**
+> **🌟 Advanced Functionality**
 > 
-> *👤 User*
+> Features that provide a competitive advantage and improve the overall user experience.
+>
+> - User preferences management for AI generation.
+> - Routes and itineraries optimization.
+> - Achievements and experience points system.
+> - Progressive Web App (PWA) features for offline access and mobile installation.
+> - PDF export of itineraries.
+
+---
+
+### 🛠️ Technology Stack
+
+> **🔧 Backend**
+> 
+> - *Framework*: Spring Boot with Spring Security (JWT)
+> - *Database*: PostgreSQL with JPA Repository
+> - *Testing*: JUnit 5, Mockito, RestAssured
+> - *AI Integration*: OpenRouter API
+> - *Algorithms*: TSP optimization (Greedy, 2-Opt)
+
+> ---
+
+> **⚛️ Frontend**
+> - *Framework*: React with TypeScript + Vite
+> - *Routing*: React Router
+> - *HTTP Client*: Axios
+> - *Testing*: Vitest, React Testing Library, Puppeteer
+> - *PWA*: Service Workers, vite-plugin-pwa
+
+> ---
+
+> **🐳 DevOps**
+> - *Containerization*: Docker + Docker Compose
+
+---
+
+### 📦 Entities
+
+> **👤 User**
+> 
+> User entity represents the application users, including their authentication details and profile information.
+> 
 > - id: Long (Primary key, auto-increment)
 > - username: String (Unique, not null)
 > - hashedPassword: String (Not null)
@@ -129,33 +176,94 @@
 > - avatar: Blob (Nullable)
 > - createdAt: Timestamp (Not null, auto-generated)
 > 
-> *🤖 AILog*
+> *Relationships:*
+> - Itineraries: One-to-many relationship with Itinerary
+> - AI Log: One-to-many relationship with AILog
+> - Achievements: One-to-many relationship with Achievement
+> - Preferences: One-to-one relationship with UserPreferences
+
+> ---
+
+> **🛜User Preferences**
+> 
+> UserPreferences entity stores the preferences of users for AI-generated itineraries.
+> 
+> - id: Long (Primary key, auto-increment)
+> - style: StylePreference (enum)
+> - budget: BudgetPreference (enum)
+> - lodging: LodgingPreference (enum)
+> - transport: TransportPreference (enum)
+> - duration: DurationPreference (enum)
+> - interests: List<String> (default: empty)
+> 
+> *Relationships:*
+> - user: User (One-to-one relationship)
+
+> ---
+
+> **🤖 AILog**
+> 
+> AI log entity stores the history of AI-generated itineraries for users.
+> 
 > - id: Long (Primary key, auto-increment)
 > - place: String (Not null)
 > - days: int (Positive, default: 1)
 > - createdAt: Timestamp (Not null, auto-generated)
 > - user: User (Foreign key)
 >
-> *🏆 Achievement*
+> *Relationships:*
+> - user: User (Many-to-one relationship)
+
+> ---
+
+> **🏆 Achievement**
+>
+> Achievement entity tracks user achievements in the application.
+>
 > - id: Long (Primary key, auto-increment)
 > - type: AchievementType (Enum)
 > - createdAt: Timestamp (Not null, auto-generated)
 > - user: User (Foreign key)
 >
-> *🗺️ Itinerary*
+> *Relationships:*
+> - user: User (Many-to-one relationship)
+
+> ---
+
+> **🗺️ Itinerary**
+>
+> Itinerary entity represents a travel itinerary, including its days and activities.
+>
 > - id: Long (Primary key, auto-increment)
 > - place: String (Not null)
 > - updatedCount: long (Default: 0)
 > - status: ItineraryStatus (Enum, default: DRAFT)
 > - createdAt: Timestamp (Not null, auto-generated)
 > - user: User (Foreign key)
+>
+> *Relationships:*
+> - user: User (Many-to-one relationship)
+> - itineraryDays: One-to-many relationship with ItineraryDay
+ 
+> ---
+
+> **📅 ItineraryDay**
 > 
-> *📅 ItineraryDay*
+> ItineraryDay entity represents a single day within an itinerary, including its activities.
+> 
 > - id: Long (Primary key, auto-increment)
 > - day: int (Positive)
 > - itinerary: Itinerary (Foreign key)
+>
+> *Relationships:*
+> - itinerary: Itinerary (Many-to-one relationship)
+
+> ---
+
+> **🎯 Activity**
 > 
-> *🎯 Activity*
+> Activity entity represents an activity scheduled for a specific day in an itinerary.
+> 
 > - id: Long (Primary key, auto-increment)
 > - activity: String (Not null)
 > - details: String (Nullable)
@@ -163,23 +271,37 @@
 > - duration: String (Nullable)
 > - itineraryDay: ItineraryDay (Foreign key)
 > - location: Location (Foreign key)
+>
+> *Relationships:*
+> - itineraryDay: ItineraryDay (Many-to-one relationship)
+> - location: Location (Many-to-one relationship)
+
+> ---
+
+> **📍 Location**
+>
+> Location entity represents a geographical location that can be associated with activities.
 > 
-> *📍 Location*
 > - id: Long (Primary key, auto-increment)
 > - name: String (Not null)
 > - latitude: double (Not null)
 > - longitude: double (Not null)
 > - address: String (Nullable)
+>
+> *Relationships:*
+> - activities: One-to-many relationship with Activity
+
+---
+
+### 🔒 User Permissions
+
+> **🛜 Public Users**
+> - Access to the landing page and general information
+> - Demo of the application
 
 > ---
 
-> **🔒 User Permissions**
-> 
-> *🛜 Public*
-> - Access to the landing page and general information
-> - Demo of the application
-> 
-> *🔐 Registered Users*
+> **🔐 Registered Users**
 > - Full access to all features
 > - Ability to create, edit, and delete itineraries
 > - AI itinerary generation and advanced route optimization
@@ -187,8 +309,44 @@
 
 > ---
 
-> **🧭 Navigation Diagram**
+> **🔑 Admin Users**
+> - User management (create, edit, delete users)
+> - Manage application settings (AI rate limits, optimization algorithms, etc.)
+
+---
+
+### 🖼️ Images
+
+> **🧑‍🦱 User Avatar**
+>
+> Users will have the ability to upload and manage their profile pictures.
+
+---
+
+### 📶 Complementary Technologies
+
+> **🌐 External API Rest**
+> 
+> The application will integrate the OpenRouter API to provide AI-powered itinerary generation capabilities.
+
 > ---
+
+> **📝 PDF Generation**
+>
+> The application will use the PDFjs library to generate PDF summaries of itineraries, allowing users to export their travel plans in a portable format.
+
+---
+
+### 🧮 Algorithms
+
+> **🧩 Route Optimization**
+>
+> The application will implement advanced algorithms to optimize travel routes, taking into account factors such as distance and time.
+
+---
+
+### 🧭 Navigation Diagram
+
 > ![Navigation Diagram](/docs/assets/navigation.svg)
 
 ---

@@ -7,7 +7,7 @@
 
 ---
 
-## 📅 Basic Functionality - MVP (deadline: 1 December 2025)
+## 📅 Basic Functionality - MVP (deadline: 15 December 2025)
 
 ### 🔧 Backend
 
@@ -70,7 +70,7 @@
 
 ---
 
-## 🚀 Advanced Features V1 (deadline: 15 March 2026)
+## 🚀 Advanced Features V1 (deadline: 1 March 2026)
 
 ### 🔧 Backend
 
