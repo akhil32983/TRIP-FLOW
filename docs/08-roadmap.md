@@ -174,3 +174,5 @@
 - [ ] {Feature} Nominatim integration for location search
 
 ---
+
+[👉 Go back](/README.md)
