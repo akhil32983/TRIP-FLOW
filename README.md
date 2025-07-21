@@ -14,6 +14,10 @@
 
 ---
 
+![TripFlow Showcase](docs/assets/showcase.png)
+
+---
+
 ## 📚 Documentation
 
 1. [Objectives](docs/01-objectives.md)
