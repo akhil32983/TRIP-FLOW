@@ -431,6 +431,37 @@
 
 ---
 
+## 🧪 Development Environment
+
+> **🚀 Running a SQL PostgreSQL Database**
+>
+> To run the application locally, you need to have a PostgreSQL database set up. You can use Docker to quickly create a PostgreSQL container. Here’s how to do it:
+>
+> ```bash
+> docker run --name tripflow-postgres -e POSTGRES_USER=YOUR_USER -e POSTGRES_PASSWORD=YOUR_PASSWORD -e POSTGRES_DB=tripflow_db -p 5432:5432 -d postgres:latest
+> ```
+>
+> This command will create a new PostgreSQL container with the specified user, password, and database name.
+> 
+> Make sure to replace `application.properties` file in the backend with your database credentials:
+> ```properties
+> spring.datasource.url=${POSTGRES_URL:jdbc:postgresql://localhost:5432/tripflow_db}
+> spring.datasource.username=${POSTGRES_USER:YOUR_USER}
+> spring.datasource.password=${POSTGRES_PASSWORD:YOUR_PASSWORD}
+> spring.datasource.driver-class-name=org.postgresql.Driver
+> spring.jpa.hibernate.ddl-auto=create-drop // for development, change to 'update' for production
+> ```
+
+> ---
+
+> **🛠️ Environment Variables**
+>
+> In order to use environment variables from a `.env` file, you need to have the `dotenv-java` dependency in your backend project.
+> This allows to define sensitive information and configuration settings without hardcoding them into the source code.
+> A `.env.example` file is provided in the backend directory. You can create a `.env` file based on this example and fill in your specific values.
+
+---
+
 ## 📄 License
 
 > Licensed under the Apache License, Version 2.0 (the "License");

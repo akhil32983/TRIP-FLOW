@@ -12,13 +12,13 @@
 ### 🔧 Backend
 
 - [X] {API} Health Check endpoint - `GET /api/health`
-- [ ] {DB} PostgreSQL database setup and integration with Spring Boot JPA
-- [ ] Spring Boot security configuration with JWT
-    - [ ] {Model} User entity with roles
-    - [ ] {API} Register endpoint - `POST /api/auth/register`
-    - [ ] {API} Login endpoint - `POST /api/auth/login`
-    - [ ] {API} Logout endpoint - `POST /api/auth/logout`
-    - [ ] {API} Refresh Token endpoint - `POST /api/auth/refresh`
+- [X] {DB} PostgreSQL database setup and integration with Spring Boot JPA
+- [X] Spring Boot security configuration with JWT
+    - [X] {Model} User entity with roles
+    - [X] {API} Register endpoint - `POST /api/auth/register`
+    - [X] {API} Login endpoint - `POST /api/auth/login`
+    - [X] {API} Logout endpoint - `POST /api/auth/logout`
+    - [X] {API} Refresh Token endpoint - `POST /api/auth/refresh`
 - [ ] Itinerary management logic
     - [ ] {Model} Itinerary entity
     - [ ] {Model} Itinerary Day entity
@@ -46,13 +46,15 @@
 
 ### ⚙️ Testing
 
-- [ ] {Unit-Backend} User service tests (registration, login, logout, token refresh)
+- [X] {Unit-Backend} User service tests (registration, login, logout, token refresh)
 - [ ] {Unit-Backend} Itinerary service tests (CRUD operations)
-- [ ] {Unit-Backend} JWT Security tests (token generation, validation)
+- [X] {Unit-Backend} JWT Security tests (token generation, validation)
 - [ ] {Unit-Frontend} Authentication form validation tests
 - [ ] {Unit-Frontend} Itinerary creation and editing tests
 - [ ] {Component-Frontend} Navigation and routing tests
 - [ ] {Integration-Backend} API endpoint tests (RestAssured + Postman)
+    - [X] {Integration-Backend} User authentication endpoints
+    - [ ] {Integration-Backend} Itinerary endpoints
 - [ ] {Integration-Frontend} Frontend-backend communication tests
 - [ ] {E2E} User flow tests (Puppeteer)
 - [ ] {Security} Authorization tests for protected resources

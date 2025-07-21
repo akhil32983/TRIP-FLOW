@@ -1,10 +1,11 @@
-name: CI - Testing
+name: CI - Unit Tests
 
 on:
   push:
     branches:
       - main
       - develop
+      - 'feat-*'
     paths:
       - 'backend/**'
       - 'frontend/**'
@@ -12,13 +13,16 @@ on:
   pull_request:
     branches:
       - main
+      - develop
     paths:
       - 'backend/**'
       - 'frontend/**'
       - '.github/workflows/**'
+  
+  workflow_dispatch:
 
 jobs:
-  backend-testing:
+  backend-unit-testing:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -33,11 +37,22 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
       
-      - name: Run tests
-        run: mvn test
-  
-  frontend-testing:
+      - name: Run unit tests
+        run: mvn test -Dgroups=unit
+        env:
+          CI: true
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+
+  frontend-unit-testing:
     runs-on: ubuntu-latest
     defaults:
       run:
