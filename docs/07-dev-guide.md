@@ -50,27 +50,44 @@
 > **🔧 Backend**
 > 
 > *🚀 Spring Boot*
+> 
 > Java framework for building RESTful services with embedded server and production-ready features.
+> 
 > [Spring Boot](https://spring.io/projects/spring-boot)
+>
 > 
 > *🔐 Spring Security*
+>
 > Framework for securing Spring Boot applications, providing authentication and authorization.
+>
 > [Spring Security](https://spring.io/projects/spring-security)
 >
+>
 > *☕️ Java*
+>
 > Object-oriented programming language used for backend services.
+>
 > [Java](https://www.oracle.com/java/)
 >
+>
 > *📦 Maven*
+>
 > Build automation tool for managing dependencies and building Java projects.
+>
 > [Maven](https://maven.apache.org/)
+>
 > 
 > *🐘 PostgreSQL*
+>
 > Relational database management system known for its robustness and scalability.
+>
 > [PostgreSQL](https://www.postgresql.org/)
 >
+>
 > *🤖 OpenRouter API*
+>
 > AI service that provides free access to various AI models for itinerary generation and optimization.
+>
 > [OpenRouter](https://openrouter.ai/)
 
 > ---
@@ -78,23 +95,37 @@
 > **⚛️ Frontend**
 >
 > *⚛️ React*
+>
 > JavaScript library for building user interfaces, allowing the creation of dynamic and interactive web applications.
+>
 > [React](https://reactjs.org/)
 >
+>
 > *🔗 React Router*
+>
 > Declarative routing for React applications, enabling navigation and URL management.
+>
 > [React Router](https://reactrouter.com/)
+>
 > 
 > *🛠️ TypeScript*
+>
 > Language that extends JavaScript with static types, enhancing code quality and maintainability.
+>
 > [TypeScript](https://www.typescriptlang.org/)
 >
+>
 > *📦 Vite*
+>
 > Build tool that provides a fast development environment and optimized production builds for modern web applications.
+>
 > [Vite](https://vitejs.dev/)
 >
+>
 > *📡 Axios*
+>
 > Library for making HTTP requests in a simplified way from the browser.
+>
 > [Axios](https://axios-http.com/)
 
 > ---
@@ -102,16 +133,43 @@
 > **🐳 DevOps**
 >
 > *🐳 Docker*
+>
 > Containerization platform for packaging applications and their dependencies into portable containers.
+>
 > [Docker](https://www.docker.com/)
 >
+>
 > *🐳 Docker Compose*
+>
 > Tool for defining and running multi-container Docker applications.
+>
 > [Docker Compose](https://docs.docker.com/compose/)
 
 ---
 
 ### 🛠️ Tools
+
+> **🖥️ Visual Studio Code**
+> IDE for code editing with support for TypeScript, Java, and Docker.
+> [Visual Studio Code](https://code.visualstudio.com/)
+
+> ---
+
+> **📦 Postman**
+> API Rest Client for testing and interacting with RESTful APIs.
+> [Postman](https://www.postman.com/)
+
+> ---
+
+> **🔧 Git**
+> Version control system for tracking changes in source code during software development.
+> [Git](https://git-scm.com/)
+
+> ---
+
+> **📦 GitHub**
+> Cloud-based repository hosting service for version control and collaboration.
+> [GitHub](https://github.com/)
 
 ---
 
