@@ -144,6 +144,12 @@
 > *Relationships:*
 > - activities: One-to-many relationship with Activity
 
+> ---
+
+> **🗺️ Database Diagram**
+>
+> ![Database Diagram](/docs/assets/db-diagram.svg)
+
 ---
 
 ### 🔒 User Permissions
