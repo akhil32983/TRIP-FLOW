@@ -49,6 +49,7 @@
 - [X] {Unit-Backend} User service tests (registration, login, logout, token refresh)
 - [ ] {Unit-Backend} Itinerary service tests (CRUD operations)
 - [X] {Unit-Backend} JWT Security tests (token generation, validation)
+- [ ] {Unit-Frontend} Component tests for landing page, buttons, headers, etc.
 - [ ] {Unit-Frontend} Authentication form validation tests
 - [ ] {Unit-Frontend} Itinerary creation and editing tests
 - [ ] {Component-Frontend} Navigation and routing tests
