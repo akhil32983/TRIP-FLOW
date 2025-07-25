@@ -1,5 +1,6 @@
-import { render, screen } from "@testing-library/react"
 import Logo from "@components/shared/Logo"
+
+import { render, screen } from "@testing-library/react"
 import { describe, it, expect } from "vitest"
 
 describe("Logo Component", () => {
