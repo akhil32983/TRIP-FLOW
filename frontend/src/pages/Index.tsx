@@ -1,6 +1,9 @@
+import Layout from "@/layouts/Layout";
 
 export default function IndexPage() {
     return (
-        <h1>Index Page</h1>
-    );
+        <Layout>
+            <h1>Welcome to TripFlow</h1>
+        </Layout>
+    )
 }

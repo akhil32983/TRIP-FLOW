@@ -1,7 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
-import IndexPage from "@/pages/Index";
-import NotFound from "@/pages/NotFound";
+import IndexPage from "@pages/Index";
+import LoginPage from "@pages/Login";
+import NotFound from "@pages/NotFound";
 
 export default function Router() {
   return (
@@ -9,6 +10,7 @@ export default function Router() {
       <Routes>
         {/* Public routes */}
         <Route index element={<IndexPage />} />
+        <Route path="/login" element={<LoginPage />} />
 
         {/* Catch-all route for 404 Not Found */}
         <Route path="/404" element={<NotFound />} />
