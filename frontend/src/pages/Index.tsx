@@ -1,9 +1,11 @@
 import Layout from "@/layouts/Layout";
 
+import Hero from "@/components/sections/Hero";
+
 export default function IndexPage() {
     return (
         <Layout>
-            <h1>Welcome to TripFlow</h1>
+            <Hero />
         </Layout>
     )
 }
