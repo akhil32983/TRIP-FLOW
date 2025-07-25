@@ -36,6 +36,18 @@
     }
 }
 
+.secondary {
+    border: 1px solid var(--border-secondary);
+    background-color: var(--bg-overlay);
+    color: var(--text-secondary);
+    font-weight: var(--font-weight-bold);
+    text-transform: uppercase;
+
+    &:hover {
+        filter: brightness(1.20);
+    }
+}
+
 .logo {
     width: max-content;
     height: 100%;
