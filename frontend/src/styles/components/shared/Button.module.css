@@ -1,0 +1,110 @@
+.button {
+    min-height: 42px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-xl);
+    color: var(--text-color);
+
+    text-decoration: none;
+
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-normal);
+    border-radius: var(--border-radius-md);
+
+    cursor: pointer;
+    transition: all 0.1s ease-in-out;
+
+    .label {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: var(--space-sm);
+    }
+}
+
+.primary {
+    border: none;
+    font-weight: var(--font-weight-bold);
+    background: var(--gradient-primary);
+    box-shadow: var(--glow-blue);
+    text-transform: uppercase;
+
+    &:hover {
+        filter: brightness(1.20);
+    }
+}
+
+.logo {
+    width: max-content;
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm);
+    gap: var(--space-sm);
+    color: var(--primary-color);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+
+    &:hover {
+        transform: scale(1.05);
+        filter: drop-shadow(var(--glow-blue));
+    }
+}
+
+.tool {
+    --size: 42px;
+    height: var(--size);
+    width: var(--size);
+    border: none;
+    background-color: transparent;
+    color: var(--text-secondary);
+    padding: 0;
+    min-height: auto;
+
+    &:hover {
+        color: var(--secondary);
+        filter: drop-shadow(var(--glow-blue));
+    }
+}
+
+.inline {
+    position: relative;
+    min-height: 0;
+    padding: 4px;
+    border: none;
+    background-color: transparent;
+    width: max-content;
+    justify-content: flex-start;
+    color: var(--text-primary);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+    transition: all 0.2s ease-in-out;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background: var(--tertiary);
+        border-radius: var(--border-radius-full);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+    }
+
+    &:hover {
+        &::after {
+            transform: scaleX(1);
+        }
+    }
+}
