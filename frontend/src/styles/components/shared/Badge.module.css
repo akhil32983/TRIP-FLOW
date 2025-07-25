@@ -1,0 +1,34 @@
+
+.badge {
+    width: max-content;
+    height: 38px;
+    padding: var(--space-xs) var(--space-lg);
+    background-color: var(--bg-overlay);
+    border-radius: var(--border-radius-full);
+    border: 1px solid var(--border-primary);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-bold);
+    color: var(--tertiary);
+    letter-spacing: 0.5px;
+
+    &.semi_thin {
+        height: 30px;
+        padding: var(--space-xs) var(--space-md);
+        font-weight: var(--font-weight-bold);
+        text-transform: none;
+    }
+
+    &.thin {
+        height: 20px;
+        padding: var(--space-sm) var(--space-md);
+        text-transform: none;
+        font-weight: var(--font-weight-normal);
+    }
+}
