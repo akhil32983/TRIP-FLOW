@@ -6,7 +6,7 @@ import Button from "@components/shared/Button";
 export default function Hero() {
 
     return (
-        <section className={styles.hero}>
+        <section className={styles.hero} data-testid="hero-section">
             <div className={styles.content}>
                 <Badge style="default" title="🚀 Impulsado por IA" />
                 <h1 className={styles.title}>Planifica tus <strong>viajes del futuro</strong></h1>
