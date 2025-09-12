@@ -1,0 +1,40 @@
+.featuresContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xl);
+
+  .featureCard {
+    width: min(450px, 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-lg);
+    background: var(--gradient-secondary);
+    padding: var(--space-xxl);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--border-radius-lg);
+    transition: all 0.2s ease;
+
+    &:hover {
+      filter: brightness(1.25);
+      transform: translateY(-4px);
+    }
+
+    .icon {
+      color: var(--text-secondary);
+    }
+
+    .featureTitle {
+      font-size: var(--font-size-xl);
+      text-align: center;
+    }
+
+    .featureDescription {
+      font-size: var(--font-size-md);
+      color: var(--text-secondary);
+      text-align: center;
+    }
+  }
+}

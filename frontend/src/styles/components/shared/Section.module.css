@@ -1,0 +1,26 @@
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-larger);
+  margin-bottom: calc(var(--space-largest) * 4);
+
+  .title {
+    font-size: var(--font-size-larger);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-lg);
+    text-align: center;
+  }
+}
+
+@media (max-width: 864px) {
+  .section {
+    margin-bottom: calc(var(--space-largest) * 2);
+
+    .title {
+      font-size: var(--font-size-xxxl);
+      margin-bottom: var(--space-md);
+    }
+  }
+}
