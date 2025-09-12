@@ -8,7 +8,10 @@ interface SectionProps {
 
 export default function Section({ title, children }: SectionProps) {
   return (
-    <section className={styles.section}>
+    <section
+      className={styles.section}
+      aria-label={typeof title === "string" ? title : "Section"}
+    >
       <h2 className={styles.title}>{title}</h2>
       {children}
     </section>
