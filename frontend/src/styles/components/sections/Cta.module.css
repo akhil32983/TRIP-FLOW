@@ -1,0 +1,17 @@
+.ctaContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  .ctaText {
+    font-size: var(--font-size-xxl);
+    margin-bottom: var(--space-md);
+  }
+
+  .actions {
+    margin-top: var(--space-xxxl);
+  }
+}
