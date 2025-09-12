@@ -1,63 +1,62 @@
-import Badge from "@components/shared/Badge"
+import Badge from "@components/shared/Badge";
 
-import { render, screen } from "@testing-library/react"
-import { describe, it, expect } from "vitest"
+import { render, screen } from "@testing-library/react";
+import { describe, it, expect } from "vitest";
 
 describe("Badge Component", () => {
-    it("renders badge with title prop", () => {
-        render(<Badge style="default" title="Test Badge" />);
+  it("renders badge with title prop", () => {
+    render(<Badge style="default" title="Test Badge" />);
 
-        const badge = screen.getByText("Test Badge");
-        expect(badge).toBeInTheDocument();
-    });
+    const badge = screen.getByText("Test Badge");
+    expect(badge).toBeInTheDocument();
+  });
 
-    it("renders default title when no title provided", () => {
-        render(<Badge style="default" />);
+  it("renders default title when no title provided", () => {
+    render(<Badge style="default" />);
 
-        const badge = screen.getByText("Sin título");
-        expect(badge).toBeInTheDocument();
-    });
+    const badge = screen.getByText("Sin título");
+    expect(badge).toBeInTheDocument();
+  });
 
-    it("applies correct base classes", () => {
-        render(<Badge style="default" title="Test" />);
+  it("applies correct base classes", () => {
+    render(<Badge style="default" title="Test" />);
 
-        const badge = screen.getByText("Test");
-        expect(badge.className).toMatch(/badge/);
-    });
+    const badge = screen.getByText("Test");
+    expect(badge.className).toMatch(/badge/);
+  });
 
-    it("applies style class prop correctly", () => {
-        render(<Badge style="default" title="Test" />);
+  it("applies style class prop correctly", () => {
+    render(<Badge style="default" title="Test" />);
 
-        const badge = screen.getByText("Test");
-        expect(badge.className).toMatch(/default/);
-    });
+    const badge = screen.getByText("Test");
+    expect(badge.className).toMatch(/default/);
+  });
 
-    it("renders children with title", () => {
-        render(
-            <Badge style="default" title="Test Badge">
-                <span>Child Content</span>
-            </Badge>
-        );
+  it("renders children with title", () => {
+    render(
+      <Badge style="default" title="Test Badge">
+        <span>Child Content</span>
+      </Badge>
+    );
 
-        expect(screen.getByText("Test Badge")).toBeInTheDocument();
-        expect(screen.getByText("Child Content")).toBeInTheDocument();
-    });
+    expect(screen.getByText("Test Badge")).toBeInTheDocument();
+    expect(screen.getByText("Child Content")).toBeInTheDocument();
+  });
 
-    it("renders as span element", () => {
-        render(<Badge style="default" title="Test" />);
+  it("renders as span element", () => {
+    render(<Badge style="default" title="Test" />);
 
-        const badge = screen.getByText("Test");
-        expect(badge.tagName).toBe("SPAN")
-    });
+    const badge = screen.getByText("Test");
+    expect(badge.tagName).toBe("SPAN");
+  });
 
-    it("renders with empty title and only children", () => {
-        render(
-            <Badge style="default" title="">
-                <span>Only Child</span>
-            </Badge>
-        );
+  it("renders with empty title and only children", () => {
+    render(
+      <Badge style="default" title="">
+        <span>Only Child</span>
+      </Badge>
+    );
 
-        expect(screen.queryByText("Sin título")).toBeInTheDocument();
-        expect(screen.getByText("Only Child")).toBeInTheDocument();
-    });
-})
+    expect(screen.getByText("Only Child")).toBeInTheDocument();
+  });
+});
