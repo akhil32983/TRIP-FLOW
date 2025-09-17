@@ -1,11 +1,11 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-
 import "@styles/globals.css";
-import Router from '@/Router';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+import { createRoot } from "react-dom/client";
+import { AuthProvider } from "@/providers/authProvider";
+import Router from "@/Router";
+
+createRoot(document.getElementById("root")!).render(
+  <AuthProvider>
     <Router />
-  </StrictMode>,
-)
+  </AuthProvider>
+);
