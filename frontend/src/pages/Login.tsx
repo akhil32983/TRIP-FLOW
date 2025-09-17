@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+
+import { useAuth } from "@/providers/authProvider";
+import { validateUsername, validatePassword } from "@/utils/validationUtils";
 
 import type { LoginRequest } from "@/types/auth";
 
@@ -6,10 +10,52 @@ import Layout from "@/layouts/Layout";
 import AuthForm from "@/components/form/AuthForm";
 
 export default function LoginPage() {
+  const { user, login } = useAuth();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
 
+  // If user is already logged in, redirect to home page
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  // Handle login form submission
   const handleLogin = async (values: LoginRequest) => {
-    console.log(values);
+    let isValid = true;
+    setErrors(null);
+
+    const usernameValidation = validateUsername(values.username, true);
+    if (!usernameValidation.isValid) {
+      isValid = false;
+      setErrors((prev) => ({
+        ...prev,
+        username: usernameValidation.error as string,
+      }));
+    }
+
+    const passwordValidation = validatePassword(
+      values.password,
+      undefined,
+      true
+    );
+    if (!passwordValidation.isValid) {
+      isValid = false;
+      setErrors((prev) => ({
+        ...prev,
+        password: passwordValidation.error as string,
+      }));
+    }
+
+    if (!isValid) return;
+
+    const res = await login(values);
+    if (res.success) {
+      navigate("/dashboard");
+    } else {
+      setErrors(res.errors as Record<string, string>);
+    }
   };
 
   return (
