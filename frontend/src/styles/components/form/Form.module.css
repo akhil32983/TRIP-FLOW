@@ -1,0 +1,92 @@
+@import url("../../animations.css");
+
+.container {
+  margin: 0 auto;
+  margin-top: var(--space-xxl);
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: calc(var(--space-xxl) * 2);
+  gap: calc(var(--space-xxl) * 2);
+
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-primary);
+  background-color: var(--bg-card);
+  box-shadow: var(--aureola-blue);
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: calc(var(--space-lg) * 2);
+}
+
+.field {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: fadeIn calc(0.3s * var(--index)) ease;
+
+  &.fullWidth {
+    max-width: 100%;
+  }
+
+  .fieldLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+
+    .fieldLabelText {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-secondary);
+    }
+  }
+
+  .labelIcon {
+    display: flex;
+    align-items: center;
+    color: var(--text-secondary);
+  }
+
+  .required {
+    color: var(--error);
+    margin-left: 2px;
+  }
+}
+
+.alternative {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+
+  .alternativeText {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-xs);
+    color: var(--text-secondary);
+  }
+}
+
+.error {
+  color: var(--error);
+}
+
+.offlineWarning {
+  color: var(--warning);
+  font-weight: var(--font-weight-bold);
+  text-align: center;
+  margin-top: var(--space-lg);
+}
