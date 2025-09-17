@@ -1,33 +1,18 @@
-import { BrowserRouter } from "react-router";
-
 import Cta from "@components/sections/Cta";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
-
-// Wrapper component for router context
-const RouterWrapper = ({ children }: { children: React.ReactNode }) => (
-  <BrowserRouter>{children}</BrowserRouter>
-);
 
 describe("Cta", () => {
   it("renders section title correctly", () => {
-    render(
-      <RouterWrapper>
-        <Cta />
-      </RouterWrapper>
-    );
+    render(<Cta />);
 
     const heading = screen.getByRole("heading", { level: 2 });
     expect(heading).toBeInTheDocument();
   });
 
   it("renders content paragraphs", () => {
-    const { container } = render(
-      <RouterWrapper>
-        <Cta />
-      </RouterWrapper>
-    );
+    const { container } = render(<Cta />);
 
     const paragraphs = container.querySelectorAll("p[class*='ctaText']");
     expect(paragraphs).toHaveLength(2);
@@ -38,11 +23,7 @@ describe("Cta", () => {
   });
 
   it("renders call-to-action button with correct link", () => {
-    render(
-      <RouterWrapper>
-        <Cta />
-      </RouterWrapper>
-    );
+    render(<Cta />);
 
     const button = screen.getByRole("link");
     expect(button).toHaveAttribute("href", "/demo");
@@ -50,11 +31,7 @@ describe("Cta", () => {
   });
 
   it("has correct CSS structure", () => {
-    const { container } = render(
-      <RouterWrapper>
-        <Cta />
-      </RouterWrapper>
-    );
+    const { container } = render(<Cta />);
 
     const ctaContent = container.querySelector("div[class*='ctaContent']");
     expect(ctaContent).toBeInTheDocument();
@@ -67,22 +44,14 @@ describe("Cta", () => {
   });
 
   it("button has primary style", () => {
-    const { container } = render(
-      <RouterWrapper>
-        <Cta />
-      </RouterWrapper>
-    );
+    const { container } = render(<Cta />);
 
     const button = container.querySelector("a[class*='primary']");
     expect(button).toBeInTheDocument();
   });
 
   it("has proper content structure", () => {
-    const { container } = render(
-      <RouterWrapper>
-        <Cta />
-      </RouterWrapper>
-    );
+    const { container } = render(<Cta />);
 
     const ctaContent = container.querySelector("div[class*='ctaContent']");
     const paragraphs = ctaContent?.querySelectorAll("p");

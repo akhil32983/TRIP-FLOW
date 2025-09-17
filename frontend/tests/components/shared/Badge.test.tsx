@@ -1,6 +1,6 @@
 import Badge from "@components/shared/Badge";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
 
 describe("Badge Component", () => {

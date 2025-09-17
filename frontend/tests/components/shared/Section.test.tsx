@@ -1,6 +1,6 @@
 import Section from "@components/shared/Section";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
 
 describe("Section", () => {

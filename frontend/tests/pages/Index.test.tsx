@@ -1,41 +1,26 @@
-import { BrowserRouter } from "react-router";
-
 import IndexPage from "@pages/Index";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
 
-// Wrapper component for router context
-const RouterWrapper = ({ children }: { children: React.ReactNode }) => (
-    <BrowserRouter>{children}</BrowserRouter>
-);
-
 describe("IndexPage Component", () => {
-    it("renders index page with layout", () => {
-        render(
-            <RouterWrapper>
-                <IndexPage />
-            </RouterWrapper>
-        );
+  it("renders index page with layout", () => {
+    render(<IndexPage />);
 
-        const header = screen.getByRole("banner");
-        expect(header).toBeInTheDocument();
+    const header = screen.getByRole("banner");
+    expect(header).toBeInTheDocument();
 
-        const main = screen.getByRole("main");
-        expect(main).toBeInTheDocument();
+    const main = screen.getByRole("main");
+    expect(main).toBeInTheDocument();
 
-        const footer = screen.getByRole("contentinfo");
-        expect(footer).toBeInTheDocument();
-    });
+    const footer = screen.getByRole("contentinfo");
+    expect(footer).toBeInTheDocument();
+  });
 
-    it("renders Hero section", () => {
-        render(
-            <RouterWrapper>
-                <IndexPage />
-            </RouterWrapper>
-        );
+  it("renders Hero section", () => {
+    render(<IndexPage />);
 
-        const heroSection = screen.getByTestId("hero-section");
-        expect(heroSection).toBeInTheDocument();
-    });
+    const heroSection = screen.getByTestId("hero-section");
+    expect(heroSection).toBeInTheDocument();
+  });
 });

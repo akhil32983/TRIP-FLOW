@@ -1,22 +1,11 @@
-import { BrowserRouter } from "react-router";
-
 import Hero from "@components/sections/Hero";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
-
-// Wrapper component for router context
-const RouterWrapper = ({ children }: { children: React.ReactNode }) => (
-  <BrowserRouter>{children}</BrowserRouter>
-);
 
 describe("Hero Component", () => {
   it("renders hero section with main content", () => {
-    const { container } = render(
-      <RouterWrapper>
-        <Hero />
-      </RouterWrapper>
-    );
+    const { container } = render(<Hero />);
 
     const heroSection = container.querySelector("section");
     expect(heroSection).toBeInTheDocument();
@@ -33,11 +22,7 @@ describe("Hero Component", () => {
   });
 
   it("renders primary action button", () => {
-    render(
-      <RouterWrapper>
-        <Hero />
-      </RouterWrapper>
-    );
+    render(<Hero />);
 
     const primaryButton = screen.getByText("Comenzar ahora");
     expect(primaryButton).toBeInTheDocument();
@@ -47,11 +32,7 @@ describe("Hero Component", () => {
   });
 
   it("renders secondary action button", () => {
-    render(
-      <RouterWrapper>
-        <Hero />
-      </RouterWrapper>
-    );
+    render(<Hero />);
 
     const secondaryButton = screen.getByText("Probar demo");
     expect(secondaryButton).toBeInTheDocument();
@@ -61,11 +42,7 @@ describe("Hero Component", () => {
   });
 
   it("has correct CSS structure", () => {
-    const { container } = render(
-      <RouterWrapper>
-        <Hero />
-      </RouterWrapper>
-    );
+    const { container } = render(<Hero />);
 
     const heroSection = container.querySelector("section");
     const contentDiv = heroSection?.querySelector("div");

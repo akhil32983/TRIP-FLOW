@@ -1,6 +1,6 @@
 import Features from "@components/sections/Features";
 
-import { render, screen } from "@testing-library/react";
+import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
 
 describe("Features", () => {
