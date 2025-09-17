@@ -1,0 +1,25 @@
+.avatar {
+  --size: 48px;
+  width: var(--size);
+  height: var(--size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--border-radius-full);
+  background-color: var(--bg-color);
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.icon {
+  width: 65%;
+  height: 65%;
+  color: var(--primary);
+}
