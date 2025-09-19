@@ -33,8 +33,8 @@
 ### ⚛️ Frontend
 
 - [x] {UI} Landing page with basic information - `/`
-- [ ] {UI} User registration form - `/signup`
-- [ ] {UI} User login form - `/login`
+- [x] {UI} User registration form - `/signup`
+- [x] {UI} User login form - `/login`
 - [ ] {UI} User dashboard - `/dashboard`
 - [ ] {UI} Itineraries list view - `/itineraries`
 - [ ] {UI} Itinerary details view - `/itineraries/{id}`
@@ -50,7 +50,7 @@
 - [ ] {Unit-Backend} Itinerary service tests (CRUD operations)
 - [x] {Unit-Backend} JWT Security tests (token generation, validation)
 - [ ] {Unit-Frontend} Component tests for landing page, buttons, headers, etc.
-- [ ] {Unit-Frontend} Authentication form validation tests
+- [x] {Unit-Frontend} Authentication form validation tests
 - [ ] {Unit-Frontend} Itinerary creation and editing tests
 - [ ] {Component-Frontend} Navigation and routing tests
 - [ ] {Integration-Backend} API endpoint tests (RestAssured + Postman)
