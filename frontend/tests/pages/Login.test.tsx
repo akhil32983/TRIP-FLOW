@@ -349,6 +349,6 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    expect(mockNavigate).toHaveBeenCalledWith("/");
+    expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
   });
 });
