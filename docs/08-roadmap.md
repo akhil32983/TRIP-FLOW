@@ -27,7 +27,7 @@
   - [x] {API} Create Itinerary endpoint - `POST /api/v1/itineraries`
   - [x] {API} Get Itineraries endpoint - `GET /api/v1/itineraries`
   - [x] {API} Get Itinerary by ID endpoint - `GET /api/v1/itineraries/{id}`
-  - [ ] {API} Update Itinerary endpoint - `PUT /api/v1/itineraries/{id}`
+  - [x] {API} Update Itinerary endpoint - `PUT /api/v1/itineraries/{id}`
   - [ ] {API} Delete Itinerary endpoint - `DELETE /api/v1/itineraries/{id}`
 
 ### ⚛️ Frontend

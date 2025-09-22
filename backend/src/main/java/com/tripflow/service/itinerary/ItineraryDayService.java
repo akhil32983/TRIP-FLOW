@@ -7,12 +7,15 @@ import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.model.itinerary.Activity;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
+import com.tripflow.repository.itinerary.ItineraryDayRepository;
 
 @Service
 public class ItineraryDayService {
+        private final ItineraryDayRepository itineraryDayRepository;
     private final ActivityService activityService;
 
-    public ItineraryDayService(ActivityService activityService) {
+    public ItineraryDayService(ItineraryDayRepository itineraryDayRepository, ActivityService activityService) {
+        this.itineraryDayRepository = itineraryDayRepository;
         this.activityService = activityService;
     }
     
@@ -36,5 +39,20 @@ public class ItineraryDayService {
         day.setItinerary(itinerary);
 
         return day;
+    }
+
+    /**
+     * Deletes all days associated with the given itinerary.
+     *
+     * @param itinerary the itinerary whose days are to be deleted
+     */
+    public void deleteAllDaysByItinerary(Itinerary itinerary) {
+        if (itinerary != null && itinerary.getDays() != null) {
+            for (ItineraryDay day : itinerary.getDays()) {
+                this.itineraryDayRepository.delete(day);
+            }
+
+            itinerary.getDays().clear();
+        }
     }
 }
