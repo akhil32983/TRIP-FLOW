@@ -54,6 +54,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
             .requestMatchers(HttpMethod.GET, "/api/health/**").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/v1/itineraries/**").authenticated()
             .anyRequest().authenticated()
         );
 
