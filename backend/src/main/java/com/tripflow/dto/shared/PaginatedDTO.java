@@ -4,7 +4,7 @@ import java.util.List;
 
 public record PaginatedDTO<T>(
     List<T> page,
-    long currentPpage,
+    long currentPage,
     long totalPages,
     long totalItems,
     long itemsPerPage,
