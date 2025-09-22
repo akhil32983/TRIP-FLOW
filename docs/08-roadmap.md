@@ -20,10 +20,10 @@
   - [x] {API} Logout endpoint - `POST /api/auth/logout`
   - [x] {API} Refresh Token endpoint - `POST /api/auth/refresh`
 - [ ] Itinerary management logic
-  - [ ] {Model} Itinerary entity
-  - [ ] {Model} Itinerary Day entity
-  - [ ] {Model} Activity entity
-  - [ ] {Model} Location entity
+  - [x] {Model} Itinerary entity
+  - [x] {Model} Itinerary Day entity
+  - [x] {Model} Activity entity
+  - [x] {Model} Location entity
   - [ ] {API} Create Itinerary endpoint - `POST /api/v1/itineraries`
   - [ ] {API} Get Itineraries endpoint - `GET /api/v1/itineraries`
   - [ ] {API} Get Itinerary by ID endpoint - `GET /api/v1/itineraries/{id}`
