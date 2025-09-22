@@ -2,6 +2,8 @@ package com.tripflow.controller.v1;
 
 import java.net.URI;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.service.itinerary.ItineraryService;
 
 @RestController
@@ -34,6 +37,18 @@ public class RestItineraryController {
             return ResponseEntity.created(location).body(createdItinerary);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping({"", "/"})
+    public ResponseEntity<PaginatedDTO<ItineraryDTO>> getAllItineraries(
+        @PageableDefault(page = 0, size = 10) Pageable pageable
+    ) {
+        try {
+            PaginatedDTO<ItineraryDTO> itineraries = this.itineraryService.getAllItineraries(pageable);
+            return ResponseEntity.ok(itineraries);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 

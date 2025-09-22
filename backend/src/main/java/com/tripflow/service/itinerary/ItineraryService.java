@@ -2,6 +2,8 @@ package com.tripflow.service.itinerary;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.ItineraryMapper;
+import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.model.User;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
@@ -63,6 +66,32 @@ public class ItineraryService {
         newItinerary.setUser(authenticatedUser);
 
         return this.itineraryMapper.toDTO(this.itineraryRepository.save(newItinerary));
+    }
+
+        /**
+     * Retrieves all itineraries for the authenticated user, paginated.
+     *
+     * @param pageable pagination information
+     * @return a PaginatedDTO containing a list of ItineraryDTOs
+     */
+    @Transactional
+    public PaginatedDTO<ItineraryDTO> getAllItineraries(Pageable pageable) {
+        User authenticatedUser = this.userService.getAuthenticatedUser();
+
+        // Retrieve paginated itineraries for the authenticated user
+        Page<Itinerary> itinerariesPage = this.itineraryRepository.findAllByUser(authenticatedUser, pageable);
+
+        // Map the retrieved itineraries to DTOs
+        List<ItineraryDTO> itineraryDTOs = this.itineraryMapper.toDTOs(itinerariesPage.getContent());
+
+        return new PaginatedDTO<ItineraryDTO>(
+            itineraryDTOs,
+            itinerariesPage.getNumber(),
+            itinerariesPage.getTotalPages(),
+            itinerariesPage.getTotalElements(),
+            itinerariesPage.getSize(),
+            itinerariesPage.isLast()
+        );
     }
 
     /**
