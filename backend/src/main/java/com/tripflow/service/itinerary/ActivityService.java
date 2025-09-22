@@ -1,0 +1,47 @@
+package com.tripflow.service.itinerary;
+
+import org.springframework.stereotype.Service;
+
+import com.tripflow.dto.itinerary.ActivityDTO;
+import com.tripflow.dto.itinerary.ItineraryMapper;
+import com.tripflow.model.itinerary.Activity;
+import com.tripflow.model.itinerary.Location;
+
+@Service
+public class ActivityService {
+    private final LocationService locationService;
+    private final ItineraryMapper itineraryMapper;
+
+    public ActivityService(
+        LocationService locationService,
+        ItineraryMapper itineraryMapper
+    ) {
+        this.locationService = locationService;
+        this.itineraryMapper = itineraryMapper;
+    }
+    
+    /**
+     * Creates a new Activity entity from the provided ActivityDTO.
+     *
+     * @param activityDTO the DTO containing activity data
+     * @return the created Activity entity
+     */
+    public Activity createActivityEntity(ActivityDTO activityDTO) {
+        // Map the activity DTO to an entity and set the location relationship
+        Activity activity = this.itineraryMapper.toActivity(activityDTO);
+
+        // Ensure the location is created or found before setting it to the activity
+        Location location = this.locationService.findEntityByLatAndLon(
+            activityDTO.location().coordinates().latitude(),
+            activityDTO.location().coordinates().longitude()
+        );
+
+        if (location == null) {
+            location = this.locationService.createLocationEntity(activityDTO.location(), activity);
+        } else {
+            location.addActivity(activity);
+        }
+
+        return activity;
+    }
+}
