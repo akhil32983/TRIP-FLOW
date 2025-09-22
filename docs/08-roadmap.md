@@ -19,7 +19,7 @@
   - [x] {API} Login endpoint - `POST /api/auth/login`
   - [x] {API} Logout endpoint - `POST /api/auth/logout`
   - [x] {API} Refresh Token endpoint - `POST /api/auth/refresh`
-- [ ] Itinerary management logic
+- [x] Itinerary management logic
   - [x] {Model} Itinerary entity
   - [x] {Model} Itinerary Day entity
   - [x] {Model} Activity entity
@@ -28,7 +28,7 @@
   - [x] {API} Get Itineraries endpoint - `GET /api/v1/itineraries`
   - [x] {API} Get Itinerary by ID endpoint - `GET /api/v1/itineraries/{id}`
   - [x] {API} Update Itinerary endpoint - `PUT /api/v1/itineraries/{id}`
-  - [ ] {API} Delete Itinerary endpoint - `DELETE /api/v1/itineraries/{id}`
+  - [x] {API} Delete Itinerary endpoint - `DELETE /api/v1/itineraries/{id}`
 
 ### ⚛️ Frontend
 
