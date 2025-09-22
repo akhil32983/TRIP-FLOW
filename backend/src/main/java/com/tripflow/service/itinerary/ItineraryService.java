@@ -2,7 +2,9 @@ package com.tripflow.service.itinerary;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
@@ -61,5 +63,27 @@ public class ItineraryService {
         newItinerary.setUser(authenticatedUser);
 
         return this.itineraryMapper.toDTO(this.itineraryRepository.save(newItinerary));
+    }
+
+    /**
+     * Retrieves an itinerary by its ID, ensuring the authenticated user is the owner.
+     *
+     * @param id the ID of the itinerary to retrieve
+     * @return the ItineraryDTO for the specified ID
+     * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
+     */
+    @Transactional
+    public ItineraryDTO getItineraryById(Long id) throws ResponseStatusException {
+        Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Itinerary with ID %d not found", id))
+        );
+
+        // Ensure the authenticated user is the owner of the itinerary
+        User authenticatedUser = this.userService.getAuthenticatedUser();
+        if (!itinerary.getUser().getId().equals(authenticatedUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to access this itinerary");
+        }
+
+        return this.itineraryMapper.toDTO(itinerary);
     }
 }
