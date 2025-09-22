@@ -2,17 +2,22 @@ package com.tripflow.model;
 
 import java.sql.Blob;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 
+import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.types.UserType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -48,6 +53,9 @@ public class User {
     @Lob
     private Blob avatar;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Itinerary> itineraries = new ArrayList<>();
+
     // [Constructors] =================================================
 
     public User() {
@@ -71,6 +79,13 @@ public class User {
         if (!username.equals(user.username)) return false;
 
         return true;
+    }
+
+    public void addItinerary(Itinerary itinerary) {
+        if (itinerary != null) {
+            this.itineraries.add(itinerary);
+            itinerary.setUser(this);
+        }
     }
 
     // [Getters and Setters] ==========================================
