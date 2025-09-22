@@ -162,4 +162,25 @@ public class ItineraryService {
         // Save and return the updated DTO
         return this.itineraryMapper.toDTO(this.itineraryRepository.save(itinerary));
     }
+
+    /**
+     * Deletes an itinerary by its ID, ensuring the authenticated user is the owner.
+     *
+     * @param id the ID of the itinerary to delete
+     * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
+     */
+    @Transactional
+    public void deleteItinerary(Long id) throws ResponseStatusException {
+        Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Itinerary with ID %d not found", id))
+        );
+
+        // Ensure the authenticated user is the owner of the itinerary
+        User authenticatedUser = this.userService.getAuthenticatedUser();
+        if (!itinerary.getUser().getId().equals(authenticatedUser.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to delete this itinerary");
+        }
+
+        this.itineraryRepository.delete(itinerary);
+    }
 }
