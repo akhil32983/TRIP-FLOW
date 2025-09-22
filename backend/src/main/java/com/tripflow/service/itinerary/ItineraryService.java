@@ -151,6 +151,11 @@ public class ItineraryService {
         }
         itinerary.setDays(days);
 
+        // Update itinerary's status
+        if (itineraryDTO.status() != null) {
+            itinerary.setStatus(itineraryDTO.status());
+        }
+
         // Increment the updated count
         itinerary.setUpdatedCount(itinerary.getUpdatedCount() + 1);
 
