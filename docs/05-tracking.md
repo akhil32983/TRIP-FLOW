@@ -10,7 +10,7 @@
 >
 > The project is managed using GitHub Projects, which helps organize tasks, track progress, and prioritize features.
 >
-> You can view the project board [here](TBD).
+> You can view the project board [here](https://github.com/orgs/codeurjc-students/projects/21).
 
 ---
 
