@@ -14,7 +14,7 @@
 > | Phase 6 | TFG Memory                                  | 15 May 2026       | ....              | ....              |
 > | Phase 7 | Final Presentation and Defense              | 15 June 2026      | ....              | ....              |
 >
-> Check the [Roadmap](docs/roadmap.md) for detailed project features and timelines.
+> Check the [Roadmap](08-roadmap.md) for detailed project features and timelines.
 >
 > You can also check my [Medium Blog](https://medium.com/@cub1z) for more information about the project development and updates.
 
