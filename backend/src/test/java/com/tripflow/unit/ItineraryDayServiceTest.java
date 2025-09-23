@@ -21,7 +21,7 @@ import com.tripflow.repository.itinerary.ItineraryDayRepository;
 import com.tripflow.service.itinerary.ItineraryDayService;
 import com.tripflow.service.itinerary.ActivityService;
 
-@Tag("Unit")
+@Tag("unit")
 public class ItineraryDayServiceTest {
     private ItineraryDayRepository itineraryDayRepository;
     private ActivityService activityService;

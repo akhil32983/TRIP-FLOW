@@ -28,7 +28,7 @@ import com.tripflow.service.itinerary.ItineraryService;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
 
-@Tag("Unit")
+@Tag("unit")
 public class ItineraryServiceTest {
     private ItineraryRepository itineraryRepository;
     private UserService userService;

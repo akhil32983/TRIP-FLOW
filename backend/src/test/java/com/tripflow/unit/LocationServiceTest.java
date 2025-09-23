@@ -17,7 +17,7 @@ import com.tripflow.model.itinerary.Location;
 import com.tripflow.repository.itinerary.LocationRepository;
 import com.tripflow.service.itinerary.LocationService;
 
-@Tag("Unit")
+@Tag("unit")
 public class LocationServiceTest {
     private LocationRepository locationRepository;
     private ItineraryMapper itineraryMapper;
