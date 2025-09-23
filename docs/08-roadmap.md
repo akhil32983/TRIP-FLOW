@@ -47,15 +47,15 @@
 ### ⚙️ Testing
 
 - [x] {Unit-Backend} User service tests (registration, login, logout, token refresh)
-- [ ] {Unit-Backend} Itinerary service tests (CRUD operations)
+- [x] {Unit-Backend} Itinerary service tests (CRUD operations)
 - [x] {Unit-Backend} JWT Security tests (token generation, validation)
 - [ ] {Unit-Frontend} Component tests for landing page, buttons, headers, etc.
 - [x] {Unit-Frontend} Authentication form validation tests
 - [ ] {Unit-Frontend} Itinerary creation and editing tests
 - [ ] {Component-Frontend} Navigation and routing tests
-- [ ] {Integration-Backend} API endpoint tests (RestAssured + Postman)
+- [x] {Integration-Backend} API endpoint tests (RestAssured + Postman)
   - [x] {Integration-Backend} User authentication endpoints
-  - [ ] {Integration-Backend} Itinerary endpoints
+  - [x] {Integration-Backend} Itinerary endpoints
 - [ ] {Integration-Frontend} Frontend-backend communication tests
 - [ ] {E2E} User flow tests (Puppeteer)
 - [ ] {Security} Authorization tests for protected resources
