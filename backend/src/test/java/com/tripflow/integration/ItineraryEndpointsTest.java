@@ -1,0 +1,408 @@
+package com.tripflow.integration;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+import com.tripflow.dto.auth.LoginRequest;
+import com.tripflow.dto.itinerary.ActivityDTO;
+import com.tripflow.dto.itinerary.CoordinatesDTO;
+import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDayDTO;
+import com.tripflow.dto.itinerary.LocationDTO;
+import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.model.types.ItineraryStatus;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+
+import static org.hamcrest.Matchers.*;
+
+import java.util.List;
+
+@Tag("integration")
+public class ItineraryEndpointsTest extends BaseIntegrationTest {
+    
+    @Test
+    @DisplayName("Test successful itinerary creation")
+    public void testCreateItinerarySuccess() {
+        String authToken = authenticateUserAndGetToken();
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201)
+            .body("place", equalTo(itineraryDTO.place()))
+            .body("id", notNullValue())
+            .body("days", hasSize(1))
+            .body("days[0].day", equalTo(1))
+            .body("days[0].activities", hasSize(1))
+            .body("days[0].activities[0].activity", equalTo(
+                itineraryDTO.days().get(0).activities().get(0).activity()
+            ));
+    }
+
+    @Test
+    @DisplayName("Test create itinerary without authentication")
+    public void testCreateItineraryUnauthorized() {
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(401);
+    }
+
+    @Test
+    @DisplayName("Test get all itineraries with pagination")
+    public void testGetAllItinerariesPaginated() {
+        String authToken = authenticateUserAndGetToken();
+
+        // Create a test itinerary first
+        ItineraryDTO itineraryDTO = createTestItinerary();
+        
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201);
+
+        // Get all itineraries
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+            .param("page", 0)
+            .param("size", 10)
+        .when()
+            .get("/v1/itineraries")
+        .then()
+            .statusCode(200)
+            .body("page", hasSize(greaterThanOrEqualTo(1)))
+            .body("currentPage", equalTo(0))
+            .body("itemsPerPage", equalTo(10))
+            .body("totalItems", greaterThanOrEqualTo(1))
+            .body("totalPages", greaterThanOrEqualTo(1))
+            .body("isLastPage", is(true));
+    }
+
+    @Test
+    @DisplayName("Test get all itineraries without authentication")
+    public void testGetAllItinerariesUnauthorized() {
+        RestAssured
+        .given()
+            .param("page", 0)
+            .param("size", 10)
+        .when()
+            .get("/v1/itineraries")
+        .then()
+            .statusCode(401);
+    }
+
+    @Test
+    @DisplayName("Test get itinerary by id successfully")
+    public void testGetItineraryByIdSuccess() {
+        String authToken = authenticateUserAndGetToken();
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        // Create itinerary
+        Response createResponse = RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201)
+            .extract()
+            .response();
+
+        Long itineraryId = createResponse.jsonPath().getLong("id");
+
+        // Get itinerary by id
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+        .when()
+            .get("/v1/itineraries/{id}", itineraryId)
+        .then()
+            .statusCode(200)
+            .body("id", equalTo(itineraryId.intValue()))
+            .body("place", equalTo(itineraryDTO.place()))
+            .body("place", equalTo("Paris"));
+    }
+
+    @Test
+    @DisplayName("Test get itinerary by non-existent id")
+    public void testGetItineraryByIdNotFound() {
+        String authToken = authenticateUserAndGetToken();
+
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+        .when()
+            .get("/v1/itineraries/{id}", 99999L)
+        .then()
+            .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("Test get itinerary by id without authentication")
+    public void testGetItineraryByIdUnauthorized() {
+        RestAssured
+        .when()
+            .get("/v1/itineraries/{id}", 1L)
+        .then()
+            .statusCode(401);
+    }
+
+    @Test
+    @DisplayName("Test update itinerary successfully")
+    public void testUpdateItinerarySuccess() {
+        String authToken = authenticateUserAndGetToken();
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        // Create itinerary
+        Response createResponse = RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201)
+            .extract()
+            .response();
+
+        Long itineraryId = createResponse.jsonPath().getLong("id");
+
+        // Update itinerary
+        CoordinatesDTO newCoordinates = new CoordinatesDTO(41.9028, 12.4964);
+        LocationDTO newLocation = new LocationDTO("Colosseum", "Rome, Italy", newCoordinates);
+        ActivityDTO newActivity = new ActivityDTO("Visit Colosseum", "Sightseeing", newLocation, "10:00", "2h");
+        ItineraryDayDTO newDay = new ItineraryDayDTO(1, List.of(newActivity));
+        ItineraryDTO updatedItinerary = new ItineraryDTO(itineraryId, "Rome Trip", 1L, ItineraryStatus.DRAFT, List.of(newDay));
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(updatedItinerary)
+        .when()
+            .put("/v1/itineraries/{id}", itineraryId)
+        .then()
+            .statusCode(200)
+            .body("id", equalTo(itineraryId.intValue()))
+            .body("place", equalTo("Rome Trip"))
+            .body("days[0].activities[0].activity", equalTo("Visit Colosseum"));
+    }
+
+    @Test
+    @DisplayName("Test update non-existent itinerary")
+    public void testUpdateItineraryNotFound() {
+        String authToken = authenticateUserAndGetToken();
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .put("/v1/itineraries/{id}", 99999L)
+        .then()
+            .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("Test update itinerary without authentication")
+    public void testUpdateItineraryUnauthorized() {
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .body(itineraryDTO)
+        .when()
+            .put("/v1/itineraries/{id}", 1L)
+        .then()
+            .statusCode(401);
+    }
+
+    @Test
+    @DisplayName("Test delete itinerary successfully")
+    public void testDeleteItinerarySuccess() {
+        String authToken = authenticateUserAndGetToken();
+        ItineraryDTO itineraryDTO = createTestItinerary();
+
+        // Create itinerary
+        Response createResponse = RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201)
+            .extract()
+            .response();
+
+        Long itineraryId = createResponse.jsonPath().getLong("id");
+
+        // Delete itinerary
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+        .when()
+            .delete("/v1/itineraries/{id}", itineraryId)
+        .then()
+            .statusCode(204);
+
+        // Verify itinerary is deleted
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+        .when()
+            .get("/v1/itineraries/{id}", itineraryId)
+        .then()
+            .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("Test delete non-existent itinerary")
+    public void testDeleteItineraryNotFound() {
+        String authToken = authenticateUserAndGetToken();
+
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+        .when()
+            .delete("/v1/itineraries/{id}", 99999L)
+        .then()
+            .statusCode(404);
+    }
+
+    @Test
+    @DisplayName("Test delete itinerary without authentication")
+    public void testDeleteItineraryUnauthorized() {
+        RestAssured
+        .when()
+            .delete("/v1/itineraries/{id}", 1L)
+        .then()
+            .statusCode(401);
+    }
+
+    @Test
+    @DisplayName("Test create itinerary with multiple days")
+    public void testCreateItineraryWithMultipleDays() {
+        String authToken = authenticateUserAndGetToken();
+
+        // Create itinerary with multiple days
+        CoordinatesDTO coords1 = new CoordinatesDTO(48.8566, 2.3522);
+        LocationDTO location1 = new LocationDTO("Eiffel Tower", "Paris, France", coords1);
+        ActivityDTO activity1 = new ActivityDTO("Visit Eiffel Tower", "Sightseeing", location1, "09:00", "2h");
+        ItineraryDayDTO day1 = new ItineraryDayDTO(1, List.of(activity1));
+
+        CoordinatesDTO coords2 = new CoordinatesDTO(48.8606, 2.3376);
+        LocationDTO location2 = new LocationDTO("Louvre Museum", "Paris, France", coords2);
+        ActivityDTO activity2 = new ActivityDTO("Visit Louvre", "Museum", location2, "11:15", "3h");
+        ItineraryDayDTO day2 = new ItineraryDayDTO(2, List.of(activity2));
+
+        ItineraryDTO multiDayItinerary = new ItineraryDTO(null, "Paris 2-Day Trip", 0L, ItineraryStatus.DRAFT, List.of(day1, day2));
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(multiDayItinerary)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201)
+            .body("days", hasSize(2))
+            .body("days[0].day", equalTo(1))
+            .body("days[1].day", equalTo(2))
+            .body("days[0].activities[0].activity", equalTo("Visit Eiffel Tower"))
+            .body("days[1].activities[0].activity", equalTo("Visit Louvre"));
+    }
+
+    // [Helper Methods] ===============================================
+    
+    /**
+     * Registers and logs in a user, returning the authentication token.
+     * 
+     * @return the authentication token
+     */
+    private String authenticateUserAndGetToken() {
+        String uniqueUsername = this.generateUniqueValue("ItineraryUser");
+        
+        // Register user
+        RegisterUserRequest registerRequest = new RegisterUserRequest(
+            uniqueUsername,
+            "Ab12345678",
+            "Ab12345678"
+        );
+
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .body(registerRequest)
+        .when()
+            .post("/auth/register")
+        .then()
+            .statusCode(201);
+
+        // Login user
+        LoginRequest loginRequest = new LoginRequest(uniqueUsername, "Ab12345678");
+        
+        Response loginResponse = RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .body(loginRequest)
+        .when()
+            .post("/auth/login")
+        .then()
+            .statusCode(200)
+            .body("status", equalTo("SUCCESS"))
+            .body("message", equalTo("Login successful"))
+            .body("errors", nullValue())
+            .body("user", notNullValue())
+            .cookie("auth_token", notNullValue())
+            .cookie("refresh_token", notNullValue())
+            .extract()
+            .response();
+
+        return loginResponse.getCookie("auth_token");
+    }
+
+    /**
+     * Creates a test itinerary DTO for use in tests.
+     * 
+     * @return a sample ItineraryDTO
+     */
+    private ItineraryDTO createTestItinerary() {
+        CoordinatesDTO coordinates = new CoordinatesDTO(48.8566, 2.3522);
+        LocationDTO location = new LocationDTO("Eiffel Tower", "Paris, France", coordinates);
+        ActivityDTO activity = new ActivityDTO("Visit Eiffel Tower", "Sightseeing", location, "09:00", "2h");
+        ItineraryDayDTO day = new ItineraryDayDTO(1, List.of(activity));
+        
+        return new ItineraryDTO(null, "Paris", 0L, ItineraryStatus.DRAFT, List.of(day));
+    }
+}
