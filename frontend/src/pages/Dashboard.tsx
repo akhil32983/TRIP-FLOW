@@ -1,13 +1,24 @@
 import { useAuth } from "@/providers/authProvider";
 
+import { PlusIcon } from "lucide-react";
+
 import AppLayout from "@/layouts/AppLayout";
+import Button from "@/components/shared/Button";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function DashboardPage() {
   const { user } = useAuth();
 
+  const to = "/itineraries/new";
+  const headerIcon = <PlusIcon size={18} />;
+
   return (
     <AppLayout>
-        <h1>Bienvenido, <strong>{user?.username}</strong></h1>
+        <DashboardHeader
+            title={<>Bienvenido, <strong>{user?.username}</strong></>}
+            responsiveRender={<Button to={to} style={["tool_bordered"]}>{headerIcon}</Button>}
+            defaultRender={<Button to={to} style={["primary"]} label="Nuevo itinerario">{headerIcon}</Button>}
+        />
     </AppLayout>
   );
 }
