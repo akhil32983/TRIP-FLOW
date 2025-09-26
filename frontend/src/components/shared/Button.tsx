@@ -2,7 +2,7 @@ import styles from "@styles/components/shared/Button.module.css";
 
 import { NavLink } from "react-router";
 
-type ButtonStyle = "primary" | "secondary" |"inline" | "tool" | "logo";
+type ButtonStyle = "primary" | "secondary" |"inline" | "tool" | "tool_bordered" | "logo" | "route" | "active";
 type Target = "_blank" | "_self" | "_parent" | "_top";
 type Rel = "noopener noreferrer" | "nofollow" | "noopener" | "noreferrer";
 
@@ -22,7 +22,7 @@ interface ButtonProps {
  * Button component for rendering unified styled buttons or links.
  */
 export default function Button({ label, onClick, style, type, to, target, rel, ariaLabel, children }: ButtonProps) {
-    let customStyles = `${styles.button}`;
+    let customStyles = `${styles.button}` + (children && label ? ` ${styles.withChildren}` : ``);
     style.map(s => customStyles += ` ${styles[s]}`);
 
     const body = (
