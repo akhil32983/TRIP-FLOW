@@ -21,7 +21,7 @@
 
 .infoCard .title {
     font-size: var(--font-size-md);
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-weight: var(--font-weight-normal);
     display: inline-flex;
     align-items: center;
