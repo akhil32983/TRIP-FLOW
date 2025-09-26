@@ -4,6 +4,7 @@ import { PlusIcon } from "lucide-react";
 
 import AppLayout from "@/layouts/AppLayout";
 import Button from "@/components/shared/Button";
+import Stats from "@/components/dashboard/Stats";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function DashboardPage() {
@@ -19,6 +20,7 @@ export default function DashboardPage() {
             responsiveRender={<Button to={to} style={["tool_bordered"]}>{headerIcon}</Button>}
             defaultRender={<Button to={to} style={["primary"]} label="Nuevo itinerario">{headerIcon}</Button>}
         />
+        <Stats />
     </AppLayout>
   );
 }
