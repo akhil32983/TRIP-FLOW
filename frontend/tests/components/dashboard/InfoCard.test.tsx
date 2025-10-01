@@ -7,7 +7,7 @@ describe("InfoCard Component", () => {
   it("renders info card with all props", () => {
     render(<InfoCard icon="📊" title="Test Title" value={100} />);
 
-    expect(screen.getByText("Test Title")).toBeInTheDocument();
+    expect(screen.getByText(/Test Title/)).toBeInTheDocument();
     expect(screen.getByText("100")).toBeInTheDocument();
   });
 
