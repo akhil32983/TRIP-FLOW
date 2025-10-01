@@ -1,0 +1,36 @@
+.progressBar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    gap: var(--space-sm);
+
+    .progress {
+        width: 120px;
+        height: 8px;
+        border-radius: var(--border-radius-full);
+        background: var(--bg-secondary);
+        overflow: hidden;
+        appearance: none;
+        -webkit-appearance: none;
+
+        &::-webkit-progress-bar {
+            background: var(--bg-tertiary);
+            border-radius: var(--border-radius-md);
+        }
+
+        &::-webkit-progress-value {
+            background: var(--gradient-primary);
+        }
+
+        &::-moz-progress-bar {
+            background: var(--primary);
+        }
+    }
+
+    .percentage {
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-bold);
+        color: var(--text-secondary);
+    }
+}
