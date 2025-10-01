@@ -12,7 +12,7 @@
     border: 1px solid var(--border-primary);
     background: var(--bg-overlay);
     backdrop-filter: blur(10px);
-    transition: all 0.2s ease-in-out;
+    transition: all 0.15s ease-in-out;
     animation: 0.3s fadeIn ease;
 }
 
