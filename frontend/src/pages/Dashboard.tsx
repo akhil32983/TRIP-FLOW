@@ -5,6 +5,7 @@ import { PlusIcon } from "lucide-react";
 import AppLayout from "@/layouts/AppLayout";
 import Button from "@/components/shared/Button";
 import Stats from "@/components/dashboard/Stats";
+import Recent from "@/components/dashboard/Recent";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
 export default function DashboardPage() {
@@ -21,6 +22,7 @@ export default function DashboardPage() {
             defaultRender={<Button to={to} style={["primary"]} label="Nuevo itinerario">{headerIcon}</Button>}
         />
         <Stats />
+        <Recent />
     </AppLayout>
   );
 }

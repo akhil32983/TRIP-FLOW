@@ -1,0 +1,143 @@
+@import url("../../animations.css");
+
+.recent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-primary);
+    padding: var(--space-xl);
+    padding-bottom: var(--space-xxxl);
+
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-xxxl);
+
+        .title {
+            font-size: var(--font-size-xxl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+        }
+    }
+
+
+    .activities {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+
+        .recentActivity {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-xl);
+            background: var(--bg-overlay);
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-secondary);
+            transition: all 0.15s ease-in-out;
+            animation: fadeIn calc(var(--index) * 0.15s) ease;
+
+            .details {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                gap: var(--space-xl);
+
+                .icon {
+                    height: 100%;
+                    width: 48px;
+                    aspect-ratio: 1;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: var(--font-size-xxxl);
+                }
+
+                .text {
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    gap: var(--space-xs);
+
+                    .activityTitle {
+                        font-size: var(--font-size-lg);
+                        font-weight: var(--font-weight-bold);
+                        color: var(--text-primary);
+                    }
+
+                    .activityDate {
+                        font-size: var(--font-size-sm);
+                        color: var(--text-secondary);
+                    }
+                }
+            }
+
+            .progressBar {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: flex-end;
+                gap: var(--space-sm);
+
+                .progress {
+                    width: 120px;
+                    height: 8px;
+                    border-radius: var(--border-radius-full);
+                    background: var(--bg-secondary);
+                    overflow: hidden;
+                    appearance: none;
+                    -webkit-appearance: none;
+
+                    &::-webkit-progress-bar {
+                        background: var(--bg-tertiary);
+                        border-radius: var(--border-radius-md);
+                    }
+
+                    &::-webkit-progress-value {
+                        background: var(--gradient-primary);
+                    }
+
+                    &::-moz-progress-bar {
+                        background: var(--primary);
+                    }
+                }
+
+                .percentage {
+                    font-size: var(--font-size-sm);
+                    font-weight: var(--font-weight-bold);
+                    color: var(--text-secondary);
+                }
+            }
+
+            &:hover {
+                transform: scale(1.01);
+                filter: brightness(1.15);
+            }
+        }
+    }
+}
+
+@media (max-width: 720px) {
+    .recent {
+        padding: var(--space-lg);
+        padding-bottom: var(--space-xxl);
+
+        .header {
+            margin-bottom: var(--space-xl);
+
+            .title {
+                font-size: var(--font-size-lg);
+            }
+        }
+    }
+}
