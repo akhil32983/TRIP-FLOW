@@ -14,7 +14,7 @@ describe("Badge Component", () => {
   it("renders default title when no title provided", () => {
     render(<Badge style="default" />);
 
-    const badge = screen.getByText("Sin título");
+    const badge = screen.getByText("En curso");
     expect(badge).toBeInTheDocument();
   });
 

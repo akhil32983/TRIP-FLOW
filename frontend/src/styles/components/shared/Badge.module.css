@@ -31,4 +31,28 @@
         text-transform: none;
         font-weight: var(--font-weight-normal);
     }
+
+        &.active {
+        color: var(--active-text);
+        background-color: var(--active);
+        border-color: var(--active-border);
+    }
+
+    &.ongoing {
+        color: var(--info-text);
+        background-color: var(--info);
+        border-color: var(--info-border);
+    }
+
+    &.completed {
+        color: var(--done-text);
+        background-color: var(--done);
+        border-color: var(--done-border);
+    }
+
+    &.draft {
+        color: var(--draft-text);
+        background-color: var(--draft);
+        border-color: var(--draft-border);
+    }
 }
