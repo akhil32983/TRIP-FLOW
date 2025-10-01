@@ -1,0 +1,1 @@
+export type ItineraryStatus = "ACTIVE" | "ONGOING" | "COMPLETED" | "DRAFT";
