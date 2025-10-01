@@ -1,68 +1,12 @@
-@import url("../../animations.css");
-
 .stats {
     width: 100%;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-lg);
-
-    .stat {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: var(--space-xl);
-        border-radius: var(--border-radius-md);
-        border: 1px solid var(--border-primary);
-        background: var(--bg-overlay);
-        backdrop-filter: blur(10px);
-        transition: all 0.2s ease-in-out;
-        animation: 0.3s fadeIn ease;
-
-        .content {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
-            gap: var(--space-xs);
-
-            .label {
-                font-size: var(--font-size-sm);
-                font-weight: var(--font-weight-normal);
-                color: var(--text-primary);
-            }
-
-            .value {
-                font-size: var(--font-size-xl);
-                font-weight: var(--font-weight-bold);
-                color: var(--text-primary);
-            }
-        }
-
-        &:hover {
-            filter: brightness(1.25);
-        }
-    }
 }
 
 @media (max-width: 720px) {
     .stats {
         grid-template-columns: repeat(2, 1fr);
-        .stat {
-            padding: var(--space-lg);
-
-            .content {
-                width: 100%;
-
-                .label {
-                    font-size: var(--font-size-xxs);
-                }
-
-                .value {
-                    font-size: var(--font-size-lg);
-                }
-            }
-        }
     }
 }
