@@ -122,7 +122,70 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"place\": \"Madrid\",\r\n    \"days\": [\r\n        {\r\n            \"day\": 1,\r\n            \"activities\": [\r\n                {\r\n                    \"activity\": \"Visitar la Puerta del Sol\",\r\n                    \"details\": \"Conocido como el centro de Madrid.\",\r\n                    \"location\": {\r\n                        \"name\": \"Puerta del Sol\",\r\n                        \"address\": \"Entre las calles de Alcalá, Montera y Preciados.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4167,\r\n                            \"longitude\": -3.7036\r\n                        }\r\n                    },\r\n                    \"time\": \"09:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear por el Parque del Retiro\",\r\n                    \"details\": \"Uno de los parques más famosos de Madrid, ideal para un paseo y un descanso.\",\r\n                    \"location\": {\r\n                        \"name\": \"Parque del Buen Retiro\",\r\n                        \"address\": \"Plaza de la Independencia, 7, 28001 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4123,\r\n                            \"longitude\": -3.688\r\n                        }\r\n                    },\r\n                    \"time\": \"11:30\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Visitar el Palacio Real de Madrid\",\r\n                    \"details\": \"Visita el Palacio Real y descubre su belleza y la historia de los reyes de España.\",\r\n                    \"location\": {\r\n                        \"name\": \"Palacio Real de Madrid\",\r\n                        \"address\": \"Calle de Bailén, s/n, 28071 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4148,\r\n                            \"longitude\": -3.7182\r\n                        }\r\n                    },\r\n                    \"time\": \"15:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear y cenar en el barrio de Chueca\",\r\n                    \"details\": \"El barrio de Chueca es un lugar lleno de vida y actividad, especialmente conocido por sus restaurantes y locales de moda.\",\r\n                    \"location\": {\r\n                        \"name\": \"Barrio de Chueca\",\r\n                        \"address\": \"Calle de Hortaleza, 68, 28004 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4221,\r\n                            \"longitude\": -3.6939\r\n                        }\r\n                    },\r\n                    \"time\": \"20:00\",\r\n                    \"duration\": \"3 horas\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"title\": \"Visita a Madrid\",\r\n    \"people\": 2,\r\n    \"budget\": 1500.50,\r\n    \"date\": \"06-10-2025\",\r\n    \"tags\": [\"Madrid\", \"Holidays\"],\r\n    \"place\": \"Madrid\",\r\n    \"days\": [\r\n        {\r\n            \"day\": 1,\r\n            \"activities\": [\r\n                {\r\n                    \"activity\": \"Visitar la Puerta del Sol\",\r\n                    \"details\": \"Conocido como el centro de Madrid.\",\r\n                    \"location\": {\r\n                        \"name\": \"Puerta del Sol\",\r\n                        \"address\": \"Entre las calles de Alcalá, Montera y Preciados.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4167,\r\n                            \"longitude\": -3.7036\r\n                        }\r\n                    },\r\n                    \"time\": \"09:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear por el Parque del Retiro\",\r\n                    \"details\": \"Uno de los parques más famosos de Madrid, ideal para un paseo y un descanso.\",\r\n                    \"location\": {\r\n                        \"name\": \"Parque del Buen Retiro\",\r\n                        \"address\": \"Plaza de la Independencia, 7, 28001 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4123,\r\n                            \"longitude\": -3.688\r\n                        }\r\n                    },\r\n                    \"time\": \"11:30\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Visitar el Palacio Real de Madrid\",\r\n                    \"details\": \"Visita el Palacio Real y descubre su belleza y la historia de los reyes de España.\",\r\n                    \"location\": {\r\n                        \"name\": \"Palacio Real de Madrid\",\r\n                        \"address\": \"Calle de Bailén, s/n, 28071 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4148,\r\n                            \"longitude\": -3.7182\r\n                        }\r\n                    },\r\n                    \"time\": \"15:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear y cenar en el barrio de Chueca\",\r\n                    \"details\": \"El barrio de Chueca es un lugar lleno de vida y actividad, especialmente conocido por sus restaurantes y locales de moda.\",\r\n                    \"location\": {\r\n                        \"name\": \"Barrio de Chueca\",\r\n                        \"address\": \"Calle de Hortaleza, 68, 28004 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4221,\r\n                            \"longitude\": -3.6939\r\n                        }\r\n                    },\r\n                    \"time\": \"20:00\",\r\n                    \"duration\": \"3 horas\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/itineraries",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"itineraries"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve itinerary",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/itineraries/1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"itineraries",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve all itineraries",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -150,7 +213,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"place\": \"Madrid\",\r\n    \"status\": \"PLANNED\",\r\n    \"days\": [\r\n        {\r\n            \"day\": 1,\r\n            \"activities\": [\r\n                {\r\n                    \"activity\": \"Visitar la Puerta del Sol\",\r\n                    \"details\": \"Conocido como el centro de Madrid.\",\r\n                    \"location\": {\r\n                        \"name\": \"Puerta del Sol\",\r\n                        \"address\": \"Entre las calles de Alcalá, Montera y Preciados.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4167,\r\n                            \"longitude\": -3.7036\r\n                        }\r\n                    },\r\n                    \"time\": \"09:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear por el Parque del Retiro\",\r\n                    \"details\": \"Uno de los parques más famosos de Madrid, ideal para un paseo y un descanso.\",\r\n                    \"location\": {\r\n                        \"name\": \"Parque del Buen Retiro\",\r\n                        \"address\": \"Plaza de la Independencia, 7, 28001 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4123,\r\n                            \"longitude\": -3.688\r\n                        }\r\n                    },\r\n                    \"time\": \"11:30\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Visitar el Palacio Real de Madrid\",\r\n                    \"details\": \"Visita el Palacio Real y descubre su belleza y la historia de los reyes de España.\",\r\n                    \"location\": {\r\n                        \"name\": \"Palacio Real de Madrid\",\r\n                        \"address\": \"Calle de Bailén, s/n, 28071 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4148,\r\n                            \"longitude\": -3.7182\r\n                        }\r\n                    },\r\n                    \"time\": \"15:00\",\r\n                    \"duration\": \"2 horas\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"raw": "{\r\n    \"title\": \"Visita a Madrid\",\r\n    \"people\": 2,\r\n    \"budget\": 1500.50,\r\n    \"date\": \"06-10-2025\",\r\n    \"tags\": [\"Madrid\"],\r\n    \"place\": \"Madrid\",\r\n    \"status\": \"PLANNED\",\r\n    \"days\": [\r\n        {\r\n            \"day\": 1,\r\n            \"activities\": [\r\n                {\r\n                    \"activity\": \"Visitar la Puerta del Sol\",\r\n                    \"details\": \"Conocido como el centro de Madrid.\",\r\n                    \"location\": {\r\n                        \"name\": \"Puerta del Sol\",\r\n                        \"address\": \"Entre las calles de Alcalá, Montera y Preciados.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4167,\r\n                            \"longitude\": -3.7036\r\n                        }\r\n                    },\r\n                    \"time\": \"09:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear por el Parque del Retiro\",\r\n                    \"details\": \"Uno de los parques más famosos de Madrid, ideal para un paseo y un descanso.\",\r\n                    \"location\": {\r\n                        \"name\": \"Parque del Buen Retiro\",\r\n                        \"address\": \"Plaza de la Independencia, 7, 28001 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4123,\r\n                            \"longitude\": -3.688\r\n                        }\r\n                    },\r\n                    \"time\": \"11:30\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Visitar el Palacio Real de Madrid\",\r\n                    \"details\": \"Visita el Palacio Real y descubre su belleza y la historia de los reyes de España.\",\r\n                    \"location\": {\r\n                        \"name\": \"Palacio Real de Madrid\",\r\n                        \"address\": \"Calle de Bailén, s/n, 28071 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4148,\r\n                            \"longitude\": -3.7182\r\n                        }\r\n                    },\r\n                    \"time\": \"15:00\",\r\n                    \"duration\": \"2 horas\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
