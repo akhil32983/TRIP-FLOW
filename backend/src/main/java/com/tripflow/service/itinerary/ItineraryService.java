@@ -16,6 +16,7 @@ import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.model.User;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
+import com.tripflow.model.types.ItineraryStatus;
 import com.tripflow.repository.itinerary.ItineraryRepository;
 import com.tripflow.service.UserService;
 
@@ -52,7 +53,9 @@ public class ItineraryService {
         User authenticatedUser = this.userService.getAuthenticatedUser();
 
         Itinerary newItinerary = new Itinerary();
-        newItinerary.setPlace(itineraryDTO.place());
+        
+        // Assign basic details from the DTO to the entity
+        this.assignExtraDetails(newItinerary, itineraryDTO);
 
         List<ItineraryDayDTO> days = itineraryDTO.days();
 
@@ -137,8 +140,8 @@ public class ItineraryService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to update this itinerary");
         }
 
-        // Update the itinerary's place
-        itinerary.setPlace(itineraryDTO.place());
+        // Update basic details
+        this.assignExtraDetails(itinerary, itineraryDTO);
 
         // Clear existing days
         this.itineraryDayService.deleteAllDaysByItinerary(itinerary);
@@ -150,11 +153,6 @@ public class ItineraryService {
             days.add(newDay);
         }
         itinerary.setDays(days);
-
-        // Update itinerary's status
-        if (itineraryDTO.status() != null) {
-            itinerary.setStatus(itineraryDTO.status());
-        }
 
         // Increment the updated count
         itinerary.setUpdatedCount(itinerary.getUpdatedCount() + 1);
@@ -182,5 +180,21 @@ public class ItineraryService {
         }
 
         this.itineraryRepository.delete(itinerary);
+    }
+
+    /**
+     * Assigns extra details from the DTO to the Itinerary entity.
+     * 
+     * @param itinerary the Itinerary entity to update
+     * @param itineraryDTO the DTO containing updated details
+     */
+    private void assignExtraDetails(Itinerary itinerary, ItineraryDTO itineraryDTO) {
+        itinerary.setTitle(itineraryDTO.title());
+        itinerary.setPlace(itineraryDTO.place());
+        itinerary.setPeople(itineraryDTO.people());
+        itinerary.setBudget(itineraryDTO.budget());
+        itinerary.setDate(itineraryDTO.date());
+        itinerary.setTags(itineraryDTO.tags());
+        itinerary.setStatus(itineraryDTO.status() != null ? itineraryDTO.status() : ItineraryStatus.DRAFT);
     }
 }

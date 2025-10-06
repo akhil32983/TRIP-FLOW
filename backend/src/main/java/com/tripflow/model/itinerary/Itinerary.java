@@ -27,7 +27,17 @@ public class Itinerary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
+
     private String place;
+
+    private int people = 1;
+
+    private double budget = 0.0;
+
+    private String date;
+
+    private List<String> tags = List.of();
 
     private long updatedCount = 0;
 
@@ -92,12 +102,52 @@ public class Itinerary {
         this.id = id;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getPlace() {
         return place;
     }
 
     public void setPlace(String place) {
         this.place = place;
+    }
+
+    public int getPeople() {
+        return people;
+    }
+
+    public void setPeople(int people) {
+        this.people = people;
+    }
+
+    public double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(double budget) {
+        this.budget = budget;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public long getUpdatedCount() {
