@@ -6,7 +6,7 @@ import Searchbar from "@/components/shared/Searchbar";
 import ItinerariesPreview from "@/components/dashboard/ItinerariesPreview";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 
-export default function Itineraries() {
+export default function ItinerariesPage() {
 
     return (
         <AppLayout>
