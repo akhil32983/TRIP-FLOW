@@ -5,6 +5,7 @@ import LoginPage from "@pages/Login";
 import RegisterPage from "@pages/Register";
 import DashboardPage from "@pages/Dashboard";
 import ItinerariesPage from "@pages/itineraries/Itineraries";
+import ItineraryDetailPage from "@pages/itineraries/ItineraryDetail";
 import ProfilePage from "@pages/Profile";
 import NotFound from "@pages/NotFound";
 
@@ -33,7 +34,12 @@ export default function Router() {
 
         {/* Private routes */}
         <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-        <Route path="/itineraries" element={<PrivateRoute><ItinerariesPage /></PrivateRoute>} />
+        <Route path="/itineraries">
+            <Route index element={<PrivateRoute><ItinerariesPage /></PrivateRoute>} />
+            <Route path=":id">
+                <Route index element={<PrivateRoute><ItineraryDetailPage /></PrivateRoute>} />
+            </Route>
+        </Route>
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
 
         {/* Catch-all route for 404 Not Found */}
