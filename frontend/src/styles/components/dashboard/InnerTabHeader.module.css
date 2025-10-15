@@ -1,0 +1,22 @@
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 1200px) {
+    .header {
+        .title {
+            font-size: var(--font-size-xxl);
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .header {
+        .title {
+            font-size: var(--font-size-xl);
+        }
+    }
+}
