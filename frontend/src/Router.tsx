@@ -6,6 +6,7 @@ import RegisterPage from "@pages/Register";
 import DashboardPage from "@pages/Dashboard";
 import ItinerariesPage from "@pages/itineraries/Itineraries";
 import ItineraryDetailPage from "@pages/itineraries/ItineraryDetail";
+import ItineraryNewPage from "@pages/itineraries/ItineraryNew";
 import ProfilePage from "@pages/Profile";
 import NotFound from "@pages/NotFound";
 
@@ -39,6 +40,7 @@ export default function Router() {
             <Route path=":id">
                 <Route index element={<PrivateRoute><ItineraryDetailPage /></PrivateRoute>} />
             </Route>
+            <Route path="new" element={<PrivateRoute><ItineraryNewPage /></PrivateRoute>} />
         </Route>
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
 
