@@ -35,12 +35,12 @@
 - [x] {UI} Landing page with basic information - `/`
 - [x] {UI} User registration form - `/signup`
 - [x] {UI} User login form - `/login`
-- [ ] {UI} User dashboard - `/dashboard`
-- [ ] {UI} Itineraries list view - `/itineraries`
-- [ ] {UI} Itinerary details view - `/itineraries/{id}`
-- [ ] {UI} Itinerary edit form - `/itineraries/{id}/edit`
-- [ ] {UI} Itinerary creation form - `/itineraries/new`
-- [ ] {UI} Profile page (simplified) for logout - `/profile`
+- [x] {UI} User dashboard - `/dashboard`
+- [x] {UI} Itineraries list view - `/itineraries`
+- [x] {UI} Itinerary details view - `/itineraries/{id}`
+- [x] {UI} Itinerary edit form - `/itineraries/{id}/edit`
+- [x] {UI} Itinerary creation form - `/itineraries/new`
+- [x] {UI} Profile page (simplified) for logout - `/profile`
 - [x] {UI} 404 Not Found page - `/404`
 - [ ] {API} Integration with backend endpoints using Axios
 
@@ -49,9 +49,9 @@
 - [x] {Unit-Backend} User service tests (registration, login, logout, token refresh)
 - [x] {Unit-Backend} Itinerary service tests (CRUD operations)
 - [x] {Unit-Backend} JWT Security tests (token generation, validation)
-- [ ] {Unit-Frontend} Component tests for landing page, buttons, headers, etc.
+- [x] {Unit-Frontend} Component tests for landing page, buttons, headers, etc.
 - [x] {Unit-Frontend} Authentication form validation tests
-- [ ] {Unit-Frontend} Itinerary creation and editing tests
+- [x] {Unit-Frontend} Itinerary creation and editing tests
 - [ ] {Component-Frontend} Navigation and routing tests
 - [x] {Integration-Backend} API endpoint tests (RestAssured + Postman)
   - [x] {Integration-Backend} User authentication endpoints
