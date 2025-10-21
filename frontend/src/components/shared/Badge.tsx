@@ -6,6 +6,7 @@ interface BadgeProps {
     title?: string;
     children?: React.ReactNode;
     status?: ItineraryStatus;
+    action?: React.ReactNode;
 }
 
 export default function Badge({
@@ -13,6 +14,7 @@ export default function Badge({
     children,
     style,
     status = "ONGOING",
+    action
 }: BadgeProps) {
     if (!title && !children) {
         if (!title && status === "DRAFT") title = "Borrador";
@@ -25,6 +27,7 @@ export default function Badge({
         <span className={`${styles.badge} ${styles[style]} ${styles[status.toLowerCase()]}`}>
             {title}
             {children}
+            {action}
         </span>
     );
 }
