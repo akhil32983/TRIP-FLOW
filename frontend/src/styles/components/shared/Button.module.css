@@ -83,9 +83,27 @@
     padding: 0;
     min-height: auto;
 
+    &.wrap {
+        height: auto;
+        width: auto;
+    }
+
     &:hover {
         color: var(--secondary);
         filter: drop-shadow(var(--glow-blue));
+    }
+    
+    &.danger {
+        background: none;
+        color: var(--text-secondary);
+        border: none;
+        font-weight: var(--font-weight-bold);
+        text-transform: uppercase;
+
+        &:hover {
+            color: var(--error);
+            box-shadow: none;
+        }
     }
 }
 
