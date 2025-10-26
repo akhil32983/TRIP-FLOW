@@ -1,10 +1,11 @@
 package com.tripflow.model.itinerary;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.tripflow.model.User;
 import com.tripflow.model.types.ItineraryStatus;
@@ -12,6 +13,7 @@ import com.tripflow.model.types.ItineraryStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +23,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Itinerary {
     
     @Id
@@ -52,7 +55,11 @@ public class Itinerary {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private Timestamp createdAt = Timestamp.valueOf(LocalDateTime.now());
+    private Timestamp createdAt;
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private Timestamp updatedAt;
 
     // [Methods] ======================================================
 
@@ -188,5 +195,13 @@ public class Itinerary {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.*;
 
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.ItineraryMapper;
@@ -53,7 +54,7 @@ public class ItineraryServiceTest {
     public void testCreateItinerary() {
         User user = mock(User.class);
 
-        ItineraryDTO dto = mock(ItineraryDTO.class);
+        ExtendedItineraryDTO dto = mock(ExtendedItineraryDTO.class);
         List<ItineraryDayDTO> dayDTOs = List.of(mock(ItineraryDayDTO.class));
         when(dto.place()).thenReturn("Paris");
         when(dto.days()).thenReturn(dayDTOs);
@@ -67,10 +68,10 @@ public class ItineraryServiceTest {
         Itinerary savedItinerary = mock(Itinerary.class);
         when(itineraryRepository.save(any(Itinerary.class))).thenReturn(savedItinerary);
 
-        ItineraryDTO expectedDTO = mock(ItineraryDTO.class);
-        when(itineraryMapper.toDTO(savedItinerary)).thenReturn(expectedDTO);
+        ExtendedItineraryDTO expectedDTO = mock(ExtendedItineraryDTO.class);
+        when(itineraryMapper.toExtendedDTO(savedItinerary)).thenReturn(expectedDTO);
 
-        ItineraryDTO result = itineraryService.createItinerary(dto);
+        ExtendedItineraryDTO result = itineraryService.createItinerary(dto);
 
         assertEquals(expectedDTO, result);
         verify(itineraryRepository).save(any(Itinerary.class));
@@ -90,7 +91,7 @@ public class ItineraryServiceTest {
         Page<Itinerary> itineraryPage = new PageImpl<>(itineraryList, pageable, 1);
 
         when(userService.getAuthenticatedUser()).thenReturn(user);
-        when(itineraryRepository.findAllByUser(user, pageable)).thenReturn(itineraryPage);
+        when(itineraryRepository.findAllByUserOrderByUpdatedAtDesc(user, pageable)).thenReturn(itineraryPage);
 
         ItineraryDTO itineraryDTO = mock(ItineraryDTO.class);
         when(itineraryMapper.toDTOs(itineraryList)).thenReturn(List.of(itineraryDTO));
@@ -116,7 +117,7 @@ public class ItineraryServiceTest {
         itinerary.setUser(user);
         itinerary.setId(itineraryId);
 
-        ItineraryDTO dto = mock(ItineraryDTO.class);
+        ExtendedItineraryDTO dto = mock(ExtendedItineraryDTO.class);
         List<ItineraryDayDTO> dayDTOs = List.of(mock(ItineraryDayDTO.class));
         when(dto.place()).thenReturn("Rome");
         when(dto.days()).thenReturn(dayDTOs);
@@ -131,10 +132,10 @@ public class ItineraryServiceTest {
         Itinerary updatedItinerary = mock(Itinerary.class);
         when(itineraryRepository.save(itinerary)).thenReturn(updatedItinerary);
 
-        ItineraryDTO expectedDTO = mock(ItineraryDTO.class);
-        when(itineraryMapper.toDTO(updatedItinerary)).thenReturn(expectedDTO);
+        ExtendedItineraryDTO expectedDTO = mock(ExtendedItineraryDTO.class);
+        when(itineraryMapper.toExtendedDTO(updatedItinerary)).thenReturn(expectedDTO);
 
-        ItineraryDTO result = itineraryService.updateItinerary(itineraryId, dto);
+        ExtendedItineraryDTO result = itineraryService.updateItinerary(itineraryId, dto);
 
         assertEquals(expectedDTO, result);
         verify(itineraryDayService).deleteAllDaysByItinerary(itinerary);
@@ -148,7 +149,7 @@ public class ItineraryServiceTest {
         when(itineraryRepository.findById(1L)).thenReturn(Optional.empty());
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () ->
-            itineraryService.updateItinerary(1L, mock(ItineraryDTO.class))
+            itineraryService.updateItinerary(1L, mock(ExtendedItineraryDTO.class))
         );
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
     }
@@ -168,7 +169,7 @@ public class ItineraryServiceTest {
         when(userService.getAuthenticatedUser()).thenReturn(otherUser);
 
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () ->
-            itineraryService.updateItinerary(1L, mock(ItineraryDTO.class))
+            itineraryService.updateItinerary(1L, mock(ExtendedItineraryDTO.class))
         );
         assertEquals(HttpStatus.FORBIDDEN, ex.getStatusCode());
     }
@@ -185,10 +186,10 @@ public class ItineraryServiceTest {
         when(itineraryRepository.findById(1L)).thenReturn(Optional.of(itinerary));
         when(userService.getAuthenticatedUser()).thenReturn(user);
 
-        ItineraryDTO expectedDTO = mock(ItineraryDTO.class);
-        when(itineraryMapper.toDTO(itinerary)).thenReturn(expectedDTO);
+        ExtendedItineraryDTO expectedDTO = mock(ExtendedItineraryDTO.class);
+        when(itineraryMapper.toExtendedDTO(itinerary)).thenReturn(expectedDTO);
 
-        ItineraryDTO result = itineraryService.getItineraryById(1L);
+        ExtendedItineraryDTO result = itineraryService.getItineraryById(1L);
 
         assertEquals(expectedDTO, result);
     }

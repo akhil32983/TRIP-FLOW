@@ -16,6 +16,7 @@ public interface ItineraryMapper {
     // To DTO ==>
 
     ItineraryDTO toDTO(Itinerary itinerary);
+    ExtendedItineraryDTO toExtendedDTO(Itinerary itinerary);
     List<ItineraryDTO> toDTOs(List<Itinerary> itineraries);
 
     ItineraryDayDTO toItineraryDayDTO(ItineraryDay day);

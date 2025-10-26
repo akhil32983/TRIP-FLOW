@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.service.itinerary.ItineraryService;
@@ -30,9 +31,9 @@ public class RestItineraryController {
     }
 
     @PostMapping({"", "/"})
-    public ResponseEntity<ItineraryDTO> createItinerary(@RequestBody ItineraryDTO itineraryDTO) {
+    public ResponseEntity<ExtendedItineraryDTO> createItinerary(@RequestBody ExtendedItineraryDTO itineraryDTO) {
         try {
-            ItineraryDTO createdItinerary = this.itineraryService.createItinerary(itineraryDTO);
+            ExtendedItineraryDTO createdItinerary = this.itineraryService.createItinerary(itineraryDTO);
             URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(createdItinerary.id()).toUri();
 
@@ -55,9 +56,9 @@ public class RestItineraryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ItineraryDTO> getItineraryById(@PathVariable Long id) {
+    public ResponseEntity<ExtendedItineraryDTO> getItineraryById(@PathVariable Long id) {
         try {
-            ItineraryDTO itinerary = this.itineraryService.getItineraryById(id);
+            ExtendedItineraryDTO itinerary = this.itineraryService.getItineraryById(id);
             return ResponseEntity.ok(itinerary);
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body(null);
@@ -67,9 +68,11 @@ public class RestItineraryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ItineraryDTO> updateItinerary(@PathVariable Long id, @RequestBody ItineraryDTO itineraryDTO) {
+    public ResponseEntity<ExtendedItineraryDTO> updateItinerary(
+        @PathVariable Long id, @RequestBody ExtendedItineraryDTO itineraryDTO
+    ) {
         try {
-            ItineraryDTO updatedItinerary = this.itineraryService.updateItinerary(id, itineraryDTO);
+            ExtendedItineraryDTO updatedItinerary = this.itineraryService.updateItinerary(id, itineraryDTO);
 
             return ResponseEntity.ok(updatedItinerary);
         } catch (ResponseStatusException e) {

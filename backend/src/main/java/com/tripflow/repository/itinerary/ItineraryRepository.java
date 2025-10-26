@@ -13,7 +13,7 @@ import com.tripflow.model.itinerary.Itinerary;
 
 @Repository
 public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
-    Page<Itinerary> findAllByUser(User user, Pageable pageable);
+    Page<Itinerary> findAllByUserOrderByUpdatedAtDesc(User user, Pageable pageable);
     Long countByUser(User user);
 
     @Query("SELECT COUNT(id) FROM ItineraryDay id JOIN id.itinerary i WHERE i.user.id = :userId")

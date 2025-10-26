@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.ItineraryMapper;
@@ -49,7 +50,7 @@ public class ItineraryService {
      * @return the created ItineraryDTO
      */
     @Transactional
-    public ItineraryDTO createItinerary(ItineraryDTO itineraryDTO) {
+    public ExtendedItineraryDTO createItinerary(ExtendedItineraryDTO itineraryDTO) {
         User authenticatedUser = this.userService.getAuthenticatedUser();
 
         Itinerary newItinerary = new Itinerary();
@@ -69,7 +70,7 @@ public class ItineraryService {
         authenticatedUser.addItinerary(newItinerary);
         newItinerary.setUser(authenticatedUser);
 
-        return this.itineraryMapper.toDTO(this.itineraryRepository.save(newItinerary));
+        return this.itineraryMapper.toExtendedDTO(this.itineraryRepository.save(newItinerary));
     }
 
     /**
@@ -83,7 +84,7 @@ public class ItineraryService {
         User authenticatedUser = this.userService.getAuthenticatedUser();
 
         // Retrieve paginated itineraries for the authenticated user
-        Page<Itinerary> itinerariesPage = this.itineraryRepository.findAllByUser(authenticatedUser, pageable);
+        Page<Itinerary> itinerariesPage = this.itineraryRepository.findAllByUserOrderByUpdatedAtDesc(authenticatedUser, pageable);
 
         // Map the retrieved itineraries to DTOs
         List<ItineraryDTO> itineraryDTOs = this.itineraryMapper.toDTOs(itinerariesPage.getContent());
@@ -106,7 +107,7 @@ public class ItineraryService {
      * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
      */
     @Transactional
-    public ItineraryDTO getItineraryById(Long id) throws ResponseStatusException {
+    public ExtendedItineraryDTO getItineraryById(Long id) throws ResponseStatusException {
         Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Itinerary with ID %d not found", id))
         );
@@ -117,7 +118,7 @@ public class ItineraryService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to access this itinerary");
         }
 
-        return this.itineraryMapper.toDTO(itinerary);
+        return this.itineraryMapper.toExtendedDTO(itinerary);
     }
 
     /**
@@ -129,7 +130,7 @@ public class ItineraryService {
      * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
      */
     @Transactional
-    public ItineraryDTO updateItinerary(Long id, ItineraryDTO itineraryDTO) throws ResponseStatusException {
+    public ExtendedItineraryDTO updateItinerary(Long id, ExtendedItineraryDTO itineraryDTO) throws ResponseStatusException {
         Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Itinerary with ID %d not found", id))
         );
@@ -158,7 +159,7 @@ public class ItineraryService {
         itinerary.setUpdatedCount(itinerary.getUpdatedCount() + 1);
 
         // Save and return the updated DTO
-        return this.itineraryMapper.toDTO(this.itineraryRepository.save(itinerary));
+        return this.itineraryMapper.toExtendedDTO(this.itineraryRepository.save(itinerary));
     }
 
     /**
@@ -209,7 +210,7 @@ public class ItineraryService {
      * @param itinerary the Itinerary entity to update
      * @param itineraryDTO the DTO containing updated details
      */
-    private void assignExtraDetails(Itinerary itinerary, ItineraryDTO itineraryDTO) {
+    private void assignExtraDetails(Itinerary itinerary, ExtendedItineraryDTO itineraryDTO) {
         itinerary.setTitle(itineraryDTO.title());
         itinerary.setPlace(itineraryDTO.place());
         itinerary.setPeople(itineraryDTO.people());

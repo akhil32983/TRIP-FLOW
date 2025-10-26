@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Tag;
 
 import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
-import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.integration.utils.AuthTestUtils;
@@ -89,7 +89,7 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
             .body("stats[2].value", Matchers.is(0));
 
         // Create itinerary with 2 days and 2 activities
-        ItineraryDTO itinerary = createTestItinerary();
+        ExtendedItineraryDTO itinerary = createTestItinerary();
         
         RestAssured
         .given()
@@ -120,8 +120,8 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("placeuser");
 
         // Create 2 itineraries in the same place
-        ItineraryDTO itinerary1 = createTestItinerary();
-        ItineraryDTO itinerary2 = createTestItinerary();
+        ExtendedItineraryDTO itinerary1 = createTestItinerary();
+        ExtendedItineraryDTO itinerary2 = createTestItinerary();
         
         RestAssured
         .given()
@@ -161,7 +161,7 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
         String authToken2 = AuthTestUtils.authenticateUserAndGetToken("user2");
 
         // User 1 creates itinerary
-        ItineraryDTO itinerary = createTestItinerary();
+        ExtendedItineraryDTO itinerary = createTestItinerary();
         
         RestAssured
         .given()
@@ -210,13 +210,13 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
 
     // [Helper Methods] ===============================================
     
-    private ItineraryDTO createTestItinerary() {
+    private ExtendedItineraryDTO createTestItinerary() {
         CoordinatesDTO coordinates = new CoordinatesDTO(48.8566, 2.3522);
         LocationDTO location = new LocationDTO("Eiffel Tower", "Paris, France", coordinates);
         ActivityDTO activity = new ActivityDTO("Visit Eiffel Tower", "Sightseeing", location, "09:00", "2h");
         ItineraryDayDTO day = new ItineraryDayDTO(1, List.of(activity));
         
-        return new ItineraryDTO(
+        return new ExtendedItineraryDTO(
             null, "Paris", "Paris", 2, 1000.0, "2025-06-10", List.of("romantic", "city"), 0L, ItineraryStatus.DRAFT, List.of(day)
         );
     }

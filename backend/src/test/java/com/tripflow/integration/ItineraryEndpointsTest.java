@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
-import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.integration.utils.AuthTestUtils;
@@ -27,7 +27,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @DisplayName("Test successful itinerary creation")
     public void testCreateItinerarySuccess() {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         RestAssured
         .given()
@@ -51,7 +51,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test create itinerary without authentication")
     public void testCreateItineraryUnauthorized() {
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         RestAssured
         .given()
@@ -69,7 +69,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
 
         // Create a test itinerary first
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
         
         RestAssured
         .given()
@@ -92,6 +92,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         .then()
             .statusCode(200)
             .body("page", hasSize(greaterThanOrEqualTo(1)))
+            .body("page[0].days", nullValue())
             .body("currentPage", equalTo(0))
             .body("itemsPerPage", equalTo(10))
             .body("totalItems", greaterThanOrEqualTo(1))
@@ -116,7 +117,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @DisplayName("Test get itinerary by id successfully")
     public void testGetItineraryByIdSuccess() {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         // Create itinerary
         Response createResponse = RestAssured
@@ -174,7 +175,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @DisplayName("Test update itinerary successfully")
     public void testUpdateItinerarySuccess() {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         // Create itinerary
         Response createResponse = RestAssured
@@ -196,7 +197,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         LocationDTO newLocation = new LocationDTO("Colosseum", "Rome, Italy", newCoordinates);
         ActivityDTO newActivity = new ActivityDTO("Visit Colosseum", "Sightseeing", newLocation, "10:00", "2h");
         ItineraryDayDTO newDay = new ItineraryDayDTO(1, List.of(newActivity));
-        ItineraryDTO updatedItinerary = new ItineraryDTO(
+        ExtendedItineraryDTO updatedItinerary = new ExtendedItineraryDTO(
             itineraryId, "Rome Trip", "Rome", 2, 1500.0, "2025-06-10", List.of("history", "culture"), 1L, ItineraryStatus.DRAFT, List.of(newDay)
         );
 
@@ -223,7 +224,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @DisplayName("Test update non-existent itinerary")
     public void testUpdateItineraryNotFound() {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         RestAssured
         .given()
@@ -239,7 +240,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test update itinerary without authentication")
     public void testUpdateItineraryUnauthorized() {
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         RestAssured
         .given()
@@ -255,7 +256,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @DisplayName("Test delete itinerary successfully")
     public void testDeleteItinerarySuccess() {
         String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
-        ItineraryDTO itineraryDTO = createTestItinerary();
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
 
         // Create itinerary
         Response createResponse = RestAssured
@@ -331,7 +332,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ActivityDTO activity2 = new ActivityDTO("Visit Louvre", "Museum", location2, "11:15", "3h");
         ItineraryDayDTO day2 = new ItineraryDayDTO(2, List.of(activity2));
 
-        ItineraryDTO multiDayItinerary = new ItineraryDTO(
+        ExtendedItineraryDTO multiDayItinerary = new ExtendedItineraryDTO(
             null, "Paris 2-Day Trip", "Paris", 2, 1000.0, "2025-06-10", List.of("art", "history"), 0L, ItineraryStatus.DRAFT, List.of(day1, day2)
         );
 
@@ -356,15 +357,15 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     /**
      * Creates a test itinerary DTO for use in tests.
      * 
-     * @return a sample ItineraryDTO
+     * @return a sample ExtendedItineraryDTO
      */
-    private ItineraryDTO createTestItinerary() {
+    private ExtendedItineraryDTO createTestItinerary() {
         CoordinatesDTO coordinates = new CoordinatesDTO(48.8566, 2.3522);
         LocationDTO location = new LocationDTO("Eiffel Tower", "Paris, France", coordinates);
         ActivityDTO activity = new ActivityDTO("Visit Eiffel Tower", "Sightseeing", location, "09:00", "2h");
         ItineraryDayDTO day = new ItineraryDayDTO(1, List.of(activity));
         
-        return new ItineraryDTO(
+        return new ExtendedItineraryDTO(
             null, "Paris", "Paris", 2, 1000.0, "2025-06-10", List.of("romantic", "city"), 0L, ItineraryStatus.DRAFT, List.of(day)
         );
     }
