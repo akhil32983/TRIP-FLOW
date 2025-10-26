@@ -11,8 +11,8 @@ export async function http<T>(
     method,
     headers: {
       "Content-Type": "application/json",
-      withCredentials: "true",
     },
+    credentials: "include"
   };
 
   if (body) options.body = JSON.stringify(body);

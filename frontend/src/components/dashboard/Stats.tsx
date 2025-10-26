@@ -1,11 +1,13 @@
 import styles from "@styles/components/dashboard/Stats.module.css";
 
+import type { UserStat, UserStatKey } from "@/types/stats";
+
 import InfoCard from "@components/dashboard/InfoCard";
 import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
-
-export type StatKey = "activities" | "places_visited" | "total_days";
+import { useEffect, useState } from "react";
+import { getUserStats } from "@/services/statsService";
 export interface Stat {
-    key: StatKey;
+    key: UserStatKey;
     label: string;
     icon: React.JSX.Element;
     value: number | string;
@@ -13,17 +15,51 @@ export interface Stat {
 
 const ICON_SIZE = 20;
 
-const FAKE_STATS: Stat[] = [
-    { key: "activities", label: "Actividades", icon: <CircleCheckBigIcon size={ICON_SIZE} />, value: 42 },
-    { key: "places_visited", label: "Lugares Visitados", icon: <GlobeIcon size={ICON_SIZE} />, value: 15 },
-    { key: "total_days", label: "Días de Actividad", icon: <CalendarRangeIcon size={ICON_SIZE} />, value: 365 },
-];
+const statsRender = {
+    activities: {
+        label: "Actividades",
+        icon: <CircleCheckBigIcon size={ICON_SIZE} />
+    },
+    places_visited: {
+        label: "Lugares Visitados",
+        icon: <GlobeIcon size={ICON_SIZE} />
+    },
+    total_days: {
+        label: "Días de Actividad",
+        icon: <CalendarRangeIcon size={ICON_SIZE} />
+    },
+}
+
+function mapUserStatsToStats(userStats: UserStat[]): Stat[] {
+    let stats = userStats.map((userStat) => {
+        const stat = statsRender[userStat.key];
+        return {
+            ...stat,
+            key: userStat.key,
+            value: userStat.value
+        };
+    });
+
+    return stats;
+}
 
 export default function Stats() {
-    if (FAKE_STATS.length === 0) return null;
+    const [stats, setStats] = useState<Stat[] | null>(null);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            const userStats = await getUserStats();
+            const mappedStats = mapUserStatsToStats(userStats.stats);
+            setStats(mappedStats);
+        }
+
+        fetchStats();
+    }, []);
+
+    if (!stats) return <div>Loading stats...</div>;
     return (
         <section className={styles.stats}>
-            {FAKE_STATS.map((stat) => (
+            {stats.map((stat) => (
                 <InfoCard 
                     key={stat.key}
                     icon={stat.icon}
