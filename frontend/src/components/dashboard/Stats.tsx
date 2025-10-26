@@ -1,9 +1,9 @@
 import styles from "@styles/components/dashboard/Stats.module.css";
 
 import InfoCard from "@components/dashboard/InfoCard";
-import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon, LandPlotIcon } from "lucide-react";
+import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
 
-export type StatKey = "completed_activities" | "places_visited" | "total_days" | "total_distance";
+export type StatKey = "activities" | "places_visited" | "total_days";
 export interface Stat {
     key: StatKey;
     label: string;
@@ -14,10 +14,9 @@ export interface Stat {
 const ICON_SIZE = 20;
 
 const FAKE_STATS: Stat[] = [
-    { key: "completed_activities", label: "Actividades Completadas", icon: <CircleCheckBigIcon size={ICON_SIZE} />, value: 42 },
+    { key: "activities", label: "Actividades", icon: <CircleCheckBigIcon size={ICON_SIZE} />, value: 42 },
     { key: "places_visited", label: "Lugares Visitados", icon: <GlobeIcon size={ICON_SIZE} />, value: 15 },
     { key: "total_days", label: "Días de Actividad", icon: <CalendarRangeIcon size={ICON_SIZE} />, value: 365 },
-    { key: "total_distance", label: "Distancia Total Recorrida", icon: <LandPlotIcon size={ICON_SIZE} />, value: "1500 Km" }
 ];
 
 export default function Stats() {
