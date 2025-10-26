@@ -29,6 +29,8 @@
   - [x] {API} Get Itinerary by ID endpoint - `GET /api/v1/itineraries/{id}`
   - [x] {API} Update Itinerary endpoint - `PUT /api/v1/itineraries/{id}`
   - [x] {API} Delete Itinerary endpoint - `DELETE /api/v1/itineraries/{id}`
+- [x] Stats logic
+  - [x] {API} User Stats endpoint - `GET /api/v1/stats/user`
 
 ### ⚛️ Frontend
 

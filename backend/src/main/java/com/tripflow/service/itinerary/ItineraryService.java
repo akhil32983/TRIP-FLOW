@@ -182,6 +182,27 @@ public class ItineraryService {
         this.itineraryRepository.delete(itinerary);
     }
 
+
+    /**
+     * Sums the total number of days across all itineraries for a given user.
+     *
+     * @param userId the ID of the user
+     * @return the total number of days
+     */
+    public Long countTotalDaysByUserId(Long userId) {
+        return this.itineraryRepository.countTotalDaysByUserId(userId);
+    }
+
+    /**
+     * Counts the number of distinct locations across all itineraries for a given user.
+     *
+     * @param userId the ID of the user
+     * @return the count of distinct locations
+     */
+    public Long countDistinctLocationsByUserId(Long userId) {
+        return this.itineraryRepository.countDistinctLocationsByUserId(userId);
+    }
+
     /**
      * Assigns extra details from the DTO to the Itinerary entity.
      * 
