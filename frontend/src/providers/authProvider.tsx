@@ -15,7 +15,7 @@ import {
   saveToLocalStorage,
 } from "@/utils/localStorageUtils";
 
-const AUTH_LOCAL_STORAGE_KEY = "user";
+export const AUTH_LOCAL_STORAGE_KEY = "user";
 
 type AuthResult = {
   success: boolean;

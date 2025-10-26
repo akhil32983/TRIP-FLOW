@@ -52,6 +52,8 @@ export default function Stats() {
     useEffect(() => {
         const fetchStats = async () => {
             const userStats = await getUserStats();
+            if (!userStats) return;
+
             const mappedStats = mapUserStatsToStats(userStats.stats);
             setStats(mappedStats);
         }
