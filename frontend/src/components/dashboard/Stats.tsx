@@ -1,11 +1,14 @@
 import styles from "@styles/components/dashboard/Stats.module.css";
 
-import type { UserStat, UserStatKey } from "@/types/stats";
-
-import InfoCard from "@components/dashboard/InfoCard";
-import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+
+import type { UserStat, UserStatKey } from "@/types/stats";
 import { getUserStats } from "@/services/statsService";
+
+import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
+import Loader from "@components/shared/Loader";
+import InfoCard from "@components/dashboard/InfoCard";
+
 export interface Stat {
     key: UserStatKey;
     label: string;
@@ -56,7 +59,7 @@ export default function Stats() {
         fetchStats();
     }, []);
 
-    if (!stats) return <div>Loading stats...</div>;
+    if (!stats) return <Loader size={24} variant="dots" />;
     return (
         <section className={styles.stats}>
             {stats.map((stat) => (
