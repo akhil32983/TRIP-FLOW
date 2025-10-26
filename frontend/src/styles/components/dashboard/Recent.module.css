@@ -25,7 +25,6 @@
         }
     }
 
-
     .activities {
         width: 100%;
         display: flex;
@@ -48,7 +47,7 @@
             .details {
                 height: 100%;
                 display: flex;
-                align-items: center;
+                align-items: flex-start;
                 gap: var(--space-xl);
 
                 .icon {
@@ -59,24 +58,55 @@
                     justify-content: center;
                     align-items: center;
                     font-size: var(--font-size-xxxl);
+                    flex-shrink: 0;
                 }
 
                 .text {
                     height: 100%;
                     display: flex;
                     flex-direction: column;
-                    justify-content: center;
-                    gap: var(--space-xs);
+                    justify-content: space-between;
+                    gap: var(--space-md);
+                    flex: 1;
 
-                    .activityTitle {
-                        font-size: var(--font-size-lg);
-                        font-weight: var(--font-weight-bold);
-                        color: var(--text-primary);
+                    .mainInfo {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--space-xs);
+
+                        .activityTitle {
+                            font-size: var(--font-size-lg);
+                            font-weight: var(--font-weight-bold);
+                            color: var(--text-primary);
+                            line-height: 1.2;
+                        }
+
+                        .activityPlace {
+                            font-size: var(--font-size-sm);
+                            color: var(--text-secondary);
+                            font-weight: var(--font-weight-medium);
+                            display: flex;
+                            align-items: center;
+                            gap: var(--space-xs);
+                        }
                     }
 
-                    .activityDate {
-                        font-size: var(--font-size-sm);
-                        color: var(--text-secondary);
+                    .metadata {
+                        display: flex;
+                        flex-direction: column;
+                        gap: var(--space-sm);
+
+                        .activityDate {
+                            font-size: var(--font-size-xs);
+                            color: var(--text-tertiary);
+                            font-weight: var(--font-weight-regular);
+                        }
+
+                        .tags {
+                            display: flex;
+                            gap: var(--space-sm);
+                            flex-wrap: wrap;
+                        }
                     }
                 }
             }
@@ -87,7 +117,7 @@
                 flex-direction: column;
                 justify-content: center;
                 align-items: flex-end;
-                gap: var(--space-sm);
+                gap: var(--space-md);
 
                 .progress {
                     width: 120px;
