@@ -15,22 +15,25 @@ import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.model.itinerary.Activity;
 import com.tripflow.model.itinerary.Location;
+import com.tripflow.repository.itinerary.ActivityRepository;
 import com.tripflow.service.itinerary.ActivityService;
 import com.tripflow.service.itinerary.LocationService;
 
 @Tag("unit")
 public class ActivityServiceTest {
+    private ActivityRepository activityRepository;
     private LocationService locationService;
     private ItineraryMapper itineraryMapper;
     private ActivityService activityService;
 
     @BeforeEach
     public void setUp() {
+        this.activityRepository = mock(ActivityRepository.class);
         this.locationService = mock(LocationService.class);
         this.itineraryMapper = mock(ItineraryMapper.class);
 
         this.activityService = new ActivityService(
-            locationService, itineraryMapper
+            activityRepository, locationService, itineraryMapper
         );
     }
 
