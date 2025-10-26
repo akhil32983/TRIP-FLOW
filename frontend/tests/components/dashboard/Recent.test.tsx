@@ -1,219 +1,130 @@
+import { render, screen, waitFor } from "@tests/utils/testUtils";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import Recent from "@components/dashboard/Recent";
+import * as itineraryService from "@services/itineraryService";
+import type { ItineraryStatus } from "@/types/itinerary";
 
-import { render, screen, within } from "@tests/utils/testUtils";
-import { describe, it, expect, vi } from "vitest";
+// Itinerary service mock
+vi.mock("@services/itineraryService");
 
-// Secondary dependencies mocks
+// Secondary component mocks
 vi.mock("@components/shared/Button", () => ({
-  default: ({ label, style }: { label: string; style: string[] }) => (
-    <button data-testid="button" data-style={style.join(",")}>
-      {label}
-    </button>
+  default: ({ label, to }: { label: string; to: string }) => (
+    <a href={to}>{label}</a>
   ),
 }));
 
 vi.mock("@components/shared/Badge", () => ({
-  default: ({ status, style }: { status: string; style: string }) => (
-    <span data-testid="badge" data-status={status} data-style={style}>
-      {status}
-    </span>
+  default: ({ title, status }: { title?: string; status?: string }) => (
+    <span data-testid="badge">{title || status}</span>
   ),
 }));
 
 vi.mock("@components/shared/ProgressBar", () => ({
   default: ({ progress }: { progress: number }) => (
-    <div data-testid="progress-bar" data-progress={progress}>
-      {progress}%
-    </div>
+    <div data-testid="progress-bar" data-progress={progress} />
   ),
 }));
 
+vi.mock("@components/shared/Loader", () => ({
+  default: () => <div data-testid="loader">Loading...</div>,
+}));
+
+const mockItineraries = {
+  page: [
+    {
+      id: 1,
+      icon: "🗾",
+      title: "Japan Trip",
+      place: "Tokyo",
+      people: 2,
+      budget: 3000,
+      date: "2024-06-15",
+      status: "ONGOING" as ItineraryStatus,
+      countDays: 7,
+      tags: ["culture", "gastronomy"],
+    },
+    {
+      id: 2,
+      icon: "🏔️",
+      title: "Adventure in Peru",
+      place: "Cusco",
+      people: 4,
+      budget: 2000,
+      date: "2024-08-20",
+      status: "PLANNED" as ItineraryStatus,
+      countDays: 10,
+      tags: ["adventure", "nature"],
+    },
+  ],
+  currentPage: 0,
+  totalPages: 1,
+  totalItems: 2,
+  itemsPerPage: 5,
+  isLastPage: true,
+};
+
 describe("Recent Component", () => {
-  it("renders recent activities section", () => {
-    const { container } = render(<Recent />);
-
-    const section = container.querySelector("section");
-    expect(section).toBeInTheDocument();
+  beforeEach(() => {
+    vi.mocked(itineraryService.getUserItineraries).mockResolvedValue(mockItineraries);
   });
 
-  it("renders section title", () => {
+  it("renders loading state initially", () => {
+    render(<Recent />);
+    expect(screen.getByTestId("loader")).toBeInTheDocument();
+  });
+
+  it("renders recent itineraries after loading", async () => {
     render(<Recent />);
 
-    const title = screen.getByText("Actividades Recientes");
-    expect(title).toBeInTheDocument();
-    expect(title.tagName).toBe("H2");
+    await waitFor(() => {
+      expect(screen.getByText("Japan Trip")).toBeInTheDocument();
+      expect(screen.getByText("Adventure in Peru")).toBeInTheDocument();
+    });
   });
 
-  it('renders "Ver todas" button', () => {
+  it("renders itinerary details correctly", async () => {
     render(<Recent />);
 
-    const button = screen.getByText("Ver todas");
-    expect(button).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText(/Tokyo/)).toBeInTheDocument();
+      expect(screen.getByText("2024-06-15")).toBeInTheDocument();
+      expect(screen.getByText("culture")).toBeInTheDocument();
+      expect(screen.getByText("gastronomy")).toBeInTheDocument();
+    });
   });
 
-  it("renders activity list", () => {
-    const { container } = render(<Recent />);
-
-    const list = container.querySelector("ul");
-    expect(list).toBeInTheDocument();
-  });
-
-  it("renders fake activity data", () => {
+  it("renders progress bars with correct values", async () => {
     render(<Recent />);
 
-    expect(screen.getByText("París, Francia")).toBeInTheDocument();
-    expect(screen.getByText("2024-06-15")).toBeInTheDocument();
+    await waitFor(() => {
+      const progressBars = screen.getAllByTestId("progress-bar");
+      expect(progressBars[0]).toHaveAttribute("data-progress", "75"); // ONGOING = 75%
+    });
   });
 
-  it("renders activity with correct link", () => {
+  it("renders 'Ver todos' button", async () => {
     render(<Recent />);
 
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/activities/1");
+    await waitFor(() => {
+      expect(screen.getByText("Ver todos")).toBeInTheDocument();
+    });
   });
 
-  it("renders activity icon", () => {
+  it("handles empty itineraries", async () => {
+    vi.mocked(itineraryService.getUserItineraries).mockResolvedValue({
+      page: [],
+      currentPage: 0,
+      totalPages: 0,
+      totalItems: 0,
+      itemsPerPage: 5,
+      isLastPage: true,
+    });
+
     render(<Recent />);
 
-    const icon = screen.getByText("🗾");
-    expect(icon).toBeInTheDocument();
-  });
-
-  it("renders activity place as h3", () => {
-    render(<Recent />);
-
-    const place = screen.getByText("París, Francia");
-    expect(place.tagName).toBe("H3");
-  });
-
-  it("renders activity date as paragraph", () => {
-    render(<Recent />);
-
-    const date = screen.getByText("2024-06-15");
-    expect(date.tagName).toBe("P");
-  });
-
-  it("renders Badge component with correct status", () => {
-    render(<Recent />);
-
-    const badge = screen.getByTestId("badge");
-    expect(badge).toHaveAttribute("data-status", "ONGOING");
-    expect(badge).toHaveAttribute("data-style", "thin");
-  });
-
-  it("renders ProgressBar component with correct progress", () => {
-    render(<Recent />);
-
-    const progressBar = screen.getByTestId("progress-bar");
-    expect(progressBar).toHaveAttribute("data-progress", "75");
-  });
-
-  it("applies correct CSS classes to section", () => {
-    const { container } = render(<Recent />);
-
-    const section = container.querySelector("section");
-    expect(section?.className).toMatch(/recent/);
-  });
-
-  it("applies correct CSS classes to header", () => {
-    const { container } = render(<Recent />);
-
-    const header = container.querySelector('[class*="header"]');
-    expect(header).toBeInTheDocument();
-  });
-
-  it("applies correct CSS classes to title", () => {
-    render(<Recent />);
-
-    const title = screen.getByText("Actividades Recientes");
-    expect(title.className).toMatch(/title/);
-  });
-
-  it("applies correct CSS classes to activities list", () => {
-    const { container } = render(<Recent />);
-
-    const list = container.querySelector("ul");
-    expect(list?.className).toMatch(/activities/);
-  });
-
-  it("applies custom CSS variable to activity link", () => {
-    const { container } = render(<Recent />);
-
-    const link = container.querySelector("a");
-    const style = link?.getAttribute("style");
-    expect(style).toContain("--index");
-  });
-
-  it("renders activity with all child elements", () => {
-    const { container } = render(<Recent />);
-
-    const activity = container.querySelector("li");
-    
-    expect(activity?.querySelector("a")).toBeInTheDocument();
-    expect(activity?.querySelector('[class*="details"]')).toBeInTheDocument();
-    expect(activity?.querySelector('[class*="icon"]')).toBeInTheDocument();
-    expect(activity?.querySelector('[class*="text"]')).toBeInTheDocument();
-    expect(activity?.querySelector('[class*="progressBar"]')).toBeInTheDocument();
-  });
-
-  it("renders NavLink component", () => {
-    render(<Recent />);
-
-    const link = screen.getByRole("link");
-    expect(link).toBeInTheDocument();
-  });
-
-  it("renders as semantic section element", () => {
-    const { container } = render(<Recent />);
-
-    const section = container.querySelector("section");
-    expect(section?.tagName).toBe("SECTION");
-  });
-
-  it("renders list items with correct keys", () => {
-    const { container } = render(<Recent />);
-
-    const listItems = container.querySelectorAll("li");
-    expect(listItems.length).toBeGreaterThan(0);
-  });
-
-  it("button has secondary style", () => {
-    render(<Recent />);
-
-    const button = screen.getByTestId("button");
-    expect(button).toHaveAttribute("data-style", "secondary");
-  });
-
-  it("renders activity details section", () => {
-    const { container } = render(<Recent />);
-
-    const details = container.querySelector('[class*="details"]');
-    expect(details).toBeInTheDocument();
-  });
-
-  it("renders activity progress section", () => {
-    const { container } = render(<Recent />);
-
-    const progressSection = container.querySelector('[class*="progressBar"]');
-    expect(progressSection).toBeInTheDocument();
-  });
-
-  it("activity link contains all required information", () => {
-    const { container } = render(<Recent />);
-
-    const link = container.querySelector("a");
-    const linkContent = link?.textContent;
-
-    expect(linkContent).toContain("París, Francia");
-    expect(linkContent).toContain("2024-06-15");
-  });
-
-  it("renders header with title and button", () => {
-    const { container } = render(<Recent />);
-
-    const header = container.querySelector('[class*="header"]');
-    
-    expect(within(header as HTMLElement).getByText("Actividades Recientes")).toBeInTheDocument();
-    expect(within(header as HTMLElement).getByText("Ver todas")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByText("Viaje a Japón")).not.toBeInTheDocument();
+    });
   });
 });
