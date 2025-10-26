@@ -4,13 +4,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.LocationDTO;
-import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.integration.utils.AuthTestUtils;
 import com.tripflow.model.types.ItineraryStatus;
 
 import io.restassured.RestAssured;
@@ -27,7 +26,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test successful itinerary creation")
     public void testCreateItinerarySuccess() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
         ItineraryDTO itineraryDTO = createTestItinerary();
 
         RestAssured
@@ -67,7 +66,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test get all itineraries with pagination")
     public void testGetAllItinerariesPaginated() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
 
         // Create a test itinerary first
         ItineraryDTO itineraryDTO = createTestItinerary();
@@ -116,7 +115,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test get itinerary by id successfully")
     public void testGetItineraryByIdSuccess() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
         ItineraryDTO itineraryDTO = createTestItinerary();
 
         // Create itinerary
@@ -150,7 +149,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test get itinerary by non-existent id")
     public void testGetItineraryByIdNotFound() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
 
         RestAssured
         .given()
@@ -174,7 +173,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test update itinerary successfully")
     public void testUpdateItinerarySuccess() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
         ItineraryDTO itineraryDTO = createTestItinerary();
 
         // Create itinerary
@@ -223,7 +222,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test update non-existent itinerary")
     public void testUpdateItineraryNotFound() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
         ItineraryDTO itineraryDTO = createTestItinerary();
 
         RestAssured
@@ -255,7 +254,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test delete itinerary successfully")
     public void testDeleteItinerarySuccess() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
         ItineraryDTO itineraryDTO = createTestItinerary();
 
         // Create itinerary
@@ -295,7 +294,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test delete non-existent itinerary")
     public void testDeleteItineraryNotFound() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
 
         RestAssured
         .given()
@@ -319,7 +318,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test create itinerary with multiple days")
     public void testCreateItineraryWithMultipleDays() {
-        String authToken = authenticateUserAndGetToken();
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
 
         // Create itinerary with multiple days
         CoordinatesDTO coords1 = new CoordinatesDTO(48.8566, 2.3522);
@@ -353,53 +352,6 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     }
 
     // [Helper Methods] ===============================================
-    
-    /**
-     * Registers and logs in a user, returning the authentication token.
-     * 
-     * @return the authentication token
-     */
-    private String authenticateUserAndGetToken() {
-        String uniqueUsername = this.generateUniqueValue("ItineraryUser");
-        
-        // Register user
-        RegisterUserRequest registerRequest = new RegisterUserRequest(
-            uniqueUsername,
-            "Ab12345678",
-            "Ab12345678"
-        );
-
-        RestAssured
-        .given()
-            .contentType(ContentType.JSON)
-            .body(registerRequest)
-        .when()
-            .post("/auth/register")
-        .then()
-            .statusCode(201);
-
-        // Login user
-        LoginRequest loginRequest = new LoginRequest(uniqueUsername, "Ab12345678");
-        
-        Response loginResponse = RestAssured
-        .given()
-            .contentType(ContentType.JSON)
-            .body(loginRequest)
-        .when()
-            .post("/auth/login")
-        .then()
-            .statusCode(200)
-            .body("status", equalTo("SUCCESS"))
-            .body("message", equalTo("Login successful"))
-            .body("errors", nullValue())
-            .body("user", notNullValue())
-            .cookie("auth_token", notNullValue())
-            .cookie("refresh_token", notNullValue())
-            .extract()
-            .response();
-
-        return loginResponse.getCookie("auth_token");
-    }
 
     /**
      * Creates a test itinerary DTO for use in tests.

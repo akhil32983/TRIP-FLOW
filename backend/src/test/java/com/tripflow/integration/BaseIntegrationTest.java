@@ -51,10 +51,4 @@ public abstract class BaseIntegrationTest {
         RestAssured.baseURI = "http://localhost";
         RestAssured.basePath = "/api";
     }
-
-    // [Helper Methods] ===============================================
-
-    protected String generateUniqueValue(String prefix) {
-        return prefix + System.nanoTime();
-    }
 }
