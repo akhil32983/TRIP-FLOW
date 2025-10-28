@@ -26,9 +26,9 @@ describe("Badge Component", () => {
     });
 
     it("renders default title for ACTIVE status when no title provided", () => {
-        render(<Badge style="default" status="ACTIVE" />);
+        render(<Badge style="default" status="PLANNED" />);
 
-        const badge = screen.getByText("Activo");
+        const badge = screen.getByText("Planeado");
         expect(badge).toBeInTheDocument();
     });
 
@@ -61,10 +61,10 @@ describe("Badge Component", () => {
     });
 
     it("applies status class correctly for ACTIVE", () => {
-        render(<Badge style="default" status="ACTIVE" />);
+        render(<Badge style="default" status="PLANNED" />);
 
-        const badge = screen.getByText("Activo");
-        expect(badge.className).toMatch(/active/);
+        const badge = screen.getByText("Planeado");
+        expect(badge.className).toMatch(/planned/);
     });
 
     it("applies status class correctly for ONGOING", () => {
@@ -129,12 +129,12 @@ describe("Badge Component", () => {
     });
 
     it("applies multiple classes correctly", () => {
-        render(<Badge style="semi_thin" status="ACTIVE" />);
+        render(<Badge style="semi_thin" status="PLANNED" />);
 
-        const badge = screen.getByText("Activo");
+        const badge = screen.getByText("Planeado");
         expect(badge.className).toMatch(/badge/);
         expect(badge.className).toMatch(/semi_thin/);
-        expect(badge.className).toMatch(/active/);
+        expect(badge.className).toMatch(/planned/);
     });
 
     it("handles thin style variant", () => {
