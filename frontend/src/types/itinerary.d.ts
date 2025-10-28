@@ -1,4 +1,4 @@
-export type ItineraryStatus = "ACTIVE" | "ONGOING" | "COMPLETED" | "DRAFT";
+export type ItineraryStatus = "DRAFT" | "PLANNED" | "ONGOING" | "COMPLETED";
 
 export interface Activity {
     activity: string;
@@ -23,6 +23,7 @@ export interface Itinerary {
     icon: string;
     title: string;
     place: string;
+    icon: string;
     people: number;
     budget: number;
     date: string;

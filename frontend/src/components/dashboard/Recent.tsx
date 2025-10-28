@@ -26,9 +26,10 @@ export type RecentActivity = {
  * @returns Progress percentage as a number between 0 and 100.
  */
 function calculateProgress(status: ItineraryStatus): number {
+    console.log("Calculating progress for status:", status);
     if (status === "COMPLETED") return 100;
     if (status === "ONGOING") return 75;
-    if (status === "ACTIVE") return 50;
+    if (status === "PLANNED") return 25;
     return 0;
 }
 
@@ -71,7 +72,7 @@ export default function Recent() {
                                 style={{ "--index": index + 1 } as React.CSSProperties}
                             >
                                 <div className={styles.details}>
-                                    <span className={styles.icon}>🗾</span>
+                                    <span className={styles.icon}>{itinerary.icon}</span>
                                     <div className={styles.text}>
                                         <div className={styles.mainInfo}>
                                             <h3 className={styles.itineraryTitle}>{itinerary.title}</h3>

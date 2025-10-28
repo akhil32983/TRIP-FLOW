@@ -18,7 +18,7 @@ export default function Badge({
 }: BadgeProps) {
     if (!title && !children) {
         if (!title && status === "DRAFT") title = "Borrador";
-        if (!title && status === "ACTIVE") title = "Activo";
+        if (!title && status === "PLANNED") title = "Planeado";
         if (!title && status === "ONGOING") title = "En curso";
         if (!title && status === "COMPLETED") title = "Completado";
     }
