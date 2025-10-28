@@ -62,26 +62,26 @@ export default function Recent() {
             {isLoading && <Loader size={12} />}
 
             {!isLoading && (
-                <ul className={styles.activities}>
-                    {recentItineraries.map((activity, index) => (
-                        <li key={activity.id}>
+                <ul className={styles.itineraries}>
+                    {recentItineraries.map((itinerary, index) => (
+                        <li key={itinerary.id}>
                             <NavLink
-                                to={`/itineraries/${activity.id}`}
-                                className={styles.recentActivity}
+                                to={`/itineraries/${itinerary.id}`}
+                                className={styles.recentItinerary}
                                 style={{ "--index": index + 1 } as React.CSSProperties}
                             >
                                 <div className={styles.details}>
                                     <span className={styles.icon}>🗾</span>
                                     <div className={styles.text}>
                                         <div className={styles.mainInfo}>
-                                            <h3 className={styles.activityTitle}>{activity.title}</h3>
-                                            <p className={styles.activityPlace}>📍 {activity.place}</p>
+                                            <h3 className={styles.itineraryTitle}>{itinerary.title}</h3>
+                                            <p className={styles.itineraryPlace}>📍 {itinerary.place}</p>
                                         </div>
                                         <div className={styles.metadata}>
-                                            <p className={styles.activityDate}>{activity.date}</p>
-                                            {activity.tags && activity.tags.length > 0 && (
+                                            <p className={styles.itineraryDate}>{itinerary.date}</p>
+                                            {itinerary.tags && itinerary.tags.length > 0 && (
                                                 <div className={styles.tags}>
-                                                    {activity.tags.map((tag, i) => (
+                                                    {itinerary.tags.map((tag, i) => (
                                                         <Badge key={i} title={tag} style="thin" />
                                                     ))}
                                                 </div>
@@ -90,15 +90,15 @@ export default function Recent() {
                                     </div>
                                 </div>
                                 <div className={styles.progressBar}>
-                                    <Badge style="thin" status={activity.status as ItineraryStatus} />
-                                    <ProgressBar progress={calculateProgress(activity.status)} />
+                                    <Badge style="thin" status={itinerary.status as ItineraryStatus} />
+                                    <ProgressBar progress={calculateProgress(itinerary.status)} />
                                 </div>
                             </NavLink>
                         </li>
                     ))}
                     {recentItineraries.length === 0 && (
-                        <li className={styles.noActivities}>
-                            <p>No hay actividades recientes.</p>
+                        <li className={styles.noItineraries}>
+                            <p>No hay itinerarios recientes.</p>
                         </li>
                     )}
                 </ul>
