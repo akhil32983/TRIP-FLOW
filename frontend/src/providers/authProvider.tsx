@@ -55,7 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       // Transform error messages to a more user-friendly format
       const error: Record<string, string> =
-        res.message === "Bad credentials"
+        res.message === "Invalid credentials"
           ? { password: "Contraseña incorrecta" }
           : { global: res.message ?? "Ha ocurrido un error desconocido" };
       setErrors(error);

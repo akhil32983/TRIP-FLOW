@@ -10,6 +10,10 @@ let failedQueue: Array<{
   reject: (reason?: unknown) => void;
 }> = [];
 
+const isAuthEndpoint = (path: string): boolean => {
+    return path.startsWith("/api/auth/") || path === "/api/auth";
+}
+
 const processQueue = (error: Error | null) => {
   failedQueue.forEach((prom) => {
     if (error) {
@@ -53,7 +57,7 @@ export async function http<T>(
   const response = await fetch(url, options);
 
   // Handle 401 with refresh logic
-  if (response.status === 401 && path !== "/api/auth/refresh") {
+  if (response.status === 401 && !isAuthEndpoint(path)) {
     if (isRefreshing) {
       return new Promise((resolve, reject) => {
         failedQueue.push({ resolve, reject });
