@@ -7,7 +7,7 @@ import type { ItineraryDay } from "@/types/itinerary";
  */
 export function useDayManager(
     days: ItineraryDay[], 
-    onDaysChange: (newDays: ItineraryDay[], newCount: number) => void
+    onDaysChange: (newDays: ItineraryDay[]) => void
 ) {
     const handleAddNewDay = useCallback(() => {
         const newDay: ItineraryDay = {
@@ -16,15 +16,15 @@ export function useDayManager(
         };
         
         const newDays = [...days, newDay];
-        onDaysChange(newDays, newDays.length);
+        onDaysChange(newDays);
     }, [days, onDaysChange]);
 
     const handleRemoveDay = useCallback((dayIndex: number) => {
         const newDays = days
             .filter((_, index) => index !== dayIndex)
             .map((day, index) => ({ ...day, day: index + 1 }));
-        
-        onDaysChange(newDays, newDays.length);
+
+        onDaysChange(newDays);
     }, [days, onDaysChange]);
 
     return {

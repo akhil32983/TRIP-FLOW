@@ -24,10 +24,9 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
     
     // Day management operations
     const { handleAddNewDay, handleRemoveDay } = useDayManager(
-        itinerary.days, 
-        (newDays, newCount) => {
+        itinerary.days,
+        (newDays) => {
             updateBasicInfo('days', newDays);
-            updateBasicInfo('countDays', newCount);
         }
     );
 
