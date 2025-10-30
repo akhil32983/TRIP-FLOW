@@ -171,10 +171,10 @@ describe("ItinerariesPreview Component", () => {
 
         await waitFor(() => {
             expect(screen.getByText("Tokyo")).toBeInTheDocument();
-            expect(screen.getByText("2024-06-15")).toBeInTheDocument();
+            expect(screen.getByText("15 de junio de 2024")).toBeInTheDocument();
             expect(screen.getByText(/7\s+días/)).toBeInTheDocument();
             expect(screen.getByText(/2\s+personas/)).toBeInTheDocument();
-            expect(screen.getByText(/3000\s+€/)).toBeInTheDocument();
+            expect(screen.getByText(/3.000, 00\s+€/)).toBeInTheDocument();
         });
     });
 
