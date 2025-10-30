@@ -66,12 +66,22 @@ const mockItineraries = {
 
 describe("Recent Component", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.mocked(itineraryService.getUserItineraries).mockResolvedValue(mockItineraries);
   });
 
-  it("renders loading state initially", () => {
+  it("renders loading state initially", async () => {
+    vi.mocked(itineraryService.getUserItineraries).mockImplementation(
+      () => new Promise(resolve => setTimeout(() => resolve(mockItineraries), 100))
+    );
+
     render(<Recent />);
     expect(screen.getByTestId("loader")).toBeInTheDocument();
+
+    // Esperar a que termine de cargar
+    await waitFor(() => {
+      expect(screen.queryByTestId("loader")).not.toBeInTheDocument();
+    });
   });
 
   it("renders recent itineraries after loading", async () => {
@@ -79,8 +89,9 @@ describe("Recent Component", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Japan Trip")).toBeInTheDocument();
-      expect(screen.getByText("Adventure in Peru")).toBeInTheDocument();
     });
+
+    expect(screen.getByText("Adventure in Peru")).toBeInTheDocument();
   });
 
   it("renders itinerary details correctly", async () => {
@@ -88,10 +99,11 @@ describe("Recent Component", () => {
 
     await waitFor(() => {
       expect(screen.getByText(/Tokyo/)).toBeInTheDocument();
-      expect(screen.getByText("2024-06-15")).toBeInTheDocument();
-      expect(screen.getByText("culture")).toBeInTheDocument();
-      expect(screen.getByText("gastronomy")).toBeInTheDocument();
     });
+
+    expect(screen.getByText("15 de junio de 2024")).toBeInTheDocument();
+    expect(screen.getByText("culture")).toBeInTheDocument();
+    expect(screen.getByText("gastronomy")).toBeInTheDocument();
   });
 
   it("renders progress bars with correct values", async () => {
@@ -99,7 +111,7 @@ describe("Recent Component", () => {
 
     await waitFor(() => {
       const progressBars = screen.getAllByTestId("progress-bar");
-      expect(progressBars[0]).toHaveAttribute("data-progress", "75"); // ONGOING = 75%
+      expect(progressBars[0]).toHaveAttribute("data-progress", "75");
     });
   });
 
@@ -124,7 +136,7 @@ describe("Recent Component", () => {
     render(<Recent />);
 
     await waitFor(() => {
-      expect(screen.queryByText("Viaje a Japón")).not.toBeInTheDocument();
+      expect(screen.queryByText("Japan Trip")).not.toBeInTheDocument();
     });
   });
 });

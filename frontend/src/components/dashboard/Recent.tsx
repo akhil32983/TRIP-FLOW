@@ -5,6 +5,7 @@ import { NavLink } from "react-router";
 
 import type { Itinerary, ItineraryStatus } from "@/types/itinerary";
 
+import { formatDate } from "@/utils/formatUtils";
 import { getUserItineraries } from "@/services/itineraryService";
 
 import Button from "@components/shared/Button";
@@ -78,7 +79,7 @@ export default function Recent() {
                                             <p className={styles.itineraryPlace}>📍 {itinerary.place}</p>
                                         </div>
                                         <div className={styles.metadata}>
-                                            <p className={styles.itineraryDate}>{itinerary.date}</p>
+                                            <p className={styles.itineraryDate}>{formatDate(itinerary.date)}</p>
                                             {itinerary.tags && itinerary.tags.length > 0 && (
                                                 <div className={styles.tags}>
                                                     {itinerary.tags.map((tag, i) => (
