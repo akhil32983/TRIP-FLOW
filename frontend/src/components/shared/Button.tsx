@@ -15,13 +15,14 @@ interface ButtonProps {
     target?: Target;
     rel?: Rel;
     ariaLabel?: string;
+    disabled?: boolean;
     children?: React.ReactNode;
 }
 
 /**
  * Button component for rendering unified styled buttons or links.
  */
-export default function Button({ label, onClick, style, type, to, target, rel, ariaLabel, children }: ButtonProps) {
+export default function Button({ label, onClick, style, type, to, target, rel, ariaLabel, disabled, children }: ButtonProps) {
     let customStyles = `${styles.button}` + (children && label ? ` ${styles.withChildren}` : ``);
     style.map(s => customStyles += ` ${styles[s]}`);
 
@@ -33,5 +34,5 @@ export default function Button({ label, onClick, style, type, to, target, rel, a
     )
 
     if (to) return <NavLink to={to} className={customStyles} target={target} rel={rel} aria-label={ariaLabel}>{body}</NavLink>;
-    else return <button className={customStyles} type={type} onClick={onClick} aria-label={ariaLabel}>{body}</button>;
+    else return <button className={customStyles} type={type} onClick={onClick} aria-label={ariaLabel} disabled={disabled}>{body}</button>;
 }

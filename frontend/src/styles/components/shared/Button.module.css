@@ -26,6 +26,11 @@
     &.withChildren {
         gap: var(--space-md);
     }
+
+    &:disabled {
+        cursor: auto;
+        opacity: 0.6;
+    }
 }
 
 .primary {
@@ -38,6 +43,10 @@
     &:hover {
         filter: brightness(1.20);
     }
+
+    &:disabled:hover {
+        filter: none;
+    }
 }
 
 .secondary {
@@ -49,6 +58,10 @@
 
     &:hover {
         filter: brightness(1.20);
+    }
+
+    &:disabled:hover {
+        filter: none;
     }
 }
 
