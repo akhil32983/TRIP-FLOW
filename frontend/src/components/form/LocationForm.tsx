@@ -16,6 +16,20 @@ export default function LocationForm({ fields, onLocationUpdate }: LocationFormP
     const leftFields = fields.slice(0, Math.ceil(fields.length / 2));
     const rightFields = fields.slice(Math.ceil(fields.length / 2));
 
+    const getLocationField = (fieldName: string): keyof Activity['location'] => {
+        if (fieldName.includes('name')) return 'name';
+        if (fieldName.includes('address')) return 'address';
+        if (fieldName.includes('latitude')) return 'latitude';
+        if (fieldName.includes('longitude')) return 'longitude';
+        return 'name';
+    };
+
+    const handleLocationChange = (fieldName: string) => (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        onLocationUpdate(getLocationField(fieldName), e.target.value);
+    };
+
     return (
         <div className={styles.locationForm}>
             <div className={styles.formHeader}>
@@ -28,7 +42,7 @@ export default function LocationForm({ fields, onLocationUpdate }: LocationFormP
                    <FormGroup
                        key={field.name}
                        field={field}
-                       handleChange={(value) => onLocationUpdate(field.name as keyof Activity['location'], value)}
+                       handleChange={handleLocationChange(field.name)}
                        fullWidth
                    />
                 ))}
@@ -39,7 +53,7 @@ export default function LocationForm({ fields, onLocationUpdate }: LocationFormP
                     <FormGroup
                         key={field.name}
                         field={field}
-                        handleChange={(value) => onLocationUpdate(field.name as keyof Activity['location'], value)}
+                        handleChange={handleLocationChange(field.name)}
                         fullWidth
                     />
                 ))}

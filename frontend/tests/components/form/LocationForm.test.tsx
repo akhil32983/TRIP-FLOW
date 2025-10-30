@@ -16,7 +16,7 @@ vi.mock("@components/form/FormGroup", () => ({
                 name={field.name}
                 value={field.value}
                 placeholder={field.placeholder}
-                onChange={(e) => handleChange(e.target.value)}
+                onChange={handleChange}
             />
         </div>
     ),
