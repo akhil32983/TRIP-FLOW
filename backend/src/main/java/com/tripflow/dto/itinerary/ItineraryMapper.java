@@ -15,7 +15,10 @@ public interface ItineraryMapper {
 
     // To DTO ==>
 
+    @Mapping(target = "countDays", expression = "java(itinerary.getDays().size())")
     ItineraryDTO toDTO(Itinerary itinerary);
+
+    @Mapping(target = "countDays", expression = "java(itinerary.getDays().size())")
     ExtendedItineraryDTO toExtendedDTO(Itinerary itinerary);
     List<ItineraryDTO> toDTOs(List<Itinerary> itineraries);
 

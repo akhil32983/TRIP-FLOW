@@ -12,6 +12,7 @@ public record ItineraryDTO(
     int people,
     double budget,
     String date,
+    int countDays,
     List<String> tags,
     Long updatedCount,
     ItineraryStatus status

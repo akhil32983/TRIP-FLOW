@@ -15,5 +15,6 @@ public record ExtendedItineraryDTO(
     List<String> tags,
     Long updatedCount,
     ItineraryStatus status,
-    List<ItineraryDayDTO> days
+    List<ItineraryDayDTO> days,
+    int countDays
 ) {}
