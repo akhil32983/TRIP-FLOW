@@ -35,11 +35,10 @@ const mockItinerary: ExtendedItineraryType = {
     icon: "🗾",
     title: "Aventura en Tokio",
     place: "Tokio, Japón",
-    status: "ACTIVE",
+    status: "PLANNED",
     people: 3,
     budget: 1500,
     date: "2025-07-15",
-    countDays: 7,
     tags: ["Cultura", "Gastronomía", "Tecnología"],
     days: [
         {
@@ -126,7 +125,7 @@ describe("ExtendedItinerary Component", () => {
 
         const badges = screen.getAllByTestId("badge");
         const statusBadge = badges.find(
-            (badge) => badge.getAttribute("data-status") === "ACTIVE"
+            (badge) => badge.getAttribute("data-status") === "PLANNED"
         );
 
         expect(statusBadge).toBeInTheDocument();
@@ -182,7 +181,7 @@ describe("ExtendedItinerary Component", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
         expect(screen.getByText("Duración")).toBeInTheDocument();
-        expect(screen.getByText("7 días")).toBeInTheDocument();
+        expect(screen.getByText("2 días")).toBeInTheDocument();
     });
 
     it("renders all tags", () => {
