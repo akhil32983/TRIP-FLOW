@@ -89,6 +89,11 @@ export async function http<T>(
     }
   }
 
+  // Handle 403 Forbidden
+  if (response.status === 403) {
+    window.location.href = "/";
+  }
+
   const data = await response.json();
   return data as T;
 }
