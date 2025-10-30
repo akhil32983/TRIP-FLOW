@@ -2,6 +2,8 @@ import styles from "@styles/components/dashboard/ExtendedItinerary.module.css";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
+import { formatBudget, formatDate } from "@/utils/formatUtils";
+
 import { AlarmClockIcon, CalendarIcon, Edit, MapPinIcon, PiggyBankIcon, Trash, UsersIcon } from "lucide-react";
 
 import Badge from "@components/shared/Badge";
@@ -15,20 +17,6 @@ interface ExtendedItineraryProps {
 const ICON_SIZE = 20;
 
 export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps) {
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('es-ES', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
-
-    const formatBudget = (budget: number) => {
-        const [integerPart, decimalPart = '00'] = budget.toFixed(2).split('.');
-        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        return `${formattedInteger}, ${decimalPart} €`;
-    };
-
     const countDays = itinerary.days.length;
 
     return (
