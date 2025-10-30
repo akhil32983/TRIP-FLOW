@@ -23,6 +23,12 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
         });
     };
 
+    const formatBudget = (budget: number) => {
+        const [integerPart, decimalPart = '00'] = budget.toFixed(2).split('.');
+        const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return `${formattedInteger}, ${decimalPart} €`;
+    };
+
     const countDays = itinerary.days.length;
 
     return (
@@ -44,7 +50,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
             <div className={styles.tripInfo}>
                 <InfoCard icon={<MapPinIcon size={ICON_SIZE} />} title="Destino" value={itinerary.place} />
                 <InfoCard icon={<UsersIcon size={ICON_SIZE} />} title="Personas" value={itinerary.people} />
-                <InfoCard icon={<PiggyBankIcon size={ICON_SIZE} />} title="Presupuesto" value={`${itinerary.budget} €`} />
+                <InfoCard icon={<PiggyBankIcon size={ICON_SIZE} />} title="Presupuesto" value={formatBudget(itinerary.budget)} />
                 <InfoCard icon={<CalendarIcon size={ICON_SIZE} />} title="Fecha" value={formatDate(itinerary.date)} />
                 <InfoCard icon={<AlarmClockIcon size={ICON_SIZE} />} title="Duración" value={`${countDays} ${countDays === 1 ? "día" : "días"}`} />
             </div>

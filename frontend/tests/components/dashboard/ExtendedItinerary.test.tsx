@@ -167,7 +167,7 @@ describe("ExtendedItinerary Component", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
         expect(screen.getByText("Presupuesto")).toBeInTheDocument();
-        expect(screen.getByText("1500 €")).toBeInTheDocument();
+        expect(screen.getByText("1.500, 00 €")).toBeInTheDocument();
     });
 
     it("renders formatted date", () => {
