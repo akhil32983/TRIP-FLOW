@@ -26,7 +26,6 @@ export type RecentActivity = {
  * @returns Progress percentage as a number between 0 and 100.
  */
 function calculateProgress(status: ItineraryStatus): number {
-    console.log("Calculating progress for status:", status);
     if (status === "COMPLETED") return 100;
     if (status === "ONGOING") return 75;
     if (status === "PLANNED") return 25;
