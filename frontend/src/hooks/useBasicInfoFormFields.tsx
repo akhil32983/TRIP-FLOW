@@ -13,10 +13,15 @@ export function useBasicInfoFormFields(
     itinerary: ExtendedItinerary,
     onUpdateBasicInfo: (field: keyof ExtendedItinerary, value: any) => void
 ) {
-    const handleFieldChange = useCallback((field: keyof ExtendedItinerary, type: 'string' | 'number' = 'string') => (
+    const handleFieldChange = useCallback((field: keyof ExtendedItinerary, type: 'string' | 'number' | 'float' = 'string') => (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        const value = type === 'number' ? parseInt(e.target.value) || 0 : e.target.value;
+        let value;
+
+        if (type === 'float') value = parseFloat(e.target.value) || 0;
+        else if (type === 'number') value = parseInt(e.target.value) || 0;
+        else value = e.target.value;
+
         onUpdateBasicInfo(field, value);
     }, [onUpdateBasicInfo]);
 
@@ -65,7 +70,7 @@ export function useBasicInfoFormFields(
             value: itinerary.budget,
             placeholder: "Presupuesto total",
             icon: createElement(Euro, { size: 16 }),
-            min: 0
+            step: "any"
         },
         {
             name: "trip-date",
@@ -87,7 +92,7 @@ export function useBasicInfoFormFields(
             case 'trip-people':
                 return handleFieldChange('people', 'number');
             case 'trip-budget':
-                return handleFieldChange('budget', 'number');
+                return handleFieldChange('budget', 'float');
             case 'trip-date':
                 return handleFieldChange('date');
             default:
