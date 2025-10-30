@@ -89,7 +89,8 @@ export default function ItinerariesPreview() {
                             <div className={styles.stat}>
                                 <span className={styles.label}>Duración</span>
                                 <span className={styles.value}>
-                                    {itinerary.countDays} días
+                                    {itinerary.countDays}{" "}
+                                    {itinerary.countDays === 1 ? "día" : "días"}
                                 </span>
                             </div>
                             <div className={styles.stat}>
