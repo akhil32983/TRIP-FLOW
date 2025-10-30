@@ -4,8 +4,9 @@ export type Field = {
     name: string;
     label: string;
     placeholder?: string;
-    type?: "text" | "password" | "email" | "time" | "textarea" | "number" | "date";
+    type?: "text" | "password" | "email" | "time" | "textarea" | "number" | "date" | "select";
     value?: string | number;
+    options?: { value: string | number; label: string }[];
     required?: boolean;
     min?: string | number;
     max?: string | number;
@@ -15,7 +16,7 @@ export type Field = {
 
 export default function FormGroup({ field, index, handleChange, errors, fullWidth }: {
     field: Field;
-    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
     index?: number;
     errors?: { [key: string]: string };
     fullWidth?: boolean;
@@ -32,6 +33,20 @@ export default function FormGroup({ field, index, handleChange, errors, fullWidt
 
         if (field.type === "textarea") return <textarea {...baseProps} />
         if (field.type === "number") return <input {...baseProps} type={field.type} min={field.min} max={field.max} step={field.step} />
+        if (field.type === "select") return (
+            <select
+                id={field.name}
+                name={field.name}
+                value={field.value || ""}
+                onChange={handleChange}
+            >
+                {field.options?.map((option) => (
+                    <option key={option.value} value={option.value}>
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+        );
         return <input {...baseProps} type={field.type || "text"} />
     }
 

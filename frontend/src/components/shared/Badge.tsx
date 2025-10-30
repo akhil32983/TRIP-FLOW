@@ -1,5 +1,8 @@
-import type { ItineraryStatus } from "@/types/itinerary";
 import styles from "@styles/components/shared/Badge.module.css";
+
+import type { ItineraryStatus } from "@/types/itinerary";
+
+import { formatStatus } from "@/utils/formatUtils";
 
 interface BadgeProps {
     style: "thin" | "default" | "semi_thin";
@@ -16,12 +19,7 @@ export default function Badge({
     status = "ONGOING",
     action
 }: BadgeProps) {
-    if (!title && !children) {
-        if (!title && status === "DRAFT") title = "Borrador";
-        if (!title && status === "PLANNED") title = "Planeado";
-        if (!title && status === "ONGOING") title = "En curso";
-        if (!title && status === "COMPLETED") title = "Completado";
-    }
+    if (!title && !children) title = formatStatus(status);
 
     return (
         <span className={`${styles.badge} ${styles[style]} ${styles[status.toLowerCase()]}`}>

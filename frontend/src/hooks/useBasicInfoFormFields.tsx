@@ -2,8 +2,9 @@ import { useCallback, createElement } from "react";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
-import { Tag, MapPin, Users, Euro, Calendar, Plane } from "lucide-react";
+import { Tag, MapPin, Users, Euro, Calendar, Plane, BatteryMedium } from "lucide-react";
 import type { Field } from "@/components/form/FormGroup";
+import { formatStatus } from "@/utils/formatUtils";
 
 /**
  * Hook used to manage form fields for basic itinerary information
@@ -14,7 +15,7 @@ export function useBasicInfoFormFields(
     onUpdateBasicInfo: (field: keyof ExtendedItinerary, value: any) => void
 ) {
     const handleFieldChange = useCallback((field: keyof ExtendedItinerary, type: 'string' | 'number' | 'float' = 'string') => (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         let value;
 
@@ -78,6 +79,19 @@ export function useBasicInfoFormFields(
             type: "date",
             value: itinerary.date,
             icon: createElement(Calendar, { size: 16 })
+        },
+        {
+            name: "trip-status",
+            label: "Estado",
+            type: "select",
+            value: itinerary.status,
+            options: [
+                { value: "DRAFT", label: formatStatus("DRAFT") },
+                { value: "PLANNED", label: formatStatus("PLANNED") },
+                { value: "ONGOING", label: formatStatus("ONGOING") },
+                { value: "COMPLETED", label: formatStatus("COMPLETED") }
+            ],
+            icon: createElement(BatteryMedium, { size: 16 })
         }
     ];
 
@@ -95,6 +109,8 @@ export function useBasicInfoFormFields(
                 return handleFieldChange('budget', 'float');
             case 'trip-date':
                 return handleFieldChange('date');
+            case 'trip-status':
+                return handleFieldChange('status');
             default:
                 return handleFieldChange('title');
         }

@@ -283,7 +283,7 @@ textarea {
 select {
   width: 100%;
   height: 42px;
-  padding: var(--space-md);
+  padding: var(--space-sm);
   border-radius: var(--border-radius-md);
   border: 1px solid var(--border-primary);
   background-color: var(--bg-secondary);
