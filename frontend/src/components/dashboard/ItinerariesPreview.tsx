@@ -11,6 +11,7 @@ import { getUserItineraries } from "@/services/itineraryService";
 import Badge from "@components/shared/Badge";
 import Button from "@components/shared/Button";
 import Loader from "@components/shared/Loader";
+import { formatBudget, formatDate } from "@/utils/formatUtils";
 
 const PAGE_SIZE = 10;
 
@@ -80,9 +81,9 @@ export default function ItinerariesPreview() {
                         </div>
                         <div className={styles.stats}>
                             <div className={styles.stat}>
-                                <span className={styles.label}>Fechas</span>
+                                <span className={styles.label}>Fecha</span>
                                 <span className={styles.value}>
-                                    {itinerary.date}
+                                    {formatDate(itinerary.date)}
                                 </span>
                             </div>
                             <div className={styles.stat}>
@@ -101,7 +102,7 @@ export default function ItinerariesPreview() {
                             <div className={styles.stat}>
                                 <span className={styles.label}>Presupuesto</span>
                                 <span className={styles.value}>
-                                    {itinerary.budget} €
+                                    {formatBudget(itinerary.budget)}
                                 </span>
                             </div>
                         </div>
