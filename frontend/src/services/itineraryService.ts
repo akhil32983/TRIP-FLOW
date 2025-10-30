@@ -24,3 +24,24 @@ export async function getUserItineraries(requestParams: PageRequest = { page: 0,
 export async function getItineraryById(itineraryId: number): Promise<ExtendedItinerary> {
     return http(`${BASE_PATH}/${itineraryId}`, "GET");
 }
+
+/**
+ * Creates a new itinerary with the provided details.
+ *
+ * @param itinerary The itinerary data to be created.
+ * @returns A promise that resolves to the created itinerary.
+ */
+export async function createItinerary(itinerary: ExtendedItinerary): Promise<ExtendedItinerary> {
+    return http(`${BASE_PATH}`, "POST", itinerary);
+}
+
+/**
+ * Updates an existing itinerary with the provided details.
+ *
+ * @param itineraryId The unique identifier of the itinerary to be updated.
+ * @param itinerary The updated itinerary data.
+ * @returns A promise that resolves to the updated itinerary.
+ */
+export async function updateItinerary(itineraryId: number, itinerary: ExtendedItinerary): Promise<ExtendedItinerary> {
+    return http(`${BASE_PATH}/${itineraryId}`, "PUT", itinerary);
+}
