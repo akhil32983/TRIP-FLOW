@@ -23,7 +23,6 @@ export interface Itinerary {
     icon: string;
     title: string;
     place: string;
-    icon: string;
     people: number;
     budget: number;
     date: string;
