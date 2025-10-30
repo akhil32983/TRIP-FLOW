@@ -27,7 +27,6 @@ export interface Itinerary {
     budget: number;
     date: string;
     status: ItineraryStatus;
-    countDays: number;
     tags: string[];
 }
 

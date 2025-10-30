@@ -23,6 +23,8 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
         });
     };
 
+    const countDays = itinerary.days.length;
+
     return (
         <section className={styles.extendedItinerary}>
             {/* Header */}
@@ -44,7 +46,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                 <InfoCard icon={<UsersIcon size={ICON_SIZE} />} title="Personas" value={itinerary.people} />
                 <InfoCard icon={<PiggyBankIcon size={ICON_SIZE} />} title="Presupuesto" value={`${itinerary.budget} €`} />
                 <InfoCard icon={<CalendarIcon size={ICON_SIZE} />} title="Fecha" value={formatDate(itinerary.date)} />
-                <InfoCard icon={<AlarmClockIcon size={ICON_SIZE} />} title="Duración" value={`${itinerary.countDays} días`} />
+                <InfoCard icon={<AlarmClockIcon size={ICON_SIZE} />} title="Duración" value={`${countDays} ${countDays === 1 ? "día" : "días"}`} />
             </div>
 
             {/* Tags */}
