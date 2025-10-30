@@ -1,113 +1,136 @@
 import styles from "@styles/components/dashboard/ItinerariesPreview.module.css";
 
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 
 import type { Itinerary } from "@/types/itinerary";
+import type { PageData } from "@/types/shared";
 
-import Badge from "../shared/Badge";
+import { getUserItineraries } from "@/services/itineraryService";
 
-const FAKE_ITINERARIES: Itinerary[] = [
-    {
-        id: 1,
-        icon: "🗾",
-        title: "Aventura en Tokio",
-        place: "Tokio, Japón",
-        date: "15-24 Jul 2025",
-        countDays: 7,
-        people: 3,
-        budget: 1500,
-        tags: ["Cultura", "Gastronomía", "Aventura"],
-        status: "PLANNED",
-    },
-    {
-        id: 2,
-        icon: "🏞️",
-        title: "Exploración en Cusco",
-        place: "Cusco, Perú",
-        date: "01-10 Ago 2025",
-        countDays: 10,
-        people: 5,
-        budget: 2000,
-        tags: ["Historia", "Naturaleza"],
-        status: "ONGOING",
-    },
-    {
-        id: 3,
-        icon: "🗼",
-        title: "Escapada a París",
-        place: "París, Francia",
-        date: "15-20 Sep 2025",
-        countDays: 5,
-        people: 2,
-        budget: 1000,
-        tags: ["Romance", "Cultura"],
-        status: "PLANNED",
-    },
-    {
-        id: 4,
-        icon: "🏖️",
-        title: "Aventura en Sídney",
-        place: "Sídney, Australia",
-        date: "01-14 Oct 2025",
-        countDays: 14,
-        people: 20,
-        budget: 3000,
-        tags: ["Aventura", "Naturaleza"],
-        status: "COMPLETED",
-    },
-];
+import Badge from "@components/shared/Badge";
+import Button from "@components/shared/Button";
+import Loader from "@components/shared/Loader";
+
+const PAGE_SIZE = 10;
+
+const getDefaultPageData = (): PageData => ({
+    currentPage: 0,
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 10,
+    isLastPage: true,
+});
 
 export default function ItinerariesPreview() {
+    const [itineraries, setItineraries] = useState<Itinerary[]>([]);
+    const [pageData, setPageData] = useState<PageData>(getDefaultPageData());
+    const [isLoading, setIsLoading] = useState(true);
+    const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+    const fetchItineraries = async (page: number, append: boolean = false) => {
+        if (append) {
+            setIsLoadingMore(true);
+        } else {
+            setIsLoading(true);
+        }
+
+        const response = await getUserItineraries({ page, size: PAGE_SIZE });
+        if (!response) {
+            setIsLoading(false);
+            setIsLoadingMore(false);
+            return;
+        }
+
+        const { page: itinerariesData, ...pageMetadata } = response;
+    
+        setItineraries(append ? [...itineraries, ...itinerariesData] : itinerariesData);
+        setPageData(pageMetadata);
+        setIsLoading(false);
+        setIsLoadingMore(false);
+    };
+
+    const loadMore = () => {
+        fetchItineraries(pageData.currentPage + 1, true);
+    };
+
+    useEffect(() => {
+        fetchItineraries(0);
+    }, []);
+
+    if (isLoading) return <Loader size={24} />;
+
     return (
         <section className={styles.itinerariesPreview}>
-            {FAKE_ITINERARIES.map((itinerary, index) => (
-                <NavLink
-                    key={itinerary.id}
-                    to={`/itineraries/${itinerary.id}`}
-                    className={styles.itinerary}
-                    style={{ "--index": index + 1 } as React.CSSProperties}>
-                    <div className={styles.header}>
-                        <span className={styles.icon}>{itinerary.icon}</span>
-                        <Badge style="semi_thin" status={itinerary.status} />
-                    </div>
-                    <div className={styles.content}>
-                        <h3 className={styles.title}>{itinerary.title}</h3>
-                        <h4 className={styles.place}>{itinerary.place}</h4>
-                    </div>
-                    <div className={styles.stats}>
-                        <div className={styles.stat}>
-                            <span className={styles.label}>Fechas</span>
-                            <span className={styles.value}>
-                                {itinerary.date}
-                            </span>
+            {itineraries.length > 0 && (
+                <div className={styles.grid}>
+                {itineraries.map((itinerary, index) => (
+                    <NavLink
+                        key={itinerary.id}
+                        to={`/itineraries/${itinerary.id}`}
+                        className={styles.itinerary}
+                        style={{ "--index": index + 1 < 4 ? index + 1 : 3 } as React.CSSProperties}>
+                        <div className={styles.header}>
+                            <span className={styles.icon}>{itinerary.icon}</span>
+                            <Badge style="semi_thin" status={itinerary.status} />
                         </div>
-                        <div className={styles.stat}>
-                            <span className={styles.label}>Duración</span>
-                            <span className={styles.value}>
-                                {itinerary.countDays} días
-                            </span>
+                        <div className={styles.content}>
+                            <h3 className={styles.title}>{itinerary.title}</h3>
+                            <h4 className={styles.place}>{itinerary.place}</h4>
                         </div>
-                        <div className={styles.stat}>
-                            <span className={styles.label}>Integrantes</span>
-                            <span className={styles.value}>
-                                {itinerary.people}{" "}
-                                {itinerary.people > 1 ? "personas" : "persona"}
-                            </span>
+                        <div className={styles.stats}>
+                            <div className={styles.stat}>
+                                <span className={styles.label}>Fechas</span>
+                                <span className={styles.value}>
+                                    {itinerary.date}
+                                </span>
+                            </div>
+                            <div className={styles.stat}>
+                                <span className={styles.label}>Duración</span>
+                                <span className={styles.value}>
+                                    {itinerary.countDays} días
+                                </span>
+                            </div>
+                            <div className={styles.stat}>
+                                <span className={styles.label}>Integrantes</span>
+                                <span className={styles.value}>
+                                    {itinerary.people}{" "}
+                                    {itinerary.people > 1 ? "personas" : "persona"}
+                                </span>
+                            </div>
+                            <div className={styles.stat}>
+                                <span className={styles.label}>Presupuesto</span>
+                                <span className={styles.value}>
+                                    {itinerary.budget} €
+                                </span>
+                            </div>
                         </div>
-                        <div className={styles.stat}>
-                            <span className={styles.label}>Presupuesto</span>
-                            <span className={styles.value}>
-                                {itinerary.budget} €
-                            </span>
+                        <div className={styles.tags}>
+                            {itinerary.tags.map((tag, index) => (
+                                <Badge key={index} style="thin" title={tag} />
+                            ))}
                         </div>
-                    </div>
-                    <div className={styles.tags}>
-                        {itinerary.tags.map((tag, index) => (
-                            <Badge key={index} style="thin" title={tag} />
-                        ))}
-                    </div>
-                </NavLink>
-            ))}
+                    </NavLink>
+                ))}
+                </div>
+            )}
+            {!pageData.isLastPage && (
+                <div className={styles.loadMore}>
+                    <Button
+                        style={["secondary"]} 
+                        label={isLoadingMore ? "Cargando..." : "Cargar más"}
+                        onClick={loadMore}
+                        disabled={isLoadingMore}
+                    />
+                </div>
+            )}
+
+            {itineraries.length === 0 && (
+                <div className={styles.empty}>
+                    <p>No tienes itinerarios todavía.</p>
+                    <Button style={["primary"]} label="Crear itinerario" to="/itineraries/new" />
+                </div>
+            )}
         </section>
     );
 }
