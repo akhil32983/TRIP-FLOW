@@ -17,7 +17,7 @@ const FAKE_ITINERARIES: Itinerary[] = [
         people: 3,
         budget: 1500,
         tags: ["Cultura", "Gastronomía", "Aventura"],
-        status: "ACTIVE",
+        status: "PLANNED",
     },
     {
         id: 2,
@@ -41,7 +41,7 @@ const FAKE_ITINERARIES: Itinerary[] = [
         people: 2,
         budget: 1000,
         tags: ["Romance", "Cultura"],
-        status: "ACTIVE",
+        status: "PLANNED",
     },
     {
         id: 4,

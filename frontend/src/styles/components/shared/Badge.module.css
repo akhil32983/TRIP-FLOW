@@ -32,7 +32,7 @@
         font-weight: var(--font-weight-normal);
     }
 
-        &.active {
+    &.planned {
         color: var(--active-text);
         background-color: var(--active);
         border-color: var(--active-border);
