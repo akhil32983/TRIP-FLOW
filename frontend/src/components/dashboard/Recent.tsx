@@ -57,7 +57,9 @@ export default function Recent() {
         <section className={styles.recent}>
             <div className={styles.header}>
                 <h2 className={styles.title}>Itinerarios recientes</h2>
-                <Button style={["secondary"]} label="Ver todos" to="/itineraries"/>
+                {!isLoading && recentItineraries.length > 0 && (
+                    <Button style={["secondary"]} label="Ver todos" to="/itineraries"/>
+                )}
             </div>
 
             {isLoading && <Loader size={12} />}
