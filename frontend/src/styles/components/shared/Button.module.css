@@ -56,6 +56,16 @@
     font-weight: var(--font-weight-bold);
     text-transform: uppercase;
 
+    &.danger {
+        border: 1px solid var(--error);
+        color: var(--error);
+    }
+
+    &.info {
+        border: 1px solid var(--info-border);
+        color: var(--info-text);
+    }
+
     &:hover {
         filter: brightness(1.20);
     }
