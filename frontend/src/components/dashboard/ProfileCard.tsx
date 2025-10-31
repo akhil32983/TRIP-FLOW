@@ -4,17 +4,14 @@ import { useAuth } from "@/providers/authProvider";
 
 import { CalendarIcon, MapPinIcon } from "lucide-react";
 import Avatar from "@components/shared/Avatar";
+import { formatDate } from "@/utils/formatUtils";
 
 export default function ProfileCard() {
     const { user } = useAuth();
 
-    const joinedDate = user?.createdAt
-        ? new Date(user.createdAt).toLocaleDateString("es-ES", { year: "numeric", month: "long" })
-        : "¿?";
-    
+    const joinedDate = user?.createdAt ? formatDate(user.createdAt, { excludeDay: true }) : "¿?";
     const location = user?.location === "¿?" ? "Alguna parte del mundo" : user?.location;
-
-    const description = user?.description || "Aún no has añadido una descripción a tu perfil.";
+    const description = user?.description || "Sin descripción.";
 
     return (
         <section className={styles.profileCard}>

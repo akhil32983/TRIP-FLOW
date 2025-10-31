@@ -67,11 +67,14 @@
             flex-wrap: wrap;
             font-size: var(--font-size-sm);
             color: var(--text-tertiary);
+            gap: var(--space-md);
 
             .profileMetadataItem {
                 display: flex;
                 align-items: center;
+                justify-content: center;
                 gap: var(--space-sm);
+                flex-wrap: wrap;
             }
         }
     }
@@ -86,5 +89,17 @@
         position: absolute;
         top: var(--space);
         right: var(--space);
+    }
+}
+
+@media (max-width: 624px) {
+    .profileCard {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .profileInfo .profileMetadata {
+            justify-content: center;
+        }
     }
 }

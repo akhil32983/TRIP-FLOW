@@ -126,7 +126,7 @@ describe("ProfileCard Component", () => {
         render(<ProfileCard />);
 
         expect(
-            screen.getByText("Aún no has añadido una descripción a tu perfil.")
+            screen.getByText("Sin descripción.")
         ).toBeInTheDocument();
     });
 
