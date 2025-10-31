@@ -65,6 +65,8 @@ vi.mock("lucide-react", () => ({
     Save: () => <span data-testid="save-icon">Save</span>,
 }));
 
+const onSaveMock = vi.fn();
+
 const mockItinerary: ExtendedItinerary = {
     id: 1,
     icon: "✈️",
@@ -115,7 +117,7 @@ describe("ItineraryEditForm Component", () => {
 
     it("renders itinerary edit form", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         expect(container.firstChild).toBeInTheDocument();
@@ -123,7 +125,7 @@ describe("ItineraryEditForm Component", () => {
 
     it("renders form header with itinerary title", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         const h2 = container.querySelector("h2");
@@ -132,7 +134,7 @@ describe("ItineraryEditForm Component", () => {
 
     it("renders itinerary icon in header", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         const h2 = container.querySelector("h2");
@@ -140,38 +142,38 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("renders save button in header", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         expect(screen.getByText("Guardar")).toBeInTheDocument();
     });
 
     it("renders save icon in header button", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         const saveIcons = screen.getAllByTestId("save-icon");
         expect(saveIcons.length).toBeGreaterThan(0);
     });
 
     it("renders BasicInfoSection component", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         expect(screen.getByTestId("basic-info-section")).toBeInTheDocument();
     });
 
     it("renders ItinerarySection component", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         expect(screen.getByTestId("itinerary-section")).toBeInTheDocument();
     });
 
     it("renders footer with save button", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         expect(screen.getByText("Guardar Todo")).toBeInTheDocument();
     });
 
     it("renders two save buttons", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         const buttons = screen.getAllByTestId("button");
         const saveButtons = buttons.filter((btn) =>
@@ -213,14 +215,14 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("renders with empty itinerary", () => {
-        render(<ItineraryEditForm initialItinerary={mockEmptyItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockEmptyItinerary} onSave={onSaveMock} />);
 
         expect(screen.getByTestId("basic-info-section")).toBeInTheDocument();
     });
 
     it("renders form header container", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         const formHeader = container.querySelector('[class*="formHeader"]');
@@ -229,7 +231,7 @@ describe("ItineraryEditForm Component", () => {
 
     it("renders form footer container", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         const formFooter = container.querySelector('[class*="formFooter"]');
@@ -238,7 +240,7 @@ describe("ItineraryEditForm Component", () => {
 
     it("renders edit form container", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         const editForm = container.querySelector('[class*="editForm"]');
@@ -246,7 +248,7 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("passes correct props to BasicInfoSection", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         expect(
             screen.getByText(/Basic Info: Viaje a París/)
@@ -254,13 +256,13 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("passes correct props to ItinerarySection", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         expect(screen.getByText(/Days: 3/)).toBeInTheDocument();
     });
 
     it("header save button has primary style", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         const buttons = screen.getAllByTestId("button");
         const saveButtons = buttons.filter((btn) =>
@@ -270,7 +272,7 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("footer save button has primary style", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
         const buttons = screen.getAllByTestId("button");
         const saveButtons = buttons.filter((btn) =>
@@ -281,7 +283,7 @@ describe("ItineraryEditForm Component", () => {
 
     it("renders header as h2", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} />
+            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
         );
 
         const h2 = container.querySelector("h2");
@@ -289,7 +291,7 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("works without onSave callback", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} />);
+        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>);
 
         const saveButton = screen.getByText("Guardar");
 
