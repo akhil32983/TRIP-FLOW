@@ -1,16 +1,11 @@
 import ItinerariesPreview from "@components/dashboard/ItinerariesPreview";
 
-import { render, screen, waitFor } from "@tests/utils/testUtils";
+import { render, screen, fireEvent } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import type { ItineraryStatus } from "@/types/itinerary";
-import { getUserItineraries } from "@/services/itineraryService";
 
 // Secondary dependency mocks
-vi.mock("@/services/itineraryService", () => ({
-    getUserItineraries: vi.fn(),
-}));
-
 vi.mock("@components/shared/Badge", () => ({
     default: ({
         children,
@@ -26,12 +21,14 @@ vi.mock("@components/shared/Button", () => ({
         label,
         onClick,
         disabled,
+        to,
     }: {
         label: string;
         onClick?: () => void;
         disabled?: boolean;
+        to?: string;
     }) => (
-        <button onClick={onClick} disabled={disabled}>
+        <button onClick={onClick} disabled={disabled} data-to={to}>
             {label}
         </button>
     ),
@@ -69,170 +66,199 @@ const mockItineraries = [
 ];
 
 describe("ItinerariesPreview Component", () => {
+    let mockLoadMore: ReturnType<typeof vi.fn>;
+
     beforeEach(() => {
+        mockLoadMore = vi.fn();
         vi.clearAllMocks();
     });
 
     it("renders loading state initially", () => {
-        vi.mocked(getUserItineraries).mockImplementation(
-            () => new Promise(() => {})
+        render(
+            <ItinerariesPreview
+                itineraries={[]}
+                loadMore={mockLoadMore}
+                isLoading={true}
+                isLoadingMore={false}
+                isLastPage={false}
+            />
         );
-
-        render(<ItinerariesPreview />);
 
         expect(screen.getByTestId("loader")).toBeInTheDocument();
     });
 
-    it("renders itineraries after loading", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders itineraries after loading", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            expect(screen.getByText("Japan Trip")).toBeInTheDocument();
-            expect(screen.getByText("Adventure in Peru")).toBeInTheDocument();
-        });
+        expect(screen.getByText("Japan Trip")).toBeInTheDocument();
+        expect(screen.getByText("Adventure in Peru")).toBeInTheDocument();
     });
 
-    it("renders as section element", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders as section element", () => {
+        const { container } = render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        const { container } = render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            const section = container.querySelector("section");
-            expect(section).toBeInTheDocument();
-        });
+        const section = container.querySelector("section");
+        expect(section).toBeInTheDocument();
     });
 
-    it("renders itinerary links with correct href", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders itinerary links with correct href", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            const links = screen.getAllByRole("link");
-            expect(links.length).toBe(2);
-            expect(links[0]).toHaveAttribute("href", "/itineraries/1");
-            expect(links[1]).toHaveAttribute("href", "/itineraries/2");
-        });
+        const links = screen.getAllByRole("link");
+        expect(links.length).toBe(2);
+        expect(links[0]).toHaveAttribute("href", "/itineraries/1");
+        expect(links[1]).toHaveAttribute("href", "/itineraries/2");
     });
 
-    it("renders badges for status and tags", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders badges for status and tags", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            const badges = screen.getAllByTestId("badge");
-            expect(badges.length).toBeGreaterThan(0);
-        });
+        const badges = screen.getAllByTestId("badge");
+        expect(badges.length).toBeGreaterThan(0);
     });
 
-    it("renders itinerary details correctly", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders itinerary details correctly", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            expect(screen.getByText("Tokyo")).toBeInTheDocument();
-            expect(screen.getByText("15 de junio de 2024")).toBeInTheDocument();
-            expect(screen.getByText(/7\s+días/)).toBeInTheDocument();
-            expect(screen.getByText(/2\s+personas/)).toBeInTheDocument();
-            expect(screen.getByText(/3.000, 00\s+€/)).toBeInTheDocument();
-        });
+        expect(screen.getByText("Tokyo")).toBeInTheDocument();
+        expect(screen.getByText("15 de junio de 2024")).toBeInTheDocument();
+        expect(screen.getByText(/7\s+días/)).toBeInTheDocument();
+        expect(screen.getByText(/2\s+personas/)).toBeInTheDocument();
+        expect(screen.getByText(/3.000, 00\s+€/)).toBeInTheDocument();
     });
 
-    it("renders load more button when not last page", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 2,
-            totalItems: 15,
-            itemsPerPage: 10,
-            isLastPage: false,
-        });
+    it("renders load more button when not last page", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={false}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            expect(screen.getByText("Cargar más")).toBeInTheDocument();
-        });
+        expect(screen.getByText("Cargar más")).toBeInTheDocument();
     });
 
-    it("does not render load more button on last page", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("does not render load more button on last page", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            expect(screen.queryByText("Cargar más")).not.toBeInTheDocument();
-        });
+        expect(screen.queryByText("Cargar más")).not.toBeInTheDocument();
     });
 
-    it("renders empty state when no itineraries", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: [],
-            currentPage: 0,
-            totalPages: 0,
-            totalItems: 0,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("calls loadMore when button is clicked", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={false}
+            />
+        );
 
-        render(<ItinerariesPreview />);
+        const button = screen.getByText("Cargar más");
+        fireEvent.click(button);
 
-        await waitFor(() => {
-            expect(
-                screen.getByText("No tienes itinerarios todavía.")
-            ).toBeInTheDocument();
-            expect(screen.getByText("Crear itinerario")).toBeInTheDocument();
-        });
+        expect(mockLoadMore).toHaveBeenCalledTimes(1);
     });
 
-    it("handles singular person count correctly", async () => {
+    it("shows loading text when loading more", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={true}
+                isLastPage={false}
+            />
+        );
+
+        expect(screen.getByText("Cargando...")).toBeInTheDocument();
+    });
+
+    it("disables load more button when loading", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={true}
+                isLastPage={false}
+            />
+        );
+
+        const button = screen.getByText("Cargando...");
+        expect(button).toBeDisabled();
+    });
+
+    it("renders empty state when no itineraries", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={[]}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
+
+        expect(
+            screen.getByText("No tienes itinerarios todavía.")
+        ).toBeInTheDocument();
+        expect(screen.getByText("Crear itinerario")).toBeInTheDocument();
+    });
+
+    it("handles singular person count correctly", () => {
         const singlePersonItinerary = [
             {
                 ...mockItineraries[1],
@@ -240,77 +266,102 @@ describe("ItinerariesPreview Component", () => {
             },
         ];
 
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: singlePersonItinerary,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 1,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+        render(
+            <ItinerariesPreview
+                itineraries={singlePersonItinerary}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            expect(screen.getByText(/1\s+persona/)).toBeInTheDocument();
-        });
+        expect(screen.getByText(/1\s+persona/)).toBeInTheDocument();
     });
 
-    it("renders itinerary icons correctly", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("handles singular day count correctly", () => {
+        const singleDayItinerary = [
+            {
+                ...mockItineraries[0],
+                countDays: 1,
+            },
+        ];
 
-        render(<ItinerariesPreview />);
+        render(
+            <ItinerariesPreview
+                itineraries={singleDayItinerary}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        await waitFor(() => {
-            expect(screen.getByText("🗾")).toBeInTheDocument();
-            expect(screen.getByText("🏔️")).toBeInTheDocument();
-        });
+        expect(screen.getByText(/1\s+día/)).toBeInTheDocument();
     });
 
-    it("renders all stat labels", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders itinerary icons correctly", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
-
-        await waitFor(() => {
-            const labels = screen.getAllByText(
-                /Fechas|Duración|Integrantes|Presupuesto/
-            );
-            expect(labels.length).toBeGreaterThan(0);
-        });
+        expect(screen.getByText("🗾")).toBeInTheDocument();
+        expect(screen.getByText("🏔️")).toBeInTheDocument();
     });
 
-    it("renders correct number of tags", async () => {
-        vi.mocked(getUserItineraries).mockResolvedValue({
-            page: mockItineraries,
-            currentPage: 0,
-            totalPages: 1,
-            totalItems: 2,
-            itemsPerPage: 10,
-            isLastPage: true,
-        });
+    it("renders all stat labels", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
 
-        render(<ItinerariesPreview />);
+        expect(screen.getAllByText("Fecha").length).toBeGreaterThan(0);
+        expect(screen.getAllByText("Duración").length).toBeGreaterThan(0);
+        expect(screen.getAllByText("Integrantes").length).toBeGreaterThan(0);
+        expect(screen.getAllByText("Presupuesto").length).toBeGreaterThan(0);
+    });
 
-        await waitFor(() => {
-            expect(screen.getByText("culture")).toBeInTheDocument();
-            expect(screen.getByText("gastronomy")).toBeInTheDocument();
-            expect(screen.getByText("adventure")).toBeInTheDocument();
-            expect(screen.getByText("nature")).toBeInTheDocument();
-        });
+    it("renders correct number of tags", () => {
+        render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
+
+        expect(screen.getByText("culture")).toBeInTheDocument();
+        expect(screen.getByText("gastronomy")).toBeInTheDocument();
+        expect(screen.getByText("adventure")).toBeInTheDocument();
+        expect(screen.getByText("nature")).toBeInTheDocument();
+    });
+
+    it("applies correct CSS animation index", () => {
+        const { container } = render(
+            <ItinerariesPreview
+                itineraries={mockItineraries}
+                loadMore={mockLoadMore}
+                isLoading={false}
+                isLoadingMore={false}
+                isLastPage={true}
+            />
+        );
+
+        const links = container.querySelectorAll("a");
+        expect(links[0]).toHaveStyle({ "--index": "1" });
+        expect(links[1]).toHaveStyle({ "--index": "2" });
     });
 });

@@ -4,16 +4,15 @@ import { SearchIcon } from "lucide-react";
 
 interface SearchbarProps {
     placeHolder: string;
-    onSearch: (query: string) => void;
+    onInputChange: (value: string) => void;
+    onSearch: () => void;
 }
 
-export default function Searchbar({ placeHolder, onSearch }: SearchbarProps) {
+export default function Searchbar({ placeHolder, onInputChange, onSearch }: SearchbarProps) {
     // Handle form submission
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const input = event.currentTarget.querySelector("input");
-
-        if (input) onSearch(input.value);
+        onSearch();
     };
 
     return (
@@ -23,6 +22,7 @@ export default function Searchbar({ placeHolder, onSearch }: SearchbarProps) {
                 type="text"
                 placeholder={placeHolder}
                 className={styles.input}
+                onChange={(e) => onInputChange(e.target.value)}
             />
             <button type="submit" className={styles.button}>
                 <SearchIcon size={20} />

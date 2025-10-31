@@ -1,21 +1,37 @@
 import Searchbar from "@components/shared/Searchbar";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 
 describe("Searchbar Component", () => {
+    let mockOnSearch: ReturnType<typeof vi.fn>;
+    let mockOnInputChange: ReturnType<typeof vi.fn>;
+
+    beforeEach(() => {
+        mockOnSearch = vi.fn();
+        mockOnInputChange = vi.fn();
+    });
+
     it("renders searchbar with placeholder", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Buscar..." onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Buscar..."
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByPlaceholderText("Buscar...");
         expect(input).toBeInTheDocument();
     });
 
     it("renders as form element", () => {
-        const mockOnSearch = vi.fn();
         const { container } = render(
-            <Searchbar placeHolder="Search" onSearch={mockOnSearch} />
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
         );
 
         const form = container.querySelector("form");
@@ -23,8 +39,13 @@ describe("Searchbar Component", () => {
     });
 
     it("renders search input", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByRole("textbox");
         expect(input).toBeInTheDocument();
@@ -32,8 +53,13 @@ describe("Searchbar Component", () => {
     });
 
     it("renders search button", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const button = screen.getByRole("button");
         expect(button).toBeInTheDocument();
@@ -41,53 +67,72 @@ describe("Searchbar Component", () => {
     });
 
     it("input has correct id", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByRole("textbox");
         expect(input).toHaveAttribute("id", "search-input");
     });
 
     it("calls onSearch when form is submitted", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
-        const input = screen.getByRole("textbox");
         const form = screen.getByRole("textbox").closest("form");
-
-        fireEvent.change(input, { target: { value: "test query" } });
         fireEvent.submit(form!);
 
-        expect(mockOnSearch).toHaveBeenCalledWith("test query");
         expect(mockOnSearch).toHaveBeenCalledTimes(1);
     });
 
     it("calls onSearch when button is clicked", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
-        const input = screen.getByRole("textbox");
         const button = screen.getByRole("button");
-
-        fireEvent.change(input, { target: { value: "button click test" } });
         fireEvent.click(button);
 
-        expect(mockOnSearch).toHaveBeenCalledWith("button click test");
+        expect(mockOnSearch).toHaveBeenCalledTimes(1);
     });
 
-    it("calls onSearch with empty string if input is empty", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+    it("calls onInputChange when user types", () => {
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
-        const form = screen.getByRole("textbox").closest("form");
-        fireEvent.submit(form!);
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, { target: { value: "test query" } });
 
-        expect(mockOnSearch).toHaveBeenCalledWith("");
+        expect(mockOnInputChange).toHaveBeenCalledWith("test query");
+        expect(mockOnInputChange).toHaveBeenCalledTimes(1);
     });
 
     it("prevents default form submission", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const form = screen.getByRole("textbox").closest("form");
         const submitEvent = new Event("submit", {
@@ -102,20 +147,27 @@ describe("Searchbar Component", () => {
     });
 
     it("allows user to type in input", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByRole("textbox") as HTMLInputElement;
-
         fireEvent.change(input, { target: { value: "my search" } });
 
         expect(input.value).toBe("my search");
     });
 
     it("applies correct CSS class to form", () => {
-        const mockOnSearch = vi.fn();
         const { container } = render(
-            <Searchbar placeHolder="Search" onSearch={mockOnSearch} />
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
         );
 
         const form = container.querySelector("form");
@@ -123,25 +175,38 @@ describe("Searchbar Component", () => {
     });
 
     it("applies correct CSS class to input", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByRole("textbox");
         expect(input.className).toMatch(/input/);
     });
 
     it("applies correct CSS class to button", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const button = screen.getByRole("button");
         expect(button.className).toMatch(/button/);
     });
 
     it("renders SearchIcon in button", () => {
-        const mockOnSearch = vi.fn();
         const { container } = render(
-            <Searchbar placeHolder="Search" onSearch={mockOnSearch} />
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
         );
 
         const button = container.querySelector("button");
@@ -151,63 +216,131 @@ describe("Searchbar Component", () => {
     });
 
     it("handles multiple submissions", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
-        const input = screen.getByRole("textbox");
-        const form = input.closest("form");
+        const form = screen.getByRole("textbox").closest("form");
 
-        fireEvent.change(input, { target: { value: "first search" } });
         fireEvent.submit(form!);
-
-        fireEvent.change(input, { target: { value: "second search" } });
         fireEvent.submit(form!);
 
         expect(mockOnSearch).toHaveBeenCalledTimes(2);
-        expect(mockOnSearch).toHaveBeenNthCalledWith(1, "first search");
-        expect(mockOnSearch).toHaveBeenNthCalledWith(2, "second search");
     });
 
-    it("handles special characters in search", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+    it("calls onInputChange with special characters", () => {
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByRole("textbox");
-        const form = input.closest("form");
-
         fireEvent.change(input, { target: { value: "test@#$%^&*()" } });
-        fireEvent.submit(form!);
 
-        expect(mockOnSearch).toHaveBeenCalledWith("test@#$%^&*()");
+        expect(mockOnInputChange).toHaveBeenCalledWith("test@#$%^&*()");
     });
 
-    it("trims whitespace from search query", () => {
-        const mockOnSearch = vi.fn();
-        render(<Searchbar placeHolder="Search" onSearch={mockOnSearch} />);
+    it("calls onInputChange with whitespace", () => {
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
 
         const input = screen.getByRole("textbox");
-        const form = input.closest("form");
-
         fireEvent.change(input, { target: { value: "  spaces  " } });
-        fireEvent.submit(form!);
 
-        expect(mockOnSearch).toHaveBeenCalledWith("  spaces  ");
+        expect(mockOnInputChange).toHaveBeenCalledWith("  spaces  ");
     });
 
     it("renders with different placeholders", () => {
-        const mockOnSearch = vi.fn();
         const { rerender } = render(
-            <Searchbar placeHolder="Search here" onSearch={mockOnSearch} />
+            <Searchbar
+                placeHolder="Search here"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
         );
 
         expect(screen.getByPlaceholderText("Search here")).toBeInTheDocument();
 
         rerender(
-            <Searchbar placeHolder="Find something" onSearch={mockOnSearch} />
+            <Searchbar
+                placeHolder="Find something"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
         );
 
         expect(
             screen.getByPlaceholderText("Find something")
         ).toBeInTheDocument();
+    });
+
+    it("calls onInputChange multiple times as user types", () => {
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
+
+        const input = screen.getByRole("textbox");
+
+        fireEvent.change(input, { target: { value: "h" } });
+        fireEvent.change(input, { target: { value: "he" } });
+        fireEvent.change(input, { target: { value: "hel" } });
+
+        expect(mockOnInputChange).toHaveBeenCalledTimes(3);
+        expect(mockOnInputChange).toHaveBeenNthCalledWith(1, "h");
+        expect(mockOnInputChange).toHaveBeenNthCalledWith(2, "he");
+        expect(mockOnInputChange).toHaveBeenNthCalledWith(3, "hel");
+    });
+
+    it("calls onInputChange with empty string", () => {
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
+
+        const input = screen.getByRole("textbox") as HTMLInputElement;
+
+        // First type something
+        fireEvent.change(input, { target: { value: "test" } });
+
+        // Then clear it
+        fireEvent.change(input, { target: { value: "" } });
+
+        expect(mockOnInputChange).toHaveBeenCalledWith("");
+        expect(mockOnInputChange).toHaveBeenCalledTimes(2);
+    });
+
+    it("does not call onSearch when only typing without submitting", () => {
+        render(
+            <Searchbar
+                placeHolder="Search"
+                onSearch={mockOnSearch}
+                onInputChange={mockOnInputChange}
+            />
+        );
+
+        const input = screen.getByRole("textbox");
+        fireEvent.change(input, { target: { value: "test" } });
+
+        expect(mockOnSearch).not.toHaveBeenCalled();
+        expect(mockOnInputChange).toHaveBeenCalled();
     });
 });

@@ -1,64 +1,26 @@
 import styles from "@styles/components/dashboard/ItinerariesPreview.module.css";
 
-import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 
 import type { Itinerary } from "@/types/itinerary";
-import type { PageData } from "@/types/shared";
 
-import { getUserItineraries } from "@/services/itineraryService";
+import { formatBudget, formatDate } from "@/utils/formatUtils";
 
 import Badge from "@components/shared/Badge";
 import Button from "@components/shared/Button";
 import Loader from "@components/shared/Loader";
-import { formatBudget, formatDate } from "@/utils/formatUtils";
 
-const PAGE_SIZE = 10;
+interface ItinerariesPreviewProps {
+    itineraries: Itinerary[];
+    loadMore: () => void;
+    isLoading: boolean;
+    isLoadingMore: boolean;
+    isLastPage: boolean;
+}
 
-const getDefaultPageData = (): PageData => ({
-    currentPage: 0,
-    totalPages: 0,
-    totalItems: 0,
-    itemsPerPage: 10,
-    isLastPage: true,
-});
-
-export default function ItinerariesPreview() {
-    const [itineraries, setItineraries] = useState<Itinerary[]>([]);
-    const [pageData, setPageData] = useState<PageData>(getDefaultPageData());
-    const [isLoading, setIsLoading] = useState(true);
-    const [isLoadingMore, setIsLoadingMore] = useState(false);
-
-    const fetchItineraries = async (page: number, append: boolean = false) => {
-        if (append) {
-            setIsLoadingMore(true);
-        } else {
-            setIsLoading(true);
-        }
-
-        const response = await getUserItineraries({ page, size: PAGE_SIZE });
-        if (!response) {
-            setIsLoading(false);
-            setIsLoadingMore(false);
-            return;
-        }
-
-        const { page: itinerariesData, ...pageMetadata } = response;
-    
-        setItineraries(append ? [...itineraries, ...itinerariesData] : itinerariesData);
-        setPageData(pageMetadata);
-        setIsLoading(false);
-        setIsLoadingMore(false);
-    };
-
-    const loadMore = () => {
-        fetchItineraries(pageData.currentPage + 1, true);
-    };
-
-    useEffect(() => {
-        fetchItineraries(0);
-    }, []);
-
+export default function ItinerariesPreview(
+    { itineraries, loadMore, isLoading, isLoadingMore, isLastPage }: ItinerariesPreviewProps
+) {
     if (isLoading) return <Loader size={24} />;
 
     return (
@@ -116,7 +78,7 @@ export default function ItinerariesPreview() {
                 ))}
                 </div>
             )}
-            {!pageData.isLastPage && (
+            {!isLastPage && (
                 <div className={styles.loadMore}>
                     <Button
                         style={["secondary"]} 
