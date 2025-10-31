@@ -1,10 +1,14 @@
 import type { ItineraryStatus } from "@/types/itinerary";
 
-export const formatDate = (dateString: string) => {
+interface FormatDateOptions {
+    excludeDay?: boolean;
+}
+
+export const formatDate = (dateString: string, options?: FormatDateOptions) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
         year: "numeric",
         month: "long",
-        day: "numeric",
+        day: options?.excludeDay ? undefined : "numeric",
     });
 };
 
