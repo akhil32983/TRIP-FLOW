@@ -45,3 +45,13 @@ export async function createItinerary(itinerary: ExtendedItinerary): Promise<Ext
 export async function updateItinerary(itineraryId: number, itinerary: ExtendedItinerary): Promise<ExtendedItinerary> {
     return http(`${BASE_PATH}/${itineraryId}`, "PUT", itinerary);
 }
+
+/**
+ * Deletes an itinerary by its ID.
+ *
+ * @param itineraryId The unique identifier of the itinerary to be deleted.
+ * @returns A promise that resolves when the itinerary is deleted.
+ */
+export async function deleteItinerary(itineraryId: number): Promise<void> {
+    return http(`${BASE_PATH}/${itineraryId}`, "DELETE");
+}
