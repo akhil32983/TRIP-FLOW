@@ -8,11 +8,17 @@ const BASE_PATH = "/api/v1/itineraries";
 /**
  * Retrieves a paginated list of itineraries for the current user.
  * 
- * @param requestParams Pagination parameters including page number and size.
+ * @param pageParams Pagination parameters including page number and size.
+ * @param search Optional search query to filter itineraries.
  * @returns A promise that resolves to a paginated response of itineraries.
  */
-export async function getUserItineraries(requestParams: PageRequest = { page: 0, size: 10 }): Promise<PageResponse<Itinerary>> {
-    return http(`${BASE_PATH}?page=${requestParams.page}&size=${requestParams.size}`, "GET");
+export async function getUserItineraries(
+    pageParams: PageRequest = { page: 0, size: 10 },
+    search?: string
+): Promise<PageResponse<Itinerary>> {
+    const pageParamsString = `page=${pageParams.page}&size=${pageParams.size}`;
+    const searchParamsString = search ? `&search=${search}` : "";
+    return http(`${BASE_PATH}?${pageParamsString}${searchParamsString}`, "GET");
 }
 
 /**
