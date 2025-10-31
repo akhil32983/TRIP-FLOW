@@ -96,7 +96,7 @@ public class ItineraryServiceTest {
         ItineraryDTO itineraryDTO = mock(ItineraryDTO.class);
         when(itineraryMapper.toDTOs(itineraryList)).thenReturn(List.of(itineraryDTO));
 
-        PaginatedDTO<ItineraryDTO> result = itineraryService.getAllItineraries(pageable);
+        PaginatedDTO<ItineraryDTO> result = itineraryService.getAllItineraries(pageable, null);
 
         assertEquals(1, result.page().size());
         assertEquals(0, result.currentPage());

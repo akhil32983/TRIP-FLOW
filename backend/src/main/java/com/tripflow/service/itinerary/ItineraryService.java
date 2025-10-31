@@ -77,14 +77,25 @@ public class ItineraryService {
      * Retrieves all itineraries for the authenticated user, paginated.
      *
      * @param pageable pagination information
+     * @param search optional search query to filter itineraries
      * @return a PaginatedDTO containing a list of ItineraryDTOs
      */
     @Transactional
-    public PaginatedDTO<ItineraryDTO> getAllItineraries(Pageable pageable) {
+    public PaginatedDTO<ItineraryDTO> getAllItineraries(Pageable pageable, String search) {
         User authenticatedUser = this.userService.getAuthenticatedUser();
 
         // Retrieve paginated itineraries for the authenticated user
-        Page<Itinerary> itinerariesPage = this.itineraryRepository.findAllByUserOrderByUpdatedAtDesc(authenticatedUser, pageable);
+        Page<Itinerary> itinerariesPage;
+
+        if (search != null && !search.trim().isEmpty()) {
+            itinerariesPage = this.itineraryRepository.findAllByUserAndSearchOrderByUpdatedAtDesc(
+                authenticatedUser, search.trim(), pageable
+            );
+        } else {
+            itinerariesPage = this.itineraryRepository.findAllByUserOrderByUpdatedAtDesc(
+                authenticatedUser, pageable
+            );
+        }
 
         // Map the retrieved itineraries to DTOs
         List<ItineraryDTO> itineraryDTOs = this.itineraryMapper.toDTOs(itinerariesPage.getContent());

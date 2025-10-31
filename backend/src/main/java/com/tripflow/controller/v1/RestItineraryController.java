@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -45,10 +46,11 @@ public class RestItineraryController {
 
     @GetMapping({"", "/"})
     public ResponseEntity<PaginatedDTO<ItineraryDTO>> getAllItineraries(
-        @PageableDefault(page = 0, size = 10) Pageable pageable
+        @PageableDefault(page = 0, size = 10) Pageable pageable,
+        @RequestParam(required = false) String search
     ) {
         try {
-            PaginatedDTO<ItineraryDTO> itineraries = this.itineraryService.getAllItineraries(pageable);
+            PaginatedDTO<ItineraryDTO> itineraries = this.itineraryService.getAllItineraries(pageable, search);
             return ResponseEntity.ok(itineraries);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();

@@ -101,6 +101,44 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
     }
 
     @Test
+    @DisplayName("Test get all itineraries with search query")
+    public void testGetAllItinerariesWithSearch() {
+        String authToken = AuthTestUtils.authenticateUserAndGetToken("user");
+
+        // Create a test itinerary first
+        ExtendedItineraryDTO itineraryDTO = createTestItinerary();
+        
+        RestAssured
+        .given()
+            .contentType(ContentType.JSON)
+            .cookie("auth_token", authToken)
+            .body(itineraryDTO)
+        .when()
+            .post("/v1/itineraries")
+        .then()
+            .statusCode(201);
+
+        // Get all itineraries with search
+        RestAssured
+        .given()
+            .cookie("auth_token", authToken)
+            .param("page", 0)
+            .param("size", 10)
+            .param("search", "Paris")
+        .when()
+            .get("/v1/itineraries")
+        .then()
+            .statusCode(200)
+            .body("page", hasSize(greaterThanOrEqualTo(1)))
+            .body("page[0].place", equalTo("Paris"))
+            .body("currentPage", equalTo(0))
+            .body("itemsPerPage", equalTo(10))
+            .body("totalItems", greaterThanOrEqualTo(1))
+            .body("totalPages", greaterThanOrEqualTo(1))
+            .body("isLastPage", is(true));
+    }
+
+    @Test
     @DisplayName("Test get all itineraries without authentication")
     public void testGetAllItinerariesUnauthorized() {
         RestAssured
