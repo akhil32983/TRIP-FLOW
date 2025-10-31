@@ -212,24 +212,6 @@ describe("ItineraryEditForm Component", () => {
         expect(mockOnSave).toHaveBeenCalledWith(mockItinerary);
     });
 
-    it("shows success alert when saved successfully", () => {
-        const mockOnSave = vi.fn();
-
-        render(
-            <ItineraryEditForm
-                initialItinerary={mockItinerary}
-                onSave={mockOnSave}
-            />
-        );
-
-        const saveButton = screen.getByText("Guardar");
-        fireEvent.click(saveButton);
-
-        expect(window.alert).toHaveBeenCalledWith(
-            "Itinerary saved successfully!"
-        );
-    });
-
     it("renders with empty itinerary", () => {
         render(<ItineraryEditForm initialItinerary={mockEmptyItinerary} />);
 

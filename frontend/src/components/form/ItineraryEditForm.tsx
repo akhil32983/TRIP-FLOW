@@ -49,9 +49,7 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
             return;
         }
 
-        onSave?.(itinerary);
-        console.log("Itinerary saved successfully:", itinerary);
-        alert("Itinerary saved successfully!");
+        onSave(itinerary);
     }, [itinerary, onSave, validateItinerary]);
 
     return (

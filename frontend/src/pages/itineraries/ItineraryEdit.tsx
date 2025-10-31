@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router";
+import { Navigate, useNavigate, useParams } from "react-router";
 
 import type { ExtendedItinerary as Itinerary } from "@/types/itinerary";
 
@@ -14,12 +14,15 @@ export default function ItineraryEdit() {
     const [itinerary, setItinerary] = useState<Itinerary | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const navigate = useNavigate();
+
     const { id } = useParams<{ id: string }>();
     const itineraryId = Number(id);
     if (isNaN(itineraryId)) return <Navigate to="/itineraries" />;
 
     const handleSave = async (itinerary: Itinerary) => {
         await updateItinerary(itineraryId, itinerary);
+        navigate(`/itineraries/${itineraryId}`);
     }
     
     useEffect(() => {

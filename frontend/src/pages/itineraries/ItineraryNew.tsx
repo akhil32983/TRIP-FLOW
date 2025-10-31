@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import { createDefaultItinerary } from "@/hooks/useItineraryForm";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
@@ -9,8 +11,11 @@ import InnerTabHeader from "@/components/dashboard/InnerTabHeader";
 import ItineraryEditForm from "@/components/form/ItineraryEditForm";
 
 export default function ItineraryNewPage() {
+    const navigate = useNavigate();
+
     const handleSave = async (itinerary: ExtendedItinerary) => {
-        await createItinerary(itinerary);
+        const res = await createItinerary(itinerary);
+        navigate(`/itineraries/${res.id}`);
     };
     
     return (
