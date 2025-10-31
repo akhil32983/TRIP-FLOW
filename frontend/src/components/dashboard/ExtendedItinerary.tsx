@@ -12,11 +12,12 @@ import InfoCard from "@components/dashboard/InfoCard";
 
 interface ExtendedItineraryProps {
     itinerary: ExtendedItinerary;
+    onDelete: () => void;
 }
 
 const ICON_SIZE = 20;
 
-export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps) {
+export default function ExtendedItinerary({ itinerary, onDelete }: ExtendedItineraryProps) {
     const countDays = itinerary.days.length;
 
     return (
@@ -30,7 +31,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                 <div className={styles.headerActions}>
                     <Badge status={itinerary.status} style="default" />
                     <Button style={["tool_bordered"]} to={`/itineraries/${itinerary.id}/edit`}><Edit size={16} /></Button>
-                    <Button style={["tool_bordered", "danger"]} onClick={() => alert("Delete itinerary")}><Trash size={16} /></Button>
+                    <Button style={["tool_bordered", "danger"]} onClick={onDelete}><Trash size={16} /></Button>
                 </div>
             </div>
 
