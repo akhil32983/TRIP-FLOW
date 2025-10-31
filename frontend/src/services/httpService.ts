@@ -94,6 +94,15 @@ export async function http<T>(
     window.location.href = "/";
   }
 
-  const data = await response.json();
-  return data as T;
+  // Handle 404 Not Found
+  if (response.status === 404) {
+    window.location.href = "/404";
+  }
+
+  try {
+    const data = await response.json();
+    return data as T;
+  } catch (error) {
+    return {} as T;
+  }
 }
