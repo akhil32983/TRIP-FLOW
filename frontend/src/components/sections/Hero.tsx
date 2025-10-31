@@ -1,10 +1,15 @@
 import styles from "@styles/components/sections/Hero.module.css";
 
-import Badge from "@components/shared/Badge";
-import Button from "@components/shared/Button";
+import { useAuth } from "@/providers/authProvider";
+
 import { RocketIcon } from "lucide-react";
 
+import Badge from "@components/shared/Badge";
+import Button from "@components/shared/Button";
+
 export default function Hero() {
+  const { user } = useAuth();
+
   return (
     <section className={styles.hero} data-testid="hero-section">
       <div className={styles.content}>
@@ -22,7 +27,7 @@ export default function Hero() {
           tecnología IA.
         </p>
         <div className={styles.actions}>
-          <Button style={["primary"]} label="Comenzar ahora" to="/signup" />
+          <Button style={["primary"]} label="Comenzar ahora" to={user ? "/dashboard" : "/signup"} />
           <Button style={["secondary"]} label="Probar demo" to="/demo" />
         </div>
       </div>
