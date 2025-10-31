@@ -15,7 +15,7 @@ import ItinerarySection from "@components/dashboard/ItinerarySection";
 
 interface ItineraryEditFormProps {
     initialItinerary: ExtendedItinerary;
-    onSave?: (itinerary: ExtendedItinerary) => void;
+    onSave: (itinerary: ExtendedItinerary) => void;
 }
 
 export default function ItineraryEditForm({ initialItinerary, onSave }: ItineraryEditFormProps) {

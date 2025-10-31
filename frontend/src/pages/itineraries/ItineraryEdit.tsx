@@ -1,53 +1,45 @@
-import { useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { Navigate, useParams } from "react-router";
 
-import type { ExtendedItinerary } from "@/types/itinerary";
+import type { ExtendedItinerary as Itinerary } from "@/types/itinerary";
+
+import { getItineraryById, updateItinerary } from "@/services/itineraryService";
 
 import AppLayout from "@/layouts/AppLayout";
+import Loader from "@/components/shared/Loader";
 import InnerTabHeader from "@components/dashboard/InnerTabHeader";
 import ItineraryEditForm from "@components/form/ItineraryEditForm";
 
-const FAKE_ITINERARY: ExtendedItinerary = {
-    id: 1,
-    icon: "🗼",
-    title: "París: Ciudad de la Luz y el Amor",
-    place: "París, Francia",
-    people: 2,
-    budget: 1450,
-    date: "2025-08-15",
-    status: "ACTIVE",
-    countDays: 4,
-    tags: ["romance", "arte", "gastronomía", "arquitectura", "moda"],
-    days: [
-        {
-            day: 1,
-            activities: [
-                {
-                    activity: "Visita a la Torre Eiffel",
-                    details: "Ascenso a la Torre Eiffel, el símbolo más famoso de París.",
-                    location: {
-                        name: "Torre Eiffel",
-                        address: "Champ de Mars, 5 Avenue Anatole France, 75007 París, Francia",
-                        latitude: 48.8584,
-                        longitude: 2.2945
-                    },
-                    time: "09:00",
-                    duration: "2.5 horas"
-                }
-            ]
-        }
-    ]
-};
-
 export default function ItineraryEdit() {
+    const [itinerary, setItinerary] = useState<Itinerary | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
     const { id } = useParams<{ id: string }>();
+    const itineraryId = Number(id);
+    if (isNaN(itineraryId)) return <Navigate to="/itineraries" />;
+
+    const handleSave = async (itinerary: Itinerary) => {
+        await updateItinerary(itineraryId, itinerary);
+    }
     
-    // When connected to a real backend, fetch the itinerary by ID here.
-    const itinerary = FAKE_ITINERARY;
+    useEffect(() => {
+        const fetchItinerary = async () => {
+            setIsLoading(true);
+
+            const itineraryData = await getItineraryById(itineraryId);
+            setItinerary(itineraryData);
+
+            setIsLoading(false);
+        };
+
+        fetchItinerary();
+    }, [id]);
     
     return (
         <AppLayout>
             <InnerTabHeader title="Editar Itinerario" backUrl={`/itineraries/${id}`} />
-            <ItineraryEditForm initialItinerary={itinerary} />
+            {isLoading && <Loader size={32} variant="dots" />}
+            {itinerary && <ItineraryEditForm initialItinerary={itinerary} onSave={handleSave} />}
         </AppLayout>
     );
 }
