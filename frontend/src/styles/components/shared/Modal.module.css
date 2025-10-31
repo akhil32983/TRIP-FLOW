@@ -1,0 +1,52 @@
+@import url("../../animations.css");
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    width: 100%;
+    max-width: 500px;
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-md);
+    border: 1px solid var(--border-primary);
+    box-shadow: 0 0 12px var(--bg-overlay);
+    animation: fadeIn 0.2s ease-out;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-xl);
+}
+
+.title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.body {
+    padding: var(--space-xl);
+}
+
+.message {
+    color: var(--text-secondary);
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
+}
