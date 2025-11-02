@@ -9,14 +9,14 @@ import FormGroup from "@components/form/FormGroup";
 
 interface LocationFormProps {
     fields: Field[];
-    onLocationUpdate: (field: keyof Activity['location'], value: any) => void;
+    onLocationUpdate: (field: keyof Activity['location'] | 'latitude' | 'longitude', value: any) => void;
 }
 
 export default function LocationForm({ fields, onLocationUpdate }: LocationFormProps) {
     const leftFields = fields.slice(0, Math.ceil(fields.length / 2));
     const rightFields = fields.slice(Math.ceil(fields.length / 2));
 
-    const getLocationField = (fieldName: string): keyof Activity['location'] => {
+    const getLocationField = (fieldName: string): keyof Activity['location'] | 'latitude' | 'longitude' => {
         if (fieldName.includes('name')) return 'name';
         if (fieldName.includes('address')) return 'address';
         if (fieldName.includes('latitude')) return 'latitude';
@@ -25,7 +25,7 @@ export default function LocationForm({ fields, onLocationUpdate }: LocationFormP
     };
 
     const handleLocationChange = (fieldName: string) => (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         onLocationUpdate(getLocationField(fieldName), e.target.value);
     };

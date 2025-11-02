@@ -13,7 +13,7 @@ interface ActivityFormProps {
     activity: Activity;
     activityIndex: number;
     onActivityUpdate: (field: keyof Activity, value: any) => void;
-    onLocationUpdate: (field: keyof Activity['location'], value: any) => void;
+    onLocationUpdate: (field: keyof Activity['location'] | 'latitude' | 'longitude', value: any) => void;
     onRemoveActivity: () => void;
 }
 

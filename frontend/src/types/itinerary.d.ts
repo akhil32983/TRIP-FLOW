@@ -6,8 +6,10 @@ export interface Activity {
     location: {
         name: string;
         address: string;
-        latitude: number;
-        longitude: number;
+        coordinates: {
+            latitude: number;
+            longitude: number;
+        };
     };
     time: string;
     duration: string;

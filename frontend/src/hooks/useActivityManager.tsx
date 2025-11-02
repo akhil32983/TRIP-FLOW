@@ -15,8 +15,10 @@ export function useActivityManager(
         location: {
             name: "Nombre del Lugar",
             address: "Dirección Completa",
-            latitude: 0,
-            longitude: 0
+            coordinates: {
+                latitude: 0,
+                longitude: 0
+            }
         },
         time: "10:00",
         duration: "1 hora"
@@ -72,21 +74,39 @@ export function useActivityManager(
     const handleUpdateActivityLocation = useCallback((
         dayIndex: number, 
         activityIndex: number, 
-        field: keyof Activity['location'], 
+        field: keyof Activity['location'] | 'latitude' | 'longitude', 
         value: any
     ) => {
         const newDays = days.map((day, index) => 
             index === dayIndex 
                 ? {
                     ...day,
-                    activities: day.activities.map((activity, actIndex) => 
-                        actIndex === activityIndex 
-                            ? { 
-                                ...activity, 
-                                location: { ...activity.location, [field]: value }
+                    activities: day.activities.map((activity, actIndex) => {
+                        if (actIndex !== activityIndex) return activity;
+
+                        // Handle coordinates separately (nested structure)
+                        if (field === 'latitude' || field === 'longitude') {
+                            return {
+                                ...activity,
+                                location: {
+                                    ...activity.location,
+                                    coordinates: {
+                                        ...activity.location.coordinates,
+                                        [field]: parseFloat(value) || 0.0
+                                    }
+                                }
+                            };
+                        }
+
+                        // Handle direct location fields (name, address)
+                        return {
+                            ...activity,
+                            location: {
+                                ...activity.location,
+                                [field]: value
                             }
-                            : activity
-                    )
+                        };
+                    })
                 }
                 : day
         );

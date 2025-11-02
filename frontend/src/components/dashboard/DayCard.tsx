@@ -14,7 +14,7 @@ interface DayCardProps {
     onRemoveDay: () => void;
     onRemoveActivity: (activityIndex: number) => void;
     onUpdateActivity: (activityIndex: number, field: keyof Activity, value: any) => void;
-    onUpdateActivityLocation: (activityIndex: number, field: keyof Activity['location'], value: any) => void;
+    onUpdateActivityLocation: (activityIndex: number, field: keyof Activity['location'] | 'latitude' | 'longitude', value: any) => void;
 }
 
 export default function DayCard({

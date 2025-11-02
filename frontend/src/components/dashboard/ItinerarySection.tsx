@@ -57,7 +57,7 @@ export default function ItinerarySection({
                         handleUpdateActivity(dayIndex, activityIndex, field as keyof Activity, value)
                     }
                     onUpdateActivityLocation={(activityIndex, field, value) => 
-                        handleUpdateActivityLocation(dayIndex, activityIndex, field as keyof Activity['location'], value)
+                        handleUpdateActivityLocation(dayIndex, activityIndex, field as keyof Activity['location'] | 'latitude' | 'longitude', value)
                     }
                 />
             ))}

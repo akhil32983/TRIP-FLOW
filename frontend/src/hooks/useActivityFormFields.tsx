@@ -15,7 +15,7 @@ export function useActivityFormFields(
     onActivityUpdate: (field: keyof Activity, value: any) => void
 ) {
     const handleFieldChange = useCallback((field: keyof Activity) => (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
         onActivityUpdate(field, e.target.value);
     }, [onActivityUpdate]);
@@ -61,7 +61,8 @@ export function useActivityFormFields(
             label: "Nombre del lugar",
             type: "text",
             value: activity.location.name,
-            placeholder: "Torre Eiffel"
+            placeholder: "Torre Eiffel",
+            required: true
         },
         {
             name: `activity-${activityIndex}-location-address`,
@@ -74,15 +75,15 @@ export function useActivityFormFields(
             name: `activity-${activityIndex}-location-latitude`,
             label: "Latitud (GPS)",
             type: "number",
-            value: "" + activity.location.latitude,
+            value: activity.location.coordinates.latitude || 0,
             placeholder: "48.8584",
-            step: "any"
+            step: "any",
         },
         {
             name: `activity-${activityIndex}-location-longitude`,
             label: "Longitud (GPS)",
             type: "number",
-            value: "" + activity.location.longitude,
+            value: activity.location.coordinates.longitude || 0,
             placeholder: "2.2945",
             step: "any"
         }
