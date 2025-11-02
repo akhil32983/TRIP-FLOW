@@ -62,7 +62,18 @@ vi.mock("@/components/shared/Button", () => ({
 }));
 
 vi.mock("lucide-react", () => ({
-    Save: () => <span data-testid="save-icon">Save</span>,
+    Save: () => <svg data-testid="save-icon" />,
+    Trash2: () => <svg data-testid="trash-icon" />,
+    Plus: () => <svg data-testid="plus-icon" />,
+    Edit: () => <svg data-testid="edit-icon" />,
+    MapPin: () => <svg data-testid="map-pin-icon" />,
+    Clock: () => <svg data-testid="clock-icon" />,
+    Calendar: () => <svg data-testid="calendar-icon" />,
+    XIcon: () => <svg data-testid="x-icon" />,
+    CheckCircle: () => <svg data-testid="check-circle-icon" />,
+    AlertCircle: () => <svg data-testid="alert-circle-icon" />,
+    AlertTriangle: () => <svg data-testid="alert-triangle-icon" />,
+    Info: () => <svg data-testid="info-icon" />,
 }));
 
 const onSaveMock = vi.fn();
