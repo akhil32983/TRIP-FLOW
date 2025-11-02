@@ -276,6 +276,7 @@ textarea {
   width: 100%;
   max-width: 100%;
   min-height: 84px;
+  height: auto;
   resize: vertical;
   field-sizing: content;
 }

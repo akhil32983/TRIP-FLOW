@@ -88,6 +88,14 @@
                             display: flex;
                             align-items: center;
                             gap: var(--space-xs);
+
+                            .icon {
+                                margin-top: 1px;
+                                width: 14px;
+                                height: 14px;
+                                font-size: var(--font-size-sm);
+                                color: var(--primary);
+                            }
                         }
                     }
 

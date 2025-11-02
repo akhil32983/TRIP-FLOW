@@ -29,7 +29,7 @@
         height: 20px;
         padding: var(--space-sm) var(--space-md);
         text-transform: none;
-        font-weight: var(--font-weight-normal);
+        font-weight: var(--font-weight-bold);
     }
 
     &.planned {

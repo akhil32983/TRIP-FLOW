@@ -71,7 +71,7 @@ export default function ItinerariesPreview(
                         </div>
                         <div className={styles.tags}>
                             {itinerary.tags.map((tag, index) => (
-                                <Badge key={index} style="thin" title={tag} />
+                                <Badge key={index} style="semi_thin" title={`#${tag}`} />
                             ))}
                         </div>
                     </NavLink>

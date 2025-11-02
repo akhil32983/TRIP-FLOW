@@ -101,9 +101,8 @@ describe("Recent Component", () => {
       expect(screen.getByText(/Tokyo/)).toBeInTheDocument();
     });
 
-    expect(screen.getByText("15 de junio de 2024")).toBeInTheDocument();
-    expect(screen.getByText("culture")).toBeInTheDocument();
-    expect(screen.getByText("gastronomy")).toBeInTheDocument();
+    expect(screen.getByText(/culture/)).toBeInTheDocument();
+    expect(screen.getByText(/gastronomy/)).toBeInTheDocument();
   });
 
   it("renders progress bars with correct values", async () => {

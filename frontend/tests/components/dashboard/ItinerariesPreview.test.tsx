@@ -343,10 +343,10 @@ describe("ItinerariesPreview Component", () => {
             />
         );
 
-        expect(screen.getByText("culture")).toBeInTheDocument();
-        expect(screen.getByText("gastronomy")).toBeInTheDocument();
-        expect(screen.getByText("adventure")).toBeInTheDocument();
-        expect(screen.getByText("nature")).toBeInTheDocument();
+        expect(screen.getByText(/culture/)).toBeInTheDocument();
+        expect(screen.getByText(/gastronomy/)).toBeInTheDocument();
+        expect(screen.getByText(/adventure/)).toBeInTheDocument();
+        expect(screen.getByText(/nature/)).toBeInTheDocument();
     });
 
     it("applies correct CSS animation index", () => {

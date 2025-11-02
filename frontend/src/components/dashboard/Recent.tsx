@@ -5,13 +5,13 @@ import { NavLink } from "react-router";
 
 import type { Itinerary, ItineraryStatus } from "@/types/itinerary";
 
-import { formatDate } from "@/utils/formatUtils";
 import { getUserItineraries } from "@/services/itineraryService";
 
 import Button from "@components/shared/Button";
 import Badge from "@components/shared/Badge";
 import ProgressBar from "@components/shared/ProgressBar";
 import Loader from "@components/shared/Loader";
+import { MapPinIcon } from "lucide-react";
 
 export type RecentActivity = {
     id: number;
@@ -78,14 +78,16 @@ export default function Recent() {
                                     <div className={styles.text}>
                                         <div className={styles.mainInfo}>
                                             <h3 className={styles.itineraryTitle}>{itinerary.title}</h3>
-                                            <p className={styles.itineraryPlace}>📍 {itinerary.place}</p>
+                                            <p className={styles.itineraryPlace}>
+                                                <MapPinIcon className={styles.icon} />
+                                                {itinerary.place}
+                                            </p>
                                         </div>
                                         <div className={styles.metadata}>
-                                            <p className={styles.itineraryDate}>{formatDate(itinerary.date)}</p>
                                             {itinerary.tags && itinerary.tags.length > 0 && (
                                                 <div className={styles.tags}>
                                                     {itinerary.tags.map((tag, i) => (
-                                                        <Badge key={i} title={tag} style="thin" />
+                                                        <Badge key={i} title={`#${tag}`} style="thin" />
                                                     ))}
                                                 </div>
                                             )}
