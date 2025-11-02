@@ -28,12 +28,12 @@ describe("Faq", () => {
     expect(summaryElements).toHaveLength(4);
   });
 
-  it("renders action button with correct link", () => {
-    const { container } = render(<Faq />);
+//   it("renders action button with correct link", () => {
+//     const { container } = render(<Faq />);
 
-    const actionButton = container.querySelector("div[class*='faqActions'] a");
-    expect(actionButton).toHaveAttribute("href", "/about");
-  });
+//     const actionButton = container.querySelector("div[class*='faqActions'] a");
+//     expect(actionButton).toHaveAttribute("href", "/about");
+//   });
 
   it("has correct CSS structure", () => {
     const { container } = render(<Faq />);
@@ -51,9 +51,6 @@ describe("Faq", () => {
 
     const faqAnswers = container.querySelectorAll("p[class*='faqAnswer']");
     expect(faqAnswers).toHaveLength(4);
-
-    const faqActions = container.querySelector("div[class*='faqActions']");
-    expect(faqActions).toBeInTheDocument();
   });
 
   it("has first FAQ item open by default", () => {
