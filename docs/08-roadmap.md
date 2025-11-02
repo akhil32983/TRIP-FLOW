@@ -44,7 +44,7 @@
 - [x] {UI} Itinerary creation form - `/itineraries/new`
 - [x] {UI} Profile page (simplified) for logout - `/profile`
 - [x] {UI} 404 Not Found page - `/404`
-- [ ] {API} Integration with backend endpoints using Axios
+- [x] {API} Integration with backend endpoints
 
 ### ⚙️ Testing
 

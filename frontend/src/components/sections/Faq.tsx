@@ -35,9 +35,9 @@ export default function Faq() {
             <p className={styles.faqAnswer}>{item.answer}</p>
           </details>
         ))}
-        <div className={styles.faqActions}>
+        {/* <div className={styles.faqActions}>
           <Button label="Quiero saber más" to="/about" style={["primary"]} />
-        </div>
+        </div> */}
       </div>
     </Section>
   );
