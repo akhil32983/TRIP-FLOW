@@ -11,7 +11,7 @@ import com.tripflow.repository.itinerary.ItineraryDayRepository;
 
 @Service
 public class ItineraryDayService {
-        private final ItineraryDayRepository itineraryDayRepository;
+    private final ItineraryDayRepository itineraryDayRepository;
     private final ActivityService activityService;
 
     public ItineraryDayService(ItineraryDayRepository itineraryDayRepository, ActivityService activityService) {

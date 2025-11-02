@@ -31,21 +31,14 @@ public class ActivityService {
      * @return the created Activity entity
      */
     public Activity createActivityEntity(ActivityDTO activityDTO) {
-        // Map the activity DTO to an entity and set the location relationship
         Activity activity = this.itineraryMapper.toActivity(activityDTO);
 
-        // Ensure the location is created or found before setting it to the activity
-        Location location = this.locationService.findEntityByLatAndLon(
-            activityDTO.location().coordinates().latitude(),
-            activityDTO.location().coordinates().longitude()
+        // Create location and link to activity
+        Location location = this.locationService.createLocationEntity(
+            activityDTO.location()
         );
 
-        if (location == null) {
-            location = this.locationService.createLocationEntity(activityDTO.location(), activity);
-        } else {
-            location.addActivity(activity);
-        }
-
+        activity.setLocation(location);
         return activity;
     }
 

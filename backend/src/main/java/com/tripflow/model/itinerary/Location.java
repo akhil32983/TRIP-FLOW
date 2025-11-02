@@ -1,12 +1,13 @@
 package com.tripflow.model.itinerary;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Location {
@@ -19,21 +20,19 @@ public class Location {
 
     private String address;
 
-    private double latitude;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "geographic_point_id", nullable = false)
+    private GeographicPoint coordinates;
 
-    private double longitude;
+    @OneToOne(mappedBy = "location")
+    private Activity activity;
 
-    @OneToMany(mappedBy = "location")
-    private List<Activity> activities;
+    public Double getLatitude() {
+        return this.coordinates != null ? this.coordinates.getLatitude() : null;
+    }
 
-    // [Methods] ======================================================
-
-    public void addActivity(Activity activity) {
-        if (activity != null) {
-            if (this.activities == null) this.activities = new java.util.ArrayList<>();
-            this.activities.add(activity);
-            activity.setLocation(this);
-        }
+    public Double getLongitude() {
+        return this.coordinates != null ? this.coordinates.getLongitude() : null;
     }
 
     // [Getters and Setters] ==========================================
@@ -62,19 +61,22 @@ public class Location {
         this.address = address;
     }
 
-    public double getLatitude() {
-        return latitude;
+    public GeographicPoint getCoordinates() {
+        return coordinates;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void setCoordinates(GeographicPoint coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public double getLongitude() {
-        return longitude;
+    public Activity getActivity() {
+        return activity;
     }
 
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+        if (activity != null && activity.getLocation() != this) {
+            activity.setLocation(this);
+        }
     }
 }

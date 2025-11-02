@@ -2,10 +2,12 @@ package com.tripflow.model.itinerary;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Activity {
@@ -25,7 +27,7 @@ public class Activity {
     @ManyToOne(cascade = CascadeType.ALL)
     private ItineraryDay itineraryDay;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Location location;
 
     // [Getters and Setters] ==========================================

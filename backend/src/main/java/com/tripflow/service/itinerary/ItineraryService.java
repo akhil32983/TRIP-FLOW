@@ -49,7 +49,6 @@ public class ItineraryService {
      * @param itineraryDTO the DTO containing itinerary data
      * @return the created ItineraryDTO
      */
-    @Transactional
     public ExtendedItineraryDTO createItinerary(ExtendedItineraryDTO itineraryDTO) {
         User authenticatedUser = this.userService.getAuthenticatedUser();
 
@@ -80,7 +79,6 @@ public class ItineraryService {
      * @param search optional search query to filter itineraries
      * @return a PaginatedDTO containing a list of ItineraryDTOs
      */
-    @Transactional
     public PaginatedDTO<ItineraryDTO> getAllItineraries(Pageable pageable, String search) {
         User authenticatedUser = this.userService.getAuthenticatedUser();
 
@@ -117,7 +115,6 @@ public class ItineraryService {
      * @return the ItineraryDTO for the specified ID
      * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
      */
-    @Transactional
     public ExtendedItineraryDTO getItineraryById(Long id) throws ResponseStatusException {
         Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Itinerary with ID %d not found", id))
@@ -179,7 +176,6 @@ public class ItineraryService {
      * @param id the ID of the itinerary to delete
      * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
      */
-    @Transactional
     public void deleteItinerary(Long id) throws ResponseStatusException {
         Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(
             () -> new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Itinerary with ID %d not found", id))

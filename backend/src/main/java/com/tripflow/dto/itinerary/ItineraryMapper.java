@@ -35,11 +35,12 @@ public interface ItineraryMapper {
     // To DOMAIN ==>
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "latitude", source = "coordinates.latitude")
-    @Mapping(target = "longitude", source = "coordinates.longitude")
+    @Mapping(target = "coordinates", ignore = true)
+    @Mapping(target = "activity", ignore = true)
     Location toLocation(LocationDTO locationDTO);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "location", ignore = true)
     @Mapping(target = "itineraryDay", ignore = true)
     Activity toActivity(ActivityDTO activityDTO);
 }

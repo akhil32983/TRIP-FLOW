@@ -1,19 +1,20 @@
 package com.tripflow.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 
 import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.ItineraryMapper;
 import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.model.itinerary.Activity;
+import com.tripflow.model.itinerary.GeographicPoint;
 import com.tripflow.model.itinerary.Location;
 import com.tripflow.repository.itinerary.ActivityRepository;
 import com.tripflow.service.itinerary.ActivityService;
@@ -38,8 +39,8 @@ public class ActivityServiceTest {
     }
 
     @Test
-    @DisplayName("ActivityService should create activity with new location")
-    public void testCreateActivityEntityWithNewLocation() {
+    @DisplayName("ActivityService should create activity with location and establish bidirectional relationship")
+    public void testCreateActivityEntityWithLocation() {
         CoordinatesDTO coordinates = mock(CoordinatesDTO.class);
         when(coordinates.latitude()).thenReturn(48.8566);
         when(coordinates.longitude()).thenReturn(2.3522);
@@ -53,46 +54,14 @@ public class ActivityServiceTest {
         Activity activity = mock(Activity.class);
         when(itineraryMapper.toActivity(activityDTO)).thenReturn(activity);
 
-        when(locationService.findEntityByLatAndLon(48.8566, 2.3522)).thenReturn(null);
-
-        Location newLocation = mock(Location.class);
-        when(locationService.createLocationEntity(locationDTO, activity)).thenReturn(newLocation);
+        Location location = mock(Location.class);
+        when(locationService.createLocationEntity(locationDTO)).thenReturn(location);
 
         Activity result = activityService.createActivityEntity(activityDTO);
 
         assertEquals(activity, result);
-        verify(locationService).findEntityByLatAndLon(48.8566, 2.3522);
-        verify(locationService).createLocationEntity(locationDTO, activity);
-        verify(newLocation, never()).addActivity(any());
-    }
-
-    @Test
-    @DisplayName("ActivityService should create activity with existing location")
-    public void testCreateActivityEntityWithExistingLocation() {
-        CoordinatesDTO coordinates = mock(CoordinatesDTO.class);
-        when(coordinates.latitude()).thenReturn(48.8566);
-        when(coordinates.longitude()).thenReturn(2.3522);
-
-        LocationDTO locationDTO = mock(LocationDTO.class);
-        when(locationDTO.coordinates()).thenReturn(coordinates);
-
-        ActivityDTO activityDTO = mock(ActivityDTO.class);
-        when(activityDTO.location()).thenReturn(locationDTO);
-
-        Activity activity = mock(Activity.class);
-        when(itineraryMapper.toActivity(activityDTO)).thenReturn(activity);
-
-        Location existingLocation = mock(Location.class);
-        when(locationService.findEntityByLatAndLon(48.8566, 2.3522)).thenReturn(existingLocation);
-
-        doNothing().when(existingLocation).addActivity(activity);
-
-        Activity result = activityService.createActivityEntity(activityDTO);
-
-        assertEquals(activity, result);
-        verify(locationService).findEntityByLatAndLon(48.8566, 2.3522);
-        verify(existingLocation).addActivity(activity);
-        verify(locationService, never()).createLocationEntity(any(), any());
+        verify(locationService).createLocationEntity(locationDTO);
+        verify(activity).setLocation(location);
     }
 
     @Test
@@ -111,16 +80,14 @@ public class ActivityServiceTest {
         Activity activity = mock(Activity.class);
         when(itineraryMapper.toActivity(activityDTO)).thenReturn(activity);
 
-        when(locationService.findEntityByLatAndLon(90.0, 180.0)).thenReturn(null);
-
-        Location newLocation = mock(Location.class);
-        when(locationService.createLocationEntity(locationDTO, activity)).thenReturn(newLocation);
+        Location location = mock(Location.class);
+        when(locationService.createLocationEntity(locationDTO)).thenReturn(location);
 
         Activity result = activityService.createActivityEntity(activityDTO);
 
         assertEquals(activity, result);
-        verify(locationService).findEntityByLatAndLon(90.0, 180.0);
-        verify(locationService).createLocationEntity(locationDTO, activity);
+        verify(locationService).createLocationEntity(locationDTO);
+        verify(activity).setLocation(location);
     }
 
     @Test
@@ -129,12 +96,22 @@ public class ActivityServiceTest {
         ActivityDTO activityDTO = mock(ActivityDTO.class);
         when(activityDTO.location()).thenReturn(null);
 
-        Activity activity = mock(Activity.class);
+        Activity activity = mock(Activity.class, Answers.CALLS_REAL_METHODS);
         when(itineraryMapper.toActivity(activityDTO)).thenReturn(activity);
 
-        assertThrows(NullPointerException.class, () -> {
-            activityService.createActivityEntity(activityDTO);
-        });
+        Location defaultLocation = mock(Location.class, Answers.CALLS_REAL_METHODS);
+        GeographicPoint defaultPoint = mock(GeographicPoint.class);
+        when(defaultPoint.getLatitude()).thenReturn(0.0);
+        when(defaultPoint.getLongitude()).thenReturn(0.0);
+        when(defaultLocation.getCoordinates()).thenReturn(defaultPoint);
+        when(locationService.createLocationEntity(null)).thenReturn(defaultLocation);
+
+        Activity result = activityService.createActivityEntity(activityDTO);
+
+        assertEquals(activity, result);
+        assertNotNull(result.getLocation());
+        assertEquals(result.getLocation().getCoordinates().getLatitude(), 0.0);
+        assertEquals(result.getLocation().getCoordinates().getLongitude(), 0.0);
     }
 
     @Test
@@ -153,14 +130,51 @@ public class ActivityServiceTest {
         Activity activity = mock(Activity.class);
         when(itineraryMapper.toActivity(activityDTO)).thenReturn(activity);
 
-        when(locationService.findEntityByLatAndLon(40.7128, -74.0060)).thenReturn(null);
-
         Location location = mock(Location.class);
-        when(locationService.createLocationEntity(locationDTO, activity)).thenReturn(location);
+        when(locationService.createLocationEntity(locationDTO)).thenReturn(location);
 
         Activity result = activityService.createActivityEntity(activityDTO);
 
         verify(itineraryMapper).toActivity(activityDTO);
         assertEquals(activity, result);
+    }
+
+    @Test
+    @DisplayName("ActivityService should count activities by user ID")
+    public void testCountActivitiesByUserId() {
+        Long userId = 1L;
+        Long expectedCount = 5L;
+        when(activityRepository.countByUserId(userId)).thenReturn(expectedCount);
+
+        Long result = activityService.countActivitiesByUserId(userId);
+
+        assertEquals(expectedCount, result);
+        verify(activityRepository).countByUserId(userId);
+    }
+
+    @Test
+    @DisplayName("ActivityService should create activity even with default coordinates (0,0)")
+    public void testCreateActivityEntityWithDefaultCoordinates() {
+        CoordinatesDTO coordinates = mock(CoordinatesDTO.class);
+        when(coordinates.latitude()).thenReturn(0.0);
+        when(coordinates.longitude()).thenReturn(0.0);
+
+        LocationDTO locationDTO = mock(LocationDTO.class);
+        when(locationDTO.coordinates()).thenReturn(coordinates);
+
+        ActivityDTO activityDTO = mock(ActivityDTO.class);
+        when(activityDTO.location()).thenReturn(locationDTO);
+
+        Activity activity = mock(Activity.class);
+        when(itineraryMapper.toActivity(activityDTO)).thenReturn(activity);
+
+        Location location = mock(Location.class);
+        when(locationService.createLocationEntity(locationDTO)).thenReturn(location);
+
+        Activity result = activityService.createActivityEntity(activityDTO);
+
+        assertEquals(activity, result);
+        verify(locationService).createLocationEntity(locationDTO);
+        verify(activity).setLocation(location);
     }
 }
