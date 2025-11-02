@@ -12,6 +12,8 @@ import { Save } from "lucide-react";
 import Button from "@/components/shared/Button";
 import BasicInfoSection from "@components/dashboard/BasicInfoSection";
 import ItinerarySection from "@components/dashboard/ItinerarySection";
+import { useAlert } from "@/hooks/useAlert";
+import Alert from "../shared/Alert";
 
 interface ItineraryEditFormProps {
     initialItinerary: ExtendedItinerary;
@@ -19,6 +21,9 @@ interface ItineraryEditFormProps {
 }
 
 export default function ItineraryEditForm({ initialItinerary, onSave }: ItineraryEditFormProps) {
+    // Alert management
+    const { alert, showAlert, hideAlert } = useAlert();
+
     // Main state management
     const { itinerary, updateBasicInfo, validateItinerary } = useItineraryForm(initialItinerary);
     
@@ -45,15 +50,24 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
         const validation = validateItinerary();
         
         if (!validation.isValid) {
-            alert(validation.error);
+            showAlert(validation.error as string, "error", "Revisa los campos");
             return;
         }
 
+        showAlert("Itinerario guardado exitosamente.", "success", "Éxito");
         onSave(itinerary);
     }, [itinerary, onSave, validateItinerary]);
 
     return (
         <div className={styles.editForm}>
+            <Alert
+                type={alert.type}
+                title={alert.title}
+                message={alert.message}
+                isOpen={alert.isOpen}
+                onClose={hideAlert}
+            />
+            
             <div className={styles.formHeader}>
                 <h2>{itinerary.icon} {itinerary.title}</h2>
                 <Button 
