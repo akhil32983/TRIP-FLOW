@@ -55,7 +55,7 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
         }
 
         showAlert("Itinerario guardado exitosamente.", "success", "Éxito");
-        onSave(itinerary);
+        setTimeout(() => onSave(itinerary), 700);
     }, [itinerary, onSave, validateItinerary]);
 
     return (

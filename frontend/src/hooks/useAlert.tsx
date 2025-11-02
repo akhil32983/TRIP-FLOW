@@ -21,11 +21,26 @@ export function useAlert() {
         type: AlertType = "info",
         title?: string
     ) => {
-        setAlert({
-            isOpen: true,
-            type,
-            title,
-            message,
+        setAlert((prev) => {
+            if (prev.isOpen) {
+                setTimeout(() => {
+                    setAlert({
+                        isOpen: true,
+                        type,
+                        title,
+                        message,
+                    });
+                }, 0);
+
+                return { ...prev, isOpen: false };
+            }
+
+            return {
+                isOpen: true,
+                type,
+                title,
+                message,
+            };
         });
     }, []);
 

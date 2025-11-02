@@ -122,8 +122,7 @@ const mockEmptyItinerary: ExtendedItinerary = {
 describe("ItineraryEditForm Component", () => {
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.spyOn(window, "alert").mockImplementation(() => {});
-        vi.spyOn(console, "log").mockImplementation(() => {});
+        vi.useFakeTimers();
     });
 
     it("renders itinerary edit form", () => {
@@ -206,6 +205,8 @@ describe("ItineraryEditForm Component", () => {
         const saveButton = screen.getByText("Guardar");
         fireEvent.click(saveButton);
 
+        vi.advanceTimersByTime(1500);
+
         expect(mockOnSave).toHaveBeenCalledTimes(1);
     });
 
@@ -221,6 +222,8 @@ describe("ItineraryEditForm Component", () => {
 
         const saveButton = screen.getByText("Guardar");
         fireEvent.click(saveButton);
+
+        vi.advanceTimersByTime(1500);
 
         expect(mockOnSave).toHaveBeenCalledWith(mockItinerary);
     });
