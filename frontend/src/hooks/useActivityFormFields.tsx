@@ -62,7 +62,6 @@ export function useActivityFormFields(
             type: "text",
             value: activity.location.name,
             placeholder: "Torre Eiffel",
-            required: true
         },
         {
             name: `activity-${activityIndex}-location-address`,
@@ -75,7 +74,7 @@ export function useActivityFormFields(
             name: `activity-${activityIndex}-location-latitude`,
             label: "Latitud (GPS)",
             type: "number",
-            value: activity.location.coordinates.latitude || 0,
+            value: activity.location.coordinates.latitude ?? 0,
             placeholder: "48.8584",
             step: "any",
         },
@@ -83,7 +82,7 @@ export function useActivityFormFields(
             name: `activity-${activityIndex}-location-longitude`,
             label: "Longitud (GPS)",
             type: "number",
-            value: activity.location.coordinates.longitude || 0,
+            value: activity.location.coordinates.longitude ?? 0,
             placeholder: "2.2945",
             step: "any"
         }

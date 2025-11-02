@@ -87,8 +87,10 @@ export function createDefaultActivity(): Activity {
         location: {
             name: "",
             address: "",
-            latitude: 0,
-            longitude: 0,
+            coordinates: {
+                latitude: 0,
+                longitude: 0,
+            },
         },
         time: "",
         duration: "",

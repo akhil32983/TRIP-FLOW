@@ -92,7 +92,7 @@ export function useActivityManager(
                                     ...activity.location,
                                     coordinates: {
                                         ...activity.location.coordinates,
-                                        [field]: parseFloat(value) || 0.0
+                                        [field]: parseFloat(value)
                                     }
                                 }
                             };

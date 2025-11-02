@@ -79,8 +79,15 @@ export default function ExtendedItinerary({ itinerary, onDelete }: ExtendedItine
                                         <div className={styles.activityLocation}>
                                             <MapPinIcon size={16} className={styles.locationIcon} />
                                             <div className={styles.locationInfo}>
-                                                <p className={styles.locationName}>{activity.location.name}</p>
-                                                <p className={styles.locationAddress}>{activity.location.address}</p>
+                                                <p className={styles.locationName}>{activity.location.name || "Desconocido"}</p>
+                                                <p className={styles.locationAddress}>
+                                                    {activity.location.address || "Sin dirección proporcionada"}
+                                                    {activity.location.address && (
+                                                        <>
+                                                            {` - (${activity.location.coordinates.latitude}, ${activity.location.coordinates.longitude})`}
+                                                        </>
+                                                    )}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
