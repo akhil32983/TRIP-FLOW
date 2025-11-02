@@ -1,7 +1,13 @@
 import Itineraries from "@pages/itineraries/Itineraries";
 
-import { render, screen } from "@tests/utils/testUtils";
-import { describe, it, expect, vi } from "vitest";
+import { render, screen, waitFor } from "@tests/utils/testUtils";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import * as itineraryService from "@/services/itineraryService";
+
+// Mock the itinerary service
+vi.mock("@/services/itineraryService", () => ({
+    getUserItineraries: vi.fn(),
+}));
 
 // Secondary dependencies mocks
 vi.mock("@/layouts/AppLayout", () => ({
@@ -28,49 +34,90 @@ vi.mock("@/components/shared/Button", () => ({
     default: () => <button data-testid="button" />,
 }));
 
+const mockItinerariesResponse = {
+    page: [],
+    currentPage: 0,
+    totalPages: 0,
+    totalItems: 0,
+    itemsPerPage: 10,
+    isLastPage: true,
+};
+
 describe("Itineraries Page", () => {
-    it("renders itineraries page", () => {
-        render(<Itineraries />);
-
-        expect(screen.getByTestId("app-layout")).toBeInTheDocument();
+    beforeEach(() => {
+        vi.clearAllMocks();
+        vi.mocked(itineraryService.getUserItineraries).mockResolvedValue(
+            mockItinerariesResponse
+        );
     });
 
-    it("renders dashboard header", () => {
+    it("renders itineraries page", async () => {
         render(<Itineraries />);
 
-        expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId("app-layout")).toBeInTheDocument();
+        });
     });
 
-    it("renders page title", () => {
+    it("renders dashboard header", async () => {
         render(<Itineraries />);
 
-        expect(screen.getByText("Tus itinerarios")).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
+        });
     });
 
-    it("renders searchbar", () => {
+    it("renders page title", async () => {
         render(<Itineraries />);
 
-        expect(screen.getByTestId("searchbar")).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByText("Tus itinerarios")).toBeInTheDocument();
+        });
     });
 
-    it("renders itineraries preview", () => {
+    it("renders searchbar", async () => {
         render(<Itineraries />);
 
-        expect(screen.getByTestId("itineraries-preview")).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId("searchbar")).toBeInTheDocument();
+        });
     });
 
-    it("renders all main components", () => {
+    it("renders itineraries preview", async () => {
         render(<Itineraries />);
 
-        expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
-        expect(screen.getByTestId("searchbar")).toBeInTheDocument();
-        expect(screen.getByTestId("itineraries-preview")).toBeInTheDocument();
+        await waitFor(() => {
+            expect(screen.getByTestId("itineraries-preview")).toBeInTheDocument();
+        });
     });
 
-    it("wraps content in AppLayout", () => {
+    it("renders all main components", async () => {
+        render(<Itineraries />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
+            expect(screen.getByTestId("searchbar")).toBeInTheDocument();
+            expect(screen.getByTestId("itineraries-preview")).toBeInTheDocument();
+        });
+    });
+
+    it("wraps content in AppLayout", async () => {
         const { container } = render(<Itineraries />);
 
-        const appLayout = container.querySelector('[data-testid="app-layout"]');
-        expect(appLayout).toBeInTheDocument();
+        await waitFor(() => {
+            const appLayout = container.querySelector('[data-testid="app-layout"]');
+            expect(appLayout).toBeInTheDocument();
+        });
+    });
+
+    it("fetches itineraries on mount", async () => {
+        render(<Itineraries />);
+
+        await waitFor(() => {
+            expect(itineraryService.getUserItineraries).toHaveBeenCalledWith(
+                { page: 0, size: 10 },
+                ""
+            );
+        });
     });
 });
