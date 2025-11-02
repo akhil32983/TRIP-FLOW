@@ -40,7 +40,9 @@ public class LocationService {
         GeographicPoint coordinates;
         if (
             locationDTO == null ||
-            locationDTO.coordinates() == null
+            locationDTO.coordinates() == null ||
+            locationDTO.coordinates().latitude() == null ||
+            locationDTO.coordinates().longitude() == null
         ) {
             coordinates = this.geographicPointService.getDefaultPoint();
         } else {
