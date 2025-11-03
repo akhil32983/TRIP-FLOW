@@ -1,6 +1,8 @@
 import { API_BASE_URL } from "@/config/environment";
+import { getMock } from "@/mocks";
 import { AUTH_LOCAL_STORAGE_KEY } from "@/providers/authProvider";
-import { removeFromLocalStorage } from "@/utils/localStorageUtils";
+import { DEMO_KEY } from "@/providers/demoProvider";
+import { removeFromLocalStorage, retrieveFromLocalStorage } from "@/utils/localStorageUtils";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
 
@@ -49,6 +51,9 @@ export async function http<T>(
     },
     credentials: "include",
   };
+
+  const isDemo = retrieveFromLocalStorage<string>(DEMO_KEY) === "true";
+  if (isDemo) return getMock(path, method, body) as Promise<T>;
 
   if (body) options.body = JSON.stringify(body);
 
