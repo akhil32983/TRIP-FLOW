@@ -1,5 +1,7 @@
-import { useAuth } from "@/providers/authProvider";
 import { useNavigate } from "react-router";
+
+import { useAuth } from "@/providers/authProvider";
+import { useDemo } from "@/providers/demoProvider";
 
 import Button from "@components/shared/Button";
 import { useIsPWA } from "@/hooks/useIsPWA";
@@ -12,6 +14,7 @@ interface LogoutButtonProps {
 
 export default function LogoutButton({ to, responsive }: LogoutButtonProps) {
     const { logout } = useAuth();
+    const { deactivateDemo } = useDemo();
     const isPWA = useIsPWA();
     const navigation = useNavigate();
 
@@ -19,6 +22,7 @@ export default function LogoutButton({ to, responsive }: LogoutButtonProps) {
 
     const handleLogout = () => {
         logout();
+        deactivateDemo();
         navigation(targetPath);
     }
 

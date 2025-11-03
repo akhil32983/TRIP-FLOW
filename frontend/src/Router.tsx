@@ -1,5 +1,7 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
+import type { ReactNode } from "react";
+
 import IndexPage from "@pages/Index";
 import LoginPage from "@pages/Login";
 import RegisterPage from "@pages/Register";
@@ -12,14 +14,17 @@ import ProfilePage from "@pages/Profile";
 import NotFound from "@pages/NotFound";
 
 import { useAuth } from "@/providers/authProvider";
-import type { ReactNode } from "react";
+import { useDemo } from "@/providers/demoProvider";
 
 /**
  * PrivateRoute component that checks if the user is authenticated.
  * If not, redirects to the login page.
  */
 function PrivateRoute({ children }: { children: ReactNode }) {
+  const { demo } = useDemo();
   const { user } = useAuth();
+
+  if (demo) return children;
 
   if (!user) return <Navigate to="/login" replace />;
   return children;
