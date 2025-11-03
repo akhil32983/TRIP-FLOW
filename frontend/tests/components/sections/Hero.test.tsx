@@ -34,11 +34,8 @@ describe("Hero Component", () => {
   it("renders secondary action button", () => {
     render(<Hero />);
 
-    const secondaryButton = screen.getByText("Probar demo");
+    const secondaryButton = screen.getByRole("button", { name: /probar demo/i });
     expect(secondaryButton).toBeInTheDocument();
-
-    const secondaryLink = secondaryButton.closest("a");
-    expect(secondaryLink).toHaveAttribute("href", "/demo");
   });
 
   it("has correct CSS structure", () => {

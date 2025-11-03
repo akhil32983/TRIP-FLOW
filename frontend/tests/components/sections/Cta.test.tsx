@@ -22,12 +22,18 @@ describe("Cta", () => {
     });
   });
 
-  it("renders call-to-action button with correct link", () => {
+  it("renders DemoButton component", () => {
     render(<Cta />);
 
-    const button = screen.getByRole("link");
-    expect(button).toHaveAttribute("href", "/demo");
-    expect(button).toHaveTextContent("Probar demo");
+    const button = screen.getByRole("button");
+    expect(button).toBeInTheDocument();
+  });
+
+  it("DemoButton shows correct initial text", () => {
+    render(<Cta />);
+
+    const button = screen.getByRole("button", { name: /probar demo/i });
+    expect(button).toBeInTheDocument();
   });
 
   it("has correct CSS structure", () => {
@@ -43,10 +49,10 @@ describe("Cta", () => {
     expect(actions).toBeInTheDocument();
   });
 
-  it("button has primary style", () => {
+  it("DemoButton has primary style", () => {
     const { container } = render(<Cta />);
 
-    const button = container.querySelector("a[class*='primary']");
+    const button = container.querySelector("button[class*='primary']");
     expect(button).toBeInTheDocument();
   });
 
@@ -56,10 +62,17 @@ describe("Cta", () => {
     const ctaContent = container.querySelector("div[class*='ctaContent']");
     const paragraphs = ctaContent?.querySelectorAll("p");
     const actionsDiv = ctaContent?.querySelector("div[class*='actions']");
-    const button = actionsDiv?.querySelector("a");
+    const button = actionsDiv?.querySelector("button");
 
     expect(paragraphs).toHaveLength(2);
     expect(actionsDiv).toBeInTheDocument();
     expect(button).toBeInTheDocument();
+  });
+
+  it("renders all expected text content", () => {
+    const { container } = render(<Cta />);
+
+    expect(container.textContent).toContain("Prueba nuestra demo");
+    expect(container.textContent).toContain("Si tienes alguna duda");
   });
 });

@@ -6,6 +6,7 @@ import { RocketIcon } from "lucide-react";
 
 import Badge from "@components/shared/Badge";
 import Button from "@components/shared/Button";
+import DemoButton from "@components/buttons/DemoButton";
 
 export default function Hero() {
   const { user } = useAuth();
@@ -28,7 +29,7 @@ export default function Hero() {
         </p>
         <div className={styles.actions}>
           <Button style={["primary"]} label="Comenzar ahora" to={user ? "/dashboard" : "/signup"} />
-          <Button style={["secondary"]} label="Probar demo" to="/demo" />
+          <DemoButton style="secondary" />
         </div>
       </div>
     </section>

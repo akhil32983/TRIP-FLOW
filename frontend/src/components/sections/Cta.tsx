@@ -1,7 +1,7 @@
 import styles from "@styles/components/sections/Cta.module.css";
 
-import Section from "../shared/Section";
-import Button from "../shared/Button";
+import Section from "@components/shared/Section";
+import DemoButton from "@components/buttons/DemoButton";
 
 export default function Cta() {
   return (
@@ -14,7 +14,7 @@ export default function Cta() {
           Si tienes alguna duda, no dudes en contactarnos.
         </p>
         <div className={styles.actions}>
-          <Button style={["primary"]} label="Probar demo" to="/demo" />
+          <DemoButton style="primary" />
         </div>
       </div>
     </Section>

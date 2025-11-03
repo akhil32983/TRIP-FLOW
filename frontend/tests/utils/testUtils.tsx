@@ -5,11 +5,14 @@ import { BrowserRouter } from "react-router";
 import { render } from "@testing-library/react";
 
 import { AuthProvider } from "@/providers/authProvider";
+import { DemoProvider } from "@/providers/demoProvider";
 
 // Wrapper component that includes all necessary providers for testing
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <BrowserRouter>
-    <AuthProvider>{children}</AuthProvider>
+    <DemoProvider>
+        <AuthProvider>{children}</AuthProvider>
+    </DemoProvider>
   </BrowserRouter>
 );
 
