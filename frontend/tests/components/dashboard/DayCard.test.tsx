@@ -37,8 +37,10 @@ const mockDay: ItineraryDay = {
             location: {
                 name: "Museo Nacional",
                 address: "Calle Principal 123",
-                latitude: 40.4168,
-                longitude: -3.7038,
+                coordinates: {
+                    latitude: 40.4168,
+                    longitude: -3.7038,
+                }
             },
         },
     ],

@@ -115,8 +115,10 @@ const mockActivity: Activity = {
     location: {
         name: "Museo Nacional",
         address: "Calle Principal 123",
-        latitude: 40.4168,
-        longitude: -3.7038,
+        coordinates: {
+            latitude: 40.4168,
+            longitude: -3.7038,
+        }
     },
 };
 
@@ -128,8 +130,10 @@ const mockEmptyActivity: Activity = {
     location: {
         name: "",
         address: "",
-        latitude: 0,
-        longitude: 0,
+        coordinates: {
+            latitude: 0,
+            longitude: 0,
+        }
     },
 };
 

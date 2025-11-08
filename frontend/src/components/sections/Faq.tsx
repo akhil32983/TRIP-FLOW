@@ -1,6 +1,5 @@
 import styles from "@styles/components/sections/Faq.module.css";
 import Section from "@components/shared/Section";
-import Button from "../shared/Button";
 
 const FAQ_DATA = [
   {
