@@ -5,11 +5,21 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: "/",
   plugins: [react()],
+  publicDir: "public",
   server: {
     host: process.env.VITE_HOST || "localhost",
     port: 5173,
     strictPort: true,
+  },
+  preview: {
+    host: "0.0.0.0",
+    port: 4173,
+    strictPort: true,
+  },
+  build: {
+    outDir: "dist",
   },
   test: {
     globals: true,
