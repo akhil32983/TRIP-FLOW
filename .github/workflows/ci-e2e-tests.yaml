@@ -8,6 +8,7 @@ on:
     paths:
       - 'backend/**'
       - 'frontend/**'
+      - 'e2e/**'
       - '.github/workflows/ci-e2e-tests.yaml'
   pull_request:
     branches:
@@ -15,37 +16,39 @@ on:
     paths:
       - 'backend/**'
       - 'frontend/**'
+      - 'e2e/**'
       - '.github/workflows/ci-e2e-tests.yaml'
   
   workflow_dispatch:
 
 jobs:
   e2e-testing:
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-        
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          java-version: '21'
-          distribution: 'temurin'
+          node-version: lts/*
       
-      - name: Cache Maven dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+      - name: Start services with Docker Compose
+        run: docker-compose -f docker-compose.test.yaml up -d
 
-      - name: Run E2E tests
-        run: mvn verify -Dgroups=e2e
-        env:
-          CI: true
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      - name: Install E2E dependencies
+        working-directory: ./e2e
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        working-directory: ./e2e
+        run: npx playwright install --with-deps
+
+      - name: Wait for services to be healthy running
+        working-directory: ./e2e
+        run: node scripts/wait-for-services.ts
+      
+      - name: Run Playwright tests
+        working-directory: ./e2e
+        run: npx playwright test
