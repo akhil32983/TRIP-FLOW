@@ -35,8 +35,13 @@ jobs:
         with:
           node-version: lts/*
       
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
+      
       - name: Start services with Docker Compose
-        run: docker-compose -f docker-compose.test.yaml up -d
+        run: docker compose -f docker-compose.test.yaml up -d
 
       - name: Install E2E dependencies
         working-directory: ./e2e
