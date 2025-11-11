@@ -1,20 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { FRONTEND_URL } from "../config/environment";
+import { generateUsername } from "./utils/testUtils";
 
 test.describe("Authentication Flow", () => {
     const shortPassword = "Ab12";
     const validPassword = "Ab12345678";
-    
-    /**
-     * Helper function to generate a unique username with 30 characters or less.
-     * @param prefix 
-     * @returns 
-     */
-    const generateUsername = (prefix: string) => {
-        const timestamp = Date.now().toString().slice(-8);
-        const random = Math.random().toString(36).substring(2, 6);
-        return `${prefix}_${timestamp}_${random}`;
-    };
 
     test.describe("Registration", () => {
         test.beforeEach(async ({ page }) => {
