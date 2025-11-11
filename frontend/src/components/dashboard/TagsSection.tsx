@@ -23,7 +23,7 @@ export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
 
     return (
         <div className={styles.tagsSection}>
-            <label className={styles.tagsLabel}>
+            <label className={styles.tagsLabel} htmlFor="newTagInput">
                 <Tag size={18} />
                 Tags (encuentra fácilmente tu itinerario)
             </label>
@@ -45,6 +45,8 @@ export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
 
                 <div className={styles.addTagContainer}>
                     <input
+                        id="newTagInput"
+                        name="newTagInput"
                         type="text"
                         value={newTag}
                         onChange={(e) => setNewTag(e.target.value)}

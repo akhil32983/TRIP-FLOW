@@ -4,7 +4,7 @@ import type { ExtendedItinerary } from "@/types/itinerary";
 
 import { formatBudget, formatDate } from "@/utils/formatUtils";
 
-import { AlarmClockIcon, CalendarIcon, Edit, MapPinIcon, PiggyBankIcon, Trash, UsersIcon } from "lucide-react";
+import { AlarmClockIcon, CalendarIcon, Edit, MapPinIcon, PiggyBankIcon, Trash2, UsersIcon } from "lucide-react";
 
 import Badge from "@components/shared/Badge";
 import Button from "@/components/shared/Button";
@@ -31,7 +31,7 @@ export default function ExtendedItinerary({ itinerary, onDelete }: ExtendedItine
                 <div className={styles.headerActions}>
                     <Badge status={itinerary.status} style="default" />
                     <Button style={["tool_bordered"]} to={`/itineraries/${itinerary.id}/edit`}><Edit size={16} /></Button>
-                    <Button style={["tool_bordered", "danger"]} onClick={onDelete}><Trash size={16} /></Button>
+                    <Button style={["tool_bordered", "danger"]} onClick={onDelete}><Trash2 size={16} /></Button>
                 </div>
             </div>
 
