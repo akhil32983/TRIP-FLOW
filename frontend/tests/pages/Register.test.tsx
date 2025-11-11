@@ -475,6 +475,6 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    expect(mockNavigate).toHaveBeenCalledWith("/");
+    expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
   });
 });
