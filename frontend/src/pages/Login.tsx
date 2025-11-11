@@ -14,7 +14,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
 
-  // If user is already logged in, redirect to home page
+  // If user is already logged in, redirect to dashboard page
   useEffect(() => {
     if (user) {
       navigate("/dashboard");

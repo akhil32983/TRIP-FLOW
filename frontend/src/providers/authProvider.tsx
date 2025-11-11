@@ -107,8 +107,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Transform error messages to a more user-friendly format
       const error: Record<string, string> =
         res.errors.username === "User already exists with username"
-          ? { username: "El nombre de usuario ya está en uso" }
-          : { global: res.message ?? "Ha ocurrido un error desconocido" };
+          ? { username: "El nombre de usuario ya está en uso." }
+          : { global: res.message ?? "Ha ocurrido un error desconocido." };
       setErrors(error);
       return { success: false, errors: error };
     }

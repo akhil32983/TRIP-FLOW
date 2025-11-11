@@ -14,10 +14,10 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
 
-  // If user is already logged in, redirect to home page
+  // If user is already logged in, redirect to dashboard
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/dashboard");
     }
   }, [user, navigate]);
 
