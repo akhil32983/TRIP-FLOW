@@ -67,10 +67,10 @@
 
 ## 📦 Docker + CI/CD (deadline: 15 December 2025)
 
-- [ ] {Docker} Dockerfile for backend service
-- [ ] {Docker} Dockerfile for frontend service
-- [ ] {Docker} Docker Compose setup for development environment
-- [ ] {CI/CD} GitHub Actions pipeline for testing
+- [x] {Docker} Dockerfile for backend service
+- [x] {Docker} Dockerfile for frontend service
+- [x] {Docker} Docker Compose setup for development environment
+- [x] {CI/CD} GitHub Actions pipeline for testing
 - [ ] {CI/CD} GitHub Actions pipeline for building and deploying Docker images
 - [ ] {Deployment} Vercel + Render
 
