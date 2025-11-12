@@ -2,15 +2,6 @@ name: CD - Manual OCI Build
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        type: string
-        description: "Branch to build from"
-        required: true
-      commit:
-        type: string
-        description: "Optional commit SHA"
-        required: false
   
   push:
     branches:
@@ -24,13 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: ${{ inputs.branch }}
-          fetch-depth: 0
-
-      - name: Checkout specific commit (if provided)
-        if: ${{ inputs.commit != '' }}
-        run: git checkout ${{ inputs.commit }}
 
       - name: Generate dynamic tag
         id: set-tag
