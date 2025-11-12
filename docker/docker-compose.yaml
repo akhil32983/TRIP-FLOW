@@ -22,9 +22,7 @@ services:
   
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: cub1z/tripflow-backend:0.1
     container_name: tripflow-backend
     restart: unless-stopped
     environment:
@@ -47,9 +45,7 @@ services:
       - tripflow-network
   
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: cub1z/tripflow-frontend:0.1
     container_name: tripflow-frontend
     restart: unless-stopped
     environment:

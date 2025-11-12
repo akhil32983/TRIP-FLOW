@@ -40,6 +40,7 @@ jobs:
           version: latest
       
       - name: Start services with Docker Compose
+        working-directory: ./docker
         run: docker compose -f docker-compose.test.yaml up -d
 
       - name: Install E2E dependencies
