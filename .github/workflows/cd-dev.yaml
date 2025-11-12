@@ -12,3 +12,4 @@ jobs:
       tag: dev
       compose_file: docker/docker-compose.dev.yaml
       services: '["backend","frontend"]'
+    secrets: inherit
