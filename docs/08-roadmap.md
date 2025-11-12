@@ -55,13 +55,13 @@
 - [x] {Unit-Frontend} Component tests for landing page, buttons, headers, etc.
 - [x] {Unit-Frontend} Authentication form validation tests
 - [x] {Unit-Frontend} Itinerary creation and editing tests
-- [ ] {Component-Frontend} Navigation and routing tests
+- [x] {Component-Frontend} Navigation and routing tests
 - [x] {Integration-Backend} API endpoint tests (RestAssured + Postman)
   - [x] {Integration-Backend} User authentication endpoints
   - [x] {Integration-Backend} Itinerary endpoints
-- [ ] {Integration-Frontend} Frontend-backend communication tests
-- [ ] {E2E} User flow tests (Puppeteer)
-- [ ] {Security} Authorization tests for protected resources
+- [x] {Integration-Frontend} Frontend-backend communication tests
+- [x] {E2E} User flow tests (Puppeteer)
+- [x] {Security} Authorization tests for protected resources
 
 ---
 
@@ -71,8 +71,7 @@
 - [x] {Docker} Dockerfile for frontend service
 - [x] {Docker} Docker Compose setup for development environment
 - [x] {CI/CD} GitHub Actions pipeline for testing
-- [ ] {CI/CD} GitHub Actions pipeline for building and deploying Docker images
-- [ ] {Deployment} Vercel + Render
+- [x] {CI/CD} GitHub Actions pipeline for building and deploying Docker images
 
 ---
 
