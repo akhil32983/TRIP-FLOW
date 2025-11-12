@@ -4,10 +4,12 @@ on:
   workflow_dispatch:
     inputs:
       branch:
+        type: string
         description: "Branch to build from"
         required: true
         default: "main"
       commit:
+        type: string
         description: "Optional commit SHA"
         required: false
 
