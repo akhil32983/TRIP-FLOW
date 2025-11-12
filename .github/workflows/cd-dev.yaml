@@ -1,0 +1,14 @@
+name: CD - Publish Dev Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-dev:
+    uses: ./.github/workflows/cd-build.yaml
+    with:
+      tag: dev
+      compose_file: docker/docker-compose.dev.yaml
+      services: '["backend","frontend"]'
