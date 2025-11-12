@@ -11,7 +11,7 @@ on:
         type: string
       services:
         required: true
-        type: json
+        type: string
 
 jobs:
   build-and-push:
