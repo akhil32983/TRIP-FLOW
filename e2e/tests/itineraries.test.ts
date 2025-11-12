@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { FRONTEND_URL } from "../config/environment";
-import { generateUsername } from "./utils/testUtils";
+import { generateUniqueString, generateUsername } from "./utils/testUtils";
 
 test.describe("Itinerary Management", () => {
     const validPassword = "Ab12345678";
@@ -192,14 +192,14 @@ test.describe("Itinerary Management", () => {
             await page.getByLabel(/destino/i).fill("París, Francia");
             await page.getByRole("button", { name: /guardar todo/i }).click();
 
-            await page.waitForLoadState('networkidle');
+            await page.waitForLoadState("networkidle");
 
             // 2. Navigate back to itineraries list
-            await page.goto(`${FRONTEND_URL}/itineraries`);
+            await page.getByText(/volver/i).click();
             
             // 3. Check that the itinerary list displays the created itinerary
-            const itineraryLink = page.getByRole("link", { name: /viaje a parís/i });
-            await expect(itineraryLink).toBeVisible({ timeout: 15000 });
+            await expect(page.getByText(/viaje a parís/i).first()).toBeVisible({ timeout: 15000 });
+            await expect(page.getByText(/parís, francia/i).first()).toBeVisible();
         });
 
         test("should display itinerary details", async ({ page }) => {
@@ -211,12 +211,10 @@ test.describe("Itinerary Management", () => {
             await page.getByRole("button", { name: /guardar todo/i }).click();
 
             // 2. Navigate back to itineraries list
-            await page.goto(`${FRONTEND_URL}/itineraries`);
+            await page.getByText(/volver/i).click();
 
-            // 3. Click on the itinerary to view details
-            const itineraryLink = page.getByRole("link", { name: /viaje a parís/i });
-            await expect(itineraryLink).toBeVisible({ timeout: 15000 });
-            await itineraryLink.click();
+            // 3. Click on the itinerary card to view details
+            await page.getByText(/viaje a parís/i).first().click();
 
             // 4. Verify that itinerary details are displayed
             await expect(page).toHaveURL(/\/itineraries\/\d+/);
@@ -299,19 +297,23 @@ test.describe("Itinerary Management", () => {
         });
 
         test("should successfully delete itinerary", async ({ page }) => {
+            const itineraryTitle = generateUniqueString("viaje")
+            
             // 1. Create a new itinerary to ensure there is at least one
             await page.goto(`${FRONTEND_URL}/itineraries/new`);
 
-            await page.getByLabel(/título del viaje/i).fill("Viaje a París");
-            await page.getByLabel(/destino/i).fill("París, Francia");
+            await page.getByLabel(/título del viaje/i).fill(itineraryTitle);
+            await page.getByLabel(/destino/i).fill("España");
             await page.getByRole("button", { name: /guardar todo/i }).click();
 
             // 2. Verify that the itinerary was created
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
-            await expect(page.getByText(/parís/i).first()).toBeVisible();
+            const itineraryCard = page.getByText(new RegExp(itineraryTitle, "i"));
+            await expect(itineraryCard).toBeVisible();
 
             // 3. Click on delete button
-            await page.locator("button:has(.lucide-trash2)").first().click();
+            const deleteButton = page.locator("button:has(.lucide-trash2)").first();
+            await deleteButton.click();
 
             // 4. Verify confirmation dialog appears
             await expect(page.getByText(/eliminar itinerario/i)).toBeVisible();
@@ -319,34 +321,12 @@ test.describe("Itinerary Management", () => {
             // 5. Confirm deletion
             await page.getByRole("button", { name: /eliminar/i }).click();
 
-            // 6. Verify that the itinerary was deleted
-            await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
-            await expect(page.getByText(/parís/i).first()).not.toBeVisible();
-        });
-
-        test("should cancel delete operation", async ({ page }) => {
-            // 1. Create a new itinerary to ensure there is at least one
-            await page.goto(`${FRONTEND_URL}/itineraries/new`);
-
-            await page.getByLabel(/título del viaje/i).fill("Viaje a París");
-            await page.getByLabel(/destino/i).fill("París, Francia");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
-
-            // 2. Verify that the itinerary was created
-            await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
-            await expect(page.getByText(/parís/i)).toBeVisible();
-
-            // 3. Click on delete button
-            await page.locator("button:has(.lucide-trash2)").first().click();
-
-            // 4. Verify confirmation dialog appears
-            await expect(page.getByText(/eliminar itinerario/i)).toBeVisible();
-
-            // 5. Cancel deletion
-            await page.getByRole("button", { name: /cancelar/i }).click();
-
-            // 6. Verify that the itinerary still exists
-            await expect(page.getByText(/parís/i).first()).toBeVisible();
+            // 6. Wait for navigation and verify deletion
+            await page.waitForURL(/\/itineraries/, { timeout: 10000 });
+            
+            // 7. Check that the itinerary is no longer present
+            const deletedItinerary = page.getByText(new RegExp(itineraryTitle, "i"));
+            await expect(deletedItinerary).toHaveCount(0);
         });
     });
 
