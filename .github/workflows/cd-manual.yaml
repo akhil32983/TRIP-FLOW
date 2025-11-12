@@ -12,6 +12,10 @@ on:
         type: string
         description: "Optional commit SHA"
         required: false
+  
+  push:
+    branches:
+      - develop
 
 jobs:
   prepare:
