@@ -29,6 +29,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: dev
+      DOCKER_ENV: local
       POSTGRES_URL: jdbc:postgresql://postgres:5432/tripflow
       POSTGRES_USER: tripflow_user
       POSTGRES_PASSWORD: secure_password
