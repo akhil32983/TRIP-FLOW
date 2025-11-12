@@ -1,10 +1,6 @@
 name: CD - Manual OCI Build
 
 on:
-  push:
-    branches:
-      - develop
-
   workflow_dispatch:
   
 
