@@ -37,6 +37,12 @@ jobs:
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ matrix.service }}:${{ inputs.tag }}
 
+      - name: Install ORAS CLI
+        run: |
+          curl -sSL https://github.com/oras-project/oras/releases/download/v1.4.1/oras_1.4.1_linux_amd64.tar.gz \
+            | tar -xz -C /usr/local/bin oras
+          oras version
+
       - name: Publish docker-compose as OCI artifact
         if: ${{ matrix.service == fromJSON(inputs.services)[0] }}
         run: |
