@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.tripflow</groupId>
 	<artifactId>tripflow</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>tripflow</name>
 	<description>Backend API for TripFlow, a smart travel itinerary planner</description>
 	<url>https://github.com/codeurjc-students/2025-TripFlow</url>

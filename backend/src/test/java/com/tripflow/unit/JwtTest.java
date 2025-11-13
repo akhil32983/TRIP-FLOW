@@ -43,8 +43,6 @@ public class JwtTest {
     public void setUp() {
         System.setProperty("JWT_SECRET", JWT_SECRET);
 
-        // Create an instance of JwtTokenProvider (JWT_SECRET is set in the system
-        // properties)
         this.jwtTokenProvider = new JwtTokenProvider();
 
         // Mock UserDetails for testing
