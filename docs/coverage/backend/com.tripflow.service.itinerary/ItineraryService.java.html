@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItineraryService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.service.itinerary</a> &gt; <span class="el_source">ItineraryService.java</span></div><h1>ItineraryService.java</h1><pre class="source lang-java linenums">package com.tripflow.service.itinerary;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDayDTO;
+import com.tripflow.dto.itinerary.ItineraryMapper;
+import com.tripflow.dto.shared.PaginatedDTO;
+import com.tripflow.model.User;
+import com.tripflow.model.itinerary.Itinerary;
+import com.tripflow.model.itinerary.ItineraryDay;
+import com.tripflow.model.types.ItineraryStatus;
+import com.tripflow.repository.itinerary.ItineraryRepository;
+import com.tripflow.service.UserService;
+
+import jakarta.transaction.Transactional;
+
+@Service
+public class ItineraryService {
+    private final ItineraryRepository itineraryRepository;
+    private final UserService userService;
+    private final ItineraryDayService itineraryDayService;
+    private final ItineraryMapper itineraryMapper;
+
+
+    public ItineraryService(
+        ItineraryRepository itineraryRepository,
+        UserService userService,
+        ItineraryDayService itineraryDayService,
+        ItineraryMapper itineraryMapper
+<span class="fc" id="L39">    ) {</span>
+<span class="fc" id="L40">        this.itineraryRepository = itineraryRepository;</span>
+<span class="fc" id="L41">        this.userService = userService;</span>
+<span class="fc" id="L42">        this.itineraryDayService = itineraryDayService;</span>
+<span class="fc" id="L43">        this.itineraryMapper = itineraryMapper;</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Creates a new itinerary from the provided ItineraryDTO.
+     *
+     * @param itineraryDTO the DTO containing itinerary data
+     * @return the created ItineraryDTO
+     */
+    public ExtendedItineraryDTO createItinerary(ExtendedItineraryDTO itineraryDTO) {
+<span class="fc" id="L53">        User authenticatedUser = this.userService.getAuthenticatedUser();</span>
+
+<span class="fc" id="L55">        Itinerary newItinerary = new Itinerary();</span>
+        
+        // Assign basic details from the DTO to the entity
+<span class="fc" id="L58">        this.assignExtraDetails(newItinerary, itineraryDTO);</span>
+
+<span class="fc" id="L60">        List&lt;ItineraryDayDTO&gt; days = itineraryDTO.days();</span>
+
+        // Iterate through days in the itinerary and create each day
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        for (ItineraryDayDTO day : days) {</span>
+<span class="fc" id="L64">            ItineraryDay newDay = this.itineraryDayService.createItineraryDayEntity(day, newItinerary);</span>
+<span class="fc" id="L65">            newItinerary.addDay(newDay);</span>
+<span class="fc" id="L66">        }</span>
+
+        // Set the user for the itinerary
+<span class="fc" id="L69">        authenticatedUser.addItinerary(newItinerary);</span>
+<span class="fc" id="L70">        newItinerary.setUser(authenticatedUser);</span>
+
+<span class="fc" id="L72">        return this.itineraryMapper.toExtendedDTO(this.itineraryRepository.save(newItinerary));</span>
+    }
+
+    /**
+     * Retrieves all itineraries for the authenticated user, paginated.
+     *
+     * @param pageable pagination information
+     * @param search optional search query to filter itineraries
+     * @return a PaginatedDTO containing a list of ItineraryDTOs
+     */
+    public PaginatedDTO&lt;ItineraryDTO&gt; getAllItineraries(Pageable pageable, String search) {
+<span class="fc" id="L83">        User authenticatedUser = this.userService.getAuthenticatedUser();</span>
+
+        // Retrieve paginated itineraries for the authenticated user
+        Page&lt;Itinerary&gt; itinerariesPage;
+
+<span class="pc bpc" id="L88" title="1 of 4 branches missed.">        if (search != null &amp;&amp; !search.trim().isEmpty()) {</span>
+<span class="fc" id="L89">            itinerariesPage = this.itineraryRepository.findAllByUserAndSearchOrderByUpdatedAtDesc(</span>
+<span class="fc" id="L90">                authenticatedUser, search.trim(), pageable</span>
+            );
+        } else {
+<span class="fc" id="L93">            itinerariesPage = this.itineraryRepository.findAllByUserOrderByUpdatedAtDesc(</span>
+                authenticatedUser, pageable
+            );
+        }
+
+        // Map the retrieved itineraries to DTOs
+<span class="fc" id="L99">        List&lt;ItineraryDTO&gt; itineraryDTOs = this.itineraryMapper.toDTOs(itinerariesPage.getContent());</span>
+
+<span class="fc" id="L101">        return new PaginatedDTO&lt;ItineraryDTO&gt;(</span>
+            itineraryDTOs,
+<span class="fc" id="L103">            itinerariesPage.getNumber(),</span>
+<span class="fc" id="L104">            itinerariesPage.getTotalPages(),</span>
+<span class="fc" id="L105">            itinerariesPage.getTotalElements(),</span>
+<span class="fc" id="L106">            itinerariesPage.getSize(),</span>
+<span class="fc" id="L107">            itinerariesPage.isLast()</span>
+        );
+    }
+
+    /**
+     * Retrieves an itinerary by its ID, ensuring the authenticated user is the owner.
+     *
+     * @param id the ID of the itinerary to retrieve
+     * @return the ItineraryDTO for the specified ID
+     * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
+     */
+    public ExtendedItineraryDTO getItineraryById(Long id) throws ResponseStatusException {
+<span class="fc" id="L119">        Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(</span>
+<span class="fc" id="L120">            () -&gt; new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(&quot;Itinerary with ID %d not found&quot;, id))</span>
+        );
+
+        // Ensure the authenticated user is the owner of the itinerary
+<span class="fc" id="L124">        User authenticatedUser = this.userService.getAuthenticatedUser();</span>
+<span class="fc bfc" id="L125" title="All 2 branches covered.">        if (!itinerary.getUser().getId().equals(authenticatedUser.getId())) {</span>
+<span class="fc" id="L126">            throw new ResponseStatusException(HttpStatus.FORBIDDEN, &quot;You do not have permission to access this itinerary&quot;);</span>
+        }
+
+<span class="fc" id="L129">        return this.itineraryMapper.toExtendedDTO(itinerary);</span>
+    }
+
+    /**
+     * Updates an existing itinerary with the provided ItineraryDTO.
+     *
+     * @param id the ID of the itinerary to update
+     * @param itineraryDTO the DTO containing updated itinerary data
+     * @return the updated ItineraryDTO
+     * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
+     */
+    @Transactional
+    public ExtendedItineraryDTO updateItinerary(Long id, ExtendedItineraryDTO itineraryDTO) throws ResponseStatusException {
+<span class="fc" id="L142">        Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(</span>
+<span class="fc" id="L143">            () -&gt; new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(&quot;Itinerary with ID %d not found&quot;, id))</span>
+        );
+
+        // Ensure the authenticated user is the owner of the itinerary
+<span class="fc" id="L147">        User authenticatedUser = this.userService.getAuthenticatedUser();</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">        if (!itinerary.getUser().getId().equals(authenticatedUser.getId())) {</span>
+<span class="fc" id="L149">            throw new ResponseStatusException(HttpStatus.FORBIDDEN, &quot;You do not have permission to update this itinerary&quot;);</span>
+        }
+
+        // Update basic details
+<span class="fc" id="L153">        this.assignExtraDetails(itinerary, itineraryDTO);</span>
+
+        // Clear existing days
+<span class="fc" id="L156">        this.itineraryDayService.deleteAllDaysByItinerary(itinerary);</span>
+
+        // Iterate through the new days in the itinerary and create each day
+<span class="fc" id="L159">        List&lt;ItineraryDay&gt; days = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L160" title="All 2 branches covered.">        for (ItineraryDayDTO dayDTO : itineraryDTO.days()) {</span>
+<span class="fc" id="L161">            ItineraryDay newDay = this.itineraryDayService.createItineraryDayEntity(dayDTO, itinerary);</span>
+<span class="fc" id="L162">            days.add(newDay);</span>
+<span class="fc" id="L163">        }</span>
+<span class="fc" id="L164">        itinerary.setDays(days);</span>
+
+        // Increment the updated count
+<span class="fc" id="L167">        itinerary.setUpdatedCount(itinerary.getUpdatedCount() + 1);</span>
+
+        // Save and return the updated DTO
+<span class="fc" id="L170">        return this.itineraryMapper.toExtendedDTO(this.itineraryRepository.save(itinerary));</span>
+    }
+
+    /**
+     * Deletes an itinerary by its ID, ensuring the authenticated user is the owner.
+     *
+     * @param id the ID of the itinerary to delete
+     * @throws ResponseStatusException NOT_FOUND | FORBIDDEN
+     */
+    public void deleteItinerary(Long id) throws ResponseStatusException {
+<span class="fc" id="L180">        Itinerary itinerary = this.itineraryRepository.findById(id).orElseThrow(</span>
+<span class="fc" id="L181">            () -&gt; new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(&quot;Itinerary with ID %d not found&quot;, id))</span>
+        );
+
+        // Ensure the authenticated user is the owner of the itinerary
+<span class="fc" id="L185">        User authenticatedUser = this.userService.getAuthenticatedUser();</span>
+<span class="fc bfc" id="L186" title="All 2 branches covered.">        if (!itinerary.getUser().getId().equals(authenticatedUser.getId())) {</span>
+<span class="fc" id="L187">            throw new ResponseStatusException(HttpStatus.FORBIDDEN, &quot;You do not have permission to delete this itinerary&quot;);</span>
+        }
+
+<span class="fc" id="L190">        this.itineraryRepository.delete(itinerary);</span>
+<span class="fc" id="L191">    }</span>
+
+
+    /**
+     * Sums the total number of days across all itineraries for a given user.
+     *
+     * @param userId the ID of the user
+     * @return the total number of days
+     */
+    public Long countTotalDaysByUserId(Long userId) {
+<span class="fc" id="L201">        return this.itineraryRepository.countTotalDaysByUserId(userId);</span>
+    }
+
+    /**
+     * Counts the number of distinct locations across all itineraries for a given user.
+     *
+     * @param userId the ID of the user
+     * @return the count of distinct locations
+     */
+    public Long countDistinctLocationsByUserId(Long userId) {
+<span class="fc" id="L211">        return this.itineraryRepository.countDistinctLocationsByUserId(userId);</span>
+    }
+
+    /**
+     * Assigns extra details from the DTO to the Itinerary entity.
+     * 
+     * @param itinerary the Itinerary entity to update
+     * @param itineraryDTO the DTO containing updated details
+     */
+    private void assignExtraDetails(Itinerary itinerary, ExtendedItineraryDTO itineraryDTO) {
+<span class="fc" id="L221">        itinerary.setTitle(itineraryDTO.title());</span>
+<span class="fc" id="L222">        itinerary.setPlace(itineraryDTO.place());</span>
+<span class="fc" id="L223">        itinerary.setIcon(itineraryDTO.icon());</span>
+<span class="fc" id="L224">        itinerary.setPeople(itineraryDTO.people());</span>
+<span class="fc" id="L225">        itinerary.setBudget(itineraryDTO.budget());</span>
+<span class="fc" id="L226">        itinerary.setDate(itineraryDTO.date());</span>
+<span class="fc" id="L227">        itinerary.setTags(itineraryDTO.tags());</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">        itinerary.setStatus(itineraryDTO.status() != null ? itineraryDTO.status() : ItineraryStatus.DRAFT);</span>
+<span class="fc" id="L229">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

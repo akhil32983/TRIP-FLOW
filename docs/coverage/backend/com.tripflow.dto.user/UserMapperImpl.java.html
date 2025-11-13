@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.dto.user</a> &gt; <span class="el_source">UserMapperImpl.java</span></div><h1>UserMapperImpl.java</h1><pre class="source lang-java linenums">package com.tripflow.dto.user;
+
+import com.tripflow.model.User;
+import com.tripflow.model.types.UserType;
+import java.time.LocalDateTime;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2025-11-13T08:35:37+0100&quot;,
+    comments = &quot;version: 1.6.3, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)&quot;
+)
+@Component
+<span class="fc" id="L15">public class UserMapperImpl implements UserMapper {</span>
+
+    @Override
+    public PublicUserDTO toPublicUserDTO(User user) {
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if ( user == null ) {</span>
+<span class="nc" id="L20">            return null;</span>
+        }
+
+<span class="fc" id="L23">        Long id = null;</span>
+<span class="fc" id="L24">        String username = null;</span>
+<span class="fc" id="L25">        String name = null;</span>
+<span class="fc" id="L26">        String description = null;</span>
+<span class="fc" id="L27">        String location = null;</span>
+<span class="fc" id="L28">        LocalDateTime createdAt = null;</span>
+<span class="fc" id="L29">        UserType role = null;</span>
+
+<span class="fc" id="L31">        id = user.getId();</span>
+<span class="fc" id="L32">        username = user.getUsername();</span>
+<span class="fc" id="L33">        name = user.getName();</span>
+<span class="fc" id="L34">        description = user.getDescription();</span>
+<span class="fc" id="L35">        location = user.getLocation();</span>
+<span class="fc" id="L36">        createdAt = user.getCreatedAt();</span>
+<span class="fc" id="L37">        role = user.getRole();</span>
+
+<span class="fc" id="L39">        PublicUserDTO publicUserDTO = new PublicUserDTO( id, username, name, description, location, createdAt, role );</span>
+
+<span class="fc" id="L41">        return publicUserDTO;</span>
+    }
+
+    @Override
+    public User toDomain(RegisterUserRequest request, String hashedPassword, UserType role) {
+<span class="pc bpc" id="L46" title="5 of 6 branches missed.">        if ( request == null &amp;&amp; hashedPassword == null &amp;&amp; role == null ) {</span>
+<span class="nc" id="L47">            return null;</span>
+        }
+
+<span class="fc" id="L50">        User user = new User();</span>
+
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        if ( request != null ) {</span>
+<span class="fc" id="L53">            user.setUsername( request.username() );</span>
+        }
+<span class="fc" id="L55">        user.setHashedPassword( hashedPassword );</span>
+<span class="fc" id="L56">        user.setRole( role );</span>
+<span class="fc" id="L57">        user.setName( request.username() );</span>
+
+<span class="fc" id="L59">        return user;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

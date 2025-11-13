@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LocationService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.service.itinerary</a> &gt; <span class="el_source">LocationService.java</span></div><h1>LocationService.java</h1><pre class="source lang-java linenums">package com.tripflow.service.itinerary;
+
+import org.springframework.stereotype.Service;
+
+import com.tripflow.dto.itinerary.ItineraryMapper;
+import com.tripflow.dto.itinerary.LocationDTO;
+import com.tripflow.model.itinerary.GeographicPoint;
+import com.tripflow.model.itinerary.Location;
+
+@Service
+public class LocationService {
+    private final GeographicPointService geographicPointService;
+    private final ItineraryMapper itineraryMapper;
+
+    public LocationService(
+        GeographicPointService geographicPointService,
+        ItineraryMapper itineraryMapper
+<span class="fc" id="L18">    ) {</span>
+<span class="fc" id="L19">        this.geographicPointService = geographicPointService;</span>
+<span class="fc" id="L20">        this.itineraryMapper = itineraryMapper;</span>
+<span class="fc" id="L21">    }</span>
+
+    /**
+     * Creates a new location entity from the provided LocationDTO.
+     * Links it to the appropriate geographic point (shared by coordinates).
+     *
+     * @param locationDTO the DTO containing location data
+     * @param activity the Activity to associate with the location
+     * @return the saved Location entity
+     */
+    public Location createLocationEntity(LocationDTO locationDTO) {
+        Location location;
+
+<span class="pc bpc" id="L34" title="1 of 2 branches missed.">        if (locationDTO == null) {</span>
+<span class="nc" id="L35">            location = new Location();</span>
+        } else {
+<span class="fc" id="L37">            location = this.itineraryMapper.toLocation(locationDTO);</span>
+        }
+
+        GeographicPoint coordinates;
+<span class="pc bpc" id="L41" title="1 of 2 branches missed.">        if (</span>
+            locationDTO == null ||
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            locationDTO.coordinates() == null ||</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">            locationDTO.coordinates().latitude() == null ||</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">            locationDTO.coordinates().longitude() == null</span>
+        ) {
+<span class="fc" id="L47">            coordinates = this.geographicPointService.getDefaultPoint();</span>
+        } else {
+<span class="fc" id="L49">            coordinates = this.geographicPointService.findOrCreateByCoordinates(</span>
+<span class="fc" id="L50">                locationDTO.coordinates().latitude(),</span>
+<span class="fc" id="L51">                locationDTO.coordinates().longitude()</span>
+            );
+        }
+        
+        // Link the location to the geographic point
+<span class="fc" id="L56">        location.setCoordinates(coordinates);</span>
+        
+<span class="fc" id="L58">        return location;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

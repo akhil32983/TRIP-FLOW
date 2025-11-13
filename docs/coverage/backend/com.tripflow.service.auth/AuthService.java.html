@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.service.auth</a> &gt; <span class="el_source">AuthService.java</span></div><h1>AuthService.java</h1><pre class="source lang-java linenums">package com.tripflow.service.auth;
+
+import java.util.Map;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
+
+import com.tripflow.dto.auth.AuthResponse;
+import com.tripflow.dto.auth.AuthStatus;
+import com.tripflow.dto.auth.LoginRequest;
+import com.tripflow.dto.user.PublicUserDTO;
+import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.security.jwt.JwtTokenProvider;
+import com.tripflow.security.jwt.TokenType;
+import com.tripflow.service.UserService;
+
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
+
+@Service
+public class AuthService {
+    private final AuthenticationManager authenticationManager;
+    private final UserDetailsService userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
+    private final AuthValidator authValidator;
+
+    public AuthService(
+        AuthenticationManager authenticationManager, UserDetailsService userDetailsService,
+        JwtTokenProvider jwtTokenProvider, UserService userService, AuthValidator authValidator
+<span class="fc" id="L38">    ) {</span>
+<span class="fc" id="L39">        this.authenticationManager = authenticationManager;</span>
+<span class="fc" id="L40">        this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L41">        this.jwtTokenProvider = jwtTokenProvider;</span>
+<span class="fc" id="L42">        this.userService = userService;</span>
+<span class="fc" id="L43">        this.authValidator = authValidator;</span>
+<span class="fc" id="L44">    }</span>
+
+    /**
+     * Handles user registration by creating a new user.
+     * 
+     * @param request  the register request containing user details
+     * @return an AuthResponse containing the status, message, errors, and public user information
+     */
+    public AuthResponse register(RegisterUserRequest request) {
+        // Validate the registration request
+<span class="fc" id="L54">        Map&lt;String, String&gt; errors = this.authValidator.validateUserRegistrationRequest(request);</span>
+
+        // If there are validation errors, return them in the response
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        if (!errors.isEmpty()) {</span>
+<span class="fc" id="L58">            return new AuthResponse(</span>
+                AuthStatus.FAILURE,
+                null,
+                errors,
+                null
+            );
+        }
+
+        try {
+            // Try to register the user
+<span class="fc" id="L68">            PublicUserDTO publicUser = this.userService.registerUser(request);</span>
+
+<span class="fc" id="L70">            return new AuthResponse(</span>
+                AuthStatus.SUCCESS,
+                &quot;Registration successful&quot;,
+                null,
+                publicUser
+            );
+<span class="fc" id="L76">        } catch (IllegalArgumentException e) {</span>
+<span class="fc" id="L77">            return new AuthResponse(</span>
+                AuthStatus.FAILURE,
+                null,
+<span class="fc" id="L80">                Map.of(&quot;username&quot;, &quot;User already exists with username&quot;),</span>
+                null
+            );
+<span class="nc" id="L83">        } catch (Exception e) {</span>
+<span class="nc" id="L84">            return new AuthResponse(</span>
+                AuthStatus.FAILURE,
+                null,
+<span class="nc" id="L87">                Map.of(&quot;unexpected&quot;, &quot;An error occurred during registration&quot;),</span>
+                null
+            );
+        }
+    }
+
+    /**
+     * Handles user login by authenticating the user and generating JWT tokens.
+     *
+     * @param response the HTTP response to add cookies to
+     * @param request  the login request containing username and password
+     * @return an AuthResponse containing the status, message, and public user information
+     */
+    public AuthResponse login(HttpServletResponse response, LoginRequest request) {
+        // Try to authenticate the user
+        Authentication authentication;
+        try {
+<span class="fc" id="L104">            authentication = authenticationManager.authenticate(</span>
+<span class="fc" id="L105">                new UsernamePasswordAuthenticationToken(request.username(), request.password())</span>
+            );
+<span class="fc" id="L107">        } catch (AuthenticationException e) {</span>
+<span class="fc" id="L108">            return new AuthResponse(</span>
+                AuthStatus.FAILURE,
+                &quot;Invalid credentials&quot;,
+                null,
+                null
+            );
+<span class="fc" id="L114">        }</span>
+
+        // Set the authentication in the security context
+<span class="fc" id="L117">		SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+
+        // Retrieve user details and public user information
+<span class="fc" id="L120">        String username = request.username();</span>
+<span class="fc" id="L121">        UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);</span>
+<span class="fc" id="L122">        PublicUserDTO publicUser = this.userService.getPublicUserByUsername(username);</span>
+
+        // Add the JWT token to the response as a Read-Only Cookie
+<span class="fc" id="L125">        String newAuthToken = this.jwtTokenProvider.generateAuthToken(userDetails);</span>
+<span class="fc" id="L126">        String newRefreshToken = this.jwtTokenProvider.generateRefreshToken(userDetails);</span>
+
+<span class="fc" id="L128">        response.addCookie(this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken));</span>
+<span class="fc" id="L129">        response.addCookie(this.buildTokenCookie(TokenType.REFRESH_TOKEN, newRefreshToken));</span>
+
+<span class="fc" id="L131">        return new AuthResponse(</span>
+            AuthStatus.SUCCESS,
+            &quot;Login successful&quot;,
+            null,
+            publicUser
+        );
+    }
+
+    /**
+     * Handles user logout by clearing the authentication and removing tokens.
+     *
+     * @param response the HTTP response to add cookies to
+     * @return an AuthResponse indicating the logout status
+     */
+    public AuthResponse logout(HttpServletResponse response) {
+        // Clear the authentication from the security context
+<span class="fc" id="L147">        SecurityContextHolder.clearContext();</span>
+
+<span class="fc" id="L149">        response.addCookie(this.removeTokenFromCookie(TokenType.AUTH_TOKEN));</span>
+<span class="fc" id="L150">        response.addCookie(this.removeTokenFromCookie(TokenType.REFRESH_TOKEN));</span>
+
+<span class="fc" id="L152">        return new AuthResponse(</span>
+            AuthStatus.SUCCESS,
+            &quot;Logout successful&quot;,
+            null,
+            null
+        );
+    }
+
+    /**
+     * Refreshes the authentication tokens.
+     *
+     * @param response the HTTP response to add cookies to
+     * @param refreshToken the refresh token from the request for validation
+     * @return an AuthResponse containing the new token and public user information
+     */
+    public AuthResponse refresh(HttpServletResponse response, String refreshToken) {
+        try {
+<span class="fc" id="L169">            Claims claims = this.jwtTokenProvider.validateToken(refreshToken);</span>
+<span class="fc" id="L170">            String username = claims.getSubject();</span>
+
+            // Generate new tokens using the JWT token provider
+<span class="fc" id="L173">            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);</span>
+<span class="fc" id="L174">            String newAuthToken = this.jwtTokenProvider.generateAuthToken(userDetails);</span>
+
+            // Add the new auth token to the response as a Read-Only Cookie
+<span class="fc" id="L177">            response.addCookie(this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken));</span>
+
+            // Retrieve public user information
+<span class="fc" id="L180">            PublicUserDTO publicUser = this.userService.getPublicUserByUsername(username);</span>
+
+<span class="fc" id="L182">            return new AuthResponse(</span>
+                AuthStatus.SUCCESS,
+                &quot;Token refreshed successfully&quot;,
+                null,
+                publicUser
+            );
+<span class="fc" id="L188">        } catch (Exception e) {</span>
+<span class="fc" id="L189">            return new AuthResponse(</span>
+                AuthStatus.FAILURE,
+                &quot;Invalid refresh token&quot;,
+<span class="fc" id="L192">                Map.of(&quot;error&quot;, &quot;Refresh token is invalid&quot;),</span>
+                null
+            );
+        }
+    }
+
+    // [Private Methods] ================================================================
+
+    private Cookie buildTokenCookie(TokenType type, String token) {
+<span class="fc" id="L201">        Cookie cookie = new Cookie(type.getCookieName(), token);</span>
+<span class="fc" id="L202">        cookie.setMaxAge((int) type.getDuration().getSeconds());</span>
+<span class="fc" id="L203">        cookie.setHttpOnly(true);</span>
+<span class="fc" id="L204">        cookie.setPath(&quot;/&quot;);</span>
+<span class="fc" id="L205">        return cookie;</span>
+    }
+
+    private Cookie removeTokenFromCookie(TokenType type) {
+<span class="fc" id="L209">        Cookie cookie = new Cookie(type.getCookieName(), &quot;&quot;);</span>
+<span class="fc" id="L210">        cookie.setMaxAge(0);</span>
+<span class="fc" id="L211">        cookie.setHttpOnly(true);</span>
+<span class="fc" id="L212">        cookie.setPath(&quot;/&quot;);</span>
+<span class="fc" id="L213">        return cookie;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

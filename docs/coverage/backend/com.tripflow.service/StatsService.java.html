@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StatsService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.service</a> &gt; <span class="el_source">StatsService.java</span></div><h1>StatsService.java</h1><pre class="source lang-java linenums">package com.tripflow.service;
+
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.tripflow.dto.stats.StatDTO;
+import com.tripflow.dto.stats.UserStatsDTO;
+import com.tripflow.model.User;
+import com.tripflow.service.itinerary.ActivityService;
+import com.tripflow.service.itinerary.ItineraryService;
+
+@Service
+public class StatsService {
+    private final UserService userService;
+    private final ItineraryService itineraryService;
+    private final ActivityService activityService;
+
+<span class="fc" id="L21">    public StatsService(UserService userService, ItineraryService itineraryService, ActivityService activityService) {</span>
+<span class="fc" id="L22">        this.userService = userService;</span>
+<span class="fc" id="L23">        this.itineraryService = itineraryService;</span>
+<span class="fc" id="L24">        this.activityService = activityService;</span>
+<span class="fc" id="L25">    }</span>
+
+    /**
+     * Retrieves statistics for the authenticated user.
+     *
+     * @return UserStatsDTO containing various user statistics
+     */
+    public UserStatsDTO getUserStats() {
+<span class="fc" id="L33">        User user = userService.getAuthenticatedUser();</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (user == null) {</span>
+<span class="fc" id="L36">            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, &quot;User not authenticated&quot;);</span>
+        }
+
+<span class="fc" id="L39">        Long userId = user.getId();</span>
+
+<span class="fc" id="L41">        Long activities = this.activityService.countActivitiesByUserId(userId);</span>
+<span class="fc" id="L42">        Long placesVisited = this.itineraryService.countDistinctLocationsByUserId(userId);</span>
+<span class="fc" id="L43">        Long totalDays = this.itineraryService.countTotalDaysByUserId(userId);</span>
+
+<span class="fc" id="L45">        return new UserStatsDTO(List.of(</span>
+            new StatDTO(&quot;activities&quot;, activities),
+            new StatDTO(&quot;places_visited&quot;, placesVisited),
+            new StatDTO(&quot;total_days&quot;, totalDays)
+        ));
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
