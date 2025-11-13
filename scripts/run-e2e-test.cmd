@@ -1,17 +1,23 @@
 @echo off
 SETLOCAL
 
+REM Get the script directory and project root
+SET SCRIPT_DIR=%~dp0
+SET PROJECT_ROOT=%SCRIPT_DIR%..
+
 echo [+] Starting TripFlow E2E environment...
 
 set API_URL=http://localhost:8080
 set FRONTEND_URL=http://localhost:4173
 
 REM Wake up services with Docker Compose
-call docker-compose -f docker\docker-compose.test.yaml up -d
+echo [+] Starting Docker Compose services...
+cd /d "%PROJECT_ROOT%"
+call docker compose -f docker\docker-compose.test.yaml up -d
 
 REM Install E2E dependencies
 echo [+] Installing E2E dependencies...
-cd e2e
+cd /d "%PROJECT_ROOT%\e2e"
 call npm ci
 
 REM Install Playwright browsers
@@ -27,10 +33,11 @@ echo [+] Running E2E tests...
 call npx playwright test
 
 REM Stop and remove test containers
-cd ..
 echo [+] Stopping and removing test containers...
-call docker-compose -f ..\docker\docker-compose.test.yaml down
+cd /d "%PROJECT_ROOT%"
+call docker compose -f docker\docker-compose.test.yaml down
 
 echo [+] E2E pipeline finished!
 
+cd /d "%SCRIPT_DIR%"
 ENDLOCAL
