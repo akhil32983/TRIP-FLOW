@@ -34,14 +34,14 @@
 
 > **📝 Summary**
 >
-> | Aspect              | Description                                                                 |
-> | ------------------- | --------------------------------------------------------------------------- |
-> | Type                | Progressive Web App (PWA) with a client-server architecture.                |
-> | Technologies        | React, React Router, TypeScript, Spring Boot, PostgreSQL, OpenRouter API.   |
-> | Tools               | Visual Studio Code, Git, Docker, Postman.                                   |
-> | Quality Assurance   | Unit testing (JUnit, Vitest), Integration testing (Puppeteer), E2E testing. |
-> | Deployment          | Docker containers (Backend + PostgreSQL), Serverless deployment (Vercel).   |
-> | Development Process | Iterative and incremental, Git version control, GitHub Actions for CI/CD.   |
+> | Aspect              | Description                                                                                |
+> | ------------------- | ------------------------------------------------------------------------------------------ |
+> | Type                | Progressive Web App (PWA) with a client-server architecture.                               |
+> | Technologies        | React, React Router, TypeScript, Spring Boot, PostgreSQL, OpenRouter API.                  |
+> | Tools               | Visual Studio Code, Git, Docker, Postman.                                                  |
+> | Quality Assurance   | Unit testing (JUnit, Vitest), Integration testing (RestAssured), E2E testing (Playwright). |
+> | Deployment          | TBD                                                                                        |
+> | Development Process | Iterative and incremental, Git version control, GitHub Actions for CI/CD.                  |
 
 ---
 
@@ -353,25 +353,40 @@
 > ---
 
 > **🧪 Running Tests**
-> To run the tests for both the backend and frontend, follow these steps:
+> To run the following tests, we recommend having Docker Desktop installed and running for Windows or MacOS and Docker Engine for Linux.
+> 
+> Navigate to the `scripts` directory where you will find the test scripts for backend, frontend, and E2E tests.
+> 
+> Here are the commands to run the different types of tests included in the project:
 >
 > _Backend Tests:_
-> Navigate to the `backend` directory and run:
->
 > ```bash
 > # For Linux and MacOS
-> ./mvnw test
+> ./run-backend-test.sh
 >
 > # For Windows
-> mvnw.cmd test
+> run-backend-test.cmd
 > ```
 >
 > _Frontend Tests:_
-> Navigate to the `frontend` directory and run:
->
 > ```bash
-> npm run test
+> # For Linux and MacOS
+> ./run-frontend-test.sh
+>
+> # For Windows
+> .\run-frontend-test.cmd
 > ```
+>
+> _E2E Tests:_
+> ```bash
+> # For Linux and MacOS
+> ./run-e2e-test.sh
+>
+> # For Windows
+> .\run-e2e-test.cmd
+> ```
+>
+> Backend and Frontend test scripts will generate coverage reports in the `docs/coverage` directory. You can open the `index.html` files in your web browser to view the coverage reports.
 
 ---
 
