@@ -12,6 +12,8 @@
 > - Basic profile page for logout and basic user details.
 > - Frontend-backend integration via REST API.
 > - 404 error page and basic routing.
+> - Demo mode for exploring the app without registration.
+> - User statistics display (number of trips, days, and destinations).
 
 > ---
 
