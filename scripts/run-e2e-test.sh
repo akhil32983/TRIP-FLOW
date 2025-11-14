@@ -26,7 +26,12 @@ npx playwright install --with-deps
 
 # Wait for services to be healthy
 echo "[+] Waiting for services to be healthy..."
-node scripts/wait-for-services.ts
+if [ -x "$SCRIPT_DIR/run-wait-for-services.sh" ]; then
+  "$SCRIPT_DIR/run-wait-for-services.sh"
+else
+  echo "[-] Wait script not found or not executable: $SCRIPT_DIR/run-wait-for-services.sh"
+  exit 1
+fi
 
 # Run tests
 echo "[+] Running E2E tests..."

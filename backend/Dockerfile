@@ -14,7 +14,7 @@ FROM eclipse-temurin:21-jre-alpine AS backend
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/tripflow-0.1.0.jar app.jar
 
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 

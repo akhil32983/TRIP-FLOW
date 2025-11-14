@@ -112,12 +112,6 @@
 > Build tool that provides a fast development environment and optimized production builds for modern web applications.
 >
 > [Vite](https://vitejs.dev/)
->
-> _📡 Axios_
->
-> Library for making HTTP requests in a simplified way from the browser.
->
-> [Axios](https://axios-http.com/)
 
 > ---
 

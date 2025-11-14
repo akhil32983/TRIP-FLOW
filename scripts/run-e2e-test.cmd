@@ -26,7 +26,7 @@ call npx playwright install --with-deps
 
 REM Wait for services to be healthy
 echo [+] Waiting for services to be healthy...
-call node scripts\wait-for-services.ts
+call "%SCRIPT_DIR%run-wait-for-services.cmd"
 
 REM Run tests
 echo [+] Running E2E tests...
