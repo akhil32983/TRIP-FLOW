@@ -22,8 +22,15 @@ import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.service.itinerary.ItineraryService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/v1/itineraries")
+@Tag(name = "Itinerary Management", description = "Endpoints for managing itineraries")
 public class RestItineraryController {
     private final ItineraryService itineraryService;
 
@@ -32,6 +39,16 @@ public class RestItineraryController {
     }
 
     @PostMapping({"", "/"})
+    @Operation(
+        summary = "Create Itinerary",
+        description = "Creates a new itinerary for the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "Itinerary created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid itinerary data provided"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access")
+    })
     public ResponseEntity<ExtendedItineraryDTO> createItinerary(@RequestBody ExtendedItineraryDTO itineraryDTO) {
         try {
             ExtendedItineraryDTO createdItinerary = this.itineraryService.createItinerary(itineraryDTO);
@@ -45,6 +62,16 @@ public class RestItineraryController {
     }
 
     @GetMapping({"", "/"})
+    @Operation(
+        summary = "Get All Itineraries",
+        description = "Retrieves a paginated list of itineraries for the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Itineraries retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<PaginatedDTO<ItineraryDTO>> getAllItineraries(
         @PageableDefault(page = 0, size = 10) Pageable pageable,
         @RequestParam(required = false) String search
@@ -58,18 +85,43 @@ public class RestItineraryController {
     }
 
     @GetMapping("/{id}")
+    @Operation(
+        summary = "Get Itinerary by ID",
+        description = "Retrieves the details of a specific itinerary by its ID for the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Itinerary retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "404", description = "Itinerary not found"),
+        @ApiResponse(responseCode = "403", description = "Access to the itinerary is forbidden"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ExtendedItineraryDTO> getItineraryById(@PathVariable Long id) {
         try {
             ExtendedItineraryDTO itinerary = this.itineraryService.getItineraryById(id);
             return ResponseEntity.ok(itinerary);
         } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(null);
+            return ResponseEntity.status(e.getStatusCode()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @PutMapping("/{id}")
+    @Operation(
+        summary = "Update Itinerary",
+        description = "Updates an existing itinerary for the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Itinerary updated successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid itinerary data provided"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "404", description = "Itinerary not found"),
+        @ApiResponse(responseCode = "403", description = "Access to the itinerary is forbidden"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<ExtendedItineraryDTO> updateItinerary(
         @PathVariable Long id, @RequestBody ExtendedItineraryDTO itineraryDTO
     ) {
@@ -78,13 +130,25 @@ public class RestItineraryController {
 
             return ResponseEntity.ok(updatedItinerary);
         } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(null);
+            return ResponseEntity.status(e.getStatusCode()).build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @DeleteMapping("/{id}")
+    @Operation(
+        summary = "Delete Itinerary",
+        description = "Deletes an existing itinerary for the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "Itinerary deleted successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "404", description = "Itinerary not found"),
+        @ApiResponse(responseCode = "403", description = "Access to the itinerary is forbidden"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<Void> deleteItinerary(@PathVariable Long id) {
         try {
             this.itineraryService.deleteItinerary(id);
