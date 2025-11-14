@@ -685,6 +685,7 @@
 > ---
 
 > **🪧 Postman Usage**
+>
 > If you want to test the backend API endpoints, you can use Postman. Import the provided Postman collection root directory `TripFlow.postman_collection.json` into Postman and start testing the API endpoints.
 >
 > If you don't have Postman installed, you can download it from [here](https://www.postman.com/downloads/).
@@ -692,6 +693,7 @@
 > ---
 
 > **🧪 Running Tests**
+>
 > To run the following tests, we recommend having Docker Desktop installed and running for Windows or MacOS and Docker Engine for Linux.
 > 
 > Navigate to the `scripts` directory where you will find the test scripts for backend, frontend, and E2E tests.
