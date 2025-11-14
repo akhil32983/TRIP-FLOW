@@ -216,7 +216,7 @@
 > 
 > This is the initial page users see when they access the web application. It provides an overview of the application features and allows users to log in or register.
 >
-> ![Landing Page Prototype](/docs/assets/pages/01-landing.png)
+> ![Landing Page Prototype](/docs/assets/prototypes/01-landing.png)
 
 > ---
 
@@ -224,7 +224,7 @@
 >
 > The login page allows users to access their accounts by entering their credentials.
 > 
-> ![Login Page Prototype](/docs/assets/pages/02-login.png)
+> ![Login Page Prototype](/docs/assets/prototypes/02-login.png)
 
 > ---
 
@@ -232,7 +232,7 @@
 >
 > The registration page allows new users to create an account by providing their information.
 >
-> ![Registration Page Prototype](/docs/assets/pages/03-register.png)
+> ![Registration Page Prototype](/docs/assets/prototypes/03-register.png)
 
 > ---
 
@@ -240,7 +240,7 @@
 >
 > The dashboard page provides users with an overview of their itineraries, statistics, and more.
 >
-> ![Dashboard Page Prototype](/docs/assets/pages/04-dashboard.png)
+> ![Dashboard Page Prototype](/docs/assets/prototypes/04-dashboard.png)
 
 > ---
 
@@ -248,7 +248,7 @@
 >
 > The itineraries page allows users to view and manage their travel itineraries.
 >
-> ![Itineraries Page Prototype](/docs/assets/pages/05-itineraries.png)
+> ![Itineraries Page Prototype](/docs/assets/prototypes/05-itineraries.png)
 
 > ---
 
@@ -256,7 +256,7 @@
 >
 > The itinerary details page provides users with a detailed view of a specific itinerary, including all associated activities, locations, and notes.
 >
-> ![Itinerary Details Page Prototype](/docs/assets/pages/06-itinerary-details.png)
+> ![Itinerary Details Page Prototype](/docs/assets/prototypes/06-itinerary-details.png)
 
 > ---
 
@@ -264,7 +264,7 @@
 >
 > The create itinerary page allows users to create a new travel itinerary by providing all necessary details, including destinations, activities, and dates.
 >
-> ![Create Itinerary Page Prototype](/docs/assets/pages/07-create-itinerary.png)
+> ![Create Itinerary Page Prototype](/docs/assets/prototypes/07-create-itinerary.png)
 
 > ---
 
@@ -272,7 +272,7 @@
 >
 > The edit itinerary page allows users to modify an existing travel itinerary by updating its details, including destinations, activities, and dates.
 >
-> ![Edit Itinerary Page Prototype](/docs/assets/pages/08-edit-itinerary.png)
+> ![Edit Itinerary Page Prototype](/docs/assets/prototypes/08-edit-itinerary.png)
 
 > ---
 
@@ -280,7 +280,7 @@
 >
 > The profile page allows users to view and edit their personal information, including their avatar, name, and description. Also, users can view their achievements and preferences.
 >
-> ![Profile Page Prototype](/docs/assets/pages/09-profile.png)
+> ![Profile Page Prototype](/docs/assets/prototypes/09-profile.png)
 
 > ---
 
@@ -288,7 +288,7 @@
 >
 > The settings page allows users to configure their preferences or more advanced settings related to the application.
 >
-> ![Settings Page Prototype](/docs/assets/pages/10-settings.png)
+> ![Settings Page Prototype](/docs/assets/prototypes/10-settings.png)
 
 ---
 
