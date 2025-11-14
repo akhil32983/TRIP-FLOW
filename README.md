@@ -28,7 +28,14 @@
 6. [Authors](docs/06-authors.md)
 7. [Development Guide](docs/07-dev-guide.md)
 8. [Roadmap](docs/08-roadmap.md)
-9. [License](#-license)
+9. [Releases](#-releases)
+10. [License](#-license)
+
+---
+
+## 📦 Releases
+
+- [v0.1.0 Release Notes](docs/releases/v0.1.0.md)
 
 
 ---
