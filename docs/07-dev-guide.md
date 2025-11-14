@@ -140,25 +140,33 @@
 ### 🛠️ Tools
 
 > **🖥️ Visual Studio Code**
+>
 > IDE for code editing with support for TypeScript, Java, and Docker.
+>
 > [Visual Studio Code](https://code.visualstudio.com/)
 
 > ---
 
 > **📦 Postman**
+>
 > API Rest Client for testing and interacting with RESTful APIs.
+>
 > [Postman](https://www.postman.com/)
 
 > ---
 
 > **🔧 Git**
+>
 > Version control system for tracking changes in source code during software development.
+>
 > [Git](https://git-scm.com/)
 
 > ---
 
 > **📦 GitHub**
+>
 > Cloud-based repository hosting service for version control and collaboration.
+>
 > [GitHub](https://github.com/)
 
 ---
