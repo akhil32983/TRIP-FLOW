@@ -46,7 +46,8 @@ jobs:
       - name: Publish docker-compose as OCI artifact
         if: ${{ matrix.service == fromJSON(inputs.services)[0] }}
         run: |
-          tar -czf compose-${{ inputs.tag }}.tar.gz -C docker $(basename ${{ inputs.compose_file }})
+          cp ${{ inputs.compose_file }} docker-compose.yml
+    
           oras push docker.io/cub1z/tripflow-compose:${{ inputs.tag }} \
-            --artifact-type application/vnd.docker.compose.manifest.v1+yaml \
-            compose-${{ inputs.tag }}.tar.gz:application/x-tar
+            --artifact-type application/vnd.docker.compose.v2+yaml \
+            docker-compose.yml:application/vnd.docker.compose.v2+yaml
