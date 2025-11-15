@@ -4,11 +4,11 @@
 
 1. [Introduction](#-introduction)
 2. [Technology Stack](#-technology-stack)
-3. [Tools](#-tools)
-4. [Architecture](#-architecture)
+3. [Tools](#️-tools)
+4. [Architecture](#️-architecture)
 5. [Quality Assurance](#-quality-assurance)
 6. [Development Process](#-development-process)
-7. [Code Execution and Environment Setup](#-code-execution-and-environment-setup)
+7. [Code Execution and Environment Setup](#️-code-execution-and-environment-setup)
 
 ---
 
