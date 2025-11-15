@@ -22,9 +22,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup-environment:
-    uses: ./.github/workflows/ci-environment-setup.yaml
-    
   e2e-testing:
     timeout-minutes: 60
     runs-on: ubuntu-latest
@@ -36,6 +33,21 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
+
+      - name: Start services with Docker Compose
+        working-directory: ./docker
+        run: docker compose -f docker-compose.test.yaml up -d
+
+      - name: Wait for services to be healthy
+        working-directory: ./scripts
+        run: |
+          chmod +x run-wait-for-services.sh
+          ./run-wait-for-services.sh
 
       - name: Install E2E dependencies
         working-directory: ./e2e

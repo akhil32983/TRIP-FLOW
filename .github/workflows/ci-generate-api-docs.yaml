@@ -18,14 +18,26 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup-environment:
-    uses: ./.github/workflows/ci-environment-setup.yaml
-
   generate-api-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
+
+      - name: Start services with Docker Compose
+        working-directory: ./docker
+        run: docker compose -f docker-compose.test.yaml up -d
+
+      - name: Wait for services to be healthy
+        working-directory: ./scripts
+        run: |
+          chmod +x run-wait-for-services.sh
+          ./run-wait-for-services.sh
 
       - name: Generate API Docs
         working-directory: ./scripts
