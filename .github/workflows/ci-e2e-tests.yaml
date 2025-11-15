@@ -34,14 +34,8 @@ jobs:
         with:
           node-version: lts/*
       
-      - name: Set up Docker Compose
-        uses: docker/setup-compose-action@v1
-        with:
-          version: latest
-      
-      - name: Start services with Docker Compose
-        working-directory: ./docker
-        run: docker compose -f docker-compose.test.yaml up -d
+      - name: Set up Environment
+        uses: ./.github/workflows/ci-environment-setup.yaml
 
       - name: Install E2E dependencies
         working-directory: ./e2e
@@ -50,12 +44,6 @@ jobs:
       - name: Install Playwright Browsers
         working-directory: ./e2e
         run: npx playwright install --with-deps
-
-      - name: Wait for services to be healthy running
-        working-directory: ./scripts
-        run: |
-          chmod +x run-wait-for-services.sh
-          ./run-wait-for-services.sh
       
       - name: Run Playwright tests
         working-directory: ./e2e
