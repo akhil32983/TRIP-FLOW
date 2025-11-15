@@ -9,7 +9,7 @@ on:
     paths:
       - 'backend/**'
       - 'frontend/**'
-      - '.github/workflows/**'
+      - '.github/workflows/ci-unit-tests.yaml'
   pull_request:
     branches:
       - main

@@ -1,0 +1,106 @@
+.overlay {
+    position: fixed;
+    top: var(--space-md);
+    right: var(--space-md);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    z-index: 9999;
+    animation: fadeIn 0.1s ease-out;
+}
+
+.alert {
+    position: relative;
+    padding: var(--space-lg) var(--space-xl);
+    min-width: 320px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-xl);
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    border-left: 2px solid var(--bg-card);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.2s ease-in;
+
+    &.success { 
+        color: var(--active-text);
+        border-color: var(--active-border);
+    }
+
+    &.error {
+        color: var(--error);
+        border-color: var(--error);
+    }
+
+    &.warning {
+        color: var(--warning);
+        border-color: var(--warning);
+    }
+
+    &.info {
+        color: var(--info-text); 
+        border-color: var(--info-border);
+    }
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-left: calc(-1 * var(--space-xm));
+
+    .icon {
+        --size: 20px;
+        width: var(--size);
+        height: var(--size);
+    }
+
+    .title {
+        font-size: var(--font-size-sm);
+        color: var(--text-primary);
+    }
+}
+
+.closeButton {
+    position: absolute;
+    --space: var(--space-md);
+    top: var(--space);
+    right: var(--space);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9999px;
+    border: none;
+    background: none;
+    color: var(--primary);
+    transition: all 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--error);
+    }
+}
+
+.message {
+    width: 100%;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0%);
+    }
+}

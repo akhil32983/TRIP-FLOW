@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.integration.utils.AuthTestUtils;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -21,7 +22,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testSuccessfulRegisterEndpoint() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("TestUser"),
+            AuthTestUtils.generateUniqueValue("TestUser"),
             "Ab12345678",
             "Ab12345678"
         );
@@ -46,7 +47,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testRegisterWithShortPassword() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("TestUser"),
+            AuthTestUtils.generateUniqueValue("TestUser"),
             "weak",
             "weak"
         );
@@ -71,7 +72,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testRegisterWithWeakPassword() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("TestUser"),
+            AuthTestUtils.generateUniqueValue("TestUser"),
             "12345678",
             "12345678"
         );
@@ -96,7 +97,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testRegisterWithMismatchedPasswords() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("TestUser"),
+            AuthTestUtils.generateUniqueValue("TestUser"),
             "Ab12345678",
             "Ab12345679123"
         );
@@ -121,7 +122,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testRegisterWithInvalidUsername() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("Invalid@User"),
+            AuthTestUtils.generateUniqueValue("Invalid@User"),
             "Ab12345678",
             "Ab12345678"
         );
@@ -146,7 +147,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testRegisterWithExistingUsername() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("ExistingUser"),
+            AuthTestUtils.generateUniqueValue("ExistingUser"),
             "Ab12345678",
             "Ab12345678"
         );
@@ -183,7 +184,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test successful login")
     public void testSuccessfulLogin() {
-        String uniqueUsername = this.generateUniqueValue("LoginUser123");
+        String uniqueUsername = AuthTestUtils.generateUniqueValue("LoginUser123");
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
             uniqueUsername,
@@ -229,7 +230,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testLoginWithUnregisteredUser() {
         // Prepare the login request body
         LoginRequest loginRequest = new LoginRequest(
-            this.generateUniqueValue("UnregisteredUser"),
+            AuthTestUtils.generateUniqueValue("UnregisteredUser"),
             "Ab12345678"
         );
 
@@ -253,7 +254,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     public void testLoginWithIncorrectPassword() {
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
-            this.generateUniqueValue("LoginUser"),
+            AuthTestUtils.generateUniqueValue("LoginUser"),
             "Ab12345678",
             "Ab12345678"
         );
@@ -292,7 +293,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test successful logout")
     public void testSuccessfulLogout() {
-        String uniqueUsername = this.generateUniqueValue("LogoutUser");
+        String uniqueUsername = AuthTestUtils.generateUniqueValue("LogoutUser");
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(
             uniqueUsername,
@@ -347,7 +348,7 @@ public class AuthEndpointsTest extends BaseIntegrationTest {
     @Test
     @DisplayName("Test refresh token with a valid token")
     public void testRefreshWithValidToken() {
-        String uniqueUsername = this.generateUniqueValue("RefreshUser");
+        String uniqueUsername = AuthTestUtils.generateUniqueValue("RefreshUser");
         
         // Prepare the registration request body
         RegisterUserRequest registerRequest = new RegisterUserRequest(

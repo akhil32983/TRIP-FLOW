@@ -2,6 +2,9 @@ package com.tripflow.service;
 
 import java.util.NoSuchElementException;
 
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -58,5 +61,21 @@ public class UserService {
         User user = this.userMapper.toDomain(request, hashedPassword, UserType.USER);
 
         return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
+    }
+
+    /**
+     * Retrieves the currently authenticated user.
+     *
+     * @return the authenticated User object, or null if no user is authenticated
+     */
+    public User getAuthenticatedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // Check if user is authenticated and return the user
+        if (auth != null && !(auth instanceof AnonymousAuthenticationToken)) {
+            return this.userRepository.findByUsername(auth.getName()).get();
+        }
+
+        return null;
     }
 }

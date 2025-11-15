@@ -1,0 +1,55 @@
+.activityCard {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--border-radius-md);
+    padding: var(--space-lg);
+    margin-bottom: var(--space-lg);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .activityHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--space-lg);
+        padding-bottom: var(--space-sm);
+        border-bottom: 1px solid var(--border-primary);
+
+        .activityTitle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+
+            .activityTitleText {
+                font-size: var(--font-size-lg);
+                font-weight: var(--font-weight-bold);
+                color: var(--tertiary);
+            }
+        }
+    }
+
+    .activityForm {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+
+        .formRow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-lg);
+        }
+    }
+}
+
+.locationForm {
+    margin-top: var(--space-lg);
+}
+
+@media (max-width: 768px) {
+    .formRow {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,50 @@
+name: CI - Generate API Docs
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'backend/**'
+      - '.github/workflows/ci-generate-api-docs.yaml'
+  
+  workflow_dispatch:
+
+jobs:
+  generate-api-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
+
+      - name: Start services with Docker Compose
+        working-directory: ./docker
+        run: docker compose -f docker-compose.test.yaml up -d
+
+      - name: Wait for services to be healthy
+        working-directory: ./scripts
+        run: |
+          chmod +x run-wait-for-services.sh
+          ./run-wait-for-services.sh
+
+      - name: Generate API Docs
+        working-directory: ./scripts
+        run: |
+          chmod +x run-generate-api-docs.sh
+          ./run-generate-api-docs.sh
+      
+      - name: Commit and push API Docs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/api/api-docs.yaml docs/api/api-docs.html
+          git diff --cached --quiet || git commit -m "Update API Docs [ci skip]"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

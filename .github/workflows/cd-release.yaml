@@ -1,0 +1,23 @@
+name: CD - Publish Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  release-tag:
+    uses: ./.github/workflows/cd-build.yaml
+    with:
+      tag: ${{ github.event.release.tag_name }}
+      compose_file: docker/docker-compose.yaml
+      services: '["backend","frontend"]'
+    secrets: inherit
+
+  release-latest:
+    needs: release-tag
+    uses: ./.github/workflows/cd-build.yaml
+    with:
+      tag: latest
+      compose_file: docker/docker-compose.yaml
+      services: '["backend","frontend"]'
+    secrets: inherit

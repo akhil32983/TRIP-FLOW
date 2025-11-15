@@ -1,0 +1,686 @@
+openapi: 3.1.0
+info:
+  title: TripFlow API
+  description: "API documentation for TripFlow, the travel planning application."
+  version: v1.0.0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+security:
+- auth_token: []
+tags:
+- name: Statistics
+  description: Endpoints for retrieving statistics
+- name: Health Check
+  description: Endpoint for checking the health status of the application
+- name: Authentication
+  description: Endpoints for user authentication and authorization
+- name: Itinerary Management
+  description: Endpoints for managing itineraries
+paths:
+  /api/v1/itineraries/{id}:
+    get:
+      tags:
+      - Itinerary Management
+      summary: Get Itinerary by ID
+      description: Retrieves the details of a specific itinerary by its ID for the
+        authenticated user.
+      operationId: getItineraryById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Itinerary retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "404":
+          description: Itinerary not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "403":
+          description: Access to the itinerary is forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+      security:
+      - auth_token: []
+    put:
+      tags:
+      - Itinerary Management
+      summary: Update Itinerary
+      description: Updates an existing itinerary for the authenticated user.
+      operationId: updateItinerary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExtendedItineraryDTO"
+        required: true
+      responses:
+        "200":
+          description: Itinerary updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "400":
+          description: Invalid itinerary data provided
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "404":
+          description: Itinerary not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "403":
+          description: Access to the itinerary is forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+      security:
+      - auth_token: []
+    delete:
+      tags:
+      - Itinerary Management
+      summary: Delete Itinerary
+      description: Deletes an existing itinerary for the authenticated user.
+      operationId: deleteItinerary
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: Itinerary deleted successfully
+        "401":
+          description: Unauthorized access
+        "404":
+          description: Itinerary not found
+        "403":
+          description: Access to the itinerary is forbidden
+        "500":
+          description: Internal server error
+      security:
+      - auth_token: []
+  /api/v1/itineraries:
+    get:
+      tags:
+      - Itinerary Management
+      summary: Get All Itineraries
+      description: Retrieves a paginated list of itineraries for the authenticated
+        user.
+      operationId: getAllItineraries
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Itineraries retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOItineraryDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOItineraryDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOItineraryDTO"
+      security:
+      - auth_token: []
+    post:
+      tags:
+      - Itinerary Management
+      summary: Create Itinerary
+      description: Creates a new itinerary for the authenticated user.
+      operationId: createItinerary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExtendedItineraryDTO"
+        required: true
+      responses:
+        "201":
+          description: Itinerary created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "400":
+          description: Invalid itinerary data provided
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+      security:
+      - auth_token: []
+  /api/v1/itineraries/:
+    get:
+      tags:
+      - Itinerary Management
+      summary: Get All Itineraries
+      description: Retrieves a paginated list of itineraries for the authenticated
+        user.
+      operationId: getAllItineraries_1
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Itineraries retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOItineraryDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOItineraryDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOItineraryDTO"
+      security:
+      - auth_token: []
+    post:
+      tags:
+      - Itinerary Management
+      summary: Create Itinerary
+      description: Creates a new itinerary for the authenticated user.
+      operationId: createItinerary_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExtendedItineraryDTO"
+        required: true
+      responses:
+        "201":
+          description: Itinerary created successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "400":
+          description: Invalid itinerary data provided
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ExtendedItineraryDTO"
+      security:
+      - auth_token: []
+  /api/auth/register:
+    post:
+      tags:
+      - Authentication
+      summary: User Registration Endpoint
+      description: Registers a new user with the provided details.
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterUserRequest"
+        required: true
+      responses:
+        "201":
+          description: User registered successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: User registration failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/refresh:
+    post:
+      tags:
+      - Authentication
+      summary: Token Refresh Endpoint
+      description: Refreshes the authentication token using a valid refresh token.
+      operationId: refresh
+      parameters:
+      - name: refresh_token
+        in: cookie
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Token refreshed successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: Token refresh failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/logout:
+    post:
+      tags:
+      - Authentication
+      summary: User Logout Endpoint
+      description: Logs out the authenticated user and terminates the session.
+      operationId: logout
+      responses:
+        "200":
+          description: User logged out successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: User logout failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/login:
+    post:
+      tags:
+      - Authentication
+      summary: User Login Endpoint
+      description: Authenticates a user and initiates a session.
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: User logged in successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          description: User login failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/v1/stats/user:
+    get:
+      tags:
+      - Statistics
+      summary: Get User Statistics
+      description: Retrieves statistics related to the authenticated user.
+      operationId: getUserStats
+      responses:
+        "200":
+          description: User statistics retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserStatsDTO"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserStatsDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/UserStatsDTO"
+      security:
+      - auth_token: []
+  /api/health/:
+    get:
+      tags:
+      - Health Check
+      summary: Health Check Endpoint
+      description: Returns the health status of the application.
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Application is healthy
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+  /api/health:
+    get:
+      tags:
+      - Health Check
+      summary: Health Check Endpoint
+      description: Returns the health status of the application.
+      operationId: healthCheck_1
+      responses:
+        "200":
+          description: Application is healthy
+          content:
+            '*/*':
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+components:
+  schemas:
+    ActivityDTO:
+      type: object
+      properties:
+        activity:
+          type: string
+        details:
+          type: string
+        location:
+          $ref: "#/components/schemas/LocationDTO"
+        time:
+          type: string
+        duration:
+          type: string
+    CoordinatesDTO:
+      type: object
+      properties:
+        latitude:
+          type: number
+          format: double
+        longitude:
+          type: number
+          format: double
+    ExtendedItineraryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        place:
+          type: string
+        icon:
+          type: string
+        people:
+          type: integer
+          format: int32
+        budget:
+          type: number
+          format: double
+        date:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        updatedCount:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - DRAFT
+          - PLANNED
+          - ONGOING
+          - COMPLETED
+        days:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItineraryDayDTO"
+        countDays:
+          type: integer
+          format: int32
+    ItineraryDayDTO:
+      type: object
+      properties:
+        day:
+          type: integer
+          format: int32
+        activities:
+          type: array
+          items:
+            $ref: "#/components/schemas/ActivityDTO"
+    LocationDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        coordinates:
+          $ref: "#/components/schemas/CoordinatesDTO"
+    RegisterUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
+    AuthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+          - SUCCESS
+          - FAILURE
+        message:
+          type: string
+        errors:
+          type: object
+          additionalProperties:
+            type: string
+        user:
+          $ref: "#/components/schemas/PublicUserDTO"
+    PublicUserDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        role:
+          type: string
+          enum:
+          - USER
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    StatDTO:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: integer
+          format: int64
+    UserStatsDTO:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatDTO"
+    Pageable:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          minimum: 0
+        size:
+          type: integer
+          format: int32
+          minimum: 1
+        sort:
+          type: array
+          items:
+            type: string
+    ItineraryDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        place:
+          type: string
+        icon:
+          type: string
+        people:
+          type: integer
+          format: int32
+        budget:
+          type: number
+          format: double
+        date:
+          type: string
+        countDays:
+          type: integer
+          format: int32
+        tags:
+          type: array
+          items:
+            type: string
+        updatedCount:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+          - DRAFT
+          - PLANNED
+          - ONGOING
+          - COMPLETED
+    PaginatedDTOItineraryDTO:
+      type: object
+      properties:
+        page:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItineraryDTO"
+        currentPage:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        totalItems:
+          type: integer
+          format: int64
+        itemsPerPage:
+          type: integer
+          format: int64
+        isLastPage:
+          type: boolean
+  securitySchemes:
+    auth_token:
+      type: apiKey
+      name: auth_token
+      in: cookie

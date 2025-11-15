@@ -1,0 +1,49 @@
+package com.tripflow.controller.v1;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import com.tripflow.dto.stats.UserStatsDTO;
+import com.tripflow.service.StatsService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
+@RestController
+@RequestMapping("/api/v1/stats")
+@Tag(name = "Statistics", description = "Endpoints for retrieving statistics")
+public class RestStatsController {
+    private final StatsService statsService;
+
+    public RestStatsController(StatsService statsService) {
+        this.statsService = statsService;
+    }
+
+    @GetMapping("/user")
+    @Operation(
+        summary = "Get User Statistics",
+        description = "Retrieves statistics related to the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "User statistics retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<UserStatsDTO> getUserStats() {
+        try {
+            UserStatsDTO stats = this.statsService.getUserStats();
+            return ResponseEntity.ok(stats);
+        } catch (ResponseStatusException e) {
+            return ResponseEntity.status(e.getStatusCode()).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+}

@@ -1,0 +1,62 @@
+name: CI - E2E Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'e2e/**'
+      - '.github/workflows/ci-e2e-tests.yaml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - 'e2e/**'
+      - '.github/workflows/ci-e2e-tests.yaml'
+  
+  workflow_dispatch:
+
+jobs:
+  e2e-testing:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: Set up Docker Compose
+        uses: docker/setup-compose-action@v1
+        with:
+          version: latest
+
+      - name: Start services with Docker Compose
+        working-directory: ./docker
+        run: docker compose -f docker-compose.test.yaml up -d
+
+      - name: Wait for services to be healthy
+        working-directory: ./scripts
+        run: |
+          chmod +x run-wait-for-services.sh
+          ./run-wait-for-services.sh
+
+      - name: Install E2E dependencies
+        working-directory: ./e2e
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        working-directory: ./e2e
+        run: npx playwright install --with-deps
+      
+      - name: Run Playwright tests
+        working-directory: ./e2e
+        run: npx playwright test

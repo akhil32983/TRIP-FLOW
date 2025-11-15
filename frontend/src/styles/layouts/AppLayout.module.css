@@ -1,0 +1,27 @@
+.layout {
+    position: relative;
+    width: 100%;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: auto;
+
+    .main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: var(--space-xxxl);
+        padding-left: calc(var(--sidebar-width) + var(--space-xxxl));
+        gap: var(--space-larger);
+    }
+}
+
+@media (max-width: 864px) {
+    .layout {
+        .main {
+            padding: var(--space-lg);
+            padding-bottom: calc(var(--space-largest) + var(--space-xxxl));
+        }
+    }
+}

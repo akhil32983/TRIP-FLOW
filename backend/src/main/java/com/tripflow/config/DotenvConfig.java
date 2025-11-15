@@ -12,8 +12,10 @@ public class DotenvConfig {
 
     private DotenvConfig() {
         boolean isCI = System.getenv("CI") != null || System.getenv("GITHUB_ACTIONS") != null;
+        boolean isProduction = "prod".equals(System.getenv("SPRING_PROFILES_ACTIVE"));
+        boolean isDocker = System.getenv("DOCKER_ENV") != null;
 
-        if (isCI) {
+        if (isCI || isProduction || isDocker) {
             // Load environment variables from the CI environment
             this.dotenv = Dotenv.configure()
                 .ignoreIfMissing()

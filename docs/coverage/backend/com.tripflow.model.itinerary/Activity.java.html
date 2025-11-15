@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Activity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.model.itinerary</a> &gt; <span class="el_source">Activity.java</span></div><h1>Activity.java</h1><pre class="source lang-java linenums">package com.tripflow.model.itinerary;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+
+@Entity
+<span class="fc" id="L13">public class Activity {</span>
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String activity;
+
+    private String details;
+
+    private String time;
+
+    private String duration;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private ItineraryDay itineraryDay;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Location location;
+
+    // [Getters and Setters] ==========================================
+
+    public Long getId() {
+<span class="nc" id="L36">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="nc" id="L40">        this.id = id;</span>
+<span class="nc" id="L41">    }</span>
+
+    public String getActivity() {
+<span class="fc" id="L44">        return activity;</span>
+    }
+
+    public void setActivity(String activity) {
+<span class="fc" id="L48">        this.activity = activity;</span>
+<span class="fc" id="L49">    }</span>
+
+    public String getDetails() {
+<span class="fc" id="L52">        return details;</span>
+    }
+
+    public void setDetails(String details) {
+<span class="fc" id="L56">        this.details = details;</span>
+<span class="fc" id="L57">    }</span>
+
+    public String getTime() {
+<span class="fc" id="L60">        return time;</span>
+    }
+
+    public void setTime(String time) {
+<span class="fc" id="L64">        this.time = time;</span>
+<span class="fc" id="L65">    }</span>
+
+    public String getDuration() {
+<span class="fc" id="L68">        return duration;</span>
+    }
+
+    public void setDuration(String duration) {
+<span class="fc" id="L72">        this.duration = duration;</span>
+<span class="fc" id="L73">    }</span>
+
+    public ItineraryDay getItineraryDay() {
+<span class="nc" id="L76">        return itineraryDay;</span>
+    }
+
+    public void setItineraryDay(ItineraryDay itineraryDay) {
+<span class="fc" id="L80">        this.itineraryDay = itineraryDay;</span>
+<span class="fc" id="L81">    }</span>
+
+    public Location getLocation() {
+<span class="fc" id="L84">        return location;</span>
+    }
+
+    public void setLocation(Location location) {
+<span class="fc" id="L88">        this.location = location;;</span>
+<span class="fc" id="L89">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

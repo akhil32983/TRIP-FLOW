@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Itinerary.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.model.itinerary</a> &gt; <span class="el_source">Itinerary.java</span></div><h1>Itinerary.java</h1><pre class="source lang-java linenums">package com.tripflow.model.itinerary;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.tripflow.model.User;
+import com.tripflow.model.types.ItineraryStatus;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Entity
+@EntityListeners(AuditingEntityListener.class)
+<span class="fc" id="L27">public class Itinerary {</span>
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+
+    private String place;
+
+<span class="fc" id="L37">    private String icon = &quot;✈️&quot;;</span>
+
+<span class="fc" id="L39">    private int people = 1;</span>
+
+<span class="fc" id="L41">    private double budget = 0.0;</span>
+
+    private String date;
+
+<span class="fc" id="L45">    private List&lt;String&gt; tags = List.of();</span>
+
+<span class="fc" id="L47">    private long updatedCount = 0;</span>
+
+<span class="fc" id="L49">    @Enumerated(EnumType.STRING)</span>
+    private ItineraryStatus status = ItineraryStatus.DRAFT;
+
+    @ManyToOne
+    private User user;
+
+    @OneToMany(mappedBy = &quot;itinerary&quot;, cascade = CascadeType.ALL)
+    private List&lt;ItineraryDay&gt; days;
+
+    @CreatedDate
+    @Column(nullable = false, updatable = false)
+    private Timestamp createdAt;
+
+    @LastModifiedDate
+    @Column(nullable = false)
+    private Timestamp updatedAt;
+
+    // [Methods] ======================================================
+
+    /**
+     * Adds a day to the itinerary.
+     * 
+     * @param day the itinerary day to add
+     */
+    public void addDay(ItineraryDay day) {
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (day != null) {</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">            if (this.days == null) this.days = new java.util.ArrayList&lt;&gt;();</span>
+<span class="fc" id="L76">            this.days.add(day);</span>
+        }
+<span class="fc" id="L78">    }</span>
+
+    // [ Lifecycle Methods ] ==========================================
+
+    public void plan() {
+<span class="nc" id="L83">        this.changeStatusTo(ItineraryStatus.PLANNED);</span>
+<span class="nc" id="L84">    }</span>
+
+    public void start() {
+<span class="nc" id="L87">        this.changeStatusTo(ItineraryStatus.ONGOING);</span>
+<span class="nc" id="L88">    }</span>
+
+    public void complete() {
+<span class="nc" id="L91">        this.changeStatusTo(ItineraryStatus.COMPLETED);</span>
+<span class="nc" id="L92">    }</span>
+
+    private void changeStatusTo(ItineraryStatus newStatus) {
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!this.status.canTransitionTo(newStatus)) {</span>
+<span class="nc" id="L96">            throw new IllegalStateException(</span>
+<span class="nc" id="L97">                String.format(&quot;Cannot transition from %s to %s&quot;, this.status, newStatus)</span>
+            );
+        }
+
+<span class="nc" id="L101">        this.status = newStatus;</span>
+<span class="nc" id="L102">    }</span>
+
+    // [Getters and Setters] ==========================================
+
+    public Long getId() {
+<span class="fc" id="L107">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L111">        this.id = id;</span>
+<span class="fc" id="L112">    }</span>
+
+    public String getTitle() {
+<span class="fc" id="L115">        return title;</span>
+    }
+
+    public void setTitle(String title) {
+<span class="fc" id="L119">        this.title = title;</span>
+<span class="fc" id="L120">    }</span>
+
+    public String getPlace() {
+<span class="fc" id="L123">        return place;</span>
+    }
+
+    public void setPlace(String place) {
+<span class="fc" id="L127">        this.place = place;</span>
+<span class="fc" id="L128">    }</span>
+
+    public String getIcon() {
+<span class="fc" id="L131">        return icon;</span>
+    }
+
+    public void setIcon(String icon) {
+<span class="fc" id="L135">        this.icon = icon;</span>
+<span class="fc" id="L136">    }</span>
+
+    public int getPeople() {
+<span class="fc" id="L139">        return people;</span>
+    }
+
+    public void setPeople(int people) {
+<span class="fc" id="L143">        this.people = people;</span>
+<span class="fc" id="L144">    }</span>
+
+    public double getBudget() {
+<span class="fc" id="L147">        return budget;</span>
+    }
+
+    public void setBudget(double budget) {
+<span class="fc" id="L151">        this.budget = budget;</span>
+<span class="fc" id="L152">    }</span>
+
+    public String getDate() {
+<span class="fc" id="L155">        return date;</span>
+    }
+
+    public void setDate(String date) {
+<span class="fc" id="L159">        this.date = date;</span>
+<span class="fc" id="L160">    }</span>
+
+    public List&lt;String&gt; getTags() {
+<span class="fc" id="L163">        return tags;</span>
+    }
+
+    public void setTags(List&lt;String&gt; tags) {
+<span class="fc" id="L167">        this.tags = tags;</span>
+<span class="fc" id="L168">    }</span>
+
+    public long getUpdatedCount() {
+<span class="fc" id="L171">        return updatedCount;</span>
+    }
+
+    public void setUpdatedCount(long updatedCount) {
+<span class="fc" id="L175">        this.updatedCount = updatedCount;</span>
+<span class="fc" id="L176">    }</span>
+
+    public ItineraryStatus getStatus() {
+<span class="fc" id="L179">        return status;</span>
+    }
+
+    public void setStatus(ItineraryStatus status) {
+<span class="fc" id="L183">        this.status = status;</span>
+<span class="fc" id="L184">    }</span>
+
+    public User getUser() {
+<span class="fc" id="L187">        return user;</span>
+    }
+
+    public void setUser(User user) {
+<span class="fc" id="L191">        this.user = user;</span>
+<span class="fc" id="L192">    }</span>
+
+    public List&lt;ItineraryDay&gt; getDays() {
+<span class="fc" id="L195">        return days;</span>
+    }
+
+    public void setDays(List&lt;ItineraryDay&gt; days) {
+<span class="fc" id="L199">        this.days = days;</span>
+<span class="fc" id="L200">    }</span>
+
+    public Timestamp getCreatedAt() {
+<span class="nc" id="L203">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+<span class="nc" id="L207">        this.createdAt = createdAt;</span>
+<span class="nc" id="L208">    }</span>
+
+    public Timestamp getUpdatedAt() {
+<span class="nc" id="L211">        return updatedAt;</span>
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+<span class="nc" id="L215">        this.updatedAt = updatedAt;</span>
+<span class="nc" id="L216">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

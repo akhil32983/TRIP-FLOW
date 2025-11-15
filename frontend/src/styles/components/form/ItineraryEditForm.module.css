@@ -1,0 +1,46 @@
+@import url("../../animations.css");
+
+.editForm {
+    width: 100%;
+    padding: var(--space-xl);
+    background: var(--bg-primary);
+    border-radius: var(--border-radius-xl);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.formHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xxxl);
+    padding-bottom: var(--space-lg);
+    border-bottom: 2px solid var(--border-primary);
+}
+
+.formFooter {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--border-primary);
+    margin-top: var(--space-xl);
+}
+
+@media (max-width: 768px) {
+    .editForm {
+        padding: var(--space-lg);
+    }
+    
+    .formHeader {
+        flex-direction: column;
+        gap: var(--space-xl);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .editForm {
+        padding: var(--space-md);
+    }
+}

@@ -14,10 +14,15 @@ import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.service.auth.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Authentication", description = "Endpoints for user authentication and authorization")
 public class RestAuthController {
     private static final String REFRESH_TOKEN_COOKIE_NAME = "refresh_token";
     private final AuthService authService;
@@ -27,6 +32,14 @@ public class RestAuthController {
     }
 
     @PostMapping("/register")
+    @Operation(
+        summary = "User Registration Endpoint",
+        description = "Registers a new user with the provided details."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "201", description = "User registered successfully"),
+        @ApiResponse(responseCode = "400", description = "User registration failed")
+    })
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterUserRequest request) {
         AuthResponse response = authService.register(request);
         HttpStatusCode status = response.status() == AuthStatus.FAILURE
@@ -37,6 +50,14 @@ public class RestAuthController {
     }
 
     @PostMapping("/login")
+    @Operation(
+        summary = "User Login Endpoint",
+        description = "Authenticates a user and initiates a session."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "User logged in successfully"),
+        @ApiResponse(responseCode = "401", description = "User login failed")
+    })
     public ResponseEntity<AuthResponse> login(HttpServletResponse response, @RequestBody LoginRequest request) {
         AuthResponse authResponse = authService.login(response, request);
         HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE
@@ -47,6 +68,14 @@ public class RestAuthController {
     }
 
     @PostMapping("/logout")
+    @Operation(
+        summary = "User Logout Endpoint",
+        description = "Logs out the authenticated user and terminates the session."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "User logged out successfully"),
+        @ApiResponse(responseCode = "400", description = "User logout failed")
+    })
     public ResponseEntity<AuthResponse> logout(HttpServletResponse response) {
         AuthResponse authResponse = authService.logout(response);
         HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE
@@ -57,6 +86,14 @@ public class RestAuthController {
     }
 
     @PostMapping("/refresh")
+    @Operation(
+        summary = "Token Refresh Endpoint",
+        description = "Refreshes the authentication token using a valid refresh token."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Token refreshed successfully"),
+        @ApiResponse(responseCode = "401", description = "Token refresh failed")
+    })
     public ResponseEntity<AuthResponse> refresh(
         HttpServletResponse response,
         @CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = true) String refreshToken

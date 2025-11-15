@@ -1,0 +1,38 @@
+.demoBanner {
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-lg);
+    background: linear-gradient(
+        135deg,
+        var(--bg-tertiary) 0%,
+        var(--bg-card) 100%
+    );
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: var(--border-radius-lg);
+    border-bottom-right-radius: var(--border-radius-lg);
+
+    &.rounded {
+        border-radius: var(--border-radius-lg);
+    }
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        font-size: var(--font-size-md);
+        color: var(--text-primary);
+        word-spacing: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .demoBanner {
+        justify-content: center;
+        .left {
+            display: none;
+        }
+    }
+}

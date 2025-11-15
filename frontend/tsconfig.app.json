@@ -13,6 +13,7 @@
       "@services/*": ["src/services/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
+      "@tests/*": ["tests/*"]
     },
     "types": ["vitest/globals", "vite/client"],
 

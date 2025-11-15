@@ -1,0 +1,70 @@
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: tripflow-postgres-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tripflow
+      POSTGRES_USER: tripflow_user
+      POSTGRES_PASSWORD: secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tripflow_user -d tripflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tripflow-network
+  
+
+  backend:
+    image: cub1z/tripflow-backend:0.1
+    container_name: tripflow-backend
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/tripflow
+      POSTGRES_USER: tripflow_user
+      POSTGRES_PASSWORD: secure_password
+      JWT_SECRET: VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - tripflow-network
+  
+  frontend:
+    image: cub1z/tripflow-frontend:0.1
+    container_name: tripflow-frontend
+    restart: unless-stopped
+    environment:
+      PUBLIC_API_BASE_URL: http://localhost:8080
+    ports:
+      - "4173:4173"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:4173/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  pgdata:
+    driver: local
+
+networks:
+  tripflow-network:
+    driver: bridge

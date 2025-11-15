@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GeographicPointService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.service.itinerary</a> &gt; <span class="el_source">GeographicPointService.java</span></div><h1>GeographicPointService.java</h1><pre class="source lang-java linenums">package com.tripflow.service.itinerary;
+
+import org.springframework.stereotype.Service;
+
+import com.tripflow.model.itinerary.GeographicPoint;
+import com.tripflow.repository.itinerary.GeographicPointRepository;
+
+import jakarta.annotation.PostConstruct;
+
+@Service
+public class GeographicPointService {
+    
+    private final GeographicPointRepository geographicPointRepository;
+
+<span class="fc" id="L15">    public GeographicPointService(GeographicPointRepository geographicPointRepository) {</span>
+<span class="fc" id="L16">        this.geographicPointRepository = geographicPointRepository;</span>
+<span class="fc" id="L17">    }</span>
+
+    @PostConstruct
+    public void initDefaultPoint() {
+<span class="pc bpc" id="L21" title="1 of 2 branches missed.">        if (geographicPointRepository.findByLatitudeAndLongitude(0.0, 0.0).isEmpty()) {</span>
+<span class="fc" id="L22">            GeographicPoint defaultPoint = new GeographicPoint();</span>
+<span class="fc" id="L23">            defaultPoint.setLatitude(0.0);</span>
+<span class="fc" id="L24">            defaultPoint.setLongitude(0.0);</span>
+<span class="fc" id="L25">            geographicPointRepository.save(defaultPoint);</span>
+        }
+<span class="fc" id="L27">    }</span>
+
+    public GeographicPoint findOrCreateByCoordinates(Double latitude, Double longitude) {
+<span class="fc" id="L30">        GeographicPoint point = this.geographicPointRepository</span>
+<span class="fc" id="L31">            .findByLatitudeAndLongitude(latitude, longitude)</span>
+<span class="fc" id="L32">            .orElse(null);</span>
+            
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        return point != null ? point : createGeographicPoint(latitude, longitude);</span>
+    }
+
+    public GeographicPoint getDefaultPoint() {
+<span class="fc" id="L38">        return geographicPointRepository</span>
+<span class="fc" id="L39">            .findByLatitudeAndLongitude(0.0, 0.0)</span>
+<span class="fc" id="L40">            .orElseThrow(() -&gt; new RuntimeException(&quot;Default geographic point not initialized&quot;));</span>
+    }
+
+    private GeographicPoint createGeographicPoint(Double latitude, Double longitude) {
+<span class="fc" id="L44">        GeographicPoint point = new GeographicPoint();</span>
+<span class="fc" id="L45">        point.setLatitude(latitude);</span>
+<span class="fc" id="L46">        point.setLongitude(longitude);</span>
+<span class="fc" id="L47">        return geographicPointRepository.save(point);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

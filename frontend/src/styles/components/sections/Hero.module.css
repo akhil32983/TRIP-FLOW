@@ -1,0 +1,89 @@
+@import url("../../animations.css");
+
+.hero {
+    position: relative;
+    min-height: 80dvh;
+    width: 100%;
+    padding-top: var(--space-larger);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-xxl);
+        animation: fadeIn 0.5s ease;
+
+        .title {
+            margin-top: var(--space-xl);
+            font-size: var(--font-size-largest);
+            text-align: center;
+            animation: fadeIn 0.75s ease;
+        }
+
+        .description {
+            font-size: var(--font-size-xl);
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            text-wrap: balance;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .actions {
+            margin-top: var(--space-xl);
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: var(--space-lg);
+            flex-wrap: wrap;
+            animation: fadeIn 1.25s ease;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding-top: var(--space-largest);
+        .content {
+            width: 100%;
+            align-items: center;
+            gap: var(--space-lg);
+
+            .title {
+                font-size: calc(var(--font-size-largest) * 0.8);
+                text-align: center;
+            }
+
+            .description {
+                font-size: var(--font-size-md);
+                text-align: center;
+            }
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .hero {
+        padding-top: var(--space-larger);
+        .content {
+            width: 100%;
+            align-items: center;
+            gap: var(--space-md);
+
+            .title {
+                font-size: calc(var(--font-size-largest) * 0.6);
+                text-align: center;
+            }
+
+            .description {
+                font-size: var(--font-size-sm);
+                text-align: center;
+            }
+        }
+    }
+}
