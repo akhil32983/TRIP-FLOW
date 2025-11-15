@@ -18,14 +18,14 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup-environment:
+    uses: ./.github/workflows/ci-environment-setup.yaml
+
   generate-api-docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Set up Environment
-        uses: ./.github/workflows/ci-environment-setup.yaml
 
       - name: Generate API Docs
         working-directory: ./scripts

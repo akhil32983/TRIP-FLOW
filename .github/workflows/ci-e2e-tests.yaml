@@ -22,6 +22,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  setup-environment:
+    uses: ./.github/workflows/ci-environment-setup.yaml
+    
   e2e-testing:
     timeout-minutes: 60
     runs-on: ubuntu-latest
@@ -33,9 +36,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
-      
-      - name: Set up Environment
-        uses: ./.github/workflows/ci-environment-setup.yaml
 
       - name: Install E2E dependencies
         working-directory: ./e2e
