@@ -179,7 +179,7 @@
 >
 > You can find the complete API documentation generated with SpringDoc OpenAPI by following this link:
 >
-> [API Documentation](https://raw.githack.com/TBD)
+> [API Documentation](https://raw.githack.com/codeurjc-students/2025-TripFlow/main/docs/api/api-docs.html)
 
 > ---
 
@@ -561,7 +561,7 @@
 >
 > | Version | Release Date | Highlights                                    |
 > | ------- | ------------ | --------------------------------------------- |
-> | 0.1.0   | TBD          | Initial MVP release with core functionality   |
+> | 0.1.0   | 15 nov 2025  | Initial MVP release with core functionality   |
 
 ---
 
