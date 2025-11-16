@@ -90,11 +90,6 @@
   - [ ] {API} User profile endpoint - `GET /api/v1/users/{id}`
   - [ ] {API} User profile update endpoint - `PUT /api/v1/users/{id}`
   - [ ] {API} User account deletion endpoint - `DELETE /api/v1/users/{id}`
-- [ ] {Feature} Notifications & Alerts System
-  - [ ] {Model} Notification entity
-  - [ ] {API} List notifications - `GET /api/v1/users/{id}/notifications`
-  - [ ] {API} Mark as read - `PUT /api/v1/notifications/{id}/read`
-  - [ ] {Event} Trigger notifications on major events (itinerary created, profile updated, admin actions)
 - [ ] {Feature} Admin Panel Backend
   - [ ] {API} Get all users - `GET /api/v1/admin/users`
   - [ ] {API} Delete user - `DELETE /api/v1/admin/users/{id}`
@@ -102,11 +97,18 @@
   - [ ] {Security} Role-based access control `ROLE_ADMIN`
   - [ ] {Model} Admin audit logs
 - [ ] {Feature} Microservices Foundations (Kafka)
-  - [ ] {Infra} Add Kafka & Zookeeper to docker-compose
-  - [ ] {Event} Publish `ItineraryCreatedEvent`
-  - [ ] {Event} Publish `UserRegisteredEvent`
-  - [ ] {Service} Basic event-listener microservice
-  - [ ] {Model} Event storage for debugging/testing
+  - [ ] {Infra} Add Kafka setup to Docker Compose
+  - [ ] {Event} Publish `AIRequestedEvent`
+  - [ ] {Service} Basic `AIRequestedEvent` event-listener microservice (AI_Service)
+  - [ ] {Event} Publish `AIGeneratedEvent`
+  - [ ] {Service} Basic `AIGeneratedEvent` event-listener microservice (Notification_Service)
+  - [ ] {Service} AiService integration with Kafka producer
+  - [ ] {Service} NotificationService integration with Kafka consumer
+- [ ] {Feature} Notifications System
+  - [ ] {Model} Notification entity
+  - [ ] {API} Get notifications endpoint - `GET /api/v1/notifications`
+  - [ ] {API} Mark notification as read endpoint - `PUT /api/v1/notifications/{id}/read`
+  - [ ] {Service} WebSocket notification push service
 - [ ] {Feature} Unsplash API Integration
   - [ ] {Service} Unsplash API client for destination images
   - [ ] {Cache} Results caching for image queries
