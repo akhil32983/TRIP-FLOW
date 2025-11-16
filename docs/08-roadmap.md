@@ -90,17 +90,53 @@
   - [ ] {API} User profile endpoint - `GET /api/v1/users/{id}`
   - [ ] {API} User profile update endpoint - `PUT /api/v1/users/{id}`
   - [ ] {API} User account deletion endpoint - `DELETE /api/v1/users/{id}`
+- [ ] {Feature} Notifications & Alerts System
+  - [ ] {Model} Notification entity
+  - [ ] {API} List notifications - `GET /api/v1/users/{id}/notifications`
+  - [ ] {API} Mark as read - `PUT /api/v1/notifications/{id}/read`
+  - [ ] {Event} Trigger notifications on major events (itinerary created, profile updated, admin actions)
+- [ ] {Feature} Admin Panel Backend
+  - [ ] {API} Get all users - `GET /api/v1/admin/users`
+  - [ ] {API} Delete user - `DELETE /api/v1/admin/users/{id}`
+  - [ ] {API} Get all itineraries - `GET /api/v1/admin/itineraries`
+  - [ ] {Security} Role-based access control `ROLE_ADMIN`
+  - [ ] {Model} Admin audit logs
+- [ ] {Feature} Microservices Foundations (Kafka)
+  - [ ] {Infra} Add Kafka & Zookeeper to docker-compose
+  - [ ] {Event} Publish `ItineraryCreatedEvent`
+  - [ ] {Event} Publish `UserRegisteredEvent`
+  - [ ] {Service} Basic event-listener microservice
+  - [ ] {Model} Event storage for debugging/testing
+- [ ] {Feature} Unsplash API Integration
+  - [ ] {Service} Unsplash API client for destination images
+  - [ ] {Cache} Results caching for image queries
+  - [ ] {API} Image search endpoint - `GET /api/v1/images/search?query=...`
 - [ ] {Feature} User Statistics endpoint - `GET /api/v1/stats`
+
 
 ### ⚛️ Frontend
 
 - [ ] {Feature} AI Itinerary Generation UI
   - [ ] {UI} AI Screen for prompting and displaying logs - `/ai`
   - [ ] {UI} AI Logs Component for displaying AI request history
-- [ ] {UI} Stats Component for displaying user statistics
-- [ ] {Feature} User Profile Component for displaying and editing user profile
+- [ ] {Feature} User Profile Component
   - [ ] {UI} Avatar upload and display
-  - [ ] {UI} User profile details and edit form
+  - [ ] {UI} User profile details and editable form
+  - [ ] {UI} Account deletion UI
+- [ ] {Feature} Notifications UI
+  - [ ] {UI} Notification bell with unread badge
+  - [ ] {UI} Notification list (modal, drawer or dropdown)
+  - [ ] {UI} Mark-as-read interaction
+- [ ] {Feature} Admin Panel UI
+  - [ ] {UI} Admin dashboard - `/admin`
+  - [ ] {UI} Users table (delete, filter)
+  - [ ] {UI} Itineraries table
+  - [ ] {Security} Admin-only route guards
+- [ ] {Feature} Unsplash Integration UI
+  - [ ] {UI} Replace itinerary icons with Unsplash images
+  - [ ] {UI} Lazy loading + placeholders
+- [ ] {UI} Stats Component for displaying user statistics
+
 
 ### ⚙️ Testing
 
@@ -108,18 +144,32 @@
 - [ ] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
 - [ ] {Unit-Backend} User statistics service tests (data calculation and aggregation)
 - [ ] {Unit-Backend} AI Logs service tests (request tracking and retrieval)
-- [ ] {Unit-Frontend} AI Generation UI tests (form validation, API integration)
-- [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
-- [ ] {Unit-Frontend} Stats component tests (data display and formatting)
-- [ ] {Unit-Frontend} AI Logs component tests (history display and filtering)
+- [ ] {Unit-Backend} Notifications service tests
+- [ ] {Unit-Backend} Admin backend tests (role restrictions, data access)
+- [ ] {Unit-Backend} Kafka producer/consumer tests
+- [ ] {Unit-Backend} Unsplash service tests (API + caching)
 - [ ] {Integration-Backend} AI Generation endpoint tests (with mocked OpenRouter)
 - [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
-- [ ] {Integration-Backend} Statistics endpoint tests (database queries and responses)
+- [ ] {Integration-Backend} Notifications endpoints tests
+- [ ] {Integration-Backend} Admin endpoints tests
+- [ ] {Integration-Backend} Statistics endpoint tests
+- [ ] {Integration-Backend} Unsplash endpoint tests
+- [ ] {Unit-Frontend} AI Generation UI tests (form validation, API integration)
+- [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
+- [ ] {Unit-Frontend} Notifications component tests
+- [ ] {Unit-Frontend} Admin panel component tests
+- [ ] {Unit-Frontend} Stats component tests
+- [ ] {Unit-Frontend} AI Logs component tests (history display and filtering)
 - [ ] {Integration-Frontend} AI workflow tests (generate → display → save)
 - [ ] {Integration-Frontend} Profile management workflow tests (upload → update → delete)
+- [ ] {Integration-Frontend} Notifications workflow tests
+- [ ] {Integration-Frontend} Admin panel workflow tests
 - [ ] {E2E} Complete AI itinerary generation flow
 - [ ] {E2E} Complete user profile management flow
+- [ ] {E2E} Complete notifications flow
+- [ ] {E2E} Complete admin panel flow
 - [ ] {Security} Rate limiting tests for AI endpoint
+- [ ] {Security} Role-based access tests for admin routes
 
 ---
 
