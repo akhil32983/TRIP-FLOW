@@ -21,7 +21,7 @@ public interface ItineraryRepository extends JpaRepository<Itinerary, Long> {
            "LOWER(CAST(function('array_to_string', i.tags, ',') AS string)) LIKE LOWER(CONCAT('%', :search, '%'))) " +
            "ORDER BY i.updatedAt DESC")
     Page<Itinerary> findAllByUserAndSearchOrderByUpdatedAtDesc(
-        User user,
+        @Param("user") User user,
         @Param("search") String search,
         Pageable pageable
     );
