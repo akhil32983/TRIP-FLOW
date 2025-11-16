@@ -21,9 +21,9 @@ services:
       - tripflow-network-dev
   
 
-  backend:
-    image: cub1z/tripflow-backend:dev
-    container_name: tripflow-backend-dev
+  api-service:
+    image: cub1z/tripflow-api-service:dev
+    container_name: tripflow-api-service-dev
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: dev
@@ -54,7 +54,7 @@ services:
     ports:
       - "4173:4173"
     depends_on:
-      backend:
+      api-service:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:4173/ || exit 1"]

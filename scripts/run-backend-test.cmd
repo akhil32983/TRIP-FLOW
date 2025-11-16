@@ -15,12 +15,12 @@ if not exist "%REPORT_DIR%" mkdir "%REPORT_DIR%"
 
 REM Clean previous reports
 echo [+] Cleaning previous reports...
-if exist "%PROJECT_ROOT%\backend\target\site\jacoco" rmdir /s /q "%PROJECT_ROOT%\backend\target\site\jacoco"
+if exist "%PROJECT_ROOT%\backend\api-service\target\site\jacoco" rmdir /s /q "%PROJECT_ROOT%\backend\api-service\target\site\jacoco"
 if exist "%REPORT_DIR%\*" del /q /f "%REPORT_DIR%\*"
 
 REM Run tests and generate coverage report
 echo [+] Running backend tests and generating coverage...
-cd /d "%PROJECT_ROOT%\backend"
+cd /d "%PROJECT_ROOT%\backend\api-service"
 call mvnw.cmd clean verify jacoco:report
 
 REM Move reports to the designated report directory

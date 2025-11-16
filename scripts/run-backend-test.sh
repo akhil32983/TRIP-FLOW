@@ -13,12 +13,12 @@ mkdir -p "$REPORT_DIR"
 
 # Clean previous reports
 echo "[+] Cleaning previous reports..."
-rm -rf "$PROJECT_ROOT/backend/target/site/jacoco"
+rm -rf "$PROJECT_ROOT/backend/api-service/target/site/jacoco"
 rm -rf "$REPORT_DIR"/*
 
 # Run tests and generate coverage report
 echo "[+] Running backend tests and generating coverage..."
-cd "$PROJECT_ROOT/backend"
+cd "$PROJECT_ROOT/backend/api-service"
 ./mvnw clean verify jacoco:report
 
 # Move reports to the designated report directory
