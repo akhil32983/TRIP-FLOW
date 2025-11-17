@@ -1,14 +1,15 @@
 package com.tripflow.kafka.messages;
 
-import java.sql.Timestamp;
+import java.time.Instant;
+
 import com.tripflow.dto.AIRequest;
 
 public record AIRequestMessage(
     Long userId,
     AIRequest request,
-    Timestamp timestamp
+    Instant timestamp
 ) {
     public AIRequestMessage(Long userId, AIRequest request) {
-        this(userId, request, new Timestamp(System.currentTimeMillis()));
+        this(userId, request, Instant.now());
     }
 }
