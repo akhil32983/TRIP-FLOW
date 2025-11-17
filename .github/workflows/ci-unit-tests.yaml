@@ -27,7 +27,7 @@ jobs:
     defaults:
       run:
         working-directory: ./backend/api-service
-        
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -44,7 +44,11 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      
+
+      - name: Build and install common module
+        run: mvn install -DskipTests
+        working-directory: ./backend/common
+
       - name: Run unit tests
         run: mvn test -Dgroups=unit
         env:
