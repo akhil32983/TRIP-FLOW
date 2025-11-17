@@ -20,8 +20,8 @@ if exist "%REPORT_DIR%\*" del /q /f "%REPORT_DIR%\*"
 
 REM Run tests and generate coverage report
 echo [+] Running backend tests and generating coverage...
-cd /d "%PROJECT_ROOT%\backend\api-service"
-call mvnw.cmd clean verify jacoco:report
+cd /d "%PROJECT_ROOT%\backend"
+call mvnw.cmd clean verify -pl api-service
 
 REM Move reports to the designated report directory
 echo [+] Moving reports to %REPORT_DIR%...
