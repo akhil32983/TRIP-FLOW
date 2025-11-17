@@ -13,4 +13,10 @@ public class KafkaTopicConfig {
         return TopicBuilder.name("ai-request")
             .build();
     }
+
+    @Bean
+    public NewTopic notificationTopic() {
+        return TopicBuilder.name("notification")
+            .build();
+    }
 }
