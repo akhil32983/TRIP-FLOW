@@ -16,6 +16,7 @@ import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import com.tripflow.kafka.messages.AIRequestMessage;
+import com.tripflow.kafka.messages.NotificationMessage;
 
 @Configuration
 public class KafkaConsumerConfig {
@@ -66,6 +67,30 @@ public class KafkaConsumerConfig {
                 factory = new ConcurrentKafkaListenerContainerFactory<>();
 
             factory.setConsumerFactory(aiRequestConsumerFactory());
+            return factory;
+    }
+
+    // [Notification Configs] =========================================
+
+    @Bean
+    public ConsumerFactory<String, NotificationMessage> notificationConsumerFactory() {
+        JsonDeserializer<NotificationMessage> deserializer = new JsonDeserializer<>(NotificationMessage.class);
+        deserializer.addTrustedPackages("*");
+
+        return new DefaultKafkaConsumerFactory<>(
+            consumerConfig(),
+            new StringDeserializer(),
+            deserializer
+        );
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<
+        ConcurrentMessageListenerContainer<String, NotificationMessage>> notificationFactory() {
+            ConcurrentKafkaListenerContainerFactory<String, NotificationMessage>
+                factory = new ConcurrentKafkaListenerContainerFactory<>();
+
+            factory.setConsumerFactory(notificationConsumerFactory());
             return factory;
     }
 }

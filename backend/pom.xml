@@ -24,9 +24,10 @@
         <module>common</module>
         <module>api-service</module>
         <module>ai-service</module>
+        <module>notification-service</module>
     </modules>
 
-    <!-- BOM de Spring Boot -->
+    <!-- Spring Boot BOM -->
     <dependencyManagement>
         <dependencies>
             <dependency>

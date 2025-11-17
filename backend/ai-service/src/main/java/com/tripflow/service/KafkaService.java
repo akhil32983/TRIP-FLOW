@@ -14,7 +14,7 @@ public class KafkaService {
     }
 
     private void sendMessage(String topic, Object message) {
-        kafkaTemplate.send(topic, message);
+        this.kafkaTemplate.send(topic, message);
     }
 
     /**
@@ -23,6 +23,6 @@ public class KafkaService {
      * @param message The notification message to send
      */
     public void sendNotificationMessage(NotificationMessage message) {
-        sendMessage("notification", message);
+        this.sendMessage("notification", message);
     }
 }
