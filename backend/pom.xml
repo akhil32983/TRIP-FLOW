@@ -48,6 +48,7 @@
 
     <modules>
         <module>api-service</module>
+        <module>common</module>
     </modules>
 
     <dependencyManagement>
