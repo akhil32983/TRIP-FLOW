@@ -28,6 +28,14 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Compute image name suffix
+        run: |
+          # basename: backend/**-service -> **-service
+          IMAGE_SUFFIX=$(basename "${{ matrix.service }}")
+          # sanitize: to lowercase, replace underscores/slashes with hyphens
+          IMAGE_SUFFIX=$(echo "$IMAGE_SUFFIX" | tr '[:upper:]' '[:lower:]' | tr '_/' '-')
+          echo "IMAGE_SUFFIX=$IMAGE_SUFFIX" >> $GITHUB_ENV
 
       - name: Build and push ${{ matrix.service }}
         uses: docker/build-push-action@v6
@@ -35,7 +43,7 @@ jobs:
           context: ./${{ matrix.service }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ matrix.service }}:${{ inputs.tag }}
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ env.IMAGE_SUFFIX }}:${{ inputs.tag }}
 
       - name: Install ORAS CLI
         run: |

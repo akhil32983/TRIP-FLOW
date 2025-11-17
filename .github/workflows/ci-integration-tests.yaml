@@ -6,13 +6,13 @@ on:
       - main
       - develop
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - '.github/workflows/ci-integration-tests.yaml'
   pull_request:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - '.github/workflows/ci-integration-tests.yaml'
   
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./backend/api-service
         
     steps:
       - name: Checkout code

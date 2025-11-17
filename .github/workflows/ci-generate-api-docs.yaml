@@ -6,7 +6,7 @@ on:
       - main
       - develop
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - '.github/workflows/ci-generate-api-docs.yaml'
   
   workflow_dispatch:

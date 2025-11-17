@@ -7,7 +7,7 @@ on:
       - develop
       - 'feat-*'
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - 'frontend/**'
       - '.github/workflows/ci-unit-tests.yaml'
   pull_request:
@@ -15,7 +15,7 @@ on:
       - main
       - develop
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - 'frontend/**'
       - '.github/workflows/**'
   
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./backend/api-service
         
     steps:
       - name: Checkout code

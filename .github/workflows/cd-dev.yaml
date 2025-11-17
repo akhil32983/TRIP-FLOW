@@ -11,5 +11,5 @@ jobs:
     with:
       tag: dev
       compose_file: docker/docker-compose.dev.yaml
-      services: '["backend","frontend"]'
+      services: '["backend/api-service","frontend"]'
     secrets: inherit
