@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/api-service
+        working-directory: ./backend/
         
     steps:
       - name: Checkout code
@@ -42,7 +42,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run integration tests
-        run: mvn test -Dgroups=integration
+        run: mvn test -pl ./api-service -am -Dgroups=integration
         env:
           CI: true
           JWT_SECRET: ${{ secrets.JWT_SECRET }}

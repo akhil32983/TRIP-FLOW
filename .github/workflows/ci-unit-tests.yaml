@@ -7,7 +7,7 @@ on:
       - develop
       - 'feat-*'
     paths:
-      - 'backend/api-service/**'
+      - 'backend/**'
       - 'frontend/**'
       - '.github/workflows/ci-unit-tests.yaml'
   pull_request:
@@ -15,7 +15,7 @@ on:
       - main
       - develop
     paths:
-      - 'backend/api-service/**'
+      - 'backend/**'
       - 'frontend/**'
       - '.github/workflows/**'
   
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend/api-service
+        working-directory: ./backend
 
     steps:
       - name: Checkout code
@@ -45,12 +45,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build and install common module
-        run: mvn install -DskipTests
-        working-directory: ./backend/common
-
       - name: Run unit tests
-        run: mvn test -Dgroups=unit
+        run: mvn test -pl ./api-service -am -Dgroups=unit
         env:
           CI: true
           JWT_SECRET: ${{ secrets.JWT_SECRET }}

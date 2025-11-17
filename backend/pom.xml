@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
-		<relativePath/>
-	</parent>
-
+    <!-- ROOT POM -->
     <groupId>com.tripflow</groupId>
     <artifactId>tripflow-backend</artifactId>
     <version>0.2.0-SNAPSHOT</version>
@@ -17,40 +13,20 @@
 
     <name>TripFlow Backend</name>
     <description>TripFlow backend microservices</description>
-    <url>https://github.com/codeurjc-students/2025-TripFlow</url>
-	<licenses>
-		<license>
-			<name>Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0</url>
-		</license>
-	</licenses>
-	<developers>
-		<developer>
-			<id>cub1z</id>
-			<name>Diego Sánchez Rincón</name>
-			<email>cub1zdev@gmail.com</email>
-			<url>https://github.com/CuB1z</url>
-		</developer>
-	</developers>
-	<scm>
-        <connection>scm:git:git://github.com/codeurjc-students/2025-TripFlow.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com/codeurjc-students/2025-TripFlow.git</developerConnection>
-        <url>https://github.com/codeurjc-students/2025-TripFlow</url>
-        <tag>HEAD</tag>
-    </scm>
 
     <properties>
         <java.version>21</java.version>
         <spring.boot.version>3.5.7</spring.boot.version>
-        <kafka.version>3.3.0</kafka.version>
         <mapstruct.version>1.6.3</mapstruct.version>
     </properties>
 
     <modules>
-        <module>api-service</module>
         <module>common</module>
+        <module>api-service</module>
+        <module>ai-service</module>
     </modules>
 
+    <!-- BOM de Spring Boot -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -63,40 +39,8 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-            <version>${kafka.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka-test</artifactId>
-            <version>${kafka.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-        </dependency>
-        <dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
-    </dependencies>
-
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
-            </plugin>
             <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -107,7 +51,7 @@
 						<path>
 							<groupId>org.mapstruct</groupId>
 							<artifactId>mapstruct-processor</artifactId>
-							<version>1.6.3</version>
+							<version>${mapstruct.version}</version>
 						</path>
 					</annotationProcessorPaths>
             	</configuration>
