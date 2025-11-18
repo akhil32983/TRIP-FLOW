@@ -5,11 +5,11 @@ import java.time.Instant;
 import com.tripflow.dto.AIRequest;
 
 public record AIRequestMessage(
-    Long userId,
+    String username,
     AIRequest request,
     Instant timestamp
 ) {
-    public AIRequestMessage(Long userId, AIRequest request) {
-        this(userId, request, Instant.now());
+    public AIRequestMessage(String username, AIRequest request) {
+        this(username, request, Instant.now());
     }
 }

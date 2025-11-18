@@ -31,7 +31,7 @@ public class AIService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
         }
 
-        AIRequestMessage message = new AIRequestMessage(authenticatedUser.getId(), aiRequest);
+        AIRequestMessage message = new AIRequestMessage(authenticatedUser.getUsername(), aiRequest);
         this.kafkaService.sendAIRequestMessage(message);
 
         return new MessageResponse("AI request submitted successfully");
