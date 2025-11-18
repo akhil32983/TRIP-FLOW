@@ -15,7 +15,6 @@
 	<description>Backend API for TripFlow</description>
 
 	<properties>
-		<jjwt.version>0.12.6</jjwt.version>
 		<testcontainers.version>1.19.0</testcontainers.version>
         <rest-assured.version>5.3.2</rest-assured.version>
 	</properties>
@@ -54,11 +53,6 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.github.cdimascio</groupId>
-			<artifactId>dotenv-java</artifactId>
-			<version>3.0.0</version>
 		</dependency>
         <dependency>
 			<groupId>io.jsonwebtoken</groupId>

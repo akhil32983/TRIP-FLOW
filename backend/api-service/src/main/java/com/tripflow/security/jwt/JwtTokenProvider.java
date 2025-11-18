@@ -3,31 +3,23 @@ package com.tripflow.security.jwt;
 import java.util.Date;
 import java.util.UUID;
 
-import javax.crypto.SecretKey;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.tripflow.config.Env;
+import com.tripflow.jwt.JwtUtils;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 public class JwtTokenProvider {
-    private final SecretKey JWT_SECRET_KEY;
-    private final JwtParser jwtParser;
+    private final JwtUtils jwtUtils;
 
-    public JwtTokenProvider() {
-        byte[] keyBytes = Decoders.BASE64.decode(Env.JWT_SECRET);
-        this.JWT_SECRET_KEY = Keys.hmacShaKeyFor(keyBytes);
-        this.jwtParser = Jwts.parser().verifyWith(JWT_SECRET_KEY).build();
+    public JwtTokenProvider(JwtUtils jwtUtils) {
+        this.jwtUtils = jwtUtils;
     }
 
     /**
@@ -71,7 +63,7 @@ public class JwtTokenProvider {
      * @return the claims contained in the token if valid, otherwise throws an exception
      */
     public Claims validateToken(String token) throws IllegalArgumentException {
-		return jwtParser.parseSignedClaims(token).getPayload();
+		return this.jwtUtils.validateToken(token);
 	}
 
     /**
@@ -114,7 +106,7 @@ public class JwtTokenProvider {
             .subject(userDetails.getUsername())
             .issuedAt(currentDate)
             .expiration(expiryDate)
-            .signWith(JWT_SECRET_KEY);
+            .signWith(this.jwtUtils.getSecretKey());
         
         return builder.compact();
 	}

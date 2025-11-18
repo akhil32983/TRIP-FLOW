@@ -22,6 +22,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.tripflow.jwt.JwtUtils;
 import com.tripflow.security.jwt.JwtTokenProvider;
 import com.tripflow.security.jwt.TokenType;
 
@@ -41,9 +42,8 @@ public class JwtTest {
 
     @BeforeEach
     public void setUp() {
-        System.setProperty("JWT_SECRET", JWT_SECRET);
-
-        this.jwtTokenProvider = new JwtTokenProvider();
+        JwtUtils jwtUtils = new JwtUtils(JWT_SECRET);
+        this.jwtTokenProvider = new JwtTokenProvider(jwtUtils);
 
         // Mock UserDetails for testing
         Collection<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
