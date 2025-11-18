@@ -2,18 +2,16 @@ FROM maven:3.9-eclipse-temurin-21-alpine AS build
 
 WORKDIR /app
 
-COPY pom.xml ./
+COPY pom.xml .
 COPY api-service/pom.xml ./api-service/
-# COPY common/pom.xml ./common/
-
-RUN mvn dependency:go-offline -B
+COPY ai-service/pom.xml ./ai-service/
+COPY notification-service/pom.xml ./notification-service/
+COPY common/pom.xml ./common/
 
 COPY api-service/src ./api-service/src
-# COPY common/src ./common/src
+COPY common/src ./common/src
 
-WORKDIR /app/api-service
-
-RUN mvn clean package -DskipTests -B
+RUN mvn clean package -pl ./api-service -am -DskipTests -B
 
 
 FROM eclipse-temurin:21-jre-alpine AS backend
@@ -30,4 +28,4 @@ USER appuser
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

@@ -19,6 +19,34 @@ services:
       retries: 5
     networks:
       - tripflow-network-dev
+
+  
+    kafka:
+      image: confluentinc/cp-kafka:8.1.0
+      container_name: kafka-dev
+      restart: unless-stopped
+      environment:
+        KAFKA_KRAFT_MODE: "true"
+        CLUSTER_ID: "0A33a0asf1dk3s-k9n-n"
+        KAFKA_NODE_ID: 1
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+        KAFKA_PROCESS_ROLES: broker,controller
+        KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+        KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+        KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+        KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+      ports:
+        - "9092:9092"
+      volumes:
+        - kafkadata-dev:/var/lib/kafka/data
+      healthcheck:
+        test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+      networks:
+        - tripflow-network-dev
   
 
   api-service:
@@ -32,10 +60,13 @@ services:
       POSTGRES_USER: tripflow_user
       POSTGRES_PASSWORD: secure_password
       JWT_SECRET: VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8080:8080"
     depends_on:
       postgres:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
@@ -64,6 +95,8 @@ services:
 
 volumes:
   pgdata-dev:
+    driver: local
+  kafkadata-dev:
     driver: local
 
 networks:

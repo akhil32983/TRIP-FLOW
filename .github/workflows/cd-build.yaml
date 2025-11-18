@@ -40,7 +40,7 @@ jobs:
       - name: Build and push ${{ matrix.service }}
         uses: docker/build-push-action@v6
         with:
-          context: ./${{ matrix.service }}
+          context: ${{ startsWith(matrix.service, 'frontend') && './frontend' || './backend' }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ env.IMAGE_SUFFIX }}:${{ inputs.tag }}

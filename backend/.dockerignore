@@ -2,7 +2,6 @@ target/
 .git
 .gitignore
 *.log
-.env
-.env.local
+.env*
 .vscode
 *.md
