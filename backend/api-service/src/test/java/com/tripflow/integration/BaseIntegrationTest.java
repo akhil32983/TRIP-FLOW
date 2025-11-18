@@ -12,9 +12,11 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 import io.restassured.RestAssured;
 
@@ -24,7 +26,7 @@ import io.restassured.RestAssured;
 @TestInstance(Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestPropertySource(properties = {
-    "JWT_SECRET=VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==",
+    "jwt.secret=VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==",
     "POSTGRES_PASSWORD=test",
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.jpa.show-sql=false",
@@ -39,8 +41,13 @@ public abstract class BaseIntegrationTest {
         .withUsername("test")
         .withPassword("test")
         .withStartupTimeout(Duration.ofSeconds(60))
-        .withConnectTimeoutSeconds(5)
         .withCommand("postgres -c fsync=off -c synchronous_commit=off");
+
+    @Container
+    @ServiceConnection
+    public static final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:8.1.0"))
+        .withExposedPorts(9092, 9093)
+        .withKraft();
 
     @LocalServerPort
     protected int port;
