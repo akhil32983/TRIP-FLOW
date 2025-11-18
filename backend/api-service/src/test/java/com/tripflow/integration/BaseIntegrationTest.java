@@ -36,6 +36,7 @@ public abstract class BaseIntegrationTest {
 
     @Container
     @ServiceConnection
+    @SuppressWarnings("resource")
     public static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15-alpine")
         .withDatabaseName("tripflow_test")
         .withUsername("test")
@@ -45,6 +46,7 @@ public abstract class BaseIntegrationTest {
 
     @Container
     @ServiceConnection
+    @SuppressWarnings("resource")
     public static final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:8.1.0"))
         .withExposedPorts(9092, 9093)
         .withKraft();
