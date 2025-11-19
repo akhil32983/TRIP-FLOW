@@ -8,6 +8,8 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 echo "[+] Starting TripFlow E2E environment..."
 
 export API_URL="http://localhost:8080"
+export AI_URL="http://localhost:8081"
+export NOTIFICATION_URL="http://localhost:8082"
 export FRONTEND_URL="http://localhost:4173"
 
 # Wake up services with Docker Compose

@@ -8,6 +8,8 @@ SET PROJECT_ROOT=%SCRIPT_DIR%..
 echo [+] Starting TripFlow E2E environment...
 
 set API_URL=http://localhost:8080
+set AI_URL=http://localhost:8081
+set NOTIFICATION_URL=http://localhost:8082
 set FRONTEND_URL=http://localhost:4173
 
 REM Wake up services with Docker Compose
