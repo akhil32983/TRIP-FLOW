@@ -3,8 +3,6 @@ set -e
 
 # Config (can be overridden by env vars)
 API_URL="${API_URL:-http://localhost:8080}"
-AI_URL="${AI_URL:-http://localhost:8081}"
-NOTIFICATION_URL="${NOTIFICATION_URL:-http://localhost:8082}"
 FRONTEND_URL="${FRONTEND_URL:-http://localhost:4173}"
 HEALTH_URL="${HEALTH_URL:-$API_URL/api/health}"
 RETRIES="${RETRIES:-15}"
@@ -37,16 +35,6 @@ echo "[*] Waiting for services..."
 
 if ! wait_for "$HEALTH_URL" "$RETRIES" "$INTERVAL"; then
   echo "[-] Backend health check failed."
-  exit 1
-fi
-
-if ! wait_for "$AI_URL" "$RETRIES" "$INTERVAL"; then
-  echo "[-] AI health check failed."
-  exit 1
-fi
-
-if ! wait_for "$NOTIFICATION_URL" "$RETRIES" "$INTERVAL"; then
-  echo "[-] Notification health check failed."
   exit 1
 fi
 
