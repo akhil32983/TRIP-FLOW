@@ -19,5 +19,5 @@ jobs:
     with:
       tag: latest
       compose_file: docker/docker-compose.yaml
-      services: '["backend/api-service","frontend"]'
+      services: '["backend/api-service","backend/ai-service","backend/notification-service","frontend"]'
     secrets: inherit
