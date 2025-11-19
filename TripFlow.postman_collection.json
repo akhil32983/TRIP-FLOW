@@ -292,6 +292,43 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "AI",
+					"item": [
+						{
+							"name": "AI Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"destination\": \"París\",\r\n    \"style\": \"Romantic\",\r\n    \"budget\": 500,\r\n    \"lodging\": \"hostel\",\r\n    \"duration\": \"2-3 days\",\r\n    \"interests\": [\"Eifel Tower\", \"Seine\", \"Les Champs-Élysées\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/ai",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ai"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notification",
+					"item": []
 				}
 			]
 		}
