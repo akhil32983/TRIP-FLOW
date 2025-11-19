@@ -1,0 +1,7 @@
+# API Service - Development Configuration
+
+# This is a template file. Copy it to application-dev.properties and add your real secrets
+# application-dev.properties is in .gitignore and won't be committed
+
+# JWT Configuration
+jwt.secret=your-jwt-secret-here
