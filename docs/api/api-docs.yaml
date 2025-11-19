@@ -296,6 +296,40 @@ paths:
                 $ref: "#/components/schemas/ExtendedItineraryDTO"
       security:
       - auth_token: []
+  /api/v1/ai:
+    post:
+      tags:
+      - rest-ai-controller
+      summary: Submit AI Processing Request
+      description: Submits a request for AI processing based on user preferences.
+      operationId: handleAIRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AIGenerationRequest"
+        required: true
+      responses:
+        "200":
+          description: AI request submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+      security:
+      - auth_token: []
   /api/auth/register:
     post:
       tags:
@@ -538,6 +572,29 @@ components:
           type: string
         coordinates:
           $ref: "#/components/schemas/CoordinatesDTO"
+    AIGenerationRequest:
+      type: object
+      properties:
+        destination:
+          type: string
+        style:
+          type: string
+        budget:
+          type: number
+          format: double
+        lodging:
+          type: string
+        duration:
+          type: string
+        interests:
+          type: array
+          items:
+            type: string
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
     RegisterUserRequest:
       type: object
       properties:
