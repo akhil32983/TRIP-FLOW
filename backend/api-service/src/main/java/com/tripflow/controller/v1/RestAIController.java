@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tripflow.dto.AIRequest;
+import com.tripflow.dto.AIGenerationRequest;
 import com.tripflow.dto.MessageResponse;
 import com.tripflow.service.AIService;
 
@@ -38,7 +38,7 @@ public class RestAIController {
         @ApiResponse(responseCode = "401", description = "Unauthorized access"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<MessageResponse> handleAIRequest(@RequestBody AIRequest request) {
+    public ResponseEntity<MessageResponse> handleAIRequest(@RequestBody AIGenerationRequest request) {
         try {
             MessageResponse response = this.aiService.requestAIProcessing(request);
             return ResponseEntity.ok(response);

@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tripflow.dto.AIRequest;
+import com.tripflow.dto.AIGenerationRequest;
 import com.tripflow.dto.MessageResponse;
 import com.tripflow.kafka.messages.AIRequestMessage;
 import com.tripflow.model.User;
@@ -25,7 +25,7 @@ public class AIService {
      * @param aiRequest The AIRequest containing user preferences.
      * @return A MessageResponse indicating success.
      */
-    public MessageResponse requestAIProcessing(AIRequest aiRequest) {
+    public MessageResponse requestAIProcessing(AIGenerationRequest aiRequest) {
         User authenticatedUser = this.userService.getAuthenticatedUser();
         if (authenticatedUser == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");

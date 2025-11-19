@@ -2,7 +2,7 @@ package com.tripflow.dto;
 
 import java.util.List;
 
-public record AIRequest(
+public record AIGenerationRequest(
     String destination,
     String style,
     Double budget,

@@ -2,14 +2,14 @@ package com.tripflow.kafka.messages;
 
 import java.time.Instant;
 
-import com.tripflow.dto.AIRequest;
+import com.tripflow.dto.AIGenerationRequest;
 
 public record AIRequestMessage(
     String username,
-    AIRequest request,
+    AIGenerationRequest request,
     Instant timestamp
 ) {
-    public AIRequestMessage(String username, AIRequest request) {
+    public AIRequestMessage(String username, AIGenerationRequest request) {
         this(username, request, Instant.now());
     }
 }
