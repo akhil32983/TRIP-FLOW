@@ -5,10 +5,10 @@ import java.time.Instant;
 public record NotificationMessage(
     String username,
     String message,
-    Object payload,
+    boolean success,
     Instant timestamp
 ) {
-    public NotificationMessage(String username, String message, Object payload) {
-        this(username, message, payload, Instant.now());
+    public NotificationMessage(String username, String message, boolean success) {
+        this(username, message, success, Instant.now());
     }
 }

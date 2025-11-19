@@ -17,8 +17,8 @@ public class Notification {
     @Column(nullable = false)
     private String message;
 
-    @Column(nullable = true)
-    private String payload;
+    @Column(nullable = false)
+    private boolean success;
 
     @Column(nullable = false, updatable = false)
     private Instant timestamp;
@@ -34,17 +34,17 @@ public class Notification {
 
     public Notification() {}
 
-    public Notification(String username, String message, String payload) {
+    public Notification(String username, String message, boolean success) {
         this.username = username;
         this.message = message;
-        this.payload = payload;
+        this.success = success;
     }
 
-    public Notification(String username, String message, String payload, Instant timestamp) {
+    public Notification(String username, String message, Instant timestamp, boolean success) {
         this.username = username;
         this.message = message;
-        this.payload = payload;
         this.timestamp = timestamp;
+        this.success = success;
     }
 
     // [Getters and Setters] ==========================================
@@ -73,19 +73,19 @@ public class Notification {
         this.message = message;
     }
 
-    public String getPayload() {
-        return payload;
-    }
-
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
     public Instant getTimestamp() {
         return timestamp;
     }
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean getSuccess() {
+        return success;
+    }
+
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 }
