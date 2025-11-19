@@ -39,6 +39,13 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 
+        <!-- OpenAI -->
+        <dependency>
+            <groupId>com.openai</groupId>
+            <artifactId>openai-java</artifactId>
+            <version>4.8.0</version>
+        </dependency>
+
         <!-- Common dependencies -->
         <dependency>
             <groupId>com.tripflow</groupId>
