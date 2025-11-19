@@ -1,6 +1,6 @@
 package com.tripflow.model;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,12 +43,12 @@ public class AILog {
     private Boolean success = false;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 
     @PrePersist
     protected void onCreate() {
         if (createdAt == null) {
-            createdAt = LocalDateTime.now();
+            createdAt = Instant.now();
         }
     }
 
@@ -58,7 +58,8 @@ public class AILog {
 
     public AILog(
         String username, String destination, String style, Double budget,
-        String lodging, String duration, List<String> interests, String response, Boolean success
+        String lodging, String duration, List<String> interests, String response,
+        Boolean success, Instant createdAt
     ) {
         this.username = username;
         this.destination = destination;
@@ -69,6 +70,7 @@ public class AILog {
         this.interests = interests != null ? interests : new ArrayList<>();
         this.response = response;
         this.success = success;
+        this.createdAt = createdAt;
     }
 
     // [Getters and Setters] ==========================================
@@ -153,11 +155,11 @@ public class AILog {
         this.success = success; 
     }
 
-    public LocalDateTime getCreatedAt() { 
+    public Instant getCreatedAt() { 
         return createdAt; 
     }
     
-    public void setCreatedAt(LocalDateTime createdAt) { 
+    public void setCreatedAt(Instant createdAt) { 
         this.createdAt = createdAt; 
     }
 }

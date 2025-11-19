@@ -29,7 +29,8 @@ public class AILogService {
             aiRequestMessage.request().duration(),
             aiRequestMessage.request().interests(),
             response,
-            success
+            success,
+            aiRequestMessage.timestamp()
         );
     }
 }
