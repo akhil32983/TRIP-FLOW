@@ -19,7 +19,7 @@ rm -rf "$REPORT_DIR"/*
 # Run tests and generate coverage report
 echo "[+] Running backend tests and generating coverage..."
 cd "$PROJECT_ROOT/backend/api-service"
-./mvnw clean verify jacoco:report
+./mvnw clean verify -pl api-service -am
 
 # Move reports to the designated report directory
 echo "[+] Moving reports to $REPORT_DIR..."
