@@ -1,0 +1,69 @@
+package com.tripflow.utils;
+
+import com.tripflow.dto.AIGenerationRequest;
+
+public class AIItineraryPrompt {
+    private static final String CONTEXT_PROMPT = """
+        Eres un asistente útil. Conocedor de lugares turísticos y actividades para visitar.
+        Tienes un conocimiento profundo de la ciudad de {{place}}.
+        Recibirás un contexto con información sobre la ciudad de {{place}}.
+
+        Contexto:
+        - Ciudad de destino: {{place}}
+        - Estilo del itinerario: {{style}}
+        - Presupuesto: {{budget}}
+        - Tipo de alojamiento: {{lodging}}
+        - Duración: {{duration}}
+        - Intereses: {{interests}}
+
+        Propón varias actividades para cada día, al menos 3 o 4 actividades por día, con un sentido lógico y coherente.
+        Evita caracteres especiales o emoticonos en el JSON.
+
+        Responde ÚNICAMENTE con el JSON correspondiente al itinerario propuesto, sin ningún texto adicional, sin ejemplos, sin explicaciones y sin encabezados.
+        Evita cualquier comentario o texto que no sea parte del JSON, incluyendo la palabra "JSON", "json", "```json", "```", etc.
+        El JSON debe tener la siguiente estructura:
+        {
+            "id": -1,
+            "title": "Título relacionado con {{place}} [AI]",
+            "place": "{{place}}",
+            "icon": "A",
+            "people": Un número entero que indica la cantidad de personas que viajan.
+            "budget": {{budget}}
+            "date": "La fecha de inicio del viaje",
+            "updatedCount": 0,
+            "status": "DRAFT",
+            "tags": ["Tag1", "Tag2", "Tag3"],
+            "countDays": Un número entero que indica la cantidad de días del itinerario.,
+            "days": [
+                {
+                    "day": 1 (1, 2, 3, ...),
+                    "activities": [
+                        {
+                            "activity": "Visitar ... atracción",
+                            "details": "Detalle sobre la actividad a tener en cuenta",
+                            "location": {
+                                "name": "Nombre del lugar",
+                                "address": "Dirección del lugar",
+                                "coordinates": {
+                                    "latitude": 48.8566 (decimal),
+                                    "longitude": 2.3522 (decimal)
+                                }
+                            },
+                            "time": "Hora de inicio (11h, 12h, etc.)",
+                            "duration": "2 horas / 3 horas / etc."
+                        }
+                    ]
+                }
+            ]
+        }
+    """;
+
+    public static String generatePrompt(AIGenerationRequest request) {
+        return CONTEXT_PROMPT.replace("{{place}}", request.destination())
+            .replace("{{style}}", request.style())
+            .replace("{{budget}}", request.budget().toString())
+            .replace("{{lodging}}", request.lodging())
+            .replace("{{duration}}", request.duration())
+            .replace("{{interests}}", request.interests().toString());
+    }
+}
