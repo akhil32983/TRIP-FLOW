@@ -21,7 +21,7 @@ public class NotificationHandlerService {
     }
 
     public void handleNotification(NotificationMessage message) {
-        notificationService.saveNotification(message);
+        this.notificationService.saveNotification(message);
 
         messagingTemplate.convertAndSendToUser(
             message.username(),
