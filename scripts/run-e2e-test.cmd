@@ -7,9 +7,20 @@ SET PROJECT_ROOT=%SCRIPT_DIR%..
 
 echo [+] Starting TripFlow E2E environment...
 
+REM Check if AI_API_KEY is provided as argument
+if not "%~1"=="" (
+    set AI_API_KEY=%~1
+    echo [+] Using AI_API_KEY from argument
+) else (
+    if defined AI_API_KEY (
+        echo [+] Using AI_API_KEY from environment
+    ) else (
+        echo [WARNING] AI_API_KEY not provided. AI features may not work.
+        echo [INFO] Usage: run-e2e-test.cmd [AI_API_KEY]
+    )
+)
+
 set API_URL=http://localhost:8080
-set AI_URL=http://localhost:8081
-set NOTIFICATION_URL=http://localhost:8082
 set FRONTEND_URL=http://localhost:4173
 
 REM Wake up services with Docker Compose

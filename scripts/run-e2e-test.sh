@@ -7,9 +7,18 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "[+] Starting TripFlow E2E environment..."
 
+# Check if AI_API_KEY is provided as argument
+if [ -n "$1" ]; then
+    export AI_API_KEY="$1"
+    echo "[+] Using AI_API_KEY from argument"
+elif [ -n "$AI_API_KEY" ]; then
+    echo "[+] Using AI_API_KEY from environment"
+else
+    echo "[WARNING] AI_API_KEY not provided. AI features may not work."
+    echo "[INFO] Usage: ./run-e2e-test.sh [AI_API_KEY]"
+fi
+
 export API_URL="http://localhost:8080"
-export AI_URL="http://localhost:8081"
-export NOTIFICATION_URL="http://localhost:8082"
 export FRONTEND_URL="http://localhost:4173"
 
 # Wake up services with Docker Compose
