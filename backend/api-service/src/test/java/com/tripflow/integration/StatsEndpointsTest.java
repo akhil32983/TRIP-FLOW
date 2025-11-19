@@ -9,9 +9,9 @@ import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
+import com.tripflow.dto.itinerary.ItineraryStatusDTO;
 import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.integration.utils.AuthTestUtils;
-import com.tripflow.model.types.ItineraryStatus;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -219,7 +219,7 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
         return new ExtendedItineraryDTO(
             null, "Paris", "Paris", "🧪",
             2, 1000.0, "2025-06-10", List.of("romantic", "city"),
-            0L, ItineraryStatus.DRAFT, List.of(day), 1
+            0L, ItineraryStatusDTO.DRAFT, List.of(day), 1
         );
     }
 }

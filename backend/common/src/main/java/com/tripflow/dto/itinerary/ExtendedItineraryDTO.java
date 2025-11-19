@@ -2,8 +2,6 @@ package com.tripflow.dto.itinerary;
 
 import java.util.List;
 
-import com.tripflow.model.types.ItineraryStatus;
-
 public record ExtendedItineraryDTO(
     Long id,
     String title,
@@ -14,7 +12,7 @@ public record ExtendedItineraryDTO(
     String date,
     List<String> tags,
     Long updatedCount,
-    ItineraryStatus status,
+    ItineraryStatusDTO status,
     List<ItineraryDayDTO> days,
     int countDays
 ) {}

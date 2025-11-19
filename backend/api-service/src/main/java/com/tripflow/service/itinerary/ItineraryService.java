@@ -225,6 +225,10 @@ public class ItineraryService {
         itinerary.setBudget(itineraryDTO.budget());
         itinerary.setDate(itineraryDTO.date());
         itinerary.setTags(itineraryDTO.tags());
-        itinerary.setStatus(itineraryDTO.status() != null ? itineraryDTO.status() : ItineraryStatus.DRAFT);
+        itinerary.setStatus(
+            itineraryDTO.status() != null
+                ? ItineraryStatus.valueOf(itineraryDTO.status().name())
+                : ItineraryStatus.DRAFT
+        );
     }
 }

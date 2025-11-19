@@ -8,9 +8,9 @@ import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
+import com.tripflow.dto.itinerary.ItineraryStatusDTO;
 import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.integration.utils.AuthTestUtils;
-import com.tripflow.model.types.ItineraryStatus;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -238,7 +238,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ExtendedItineraryDTO updatedItinerary = new ExtendedItineraryDTO(
             itineraryId, "Rome Trip", "Rome", "🎓",
             2, 1500.0, "2025-06-10", List.of("history", "culture"),
-            1L, ItineraryStatus.DRAFT, List.of(newDay), 1
+            1L, ItineraryStatusDTO.DRAFT, List.of(newDay), 1
         );
 
         RestAssured
@@ -375,7 +375,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ExtendedItineraryDTO multiDayItinerary = new ExtendedItineraryDTO(
             null, "Paris 2-Day Trip", "Paris", "🗼",
             2, 1000.0, "2025-06-10", List.of("art", "history"),
-            0L, ItineraryStatus.DRAFT, List.of(day1, day2), 2
+            0L, ItineraryStatusDTO.DRAFT, List.of(day1, day2), 2
         );
 
         RestAssured
@@ -410,7 +410,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         return new ExtendedItineraryDTO(
             null, "Paris", "Paris", "🧪",
             2, 1000.0, "2025-06-10", List.of("romantic", "city"),
-            0L, ItineraryStatus.DRAFT, List.of(day), 1
+            0L, ItineraryStatusDTO.DRAFT, List.of(day), 1
         );
     }
 }
