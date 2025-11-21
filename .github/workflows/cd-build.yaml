@@ -47,9 +47,6 @@ jobs:
 
       - name: Publish docker-compose as OCI artifact
         if: ${{ matrix.service == fromJSON(inputs.services)[0] }}
-        env:
-          COMPOSE_PUBLISH_CONFIRMATION: "true"
-          COMPOSE_NO_SECRETS_DETECTOR: "true"
         run: |
           cp ${{ inputs.compose_file }} docker-compose.yml
-          docker compose publish ${{ secrets.DOCKERHUB_USERNAME }}/tripflow-compose:${{ inputs.tag }}
+          docker compose publish -y ${{ secrets.DOCKERHUB_USERNAME }}/tripflow-compose:${{ inputs.tag }}
