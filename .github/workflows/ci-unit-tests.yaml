@@ -24,6 +24,9 @@ on:
 jobs:
   backend-unit-testing:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: ["api-service","ai-service"]
     defaults:
       run:
         working-directory: ./backend
@@ -45,8 +48,8 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('backend/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Run unit tests
-        run: mvn test -pl ./api-service -am -Dgroups=unit
+      - name: Run unit tests for API Service
+        run: mvn test -pl ./${{ service }} -am -Dgroups=unit
         env:
           CI: true
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
