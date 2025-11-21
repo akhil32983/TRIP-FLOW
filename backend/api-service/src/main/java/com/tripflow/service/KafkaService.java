@@ -4,6 +4,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tripflow.kafka.messages.AIRequestMessage;
+import com.tripflow.kafka.messages.NotificationMessage;
 
 @Service
 public class KafkaService {
@@ -24,5 +25,14 @@ public class KafkaService {
      */
     public void sendAIRequestMessage(AIRequestMessage message) {
         this.sendMessage("ai-request", message);
+    }
+
+    /**
+     * Sends a Notification message to the "notification" topic.
+     * 
+     * @param message The NotificationMessage to be sent.
+     */
+    public void sendNotificationMessage(NotificationMessage message) {
+        this.sendMessage("notification", message);
     }
 }

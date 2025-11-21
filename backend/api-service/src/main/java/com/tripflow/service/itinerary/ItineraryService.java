@@ -14,6 +14,7 @@ import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
 import com.tripflow.dto.itinerary.ItineraryMapper;
 import com.tripflow.dto.shared.PaginatedDTO;
+import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.model.User;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
@@ -44,14 +45,30 @@ public class ItineraryService {
     }
 
     /**
+     * Processes a generated itinerary from an AI generation message.
+     *
+     * @param message the AI generation message containing the itinerary
+     * @return true if the itinerary was processed successfully, false otherwise
+     */
+    public boolean processGeneratedItinerary(AIGenerationMessage message) {
+        try {
+            User user = this.userService.getUserByUsername(message.username());
+            ExtendedItineraryDTO itineraryDTO = message.itinerary();
+            this.createItinerary(user, itineraryDTO);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
      * Creates a new itinerary from the provided ItineraryDTO.
      *
+     * @param user the user who owns the itinerary
      * @param itineraryDTO the DTO containing itinerary data
      * @return the created ItineraryDTO
      */
-    public ExtendedItineraryDTO createItinerary(ExtendedItineraryDTO itineraryDTO) {
-        User authenticatedUser = this.userService.getAuthenticatedUser();
-
+    public ExtendedItineraryDTO createItinerary(User user, ExtendedItineraryDTO itineraryDTO) {
         Itinerary newItinerary = new Itinerary();
         
         // Assign basic details from the DTO to the entity
@@ -66,10 +83,21 @@ public class ItineraryService {
         }
 
         // Set the user for the itinerary
-        authenticatedUser.addItinerary(newItinerary);
-        newItinerary.setUser(authenticatedUser);
+        user.addItinerary(newItinerary);
+        newItinerary.setUser(user);
 
         return this.itineraryMapper.toExtendedDTO(this.itineraryRepository.save(newItinerary));
+    }
+
+    /**
+     * Creates a new itinerary from the provided ItineraryDTO.
+     *
+     * @param itineraryDTO the DTO containing itinerary data
+     * @return the created ItineraryDTO
+     */
+    public ExtendedItineraryDTO createItinerary(ExtendedItineraryDTO itineraryDTO) {
+        User authenticatedUser = this.userService.getAuthenticatedUser();
+        return this.createItinerary(authenticatedUser, itineraryDTO);
     }
 
     /**
