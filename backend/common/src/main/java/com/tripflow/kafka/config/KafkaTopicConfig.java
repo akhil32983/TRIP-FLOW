@@ -15,6 +15,12 @@ public class KafkaTopicConfig {
     }
 
     @Bean
+    public NewTopic aiGenerationTopic() {
+        return TopicBuilder.name("ai-generation")
+            .build();
+    }
+
+    @Bean
     public NewTopic notificationTopic() {
         return TopicBuilder.name("notification")
             .build();
