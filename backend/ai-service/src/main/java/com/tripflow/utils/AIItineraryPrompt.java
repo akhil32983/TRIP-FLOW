@@ -59,7 +59,8 @@ public class AIItineraryPrompt {
     """;
 
     public static String generatePrompt(AIGenerationRequest request) {
-        return CONTEXT_PROMPT.replace("{{place}}", request.destination())
+        return CONTEXT_PROMPT
+            .replace("{{place}}", request.destination())
             .replace("{{style}}", request.style())
             .replace("{{budget}}", request.budget().toString())
             .replace("{{lodging}}", request.lodging())
