@@ -3,6 +3,7 @@ package com.tripflow.service;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
 
 @Service
@@ -24,5 +25,14 @@ public class KafkaService {
      */
     public void sendNotificationMessage(NotificationMessage message) {
         this.sendMessage("notification", message);
+    }
+
+    /**
+     * Sends an AI generation message to the "ai-generation" Kafka topic.
+     * 
+     * @param message The AI generation message to send
+     */
+    public void sendAIGenerationMessage(AIGenerationMessage message) {
+        this.sendMessage("ai-generation", message);
     }
 }

@@ -35,8 +35,6 @@ public class AIGenerationService {
         ChatCompletion chatCompletion = this.createChat(prompt);
         String response = chatCompletion.choices().get(0).message().content().get();
 
-        System.out.println(response);
-        
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(response, ExtendedItineraryDTO.class);
     }
