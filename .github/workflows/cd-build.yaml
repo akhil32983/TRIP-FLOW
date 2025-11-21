@@ -45,17 +45,8 @@ jobs:
           push: true
           tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ env.IMAGE_SUFFIX }}:${{ inputs.tag }}
 
-      - name: Install ORAS CLI
-        run: |
-          curl -sSL https://github.com/oras-project/oras/releases/download/v1.3.0/oras_1.3.0_linux_amd64.tar.gz \
-            | tar -xz -C /usr/local/bin oras
-          oras version
-
       - name: Publish docker-compose as OCI artifact
         if: ${{ matrix.service == fromJSON(inputs.services)[0] }}
         run: |
           cp ${{ inputs.compose_file }} docker-compose.yml
-    
-          oras push docker.io/cub1z/tripflow-compose:${{ inputs.tag }} \
-            --artifact-type application/vnd.docker.compose.v2+yaml \
-            docker-compose.yml:application/vnd.docker.compose.v2+yaml
+          docker compose publish ${{ secrets.DOCKERHUB_USERNAME }}/tripflow-compose:${{ inputs.tag }} --with-env
