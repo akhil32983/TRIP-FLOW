@@ -15,6 +15,7 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
+import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.AIRequestMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
 
@@ -32,65 +33,50 @@ public class KafkaConsumerConfig {
         return props;
     }
 
-    // [Generic Configs] ==============================================
-
-    @Bean
-    public ConsumerFactory<String, Object> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfig());
+    public <T> JsonDeserializer<T> jsonDeserializer(Class<T> targetClass) {
+        JsonDeserializer<T> deserializer = new JsonDeserializer<>(targetClass);
+        deserializer.addTrustedPackages("com.tripflow.kafka.messages");
+        return deserializer;
     }
 
-    @Bean
-    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>> factory() {
-        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
-        return factory;
+    public <T> KafkaListenerContainerFactory<
+        ConcurrentMessageListenerContainer<String, T>> genericFactory(
+            Class<T> targetClass
+        ) {
+            ConcurrentKafkaListenerContainerFactory<String, T>
+                factory = new ConcurrentKafkaListenerContainerFactory<>();
+
+            ConsumerFactory<String, T> consumerFactory = new DefaultKafkaConsumerFactory<>(
+                consumerConfig(),
+                new StringDeserializer(),
+                jsonDeserializer(targetClass)
+            );
+
+            factory.setConsumerFactory(consumerFactory);
+            return factory;
     }
 
     // [AI Request Configs] ===========================================
 
     @Bean
-    public ConsumerFactory<String, AIRequestMessage> aiRequestConsumerFactory() {
-        JsonDeserializer<AIRequestMessage> deserializer = new JsonDeserializer<>(AIRequestMessage.class);
-        deserializer.addTrustedPackages("*");
-
-        return new DefaultKafkaConsumerFactory<>(
-            consumerConfig(),
-            new StringDeserializer(),
-            deserializer
-        );
+    public KafkaListenerContainerFactory<
+        ConcurrentMessageListenerContainer<String, AIRequestMessage>> aiRequestFactory() {
+            return genericFactory(AIRequestMessage.class);
     }
+
+    // [AI Generation Configs] ========================================
 
     @Bean
     public KafkaListenerContainerFactory<
-        ConcurrentMessageListenerContainer<String, AIRequestMessage>> aiRequestFactory() {
-            ConcurrentKafkaListenerContainerFactory<String, AIRequestMessage>
-                factory = new ConcurrentKafkaListenerContainerFactory<>();
-
-            factory.setConsumerFactory(aiRequestConsumerFactory());
-            return factory;
+        ConcurrentMessageListenerContainer<String, AIGenerationMessage>> aiGenerationFactory() {
+            return genericFactory(AIGenerationMessage.class);
     }
 
     // [Notification Configs] =========================================
 
     @Bean
-    public ConsumerFactory<String, NotificationMessage> notificationConsumerFactory() {
-        JsonDeserializer<NotificationMessage> deserializer = new JsonDeserializer<>(NotificationMessage.class);
-        deserializer.addTrustedPackages("*");
-
-        return new DefaultKafkaConsumerFactory<>(
-            consumerConfig(),
-            new StringDeserializer(),
-            deserializer
-        );
-    }
-
-    @Bean
     public KafkaListenerContainerFactory<
         ConcurrentMessageListenerContainer<String, NotificationMessage>> notificationFactory() {
-            ConcurrentKafkaListenerContainerFactory<String, NotificationMessage>
-                factory = new ConcurrentKafkaListenerContainerFactory<>();
-
-            factory.setConsumerFactory(notificationConsumerFactory());
-            return factory;
+            return genericFactory(NotificationMessage.class);
     }
 }
