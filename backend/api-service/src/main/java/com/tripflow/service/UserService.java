@@ -38,10 +38,22 @@ public class UserService {
      * @return a PublicUserDTO containing the user's public information
      * @throws NoSuchElementException
      */
-    public PublicUserDTO getPublicUserByUsername(String username) {
+    public PublicUserDTO getPublicUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userRepository.findByUsername(username).
             orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return userMapper.toPublicUserDTO(user);
+    }
+
+    /**
+     * Retrieves a user entity by username.
+     *
+     * @param username the username of the user to retrieve
+     * @return the User entity
+     * @throws NoSuchElementException
+     */
+    public User getUserByUsername(String username) throws UsernameNotFoundException {
+        return this.userRepository.findByUsername(username).
+            orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     /**
