@@ -5,13 +5,14 @@ import { useState } from "react";
 import { generateItinerary } from "@/services/aiService";
 import { useAIGenerationForm } from "@/hooks/useAIGenerationForm";
 
-import { Sparkles, Send, Package, PackageOpen, Loader } from "lucide-react";
+import { Sparkles, Send, Package, PackageOpen, Loader, AlertCircleIcon } from "lucide-react";
 import FormGroup from "@components/form/FormGroup";
 import Button from "@components/shared/Button";
 import TagsSection from "@components/dashboard/TagsSection";
 
 export default function AIGeneration() {
     const [showAdvanced, setShowAdvanced] = useState(false);
+    const [rateLimit, setRateLimit] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const { form, handleChange, handleInterestsChange, advancedFields } = useAIGenerationForm();
 
@@ -19,6 +20,17 @@ export default function AIGeneration() {
         e.preventDefault();
         setIsLoading(true);
         const response = await generateItinerary(form);
+        console.log(response);
+
+        // Handle rate limit
+        if (!response.aiUsage) {
+            setRateLimit(true);
+            setIsLoading(false);
+            return;
+        }
+
+        setRateLimit(false);
+        setIsLoading(false);
     };
 
     return (
@@ -41,6 +53,7 @@ export default function AIGeneration() {
                     <FormGroup
                         field={{
                             type: "textarea",
+                            disabled: isLoading || rateLimit,
                             name: "aiPrompt",
                             label: "Describe tu viaje ideal",
                             value: form.aiPrompt,
@@ -77,9 +90,18 @@ export default function AIGeneration() {
                 )}
 
                 <div className={styles.gptFooter}>
+                    {rateLimit
+                        ? (
+                            <span className={styles.rateLimitMessage}>
+                                <AlertCircleIcon size={18} className={styles.rateLimitIcon} />
+                                Has alcanzado el límite diario de generaciones.
+                            </span>
+                        )
+                        : <span></span>
+                    }
                     <Button
                         label={isLoading ? "Generando..." : "Generar"}
-                        disabled={isLoading}
+                        disabled={isLoading || rateLimit}
                         style={["primary"]}
                         type="submit"
                     >

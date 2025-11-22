@@ -44,7 +44,7 @@ export default function ItineraryDetailPage() {
 
     return (
         <AppLayout>
-            <InnerTabHeader title={itinerary?.place || "Cargando..."} backUrl="/itineraries" />
+            <InnerTabHeader title={itinerary?.place || ""} backUrl="/itineraries" />
             {isLoading && <Loader size={32} variant="dots" />}
             {itinerary && <ExtendedItinerary itinerary={itinerary} onDelete={openModal} />}
 

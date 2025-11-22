@@ -6,6 +6,7 @@ export type Field = {
     placeholder?: string;
     type?: "text" | "password" | "email" | "time" | "textarea" | "number" | "date" | "select";
     value?: string | number;
+    disabled?: boolean;
     options?: { value: string | number; label: string }[];
     required?: boolean;
     min?: string | number;
@@ -25,6 +26,7 @@ export default function FormGroup({ field, index, handleChange, errors, fullWidt
     const renderInput = () => {
         const baseProps = {
             id: field.name,
+            disabled: field.disabled,
             name: field.name,
             placeholder: field.placeholder || "",
             value: field.value || "",
