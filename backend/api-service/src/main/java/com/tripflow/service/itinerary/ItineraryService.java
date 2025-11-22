@@ -215,6 +215,8 @@ public class ItineraryService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You do not have permission to delete this itinerary");
         }
 
+        authenticatedUser.removeItinerary(itinerary);
+
         this.itineraryRepository.delete(itinerary);
     }
 

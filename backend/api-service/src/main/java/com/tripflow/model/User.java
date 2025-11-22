@@ -93,6 +93,13 @@ public class User {
         }
     }
 
+    public void removeItinerary(Itinerary itinerary) {
+        if (itinerary != null && this.itineraries.contains(itinerary)) {
+            this.itineraries.remove(itinerary);
+            itinerary.setUser(null);
+        }
+    }
+
     // [Getters and Setters] ==========================================
 
     public Long getId() {
