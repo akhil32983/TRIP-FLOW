@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.data.annotation.CreatedDate;
 
 import com.tripflow.model.itinerary.Itinerary;
+import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 
 import jakarta.persistence.CascadeType;
@@ -46,6 +47,9 @@ public class User {
 
     @Column(nullable = false)
     private UserType role;
+
+    @Column(nullable = false)
+    private PlanType plan = PlanType.FREE;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
@@ -145,6 +149,14 @@ public class User {
 
     public void setRole(UserType role) {
         this.role = role;
+    }
+
+    public PlanType getPlan() {
+        return plan;
+    }
+
+    public void setPlan(PlanType plan) {
+        this.plan = plan;
     }
 
     public LocalDateTime getCreatedAt() {
