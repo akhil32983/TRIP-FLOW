@@ -77,30 +77,6 @@ public class Itinerary {
         }
     }
 
-    // [ Lifecycle Methods ] ==========================================
-
-    public void plan() {
-        this.changeStatusTo(ItineraryStatus.PLANNED);
-    }
-
-    public void start() {
-        this.changeStatusTo(ItineraryStatus.ONGOING);
-    }
-
-    public void complete() {
-        this.changeStatusTo(ItineraryStatus.COMPLETED);
-    }
-
-    private void changeStatusTo(ItineraryStatus newStatus) {
-        if (!this.status.canTransitionTo(newStatus)) {
-            throw new IllegalStateException(
-                String.format("Cannot transition from %s to %s", this.status, newStatus)
-            );
-        }
-
-        this.status = newStatus;
-    }
-
     // [Getters and Setters] ==========================================
 
     public Long getId() {
