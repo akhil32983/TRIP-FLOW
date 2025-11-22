@@ -2,6 +2,7 @@ package com.tripflow.dto.user;
 
 import java.time.LocalDateTime;
 
+import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 
 public record PublicUserDTO(
@@ -11,5 +12,6 @@ public record PublicUserDTO(
     String description,
     String location,
     LocalDateTime createdAt,
-    UserType role
+    UserType role,
+    PlanType plan
 ) {}

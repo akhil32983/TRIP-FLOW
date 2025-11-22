@@ -21,6 +21,7 @@ import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 import com.tripflow.security.jwt.JwtTokenProvider;
 import com.tripflow.service.UserService;
@@ -66,7 +67,7 @@ public class AuthServiceTest {
         UserDetails userDetails = mock(UserDetails.class);
         PublicUserDTO publicUser = new PublicUserDTO(
             1L, username, username, 
-            "", "Earth", null, UserType.USER
+            "", "Earth", null, UserType.USER, PlanType.FREE
         );
         
         when(this.authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
@@ -126,7 +127,7 @@ public class AuthServiceTest {
         RegisterUserRequest request = new RegisterUserRequest(username, password, password);
         PublicUserDTO publicUser = new PublicUserDTO(
             1L, username, username, 
-            "", "Earth", null, UserType.USER
+            "", "Earth", null, UserType.USER, PlanType.FREE
         );
 
         when(this.userService.registerUser(request)).thenReturn(publicUser);
@@ -190,7 +191,7 @@ public class AuthServiceTest {
         
         PublicUserDTO publicUser = new PublicUserDTO(
             1L, username, username,
-            "", "Earth", null, UserType.USER
+            "", "Earth", null, UserType.USER, PlanType.FREE
         );
 
         when(this.jwtTokenProvider.validateToken(refreshToken)).thenReturn(claims);

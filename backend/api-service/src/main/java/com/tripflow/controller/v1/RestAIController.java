@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tripflow.dto.AIGenerationRequest;
-import com.tripflow.dto.MessageResponse;
-import com.tripflow.service.AIService;
+import com.tripflow.dto.ai.AIResponse;
+import com.tripflow.service.ai.AIService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,11 +36,12 @@ public class RestAIController {
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "AI request submitted successfully"),
         @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "429", description = "Too many requests - daily AI usage limit exceeded"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<MessageResponse> handleAIRequest(@RequestBody AIGenerationRequest request) {
+    public ResponseEntity<AIResponse> handleAIRequest(@RequestBody AIGenerationRequest request) {
         try {
-            MessageResponse response = this.aiService.requestAIProcessing(request);
+            AIResponse response = this.aiService.requestAIProcessing(request);
             return ResponseEntity.ok(response);
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).build();
