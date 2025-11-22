@@ -2,7 +2,7 @@ import styles from "@styles/components/form/Form.module.css";
 
 export type Field = {
     name: string;
-    label: string;
+    label?: string;
     placeholder?: string;
     type?: "text" | "password" | "email" | "time" | "textarea" | "number" | "date" | "select";
     value?: string | number;
@@ -56,11 +56,14 @@ export default function FormGroup({ field, index, handleChange, errors, fullWidt
             className={`${styles.field} ${fullWidth ? styles.fullWidth : ""}`}
             style={{ "--index": (index ? index + 1 : 1) } as React.CSSProperties}
         >
-            <label className={styles.fieldLabel} htmlFor={field.name}>
-                {field.icon}
-                <span className={styles.fieldLabelText}>{field.label}</span>
-                {field.required && <span className={styles.required}>*</span>}
-            </label>
+            {field.label && (
+                <label className={styles.fieldLabel} htmlFor={field.name}>
+                    {field.icon}
+                    <span className={styles.fieldLabelText}>{field.label}</span>
+                    {field.required && <span className={styles.required}>*</span>}
+                </label>
+            )}
+                
 
             {renderInput()}
 

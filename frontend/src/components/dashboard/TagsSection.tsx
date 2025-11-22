@@ -10,9 +10,11 @@ import Button from "@components/shared/Button";
 interface TagsSectionProps {
     tags: string[];
     onTagsChange: (newTags: string[]) => void;
+    label?: string;
+    placeholder?: string;
 }
 
-export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
+export default function TagsSection({ tags, onTagsChange, label, placeholder }: TagsSectionProps) {
     const {
         newTag,
         setNewTag,
@@ -25,7 +27,7 @@ export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
         <div className={styles.tagsSection}>
             <label className={styles.tagsLabel} htmlFor="newTagInput">
                 <Tag size={18} />
-                Tags (encuentra fácilmente tu itinerario)
+                {label || "Tags (encuentra fácilmente tu itinerario)"}
             </label>
 
             <div className={styles.content}>
@@ -50,7 +52,7 @@ export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
                         type="text"
                         value={newTag}
                         onChange={(e) => setNewTag(e.target.value)}
-                        placeholder="romántica, aventura, comida..."
+                        placeholder={placeholder || "romántica, aventura, comida..."}
                         onKeyDown={handleTagKeyPress}
                     />
                     <Button

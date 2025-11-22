@@ -6,6 +6,7 @@ export type Field = {
     | "text"
     | "password"
     | "email"
+    | "select"
     | "time"
     | "textarea"
     | "number"
@@ -16,4 +17,8 @@ export type Field = {
   max?: string | number;
   step?: string | number;
   icon?: React.ReactNode;
+  options?: {
+    label: string;
+    value: string;
+  }[];
 };

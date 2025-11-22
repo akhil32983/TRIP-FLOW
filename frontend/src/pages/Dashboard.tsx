@@ -7,6 +7,7 @@ import Button from "@/components/shared/Button";
 import Stats from "@/components/dashboard/Stats";
 import Recent from "@/components/dashboard/Recent";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import AIGeneration from "@/components/dashboard/AIGeneration";
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -22,6 +23,7 @@ export default function DashboardPage() {
             defaultRender={<Button to={to} style={["primary"]} label="Nuevo itinerario">{headerIcon}</Button>}
         />
         <Stats />
+        <AIGeneration />
         <Recent />
     </AppLayout>
   );
