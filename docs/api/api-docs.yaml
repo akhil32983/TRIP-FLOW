@@ -315,19 +315,25 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                $ref: "#/components/schemas/AIResponse"
         "401":
           description: Unauthorized access
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                $ref: "#/components/schemas/AIResponse"
+        "429":
+          description: Too many requests - daily AI usage limit exceeded
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIResponse"
         "500":
           description: Internal server error
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/MessageResponse"
+                $ref: "#/components/schemas/AIResponse"
       security:
       - auth_token: []
   /api/auth/register:
@@ -590,11 +596,28 @@ components:
           type: array
           items:
             type: string
-    MessageResponse:
+    AIResponse:
       type: object
       properties:
         message:
           type: string
+        aiUsage:
+          $ref: "#/components/schemas/AIUsageDTO"
+    AIUsageDTO:
+      type: object
+      properties:
+        usedQuota:
+          type: integer
+          format: int64
+        remainingQuota:
+          type: integer
+          format: int64
+        limit:
+          type: integer
+          format: int64
+        resetDate:
+          type: string
+          format: date
     RegisterUserRequest:
       type: object
       properties:
@@ -641,6 +664,12 @@ components:
           type: string
           enum:
           - USER
+        plan:
+          type: string
+          enum:
+          - FREE
+          - PRO
+          - PREMIUM
     LoginRequest:
       type: object
       properties:
