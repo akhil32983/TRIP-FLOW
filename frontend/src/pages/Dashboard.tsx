@@ -8,9 +8,11 @@ import Stats from "@/components/dashboard/Stats";
 import Recent from "@/components/dashboard/Recent";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import AIGeneration from "@/components/dashboard/AIGeneration";
+import { useDemo } from "@/providers/demoProvider";
 
 export default function DashboardPage() {
   const { user } = useAuth();
+  const { demo } = useDemo();
 
   const to = "/itineraries/new";
   const headerIcon = <PlusIcon size={18} />;
@@ -23,7 +25,7 @@ export default function DashboardPage() {
             defaultRender={<Button to={to} style={["primary"]} label="Nuevo itinerario">{headerIcon}</Button>}
         />
         <Stats />
-        <AIGeneration />
+        {!demo && <AIGeneration />}
         <Recent />
     </AppLayout>
   );

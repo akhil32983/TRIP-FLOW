@@ -66,12 +66,11 @@ export default function Recent() {
 
             {!isLoading && (
                 <ul className={styles.itineraries}>
-                    {recentItineraries.map((itinerary, index) => (
+                    {recentItineraries.map((itinerary) => (
                         <li key={itinerary.id}>
                             <NavLink
                                 to={`/itineraries/${itinerary.id}`}
                                 className={styles.recentItinerary}
-                                style={{ "--index": index + 1 } as React.CSSProperties}
                             >
                                 <div className={styles.details}>
                                     <span className={styles.icon}>{itinerary.icon}</span>

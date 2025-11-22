@@ -1,18 +1,23 @@
 import styles from "@styles/components/dashboard/AIGenerationSection.module.css";
-import FormGroup from "../form/FormGroup";
-import Button from "../shared/Button";
-import TagsSection from "./TagsSection";
-import { Sparkles, Send, Package, PackageOpen } from "lucide-react";
-import { useAIGenerationForm } from "@/hooks/useAIGenerationForm";
+
 import { useState } from "react";
+
 import { generateItinerary } from "@/services/aiService";
+import { useAIGenerationForm } from "@/hooks/useAIGenerationForm";
+
+import { Sparkles, Send, Package, PackageOpen, Loader } from "lucide-react";
+import FormGroup from "@components/form/FormGroup";
+import Button from "@components/shared/Button";
+import TagsSection from "@components/dashboard/TagsSection";
 
 export default function AIGeneration() {
     const [showAdvanced, setShowAdvanced] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const { form, handleChange, handleInterestsChange, advancedFields } = useAIGenerationForm();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
         const response = await generateItinerary(form);
     };
 
@@ -20,7 +25,7 @@ export default function AIGeneration() {
         <section className={styles.aiGenerationSection}>
             <div className={styles.gptHeader}>
                 <Sparkles size={24} className={styles.gptIcon} />
-                <h2 className={styles.gptTitle}>Generador de Itinerarios con IA</h2>
+                <h2 className={styles.gptTitle}>Genera tu itinerario con IA</h2>
                 <Button
                     style={["tool_bordered"]}
                     type="button"
@@ -41,6 +46,7 @@ export default function AIGeneration() {
                             value: form.aiPrompt,
                             placeholder: "Por ejemplo: Quiero un viaje romántico de 3 días a París con visitas a la Torre Eiffel y el Louvre..."
                         }}
+                        index={-1}
                         handleChange={handleChange}
                         fullWidth
                     />
@@ -72,11 +78,12 @@ export default function AIGeneration() {
 
                 <div className={styles.gptFooter}>
                     <Button
-                        label="Generar"
+                        label={isLoading ? "Generando..." : "Generar"}
+                        disabled={isLoading}
                         style={["primary"]}
                         type="submit"
                     >
-                        <Send size={18} />
+                        {isLoading ? <Loader size={18} /> : <Send size={18} />}
                     </Button>
                 </div>
             </form>
