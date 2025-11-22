@@ -11,6 +11,7 @@ import com.tripflow.kafka.messages.AIRequestMessage;
 public class AITestUtils {
     public static AIGenerationRequest createAIGenerationRequest() {
         return new AIGenerationRequest(
+            "A trip to Prague",
             "Prague",
             "Medieval",
             1300.0,

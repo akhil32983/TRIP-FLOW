@@ -16,6 +16,12 @@ public class AIItineraryPrompt {
         - Duración: {{duration}}
         - Intereses: {{interests}}
 
+        La petición del usuario es: {{aiPrompt}}
+
+        Dale más importancia a la petición del usuario que a los parámetros del contexto.
+
+        Si necesitas ampliar un poco el presupuesto por las necesidades descritas en la petición del usuario, puedes hacerlo.
+
         Propón varias actividades para cada día, al menos 3 o 4 actividades por día, con un sentido lógico y coherente.
         Evita caracteres especiales o emoticonos en el JSON.
 
@@ -60,6 +66,7 @@ public class AIItineraryPrompt {
 
     public static String generatePrompt(AIGenerationRequest request) {
         return CONTEXT_PROMPT
+            .replace("{{aiPrompt}}", request.aiPrompt())
             .replace("{{place}}", request.destination())
             .replace("{{style}}", request.style())
             .replace("{{budget}}", request.budget().toString())

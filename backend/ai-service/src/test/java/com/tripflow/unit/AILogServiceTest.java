@@ -127,6 +127,7 @@ public class AILogServiceTest {
     public void testSaveAILogWithEmptyInterests() {
         String username = "testUser";
         AIGenerationRequest request = new AIGenerationRequest(
+            "AI Prompt",
             "Athens",
             "Ancient",
             1300.0,
@@ -154,6 +155,7 @@ public class AILogServiceTest {
     public void testSaveAILogWithMultipleInterests() {
         String username = "testUser";
         AIGenerationRequest request = new AIGenerationRequest(
+            "AI Prompt",
             "Athens",
             "Ancient",
             1300.0,
