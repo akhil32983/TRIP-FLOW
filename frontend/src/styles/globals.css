@@ -197,7 +197,6 @@ textarea {
 
     &:disabled {
         opacity: 0.75;
-        resize: none;
     }
 
     &:not(:disabled):hover {
@@ -281,8 +280,8 @@ textarea {
   width: 100%;
   max-width: 100%;
   min-height: 84px;
+  resize: none;
   height: auto;
-  resize: vertical;
   field-sizing: content;
 }
 
