@@ -1,0 +1,126 @@
+.notificationContainer {
+    position: fixed;
+    top: var(--space-md);
+    right: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.notification {
+    pointer-events: auto;
+    position: relative;
+    padding: var(--space-md) var(--space-lg);
+    min-width: 300px;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-md);
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    border-left: 4px solid var(--bg-card);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.success { 
+    color: var(--active-text);
+    border-color: var(--active-border);
+}
+
+.error {
+    color: var(--error);
+    border-color: var(--error);
+}
+
+.warning {
+    color: var(--warning);
+    border-color: var(--warning);
+}
+
+.info {
+    color: var(--info-text); 
+    border-color: var(--info-border);
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-left: calc(-1 * var(--space-xm));
+}
+
+.header .icon {
+    --size: 20px;
+    width: var(--size);
+    height: var(--size);
+}
+
+.header .title {
+    font-size: var(--font-size-sm);
+    color: var(--text-primary);
+}
+
+.closeButton {
+    position: absolute;
+    --space: var(--space-md);
+    top: var(--space);
+    right: var(--space);
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 9999px;
+    border: none;
+    background: none;
+    color: var(--primary);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.closeButton:hover {
+    color: var(--error);
+}
+
+.message {
+    width: 100%;
+    font-size: var(--font-size-sm);
+    color: var(--text-secondary);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.closing {
+    animation: slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}

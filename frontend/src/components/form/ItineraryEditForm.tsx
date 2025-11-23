@@ -12,8 +12,7 @@ import { Save } from "lucide-react";
 import Button from "@/components/shared/Button";
 import BasicInfoSection from "@components/dashboard/BasicInfoSection";
 import ItinerarySection from "@components/dashboard/ItinerarySection";
-import { useAlert } from "@/hooks/useAlert";
-import Alert from "../shared/Alert";
+import { useNotification } from "@/providers/notificationProvider";
 
 interface ItineraryEditFormProps {
     initialItinerary: ExtendedItinerary;
@@ -21,11 +20,8 @@ interface ItineraryEditFormProps {
 }
 
 export default function ItineraryEditForm({ initialItinerary, onSave }: ItineraryEditFormProps) {
-    // Alert management
-    const { alert, showAlert, hideAlert } = useAlert();
-
-    // Main state management
     const { itinerary, updateBasicInfo, validateItinerary } = useItineraryForm(initialItinerary);
+    const { notify } = useNotification();
     
     // Day management operations
     const { handleAddNewDay, handleRemoveDay } = useDayManager(
@@ -50,24 +46,16 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
         const validation = validateItinerary();
         
         if (!validation.isValid) {
-            showAlert(validation.error as string, "error", "Revisa los campos");
+            notify(validation.error as string, "error", { autoClose: true, title: "Revisa los campos" });
             return;
         }
 
-        showAlert("Itinerario guardado exitosamente.", "success", "Éxito");
-        setTimeout(() => onSave(itinerary), 700);
+        notify("Itinerario guardado exitosamente.", "success", { autoClose: true, title: "Éxito" });
+        onSave(itinerary);
     }, [itinerary, onSave, validateItinerary]);
 
     return (
         <div className={styles.editForm}>
-            <Alert
-                type={alert.type}
-                title={alert.title}
-                message={alert.message}
-                isOpen={alert.isOpen}
-                onClose={hideAlert}
-            />
-            
             <div className={styles.formHeader}>
                 <h2>{itinerary.icon} {itinerary.title}</h2>
                 <Button 
