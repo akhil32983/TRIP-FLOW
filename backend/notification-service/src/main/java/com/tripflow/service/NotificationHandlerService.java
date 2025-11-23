@@ -1,10 +1,9 @@
-package com.tripflow.services;
+package com.tripflow.service;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tripflow.kafka.messages.NotificationMessage;
-import com.tripflow.service.NotificationService;
 
 @Service
 public class NotificationHandlerService {

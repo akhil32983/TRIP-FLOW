@@ -4,7 +4,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import com.tripflow.kafka.messages.NotificationMessage;
-import com.tripflow.services.NotificationHandlerService;
+import com.tripflow.service.NotificationHandlerService;
 
 @Component
 public class NotificationListener {
