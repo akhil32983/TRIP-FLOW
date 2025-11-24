@@ -1,11 +1,12 @@
-import styles from "@styles/components/dashboard/AIGenerationSection.module.css";
+import styles from "@styles/components/dashboard/AIGeneration.module.css";
 
 import { useState } from "react";
 
 import { generateItinerary } from "@/services/aiService";
+import { useNotification } from "@/providers/notificationProvider";
 import { useAIGenerationForm } from "@/hooks/useAIGenerationForm";
 
-import { Sparkles, Send, Package, PackageOpen, Loader, AlertCircleIcon } from "lucide-react";
+import { Sparkles, Send, Package, PackageOpen, Loader } from "lucide-react";
 import FormGroup from "@components/form/FormGroup";
 import Button from "@components/shared/Button";
 import TagsSection from "@components/dashboard/TagsSection";
@@ -15,6 +16,7 @@ export default function AIGeneration() {
     const [rateLimit, setRateLimit] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     
+    const { notify } = useNotification();
     const { form, handleChange, handleInterestsChange, resetForm, advancedFields } = useAIGenerationForm();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -28,9 +30,16 @@ export default function AIGeneration() {
         if (!response.aiUsage) {
             setRateLimit(true);
             setIsLoading(false);
+            notify("Has alcanzado el límite diario de generaciones.", "error", {
+                title: "Límite diario alcanzado"
+            });
             return;
         }
 
+        notify("Tu solicitud se está procesando.", "success", {
+            title: "Solicitud recibida!"
+        });
+        
         setRateLimit(false);
         setIsLoading(false);
     };
@@ -92,15 +101,6 @@ export default function AIGeneration() {
                 )}
 
                 <div className={styles.gptFooter}>
-                    {rateLimit
-                        ? (
-                            <span className={styles.rateLimitMessage}>
-                                <AlertCircleIcon size={18} className={styles.rateLimitIcon} />
-                                Has alcanzado el límite diario de generaciones.
-                            </span>
-                        )
-                        : <span></span>
-                    }
                     <Button
                         label={isLoading ? "Generando..." : "Generar"}
                         disabled={isLoading || rateLimit}

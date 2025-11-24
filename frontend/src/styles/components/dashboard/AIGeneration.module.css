@@ -65,27 +65,7 @@
 .gptFooter {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding-top: var(--space-md);
-}
-
-.rateLimitMessage {
-    padding: var(--space-md);
-    min-width: 320px;
-    max-width: 500px;
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    background: var(--bg-card);
-    backdrop-filter: blur(24px);
-    border-left: 2px solid var(--error);
-    border-radius: 6px;
-    color: var(--text-secondary);
-    animation: fadeIn 0.2s ease;
-
-    .rateLimitIcon {
-        color: var(--error);
-    }
+    justify-content: flex-end;
 }
 
 @media (max-width: 1024px) {

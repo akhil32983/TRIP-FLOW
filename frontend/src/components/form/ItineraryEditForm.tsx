@@ -50,7 +50,6 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
             return;
         }
 
-        notify("Itinerario guardado exitosamente.", "success", { autoClose: true, title: "Éxito" });
         onSave(itinerary);
     }, [itinerary, onSave, validateItinerary]);
 
