@@ -1,11 +1,12 @@
 import styles from "@styles/components/dashboard/Recent.module.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { NavLink } from "react-router";
 
 import type { Itinerary, ItineraryStatus } from "@/types/itinerary";
 
 import { getUserItineraries } from "@/services/itineraryService";
+import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 
 import Button from "@components/shared/Button";
 import Badge from "@components/shared/Badge";
@@ -13,19 +14,6 @@ import ProgressBar from "@components/shared/ProgressBar";
 import Loader from "@components/shared/Loader";
 import { MapPinIcon } from "lucide-react";
 
-export type RecentActivity = {
-    id: number;
-    place: string;
-    date: string;
-    status: ItineraryStatus;
-}
-
-/**
- * Calculates progress percentage based on itinerary status.
- * 
- * @param status The status of the itinerary.
- * @returns Progress percentage as a number between 0 and 100.
- */
 function calculateProgress(status: ItineraryStatus): number {
     if (status === "COMPLETED") return 100;
     if (status === "ONGOING") return 75;
@@ -37,21 +25,29 @@ export default function Recent() {
     const [recentItineraries, setRecentItineraries] = useState<Itinerary[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        const fetchRecentItineraries = async () => {
-            setIsLoading(true);
-            const itinerariesPage = await getUserItineraries({ page: 0, size: 5 });
-            if (!itinerariesPage) return;
-
-            if (itinerariesPage.page.length > 0) {
-                setRecentItineraries(itinerariesPage.page);
-            }
-
+    const fetchRecentItineraries = useCallback(async () => {
+        setIsLoading(true);
+        const itinerariesPage = await getUserItineraries({ page: 0, size: 5 });
+        if (!itinerariesPage) {
             setIsLoading(false);
+            return;
         }
 
-        fetchRecentItineraries();
+        if (itinerariesPage.page.length > 0) {
+            setRecentItineraries(itinerariesPage.page);
+        }
+
+        setIsLoading(false);
     }, []);
+
+    useWebSocketNotifications({
+        types: ["ITINERARY_GENERATED"],
+        onNotification: fetchRecentItineraries
+    });
+
+    useEffect(() => {
+        fetchRecentItineraries();
+    }, [fetchRecentItineraries]);
 
     return (
         <section className={styles.recent}>
