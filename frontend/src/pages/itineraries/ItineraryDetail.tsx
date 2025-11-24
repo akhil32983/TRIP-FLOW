@@ -4,6 +4,7 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import type { ExtendedItinerary as Itinerary } from "@/types/itinerary";
 
 import { useModal } from "@/hooks/useModal";
+import { useNotification } from "@/providers/notificationProvider";
 import { deleteItinerary, getItineraryById } from "@/services/itineraryService";
 
 import AppLayout from "@/layouts/AppLayout";
@@ -16,6 +17,7 @@ export default function ItineraryDetailPage() {
     const [itinerary, setItinerary] = useState<Itinerary | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
+    const { notify } = useNotification();
     const navigate = useNavigate();
     const {isOpen, openModal, closeModal} = useModal();
     
@@ -26,6 +28,11 @@ export default function ItineraryDetailPage() {
     const handleDelete = async () => {
         await deleteItinerary(itineraryId);
         closeModal();
+
+        notify("Itinerario eliminado correctamente", "success", {
+            title: "Itinerario eliminado",
+        });
+        
         navigate("/itineraries");
     };
 

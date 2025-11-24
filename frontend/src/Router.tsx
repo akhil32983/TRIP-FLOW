@@ -15,7 +15,7 @@ import NotFound from "@pages/NotFound";
 
 import { useAuth } from "@/providers/authProvider";
 import { useDemo } from "@/providers/demoProvider";
-import { useNotifications } from "@/hooks/useNotifications";
+import { useNotifications } from "@/hooks/notifications/useNotifications";
 
 /**
  * PrivateRoute component that checks if the user is authenticated.
