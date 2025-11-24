@@ -1,4 +1,5 @@
 export type UserRole = "USER";
+export type UserPlan = "FREE" | "PRO" | "PREMIUM";
 
 export type PublicUser = {
   id: string;
@@ -8,4 +9,5 @@ export type PublicUser = {
   location: string;
   createdAt: string;
   role: UserRole;
+  plan: UserPlan;
 };

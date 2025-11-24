@@ -1,4 +1,4 @@
-export type ItineraryStatus = "DRAFT" | "PLANNED" | "ONGOING" | "COMPLETED";
+export type ItineraryStatus = "DRAFT" | "PLANNED" | "ONGOING" | "COMPLETED" | "CANCELLED";
 
 export interface Activity {
     activity: string;

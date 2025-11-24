@@ -127,7 +127,7 @@
 - [x] {Feature} AI Itinerary Generation UI
   - [x] {UI} AI Generation form in dashboard - `/dashboard`
   - [x] {UI} Advanced options (budget, pace, accommodation)
-  - [ ] {UI} AI usage tracking and rate limit display
+  - [x] {UI} AI usage tracking and rate limit display
   - [x] {UI} Loading states and error handling
 - [ ] {Feature} User Profile Component
   - [ ] {UI} Avatar upload and display

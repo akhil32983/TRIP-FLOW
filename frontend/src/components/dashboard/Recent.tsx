@@ -25,24 +25,24 @@ export default function Recent() {
     const [recentItineraries, setRecentItineraries] = useState<Itinerary[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const fetchRecentItineraries = useCallback(async () => {
-        setIsLoading(true);
+    const updateRecentItineraries = async () => {
         const itinerariesPage = await getUserItineraries({ page: 0, size: 5 });
-        if (!itinerariesPage) {
-            setIsLoading(false);
-            return;
-        }
+        if (!itinerariesPage) return;
 
         if (itinerariesPage.page.length > 0) {
             setRecentItineraries(itinerariesPage.page);
         }
+    }
 
+    const fetchRecentItineraries = useCallback(async () => {
+        setIsLoading(true);
+        await updateRecentItineraries();
         setIsLoading(false);
     }, []);
 
     useWebSocketNotifications({
         types: ["ITINERARY_GENERATED"],
-        onNotification: fetchRecentItineraries
+        onNotification: updateRecentItineraries
     });
 
     useEffect(() => {

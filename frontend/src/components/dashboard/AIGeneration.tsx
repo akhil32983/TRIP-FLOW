@@ -2,7 +2,10 @@ import styles from "@styles/components/dashboard/AIGeneration.module.css";
 
 import { useState } from "react";
 
+import type { AIUsage } from "@/types/ai";
+
 import { generateItinerary } from "@/services/aiService";
+import { useAuth } from "@/providers/authProvider";
 import { useNotification } from "@/providers/notificationProvider";
 import { useAIGenerationForm } from "@/hooks/useAIGenerationForm";
 
@@ -10,12 +13,16 @@ import { Sparkles, Send, Package, PackageOpen, Loader } from "lucide-react";
 import FormGroup from "@components/form/FormGroup";
 import Button from "@components/shared/Button";
 import TagsSection from "@components/dashboard/TagsSection";
+import Badge from "@components/shared/Badge";
 
 export default function AIGeneration() {
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [rateLimit, setRateLimit] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [aiUsage, setAiUsage] = useState<AIUsage | null>(null);
     
+    const { user } = useAuth();
     const { notify } = useNotification();
     const { form, handleChange, handleInterestsChange, resetForm, advancedFields } = useAIGenerationForm();
 
@@ -23,6 +30,10 @@ export default function AIGeneration() {
         e.preventDefault();
         setIsLoading(true);
         const response = await generateItinerary(form);
+
+        if (response?.aiUsage) {
+            setAiUsage(response.aiUsage);
+        }
 
         resetForm();
 
@@ -100,7 +111,18 @@ export default function AIGeneration() {
                     </div>
                 )}
 
-                <div className={styles.gptFooter}>
+                <div className={styles.gptFooter}>                    
+                    { (user?.plan === "FREE" || user?.plan === "PRO") && aiUsage
+                        ? (
+                            <Badge
+                                style="default"
+                                title={`Restantes: ${aiUsage.remainingQuota}/${aiUsage.limit}`}
+                                status={aiUsage.usedQuota === aiUsage.limit ? "CANCELLED" : "ONGOING"}
+                            />
+                        )
+                        : <span></span>
+                    }
+
                     <Button
                         label={isLoading ? "Generando..." : "Generar"}
                         disabled={isLoading || rateLimit}

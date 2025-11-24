@@ -55,4 +55,10 @@
         background-color: var(--draft);
         border-color: var(--draft-border);
     }
+
+    &.cancelled {
+        color: var(--cancelled-text);
+        background-color: var(--cancelled);
+        border-color: var(--cancelled-border);
+    }
 }

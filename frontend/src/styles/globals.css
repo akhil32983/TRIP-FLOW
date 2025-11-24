@@ -50,6 +50,9 @@
     --draft: #f3f4f641;
     --draft-border: #8a9cbf;
     --draft-text: #bdc4cf;
+    --cancelled: #6f43435f;
+    --cancelled-border: #bc4747;
+    --cancelled-text: #bc4747;
     --error: #df5f5f;
     --warning: #f59e0b;
 
