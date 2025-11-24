@@ -7,6 +7,7 @@ import com.openai.models.chat.completions.ChatCompletion;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
 import com.tripflow.dto.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
+import com.tripflow.utils.AIItineraryMock;
 import com.tripflow.utils.AIItineraryPrompt;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -17,11 +18,15 @@ public class AIGenerationService {
     @Value("${ai.api.model}")
     private String apiModel;
 
+    @Value("${spring.profiles.active:default}")
+    private String activeProfile;
+    
     private final OpenAIClient openAIClient;
 
     public AIGenerationService(OpenAIClient openAIClient) {
         this.openAIClient = openAIClient;
     }
+
 
     /**
      * Generates an itinerary using the AI model.
@@ -31,6 +36,10 @@ public class AIGenerationService {
      * @throws JsonProcessingException if there is an error processing the JSON response
      */
     public ExtendedItineraryDTO generateItinerary(AIGenerationRequest request) throws JsonProcessingException {
+        if (activeProfile != null && activeProfile.contains("dev")) {
+            return AIItineraryMock.getItineraryMock();
+        }
+
         String prompt = AIItineraryPrompt.generatePrompt(request);
         ChatCompletion chatCompletion = this.createChat(prompt);
         String response = chatCompletion.choices().get(0).message().content().get();
