@@ -25,9 +25,9 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
 
         const stompClient = new Client({
             brokerURL: `${WS_BASE_URL}/notifications`,
-            reconnectDelay: 5000,
-            heartbeatIncoming: 4000,
-            heartbeatOutgoing: 4000,
+            reconnectDelay: 2000,
+            heartbeatIncoming: 1000,
+            heartbeatOutgoing: 1000,
             connectHeaders: {},
             onConnect: () => setIsConnected(true),
             onDisconnect: () => setIsConnected(false),
