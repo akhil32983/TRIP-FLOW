@@ -1,8 +1,8 @@
 package com.tripflow.model.types;
 
 public enum PlanType {
-    FREE(10),
-    PRO(50),
+    FREE(3),
+    PRO(20),
     PREMIUM(-1);
 
     private final int dailyLimit;
