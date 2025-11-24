@@ -25,7 +25,7 @@ export default function ItineraryEdit() {
     const handleSave = async (itinerary: Itinerary) => {
         const res = await updateItinerary(itineraryId, itinerary);
 
-        if (!res.id) {
+        if (!res || !res.id) {
             notify("Ha ocurrido un error al actualizar el itinerario.", "error", {
                 title: "Error",
                 duration: 5000

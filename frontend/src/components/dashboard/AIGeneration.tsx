@@ -27,7 +27,7 @@ export default function AIGeneration() {
         resetForm();
 
         // Handle rate limit
-        if (!response.aiUsage) {
+        if (!response || !response.aiUsage) {
             setRateLimit(true);
             setIsLoading(false);
             notify("Has alcanzado el límite diario de generaciones.", "error", {

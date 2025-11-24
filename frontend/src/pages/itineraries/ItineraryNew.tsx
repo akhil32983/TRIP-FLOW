@@ -18,7 +18,7 @@ export default function ItineraryNewPage() {
     const handleSave = async (itinerary: ExtendedItinerary) => {
         const res = await createItinerary(itinerary);
 
-        if (!res.id) {
+        if (!res || !res.id) {
             notify("Ha ocurrido un error al crear el itinerario.", "error", {
                 title: "Error",
                 duration: 5000
