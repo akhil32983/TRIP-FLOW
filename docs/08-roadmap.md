@@ -79,10 +79,10 @@
 
 ### 🔧 Backend
 
-- [ ] {Feature} AI-Powered Itinerary Generation (OpenRouter)
-  - [ ] {API} AI Generation endpoint - `POST /api/v1/ai/generate`
-  - [ ] {Model} AI Logs entity for tracking requests and usage
-  - [ ] {Pattern} AI response caching and rate limiting (Decorator)
+- [x] {Feature} AI-Powered Itinerary Generation (OpenRouter)
+  - [x] {API} AI Generation endpoint - `POST /api/v1/ai/generate`
+  - [x] {Model} AI Logs entity for tracking requests and usage
+  - [x] {Pattern} AI response rate limiting (daily limit per user)
   - [ ] {API} AI logs endpoint - `GET /api/v1/ai/logs`
 - [ ] {Feature} User profile management
   - [ ] {API} Avatar upload endpoint - `POST /api/v1/users/{id}/avatar`
@@ -96,39 +96,53 @@
   - [ ] {API} Get all itineraries - `GET /api/v1/admin/itineraries`
   - [ ] {Security} Role-based access control `ROLE_ADMIN`
   - [ ] {Model} Admin audit logs
-- [ ] {Feature} Microservices Foundations (Kafka)
-  - [ ] {Infra} Add Kafka setup to Docker Compose
-  - [ ] {Event} Publish `AIRequestedEvent`
-  - [ ] {Service} Basic `AIRequestedEvent` event-listener microservice (AI_Service)
-  - [ ] {Event} Publish `AIGeneratedEvent`
-  - [ ] {Service} Basic `AIGeneratedEvent` event-listener microservice (Notification_Service)
-  - [ ] {Service} AiService integration with Kafka producer
-  - [ ] {Service} NotificationService integration with Kafka consumer
-- [ ] {Feature} Notifications System
-  - [ ] {Model} Notification entity
-  - [ ] {API} Get notifications endpoint - `GET /api/v1/notifications`
-  - [ ] {API} Mark notification as read endpoint - `PUT /api/v1/notifications/{id}/read`
-  - [ ] {Service} WebSocket notification push service
+- [x] {Feature} Microservices Architecture (Kafka + WebSocket)
+  - [x] {Infra} Kafka setup in Docker Compose
+  - [x] {Service} API Service (main REST API)
+  - [x] {Service} AI Service (AI generation microservice)
+  - [x] {Service} Notification Service (WebSocket notifications)
+  - [x] {Module} Common module for shared DTOs and utilities
+  - [x] {Event} `AIRequestMessage` (API → AI Service)
+  - [x] {Event} `AIGenerationMessage` (AI Service → API Service)
+  - [x] {Event} `NotificationMessage` (API Service → Notification Service)
+  - [x] {Kafka} API Service: Produces `ai-request`, `notification`; Consumes `ai-generation`
+  - [x] {Kafka} AI Service: Consumes `ai-request`; Produces `ai-generation`
+  - [x] {Kafka} Notification Service: Consumes `notification`
+  - [x] {DB} Separate PostgreSQL databases per microservice
+- [x] {Feature} Real-time Notifications System
+  - [x] {Model} Notification entity (in Notification Service)
+  - [x] {WebSocket} STOMP WebSocket configuration
+  - [x] {WebSocket} JWT authentication for WebSocket connections
+  - [x] {WebSocket} User-specific notification queues
+  - [x] {Service} WebSocket notification push service
+  - [x] {Optimization} Configurable heartbeat intervals (1000ms for low latency)
 - [ ] {Feature} Unsplash API Integration
   - [ ] {Service} Unsplash API client for destination images
   - [ ] {Cache} Results caching for image queries
   - [ ] {API} Image search endpoint - `GET /api/v1/images/search?query=...`
-- [ ] {Feature} User Statistics endpoint - `GET /api/v1/stats`
 
 
 ### ⚛️ Frontend
 
-- [ ] {Feature} AI Itinerary Generation UI
-  - [ ] {UI} AI Screen for prompting and displaying logs - `/ai`
-  - [ ] {UI} AI Logs Component for displaying AI request history
+- [x] {Feature} AI Itinerary Generation UI
+  - [x] {UI} AI Generation form in dashboard - `/dashboard`
+  - [x] {UI} Advanced options (budget, pace, accommodation)
+  - [ ] {UI} AI usage tracking and rate limit display
+  - [x] {UI} Loading states and error handling
 - [ ] {Feature} User Profile Component
   - [ ] {UI} Avatar upload and display
   - [ ] {UI} User profile details and editable form
   - [ ] {UI} Account deletion UI
-- [ ] {Feature} Notifications UI
-  - [ ] {UI} Notification bell with unread badge
-  - [ ] {UI} Notification list (modal, drawer or dropdown)
-  - [ ] {UI} Mark-as-read interaction
+- [x] {Feature} Real-time Notifications UI
+  - [x] {Provider} WebSocket provider with STOMP client
+  - [x] {Provider} Notification provider for UI notifications
+  - [x] {Hook} `useWebSocketNotifications` - Generic hook for WebSocket subscriptions
+  - [x] {Hook} `useNotifications` - Visual notification display
+  - [x] {UI} Toast notifications with customizable duration
+  - [x] {Feature} Auto-refresh on notifications
+    - [x] Itineraries list auto-refresh on `ITINERARY_GENERATED`
+    - [x] Recent itineraries auto-refresh on `ITINERARY_GENERATED`
+    - [x] User stats auto-refresh on `ITINERARY_GENERATED`
 - [ ] {Feature} Admin Panel UI
   - [ ] {UI} Admin dashboard - `/admin`
   - [ ] {UI} Users table (delete, filter)
@@ -137,31 +151,26 @@
 - [ ] {Feature} Unsplash Integration UI
   - [ ] {UI} Replace itinerary icons with Unsplash images
   - [ ] {UI} Lazy loading + placeholders
-- [ ] {UI} Stats Component for displaying user statistics
 
 
 ### ⚙️ Testing
 
-- [ ] {Unit-Backend} AI Generation service tests (OpenRouter integration, caching)
-- [ ] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
-- [ ] {Unit-Backend} User statistics service tests (data calculation and aggregation)
-- [ ] {Unit-Backend} AI Logs service tests (request tracking and retrieval)
+- [x] {Unit-Backend} AI Generation service tests (OpenRouter integration, rate limiting)
+- [x] {Unit-Backend} AI Logs service tests (request tracking and retrieval)
+- [x] {Unit-Backend} Kafka producer/consumer tests
 - [ ] {Unit-Backend} Notifications service tests
+- [ ] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
 - [ ] {Unit-Backend} Admin backend tests (role restrictions, data access)
-- [ ] {Unit-Backend} Kafka producer/consumer tests
 - [ ] {Unit-Backend} Unsplash service tests (API + caching)
-- [ ] {Integration-Backend} AI Generation endpoint tests (with mocked OpenRouter)
+- [ ] {Integration-Backend} AI Generation endpoint tests
+- [ ] {Integration-Backend} AI Logs endpoint tests
 - [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
 - [ ] {Integration-Backend} Notifications endpoints tests
 - [ ] {Integration-Backend} Admin endpoints tests
-- [ ] {Integration-Backend} Statistics endpoint tests
 - [ ] {Integration-Backend} Unsplash endpoint tests
-- [ ] {Unit-Frontend} AI Generation UI tests (form validation, API integration)
 - [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
 - [ ] {Unit-Frontend} Notifications component tests
 - [ ] {Unit-Frontend} Admin panel component tests
-- [ ] {Unit-Frontend} Stats component tests
-- [ ] {Unit-Frontend} AI Logs component tests (history display and filtering)
 - [ ] {Integration-Frontend} AI workflow tests (generate → display → save)
 - [ ] {Integration-Frontend} Profile management workflow tests (upload → update → delete)
 - [ ] {Integration-Frontend} Notifications workflow tests
@@ -170,8 +179,6 @@
 - [ ] {E2E} Complete user profile management flow
 - [ ] {E2E} Complete notifications flow
 - [ ] {E2E} Complete admin panel flow
-- [ ] {Security} Rate limiting tests for AI endpoint
-- [ ] {Security} Role-based access tests for admin routes
 
 ---
 
