@@ -15,6 +15,7 @@ export const mockAuth = {
       location: "Demo City",
       createdAt: date,
       role: "USER",
+      plan: "FREE"
     },
   }),
 
@@ -30,6 +31,7 @@ export const mockAuth = {
       location: "Demo City",
       createdAt: new Date().toISOString(),
       role: "USER",
+      plan: "FREE"
     },
   }),
 
@@ -52,6 +54,7 @@ export const mockAuth = {
       location: "Demo City",
       createdAt: date,
       role: "USER",
+      plan: "FREE"
     },
   }),
 };
