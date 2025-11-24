@@ -581,6 +581,8 @@ components:
     AIGenerationRequest:
       type: object
       properties:
+        aiPrompt:
+          type: string
         destination:
           type: string
         style:
