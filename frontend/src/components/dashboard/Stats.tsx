@@ -1,9 +1,10 @@
 import styles from "@styles/components/dashboard/Stats.module.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import type { UserStat, UserStatKey } from "@/types/stats";
 import { getUserStats } from "@/services/statsService";
+import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 
 import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
 import Loader from "@components/shared/Loader";
@@ -49,17 +50,22 @@ function mapUserStatsToStats(userStats: UserStat[]): Stat[] {
 export default function Stats() {
     const [stats, setStats] = useState<Stat[] | null>(null);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            const userStats = await getUserStats();
-            if (!userStats) return;
+    const fetchStats = useCallback(async () => {
+        const userStats = await getUserStats();
+        if (!userStats) return;
 
-            const mappedStats = mapUserStatsToStats(userStats.stats);
-            setStats(mappedStats);
-        }
-
-        fetchStats();
+        const mappedStats = mapUserStatsToStats(userStats.stats);
+        setStats(mappedStats);
     }, []);
+
+    useWebSocketNotifications({
+        types: ["ITINERARY_GENERATED"],
+        onNotification: fetchStats
+    });
+
+    useEffect(() => {
+        fetchStats();
+    }, [fetchStats]);
 
     if (!stats) return <Loader size={24} variant="dots" />;
     return (
