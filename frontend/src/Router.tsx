@@ -15,46 +15,62 @@ import NotFound from "@pages/NotFound";
 
 import { useAuth } from "@/providers/authProvider";
 import { useDemo } from "@/providers/demoProvider";
+import { useNotifications } from "@/hooks/useNotifications";
 
 /**
  * PrivateRoute component that checks if the user is authenticated.
  * If not, redirects to the login page.
  */
 function PrivateRoute({ children }: { children: ReactNode }) {
-  const { demo } = useDemo();
-  const { user } = useAuth();
+    const { demo } = useDemo();
+    const { user } = useAuth();
 
-  if (demo) return children;
+    if (demo) return children;
 
-  if (!user) return <Navigate to="/login" replace />;
-  return children;
+    if (!user) return <Navigate to="/login" replace />;
+    return children;
+}
+
+/**
+ * Sets up WebSocket notifications for authenticated users.
+ * If the user is in demo mode or not authenticated, does nothing.
+ */
+function setUpNotifications() {
+    const { demo } = useDemo();
+    const { user } = useAuth();
+
+    if (demo || !user) return;
+
+    useNotifications();
 }
 
 export default function Router() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        {/* Public routes */}
-        <Route index element={<IndexPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<RegisterPage />} />
+    setUpNotifications();
 
-        {/* Private routes */}
-        <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-        <Route path="/itineraries">
-            <Route index element={<PrivateRoute><ItinerariesPage /></PrivateRoute>} />
-            <Route path=":id">
-                <Route index element={<PrivateRoute><ItineraryDetailPage /></PrivateRoute>} />
-                <Route path="edit" element={<PrivateRoute><ItineraryEditPage /></PrivateRoute>} />                
-            </Route>
-            <Route path="new" element={<PrivateRoute><ItineraryNewPage /></PrivateRoute>} />
-        </Route>
-        <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+    return (
+        <BrowserRouter>
+            <Routes>
+                {/* Public routes */}
+                <Route index element={<IndexPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<RegisterPage />} />
 
-        {/* Catch-all route for 404 Not Found */}
-        <Route path="/404" element={<NotFound />} />
-        <Route path="*" element={<Navigate to="/404" replace />} />
-      </Routes>
-    </BrowserRouter>
-  );
+                {/* Private routes */}
+                <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+                <Route path="/itineraries">
+                    <Route index element={<PrivateRoute><ItinerariesPage /></PrivateRoute>} />
+                    <Route path=":id">
+                        <Route index element={<PrivateRoute><ItineraryDetailPage /></PrivateRoute>} />
+                        <Route path="edit" element={<PrivateRoute><ItineraryEditPage /></PrivateRoute>} />
+                    </Route>
+                    <Route path="new" element={<PrivateRoute><ItineraryNewPage /></PrivateRoute>} />
+                </Route>
+                <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+
+                {/* Catch-all route for 404 Not Found */}
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }

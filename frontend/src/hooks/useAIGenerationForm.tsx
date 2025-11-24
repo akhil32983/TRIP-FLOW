@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { MapPin, Calendar, Palette, Euro, Home } from "lucide-react";
+
 import type { Field } from "@/types/form";
 import type { AIGenerationRequest } from "@/types/ai";
 
+const defaultForm: AIGenerationRequest = {
+    aiPrompt: "", destination: "", style: "",
+    budget: 500, lodging: "hotel", duration: "", interests: []
+}
+
 export const useAIGenerationForm = () => {
-    const [form, setForm] = useState<AIGenerationRequest>({
-        aiPrompt: "", destination: "", style: "",
-        budget: 500, lodging: "hotel", duration: "", interests: []
-    });
+    const [form, setForm] = useState<AIGenerationRequest>(defaultForm);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -22,6 +25,10 @@ export const useAIGenerationForm = () => {
             ...prev,
             interests: newInterests
         }));
+    };
+
+    const resetForm = () => {
+        setForm({...defaultForm});
     };
 
     const lodgingOptions = [
@@ -79,6 +86,7 @@ export const useAIGenerationForm = () => {
         form,
         handleChange,
         handleInterestsChange,
+        resetForm,
         advancedFields
     };
 };

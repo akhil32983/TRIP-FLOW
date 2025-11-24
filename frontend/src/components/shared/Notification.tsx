@@ -1,12 +1,11 @@
 import styles from "@styles/components/shared/Notification.module.css";
 
-import type { NotificationType } from "@/types/notification";
-
 import { AlertCircle, CheckCircle, Info, AlertTriangle, XIcon } from "lucide-react";
 
+export type NotificationRendererType = "info" | "success" | "error" | "warning";
 
 interface NotificationProps {
-    type?: NotificationType;
+    type?: NotificationRendererType;
     title?: string;
     message: string;
     onClose: () => void;

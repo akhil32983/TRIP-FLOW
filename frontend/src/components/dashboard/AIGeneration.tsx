@@ -14,13 +14,15 @@ export default function AIGeneration() {
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [rateLimit, setRateLimit] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const { form, handleChange, handleInterestsChange, advancedFields } = useAIGenerationForm();
+    
+    const { form, handleChange, handleInterestsChange, resetForm, advancedFields } = useAIGenerationForm();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
         const response = await generateItinerary(form);
-        console.log(response);
+
+        resetForm();
 
         // Handle rate limit
         if (!response.aiUsage) {

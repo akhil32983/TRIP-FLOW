@@ -2,13 +2,26 @@ import styles from "@styles/components/shared/Notification.module.css";
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
-import type { NotificationType, Notification, NotificationOptions } from "@/types/notification";
 import { generateId } from "@/utils/generateId";
 
-import NotificationRender from "@/components/shared/Notification";
+import NotificationRender, { type NotificationRendererType } from "@/components/shared/Notification";
+
+interface NotificationOptions {
+    autoClose?: boolean;
+    duration?: number;
+    title?: string;
+}
+
+interface InternalNotification {
+    id: string;
+    type: NotificationRendererType;
+    message: string;
+    options?: NotificationOptions;
+    isClosing?: boolean;
+}
 
 interface NotificationContextType {
-    notify: (message: string, type?: NotificationType, options?: NotificationOptions) => void;
+    notify: (message: string, type: NotificationRendererType, options?: NotificationOptions) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType>({
@@ -18,18 +31,18 @@ const NotificationContext = createContext<NotificationContextType>({
 export const useNotification = () => useContext(NotificationContext);
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
-    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [notifications, setNotifications] = useState<InternalNotification[]>([]);
 
     const notify = useCallback((
         message: string,
-        type: NotificationType = "info",
+        type: NotificationRendererType,
         options?: NotificationOptions
     ) => {
         const defaultOptions = { autoClose: true, duration: 3000, title: "Notificación" };
         const finalOptions = { ...defaultOptions, ...options };
 
         const id = generateId();
-        const newNotification: Notification = { id, type, message, options: finalOptions };
+        const newNotification: InternalNotification = { id, type, message, options: finalOptions };
 
         setNotifications((prev) => [...prev, newNotification]);
 

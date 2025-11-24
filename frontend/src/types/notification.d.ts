@@ -1,15 +1,8 @@
-export type NotificationType = "success" | "error" | "warning" | "info";
-
-export interface NotificationOptions {
-    title?: string;
-    autoClose?: boolean;
-    duration?: number;
-}
+export type NotificationType = "ITINERARY_GENERATED" | "ITINERARY_GENERATION_FAILED";
 
 export interface Notification {
-    id: string;
-    type: NotificationType;
+    username: string;
     message: string;
-    options?: NotificationOptions;
-    isClosing?: boolean;
+    type: NotificationType;
+    timestamp: string;
 }
