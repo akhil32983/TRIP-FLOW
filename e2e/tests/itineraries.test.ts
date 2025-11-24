@@ -218,8 +218,8 @@ test.describe("Itinerary Management", () => {
 
             // 4. Verify that itinerary details are displayed
             await expect(page).toHaveURL(/\/itineraries\/\d+/);
-            await expect(page.getByRole("heading", { name: /viaje a parís/i })).toBeVisible();
-            await expect(page.getByRole("heading", { name: /parís, francia/i })).toBeVisible();
+            await expect(page.getByRole("heading", { name: /viaje a parís/i }).first()).toBeVisible();
+            await expect(page.getByRole("heading", { name: /parís, francia/i }).first()).toBeVisible();
         });
     });
 
@@ -254,7 +254,7 @@ test.describe("Itinerary Management", () => {
 
             // 2. Verify that the itinerary was created
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
-            await expect(page.getByText(/parís/i)).toBeVisible();
+            await expect(page.getByText(/parís/i).first()).toBeVisible();
 
             // 3. Click on edit link
             await page.locator("a:has(.lucide-square-pen)").first().click();
@@ -287,7 +287,7 @@ test.describe("Itinerary Management", () => {
 
             // 2. Verify that the itinerary was created
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
-            await expect(page.getByText(/parís/i)).toBeVisible();
+            await expect(page.getByText(/parís/i).first()).toBeVisible();
 
             // 3. Click on delete button
             await page.locator("button:has(.lucide-trash2)").first().click();
