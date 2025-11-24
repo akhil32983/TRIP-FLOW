@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tripflow.dto.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
+import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.AIRequestMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
@@ -119,7 +120,7 @@ public class AIHandlerServiceTest {
         verify(kafkaService, times(1)).sendNotificationMessage(argThat(message ->
             message.username().equals(username) &&
             message.message().equals("Failed to process your AI request.") &&
-            !message.success()
+            message.type().equals(NotificationTypeDTO.ITINERARY_GENERATION_FAILED)
         ));
     }
 

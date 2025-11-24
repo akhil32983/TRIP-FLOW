@@ -2,6 +2,8 @@ package com.tripflow.model;
 
 import java.time.Instant;
 
+import com.tripflow.model.types.NotificationType;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,7 +20,7 @@ public class Notification {
     private String message;
 
     @Column(nullable = false)
-    private boolean success;
+    private NotificationType type;
 
     @Column(nullable = false, updatable = false)
     private Instant timestamp;
@@ -34,17 +36,17 @@ public class Notification {
 
     public Notification() {}
 
-    public Notification(String username, String message, boolean success) {
+    public Notification(String username, String message, NotificationType type) {
         this.username = username;
         this.message = message;
-        this.success = success;
+        this.type = type;
     }
 
-    public Notification(String username, String message, Instant timestamp, boolean success) {
+    public Notification(String username, String message, Instant timestamp, NotificationType type) {
         this.username = username;
         this.message = message;
         this.timestamp = timestamp;
-        this.success = success;
+        this.type = type;
     }
 
     // [Getters and Setters] ==========================================
@@ -81,11 +83,11 @@ public class Notification {
         this.timestamp = timestamp;
     }
 
-    public boolean getSuccess() {
-        return success;
+    public NotificationType getType() {
+        return type;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setType(NotificationType type) {
+        this.type = type;
     }
 }

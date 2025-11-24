@@ -3,6 +3,7 @@ package com.tripflow.consumer;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
 import com.tripflow.service.KafkaService;
@@ -33,7 +34,7 @@ public class AIGenerationListener {
                 new NotificationMessage(
                     message.username(),
                     "Your AI generated itinerary is ready!",
-                    true
+                    NotificationTypeDTO.ITINERARY_GENERATED
                 )
             );
         } else {
@@ -41,7 +42,7 @@ public class AIGenerationListener {
                 new NotificationMessage(
                     message.username(),
                     "Failed to process your AI generated itinerary.",
-                    false
+                    NotificationTypeDTO.ITINERARY_GENERATION_FAILED
                 )
             );
         }

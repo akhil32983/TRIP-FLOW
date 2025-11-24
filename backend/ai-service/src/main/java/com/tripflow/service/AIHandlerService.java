@@ -3,6 +3,7 @@ package com.tripflow.service;
 import org.springframework.stereotype.Service;
 
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
+import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.AIRequestMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
@@ -42,7 +43,11 @@ public class AIHandlerService {
             success = false;
 
             this.kafkaService.sendNotificationMessage(
-                new NotificationMessage(requestMessage.username(), message, false)
+                new NotificationMessage(
+                    requestMessage.username(),
+                    message,
+                    NotificationTypeDTO.ITINERARY_GENERATION_FAILED
+                )
             );
         }
 

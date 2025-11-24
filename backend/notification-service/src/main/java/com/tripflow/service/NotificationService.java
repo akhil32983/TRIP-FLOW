@@ -3,15 +3,20 @@ package com.tripflow.service;
 import org.springframework.stereotype.Service;
 
 import com.tripflow.kafka.messages.NotificationMessage;
+import com.tripflow.mapper.NotificationMapper;
 import com.tripflow.model.Notification;
 import com.tripflow.repository.NotificationRepository;
 
 @Service
 public class NotificationService {    
     private final NotificationRepository notificationRepository;
+    private final NotificationMapper notificationMapper;
 
-    public NotificationService(NotificationRepository notificationRepository) {
+    public NotificationService(
+        NotificationRepository notificationRepository, NotificationMapper notificationMapper
+    ) {
         this.notificationRepository = notificationRepository;
+        this.notificationMapper = notificationMapper;
     }
 
     /**
@@ -19,13 +24,7 @@ public class NotificationService {
      * @param notificationMessage
      */
     public void saveNotification(NotificationMessage notificationMessage) {
-        Notification notification = new Notification(
-            notificationMessage.username(),
-            notificationMessage.message(),
-            notificationMessage.timestamp(),
-            notificationMessage.success()
-        );
-        
-        notificationRepository.save(notification);
+        Notification notification = this.notificationMapper.toNotification(notificationMessage);
+        this.notificationRepository.save(notification);
     }
 }

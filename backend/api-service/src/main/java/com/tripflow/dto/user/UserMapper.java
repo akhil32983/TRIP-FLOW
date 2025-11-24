@@ -19,5 +19,6 @@ public interface UserMapper {
     @Mapping(target = "description", ignore = true)
     @Mapping(target = "location", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "plan", ignore = true)
     User toDomain(RegisterUserRequest request, String hashedPassword, UserType role);
 }

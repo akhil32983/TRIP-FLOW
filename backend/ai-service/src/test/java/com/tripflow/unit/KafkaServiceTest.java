@@ -12,6 +12,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import com.tripflow.dto.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryStatusDTO;
+import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
 import com.tripflow.service.KafkaService;
@@ -36,7 +37,9 @@ public class KafkaServiceTest {
     @DisplayName("Test sendNotificationMessage sends to correct topic")
     public void testSendNotificationMessage() {
         String username = "testUser";
-        NotificationMessage message = NotificationTestUtils.createNotificationMessage(username, true);
+        NotificationMessage message = NotificationTestUtils.createNotificationMessage(
+            username, NotificationTypeDTO.ITINERARY_GENERATED
+        );
 
         kafkaService.sendNotificationMessage(message);
 
@@ -61,7 +64,9 @@ public class KafkaServiceTest {
     @DisplayName("Test sendNotificationMessage with failure notification")
     public void testSendFailureNotification() {
         String username = "testUser";
-        NotificationMessage message = NotificationTestUtils.createNotificationMessage(username, false);
+        NotificationMessage message = NotificationTestUtils.createNotificationMessage(
+            username, NotificationTypeDTO.ITINERARY_GENERATION_FAILED
+        );
 
         kafkaService.sendNotificationMessage(message);
 
@@ -72,7 +77,9 @@ public class KafkaServiceTest {
     @DisplayName("Test KafkaTemplate is invoked for notification")
     public void testKafkaTemplateInvokedForNotification() {
         String username = "testUser";
-        NotificationMessage message = NotificationTestUtils.createNotificationMessage(username, true);
+        NotificationMessage message = NotificationTestUtils.createNotificationMessage(
+            username, NotificationTypeDTO.ITINERARY_GENERATED
+        );
 
         kafkaService.sendNotificationMessage(message);
 
@@ -107,9 +114,15 @@ public class KafkaServiceTest {
     @Test
     @DisplayName("Test multiple notification messages")
     public void testMultipleNotifications() {
-        NotificationMessage message1 = NotificationTestUtils.createNotificationMessage("user1", false);
-        NotificationMessage message2 = NotificationTestUtils.createNotificationMessage("user2", true);
-        NotificationMessage message3 = NotificationTestUtils.createNotificationMessage("user3", false);
+        NotificationMessage message1 = NotificationTestUtils.createNotificationMessage(
+            "user1", NotificationTypeDTO.ITINERARY_GENERATED
+        );
+        NotificationMessage message2 = NotificationTestUtils.createNotificationMessage(
+            "user2", NotificationTypeDTO.ITINERARY_GENERATION_FAILED
+        );
+        NotificationMessage message3 = NotificationTestUtils.createNotificationMessage(
+            "user3", NotificationTypeDTO.ITINERARY_GENERATED
+        );
 
         kafkaService.sendNotificationMessage(message1);
         kafkaService.sendNotificationMessage(message2);
