@@ -6,7 +6,6 @@ import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 
 public record PublicUserDTO(
-    Long id,
     String username,
     String name,
     String description,
