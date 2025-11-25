@@ -102,6 +102,10 @@ public class User {
         }
     }
 
+    public boolean isAdmin() {
+        return this.role == UserType.ADMIN;
+    }
+
     // [Getters and Setters] ==========================================
 
     public Long getId() {

@@ -75,7 +75,7 @@ public class UserService {
      * @return a PaginatedDTO containing the list of PublicUserDTOs
      */
     public PaginatedDTO<PublicUserDTO> getAllUsers(Pageable pageable) {
-        Page<User> usersPage = this.userRepository.findAll(pageable);
+        Page<User> usersPage = this.userRepository.findAllByRole(UserType.USER, pageable);
         List<PublicUserDTO> userDTOs = this.userMapper.toPublicUserDTOs(usersPage.getContent());
 
         return new PaginatedDTO<PublicUserDTO>(
@@ -89,12 +89,25 @@ public class UserService {
     }
 
     /**
-     * Registers a new user into the system.
+     * Registers a new regular user into the system.
      * 
      * @param request the user registration request containing user details
+     * 
      * @return a PublicUserDTO containing the registered user's public information
      */
     public PublicUserDTO registerUser(RegisterUserRequest request) throws IllegalArgumentException {
+        return this.registerUser(request, UserType.USER);
+    }
+
+    /**
+     * Registers a new user into the system.
+     * 
+     * @param request the user registration request containing user details
+     * @param userType the type of user to register (e.g., USER, ADMIN)
+     * 
+     * @return a PublicUserDTO containing the registered user's public information
+     */
+    public PublicUserDTO registerUser(RegisterUserRequest request, UserType userType) throws IllegalArgumentException {
         // Check if the user already exists
         if (this.userRepository.existsByUsername(request.username())) {
             throw new IllegalArgumentException("User already exists with username");
@@ -102,7 +115,7 @@ public class UserService {
 
         // Create a new user entity from the request
         String hashedPassword = this.passwordEncoder.encode(request.password());
-        User user = this.userMapper.toDomain(request, hashedPassword, UserType.USER);
+        User user = this.userMapper.toDomain(request, hashedPassword, userType);
 
         return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
     }
@@ -131,11 +144,19 @@ public class UserService {
         return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
     }
 
+    /**
+     * Deletes the user with the specified username.
+     *
+     * @param username the username of the user to delete
+     * 
+     * @throws UsernameNotFoundException
+     * @throws ResponseStatusException
+     */
     public void deleteUser(String username) throws UsernameNotFoundException, ResponseStatusException {
         User user = this.getUserByUsername(username);
         User authUser = this.getAuthenticatedUser();
 
-        if (!authUser.equals(user)) {
+        if (!authUser.equals(user) && !authUser.isAdmin()) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to delete this user");
         }
 

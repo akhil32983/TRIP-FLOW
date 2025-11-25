@@ -66,7 +66,7 @@ public class AuthServiceTest {
         Authentication authentication = mock(Authentication.class);
         UserDetails userDetails = mock(UserDetails.class);
         PublicUserDTO publicUser = new PublicUserDTO(
-            1L, username, username, 
+            username, username, 
             "", "Earth", null, UserType.USER, PlanType.FREE
         );
         
@@ -126,7 +126,7 @@ public class AuthServiceTest {
 
         RegisterUserRequest request = new RegisterUserRequest(username, password, password);
         PublicUserDTO publicUser = new PublicUserDTO(
-            1L, username, username, 
+            username, username, 
             "", "Earth", null, UserType.USER, PlanType.FREE
         );
 
@@ -190,7 +190,7 @@ public class AuthServiceTest {
             .build();
         
         PublicUserDTO publicUser = new PublicUserDTO(
-            1L, username, username,
+            username, username,
             "", "Earth", null, UserType.USER, PlanType.FREE
         );
 

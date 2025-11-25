@@ -90,11 +90,10 @@
   - [x] {API} User profile endpoint - `GET /api/v1/users/{username}`
   - [x] {API} User profile update endpoint - `PUT /api/v1/users/{username}`
   - [x] {API} User account deletion endpoint - `DELETE /api/v1/users/{username}`
-- [ ] {Feature} Admin Panel Backend
+- [x] {Feature} Admin Panel Backend
   - [x] {API} Get all users - `GET /api/v1/users`
-  - [ ] {API} Delete user - `DELETE /api/v1/users/{username}`
-  - [ ] {Security} Role-based access control `ROLE_ADMIN`
-  - [ ] {Model} Admin audit logs
+  - [x] {API} Delete user - `DELETE /api/v1/users/{username}`
+  - [x] {Security} Role-based access control `ROLE_ADMIN`
 - [x] {Feature} Microservices Architecture (Kafka + WebSocket)
   - [x] {Infra} Kafka setup in Docker Compose
   - [x] {Service} API Service (main REST API)
