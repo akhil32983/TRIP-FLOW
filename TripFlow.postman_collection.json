@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "415aaf08-7c02-4613-9066-fc0c15a741e2",
+		"_postman_id": "8b2c03b6-9af7-40d2-b167-3a0f9a6b16be",
 		"name": "TripFlow",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "37129679"
@@ -303,7 +303,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"destination\": \"París\",\r\n    \"style\": \"Romantic\",\r\n    \"budget\": 500,\r\n    \"lodging\": \"hostel\",\r\n    \"duration\": \"2-3 days\",\r\n    \"interests\": [\"Eifel Tower\", \"Seine\", \"Les Champs-Élysées\"]\r\n}",
+									"raw": "{\r\n    \"destination\": \"París\",\r\n    \"style\": \"Romantic\",\r\n    \"budget\": 500,\r\n    \"lodging\": \"hostel\",\r\n    \"duration\": \"1 day\",\r\n    \"interests\": [\"Eifel Tower\", \"Seine\", \"Les Champs-Élysées\"]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -327,8 +327,167 @@
 					]
 				},
 				{
-					"name": "Notification",
-					"item": []
+					"name": "Users",
+					"item": [
+						{
+							"name": "Retrieve all users",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"place\": \"Madrid\",\r\n    \"status\": \"PLANNED\",\r\n    \"days\": [\r\n        {\r\n            \"day\": 1,\r\n            \"activities\": [\r\n                {\r\n                    \"activity\": \"Visitar la Puerta del Sol\",\r\n                    \"details\": \"Conocido como el centro de Madrid.\",\r\n                    \"location\": {\r\n                        \"name\": \"Puerta del Sol\",\r\n                        \"address\": \"Entre las calles de Alcalá, Montera y Preciados.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4167,\r\n                            \"longitude\": -3.7036\r\n                        }\r\n                    },\r\n                    \"time\": \"09:00\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Pasear por el Parque del Retiro\",\r\n                    \"details\": \"Uno de los parques más famosos de Madrid, ideal para un paseo y un descanso.\",\r\n                    \"location\": {\r\n                        \"name\": \"Parque del Buen Retiro\",\r\n                        \"address\": \"Plaza de la Independencia, 7, 28001 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4123,\r\n                            \"longitude\": -3.688\r\n                        }\r\n                    },\r\n                    \"time\": \"11:30\",\r\n                    \"duration\": \"2 horas\"\r\n                },\r\n                {\r\n                    \"activity\": \"Visitar el Palacio Real de Madrid\",\r\n                    \"details\": \"Visita el Palacio Real y descubre su belleza y la historia de los reyes de España.\",\r\n                    \"location\": {\r\n                        \"name\": \"Palacio Real de Madrid\",\r\n                        \"address\": \"Calle de Bailén, s/n, 28071 Madrid.\",\r\n                        \"coordinates\": {\r\n                            \"latitude\": 40.4148,\r\n                            \"longitude\": -3.7182\r\n                        }\r\n                    },\r\n                    \"time\": \"15:00\",\r\n                    \"duration\": \"2 horas\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}"
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users/CuB1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"CuB1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Retrieve user avatar",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users/CuB1/avatar",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"CuB1",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Upload user avatar",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "avatar",
+											"type": "file",
+											"src": "postman-cloud:///1f0c9ce4-7a29-4a50-bed0-0c68bbcf45b4"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users/CuB1/avatar",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"CuB1",
+										"avatar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"CuB1 zz\",\r\n    \"description\": \"Life enjoyer\",\r\n    \"location\": \"Madrid, España\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users/CuB1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"CuB1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete user",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users/CuB1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"CuB1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

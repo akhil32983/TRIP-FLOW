@@ -164,7 +164,6 @@
 - [ ] {Integration-Backend} AI Logs endpoint tests
 - [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
 - [ ] {Integration-Backend} Notifications endpoints tests
-- [ ] {Integration-Backend} Admin endpoints tests
 - [ ] {Integration-Backend} Unsplash endpoint tests
 - [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
 - [ ] {Unit-Frontend} Notifications component tests
