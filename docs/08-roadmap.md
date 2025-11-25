@@ -80,20 +80,19 @@
 ### 🔧 Backend
 
 - [x] {Feature} AI-Powered Itinerary Generation (OpenRouter)
-  - [x] {API} AI Generation endpoint - `POST /api/v1/ai/generate`
+  - [x] {API} AI Generation endpoint - `POST /api/v1/ai`
   - [x] {Model} AI Logs entity for tracking requests and usage
   - [x] {Pattern} AI response rate limiting (daily limit per user)
   - [ ] {API} AI logs endpoint - `GET /api/v1/ai/logs`
-- [ ] {Feature} User profile management
-  - [ ] {API} Avatar upload endpoint - `POST /api/v1/users/{id}/avatar`
-  - [ ] {API} Avatar retrieval endpoint - `GET /api/v1/users/{id}/avatar`
-  - [ ] {API} User profile endpoint - `GET /api/v1/users/{id}`
-  - [ ] {API} User profile update endpoint - `PUT /api/v1/users/{id}`
-  - [ ] {API} User account deletion endpoint - `DELETE /api/v1/users/{id}`
+- [x] {Feature} User profile management
+  - [x] {API} Avatar upload endpoint - `POST /api/v1/users/{username}/avatar`
+  - [x] {API} Avatar retrieval endpoint - `GET /api/v1/users/{username}/avatar`
+  - [x] {API} User profile endpoint - `GET /api/v1/users/{username}`
+  - [x] {API} User profile update endpoint - `PUT /api/v1/users/{username}`
+  - [x] {API} User account deletion endpoint - `DELETE /api/v1/users/{username}`
 - [ ] {Feature} Admin Panel Backend
-  - [ ] {API} Get all users - `GET /api/v1/admin/users`
-  - [ ] {API} Delete user - `DELETE /api/v1/admin/users/{id}`
-  - [ ] {API} Get all itineraries - `GET /api/v1/admin/itineraries`
+  - [x] {API} Get all users - `GET /api/v1/users`
+  - [ ] {API} Delete user - `DELETE /api/v1/users/{username}`
   - [ ] {Security} Role-based access control `ROLE_ADMIN`
   - [ ] {Model} Admin audit logs
 - [x] {Feature} Microservices Architecture (Kafka + WebSocket)

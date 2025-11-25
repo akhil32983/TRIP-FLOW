@@ -1,11 +1,11 @@
 package com.tripflow.model;
 
-import java.sql.Blob;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.types.PlanType;
@@ -14,15 +14,16 @@ import com.tripflow.model.types.UserType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "users")
 public class User {
 
@@ -48,15 +49,16 @@ public class User {
     @Column(nullable = false)
     private UserType role;
 
+    @Column(nullable = true)
+    private byte[] avatar;
+
     @Column(nullable = false)
     private PlanType plan = PlanType.FREE;
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
-    @Lob
-    private Blob avatar;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Itinerary> itineraries = new ArrayList<>();
@@ -174,11 +176,19 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    public Blob getAvatar() {
+    public byte[] getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(Blob avatar) {
+    public void setAvatar(byte[] avatar) {
         this.avatar = avatar;
+    }
+
+    public List<Itinerary> getItineraries() {
+        return itineraries;
+    }
+
+    public void setItineraries(List<Itinerary> itineraries) {
+        this.itineraries = itineraries;
     }
 }

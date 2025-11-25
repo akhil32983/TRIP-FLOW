@@ -1,20 +1,31 @@
 package com.tripflow.service;
 
+import java.sql.SQLException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.dto.user.UpdateUserRequest;
 import com.tripflow.dto.user.UserMapper;
 import com.tripflow.model.User;
 import com.tripflow.model.types.UserType;
 import com.tripflow.repository.UserRepository;
+import com.tripflow.utils.ImageUtils;
 
 @Service
 public class UserService {
@@ -39,8 +50,9 @@ public class UserService {
      * @throws NoSuchElementException
      */
     public PublicUserDTO getPublicUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.userRepository.findByUsername(username).
-            orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = this.userRepository.findByUsername(username).orElseThrow(
+            () -> new UsernameNotFoundException("User not found")
+        );
         return userMapper.toPublicUserDTO(user);
     }
 
@@ -54,6 +66,26 @@ public class UserService {
     public User getUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(username).
             orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    /**
+     * Retrieves a paginated list of public user DTOs.
+     *
+     * @param pageable the pagination information
+     * @return a PaginatedDTO containing the list of PublicUserDTOs
+     */
+    public PaginatedDTO<PublicUserDTO> getAllUsers(Pageable pageable) {
+        Page<User> usersPage = this.userRepository.findAll(pageable);
+        List<PublicUserDTO> userDTOs = this.userMapper.toPublicUserDTOs(usersPage.getContent());
+
+        return new PaginatedDTO<PublicUserDTO>(
+            userDTOs,
+            usersPage.getNumber(),
+            usersPage.getTotalPages(),
+            usersPage.getTotalElements(),
+            usersPage.getSize(),
+            usersPage.isLast()
+        );
     }
 
     /**
@@ -76,6 +108,81 @@ public class UserService {
     }
 
     /**
+     * Updates the user with the specified username.
+     *
+     * @param username the username of the user to update
+     * @param request the UpdateUserRequest containing the updated user information
+     * 
+     * @return a PublicUserDTO containing the updated user's public information
+     * @throws UsernameNotFoundException
+     * @throws ResponseStatusException
+     */
+    public PublicUserDTO updateUser(
+        String username, UpdateUserRequest request
+    ) throws UsernameNotFoundException, ResponseStatusException {
+        User user = this.getUserByUsername(username);
+        User authUser = this.getAuthenticatedUser();
+
+        if (!authUser.equals(user)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to update this user");
+        }
+
+        this.updateUserFields(user, request);
+        return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
+    }
+
+    public void deleteUser(String username) throws UsernameNotFoundException, ResponseStatusException {
+        User user = this.getUserByUsername(username);
+        User authUser = this.getAuthenticatedUser();
+
+        if (!authUser.equals(user)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to delete this user");
+        }
+
+        this.userRepository.delete(user);
+    }
+
+    /**
+     * Uploads an avatar for the authenticated user.
+     *
+     * @param username the username of the user to upload the avatar for
+     * @param avatar the MultipartFile containing the avatar image
+     * 
+     * @return a PublicUserDTO containing the updated user's public information
+     * @throws ResponseStatusException
+     * @throws Exception
+     */
+    public PublicUserDTO uploadAvatar(String username, MultipartFile avatar) throws Exception {
+        User user = this.getUserByUsername(username);
+        User authUser = this.getAuthenticatedUser();
+
+        if (!authUser.equals(user)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to upload an avatar for this user");
+        }
+
+        user.setAvatar(ImageUtils.toByteArray(avatar));
+        return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
+    }
+
+    /**
+     * Retrieves the avatar of the user with the specified username.
+     *
+     * @param username the username of the user to retrieve the avatar for
+     * 
+     * @return a Resource containing the avatar image
+     * @throws UsernameNotFoundException
+     * @throws SQLException
+     */
+    public Resource getAvatar(String username) throws UsernameNotFoundException, SQLException {
+        User user = this.getUserByUsername(username);
+        if (user.getAvatar() == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User avatar not found");
+        }
+
+        return ImageUtils.toResource(user.getAvatar());
+    }
+
+    /**
      * Retrieves the currently authenticated user.
      *
      * @return the authenticated User object, or null if no user is authenticated
@@ -89,5 +196,23 @@ public class UserService {
         }
 
         return null;
+    }
+
+    /**
+     * Updates the fields of a user entity based on the provided PublicUserDTO.
+     *
+     * @param user the User entity to update
+     * @param request the UpdateUserRequest containing the updated user information
+     */
+    private void updateUserFields(User user, UpdateUserRequest request) {
+        if (request.name() != null) {
+            user.setName(request.name());
+        }
+        if (request.description() != null) {
+            user.setDescription(request.description());
+        }
+        if (request.location() != null) {
+            user.setLocation(request.location());
+        }
     }
 }
