@@ -10,15 +10,28 @@ import io.restassured.response.Response;
 import static org.hamcrest.Matchers.*;
 
 public class AuthTestUtils {
+
+    /**
+     * Registers and logs in a user, returning the authentication token.
+     * 
+     * @param username the username for the test user
+     * @return the authentication token
+     */
+    public static String authenticateUserAndGetToken(String username) {
+        return authenticateUserAndGetToken(username, true);
+    }
     
     /**
      * Registers and logs in a user, returning the authentication token.
      * 
-     * @param username the unique username for the test user
+     * @param username the username for the test user
+     * @param unique whether the username should be unique
      * @return the authentication token
      */
-    public static String authenticateUserAndGetToken(String username) {
-        String uniqueUsername = generateUniqueValue(username);
+    public static String authenticateUserAndGetToken(String username, boolean unique) {
+        String uniqueUsername = unique
+            ? generateUniqueValue(username)
+            : username;
         
         // Register user
         RegisterUserRequest registerRequest = new RegisterUserRequest(
