@@ -8,7 +8,6 @@ export const mockAuth = {
     message: "Login successful",
     errors: {},
     user: {
-      id: "-1",
       name: "Demo User",
       username: "demoUser",
       description: "This is a demo user.",
@@ -24,7 +23,6 @@ export const mockAuth = {
     message: "Registration successful",
     errors: {},
     user: {
-      id: "-1",
       name: "Demo User",
       username: "demoUser",
       description: "This is a demo user.",
@@ -47,7 +45,6 @@ export const mockAuth = {
     message: "Token refreshed",
     errors: {},
     user: {
-      id: "-1",
       name: "Demo User",
       username: "demoUser",
       description: "This is a demo user.",
