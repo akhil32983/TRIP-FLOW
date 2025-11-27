@@ -2,7 +2,7 @@ package com.tripflow.unit.utils;
 
 import java.util.List;
 
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryStatusDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;

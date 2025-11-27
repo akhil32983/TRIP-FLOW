@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openai.client.OpenAIClient;
 import com.openai.models.chat.completions.ChatCompletion;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.utils.AIItineraryMock;
 import com.tripflow.utils.AIItineraryPrompt;
@@ -56,9 +56,9 @@ public class AIGenerationService {
      */
     private ChatCompletion createChat(String prompt) {
         ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-                .addUserMessage(prompt)
-                .model(this.apiModel)
-                .build();
+            .addUserMessage(prompt)
+            .model(this.apiModel)
+            .build();
         return this.openAIClient.chat().completions().create(params);
     }
 }

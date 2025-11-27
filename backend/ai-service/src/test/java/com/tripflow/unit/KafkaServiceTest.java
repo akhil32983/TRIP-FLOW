@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.kafka.core.KafkaTemplate;
 
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryStatusDTO;
 import com.tripflow.dto.notification.NotificationTypeDTO;

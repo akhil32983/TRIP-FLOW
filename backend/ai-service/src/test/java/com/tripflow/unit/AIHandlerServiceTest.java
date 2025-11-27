@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;

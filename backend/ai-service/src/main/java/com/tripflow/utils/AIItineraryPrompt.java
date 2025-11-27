@@ -1,6 +1,6 @@
 package com.tripflow.utils;
 
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 
 public class AIItineraryPrompt {
     private static final String CONTEXT_PROMPT = """

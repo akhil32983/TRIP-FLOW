@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.ai.AIResponse;
 import com.tripflow.dto.ai.AIUsageDTO;
 import com.tripflow.kafka.messages.AIRequestMessage;
