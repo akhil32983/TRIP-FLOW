@@ -3,7 +3,7 @@ package com.tripflow.service.itinerary;
 import org.springframework.stereotype.Service;
 
 import com.tripflow.dto.itinerary.ActivityDTO;
-import com.tripflow.dto.itinerary.ItineraryMapper;
+import com.tripflow.mappers.ItineraryMapper;
 import com.tripflow.model.itinerary.Activity;
 import com.tripflow.model.itinerary.Location;
 import com.tripflow.repository.itinerary.ActivityRepository;

@@ -238,7 +238,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ExtendedItineraryDTO updatedItinerary = new ExtendedItineraryDTO(
             itineraryId, "Rome Trip", "Rome", "🎓",
             2, 1500.0, "2025-06-10", List.of("history", "culture"),
-            1L, ItineraryStatusDTO.DRAFT, List.of(newDay), 1
+            1L, ItineraryStatusDTO.DRAFT, List.of(newDay), 1, null
         );
 
         RestAssured
@@ -375,7 +375,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ExtendedItineraryDTO multiDayItinerary = new ExtendedItineraryDTO(
             null, "Paris 2-Day Trip", "Paris", "🗼",
             2, 1000.0, "2025-06-10", List.of("art", "history"),
-            0L, ItineraryStatusDTO.DRAFT, List.of(day1, day2), 2
+            0L, ItineraryStatusDTO.DRAFT, List.of(day1, day2), 2, null
         );
 
         RestAssured
@@ -410,7 +410,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         return new ExtendedItineraryDTO(
             null, "Paris", "Paris", "🧪",
             2, 1000.0, "2025-06-10", List.of("romantic", "city"),
-            0L, ItineraryStatusDTO.DRAFT, List.of(day), 1
+            0L, ItineraryStatusDTO.DRAFT, List.of(day), 1, null
         );
     }
 }

@@ -2,6 +2,8 @@ package com.tripflow.dto.itinerary;
 
 import java.util.List;
 
+import com.tripflow.dto.externalImage.ExternalImageDTO;
+
 public record ItineraryDTO(
     Long id,
     String title,
@@ -13,5 +15,6 @@ public record ItineraryDTO(
     int countDays,
     List<String> tags,
     Long updatedCount,
-    ItineraryStatusDTO status
+    ItineraryStatusDTO status,
+    ExternalImageDTO coverImage
 ) {}

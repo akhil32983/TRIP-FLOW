@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.tripflow.model.ExternalImage;
 import com.tripflow.model.User;
 import com.tripflow.model.types.ItineraryStatus;
 
@@ -51,6 +52,9 @@ public class Itinerary {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private ExternalImage coverImage = null;
 
     @OneToMany(mappedBy = "itinerary", cascade = CascadeType.ALL)
     private List<ItineraryDay> days;
@@ -165,6 +169,14 @@ public class Itinerary {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public ExternalImage getCoverImage() {
+        return coverImage;
+    }
+
+    public void setCoverImage(ExternalImage coverImage) {
+        this.coverImage = coverImage;
     }
 
     public List<ItineraryDay> getDays() {

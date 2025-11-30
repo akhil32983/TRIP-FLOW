@@ -1,4 +1,4 @@
-package com.tripflow.dto;
+package com.tripflow.dto.ai;
 
 import java.util.List;
 

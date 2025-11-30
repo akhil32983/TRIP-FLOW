@@ -12,14 +12,16 @@ import org.springframework.web.server.ResponseStatusException;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
-import com.tripflow.dto.itinerary.ItineraryMapper;
 import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
+import com.tripflow.mappers.ItineraryMapper;
+import com.tripflow.model.ExternalImage;
 import com.tripflow.model.User;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
 import com.tripflow.model.types.ItineraryStatus;
 import com.tripflow.repository.itinerary.ItineraryRepository;
+import com.tripflow.service.ExternalImageService;
 import com.tripflow.service.UserService;
 
 import jakarta.transaction.Transactional;
@@ -28,18 +30,20 @@ import jakarta.transaction.Transactional;
 public class ItineraryService {
     private final ItineraryRepository itineraryRepository;
     private final UserService userService;
+    private final ExternalImageService externalImageService;
     private final ItineraryDayService itineraryDayService;
     private final ItineraryMapper itineraryMapper;
-
 
     public ItineraryService(
         ItineraryRepository itineraryRepository,
         UserService userService,
+        ExternalImageService externalImageService,
         ItineraryDayService itineraryDayService,
         ItineraryMapper itineraryMapper
     ) {
         this.itineraryRepository = itineraryRepository;
         this.userService = userService;
+        this.externalImageService = externalImageService;
         this.itineraryDayService = itineraryDayService;
         this.itineraryMapper = itineraryMapper;
     }
@@ -66,6 +70,7 @@ public class ItineraryService {
      *
      * @param user the user who owns the itinerary
      * @param itineraryDTO the DTO containing itinerary data
+     * 
      * @return the created ItineraryDTO
      */
     public ExtendedItineraryDTO createItinerary(User user, ExtendedItineraryDTO itineraryDTO) {
@@ -85,6 +90,9 @@ public class ItineraryService {
         // Set the user for the itinerary
         user.addItinerary(newItinerary);
         newItinerary.setUser(user);
+
+        ExternalImage coverImage = this.externalImageService.getOrCreateImageByQuery(itineraryDTO.place());
+        newItinerary.setCoverImage(coverImage);
 
         return this.itineraryMapper.toExtendedDTO(this.itineraryRepository.save(newItinerary));
     }

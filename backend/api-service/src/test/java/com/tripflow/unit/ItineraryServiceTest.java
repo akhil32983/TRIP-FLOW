@@ -16,12 +16,13 @@ import org.springframework.data.domain.*;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryDayDTO;
-import com.tripflow.dto.itinerary.ItineraryMapper;
 import com.tripflow.dto.shared.PaginatedDTO;
+import com.tripflow.mappers.ItineraryMapper;
 import com.tripflow.model.User;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
 import com.tripflow.repository.itinerary.ItineraryRepository;
+import com.tripflow.service.ExternalImageService;
 import com.tripflow.service.UserService;
 import com.tripflow.service.itinerary.ItineraryDayService;
 import com.tripflow.service.itinerary.ItineraryService;
@@ -33,6 +34,7 @@ import org.springframework.http.HttpStatus;
 public class ItineraryServiceTest {
     private ItineraryRepository itineraryRepository;
     private UserService userService;
+    private ExternalImageService externalImageService;
     private ItineraryDayService itineraryDayService;
     private ItineraryMapper itineraryMapper;
     private ItineraryService itineraryService;
@@ -41,11 +43,12 @@ public class ItineraryServiceTest {
     public void setUp() {
         this.itineraryRepository = mock(ItineraryRepository.class);
         this.userService = mock(UserService.class);
+        this.externalImageService = mock(ExternalImageService.class);
         this.itineraryDayService = mock(ItineraryDayService.class);
         this.itineraryMapper = mock(ItineraryMapper.class);
 
         this.itineraryService = new ItineraryService(
-            itineraryRepository, userService, itineraryDayService, itineraryMapper
+            itineraryRepository, userService, externalImageService, itineraryDayService, itineraryMapper
         );
     }
 
@@ -58,6 +61,7 @@ public class ItineraryServiceTest {
         List<ItineraryDayDTO> dayDTOs = List.of(mock(ItineraryDayDTO.class));
         when(dto.place()).thenReturn("Paris");
         when(dto.days()).thenReturn(dayDTOs);
+        when(externalImageService.getOrCreateImageByQuery(eq("Paris"))).thenReturn(null);
 
         ItineraryDay dayEntity = mock(ItineraryDay.class);
         when(itineraryDayService.createItineraryDayEntity(any(), any())).thenReturn(dayEntity);

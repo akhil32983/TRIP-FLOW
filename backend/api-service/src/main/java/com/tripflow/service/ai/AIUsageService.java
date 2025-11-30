@@ -5,8 +5,8 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.tripflow.dto.AIMapper;
 import com.tripflow.dto.ai.AIUsageDTO;
+import com.tripflow.mappers.AIMapper;
 import com.tripflow.model.AIUsage;
 import com.tripflow.model.User;
 import com.tripflow.model.types.PlanType;

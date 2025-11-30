@@ -2,7 +2,7 @@ package com.tripflow.kafka.messages;
 
 import java.time.Instant;
 
-import com.tripflow.dto.AIGenerationRequest;
+import com.tripflow.dto.ai.AIGenerationRequest;
 
 public record AIRequestMessage(
     String username,

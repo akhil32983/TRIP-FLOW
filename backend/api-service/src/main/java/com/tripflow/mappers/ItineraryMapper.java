@@ -1,10 +1,15 @@
-package com.tripflow.dto.itinerary;
+package com.tripflow.mappers;
 
 import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import com.tripflow.dto.itinerary.ActivityDTO;
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDayDTO;
+import com.tripflow.dto.itinerary.LocationDTO;
 import com.tripflow.model.itinerary.Activity;
 import com.tripflow.model.itinerary.Itinerary;
 import com.tripflow.model.itinerary.ItineraryDay;
@@ -16,9 +21,11 @@ public interface ItineraryMapper {
     // To DTO ==>
 
     @Mapping(target = "countDays", expression = "java(itinerary.getDays().size())")
+    @Mapping(target = "coverImage", source = "coverImage")
     ItineraryDTO toDTO(Itinerary itinerary);
 
     @Mapping(target = "countDays", expression = "java(itinerary.getDays().size())")
+    @Mapping(target = "coverImage", source = "coverImage")
     ExtendedItineraryDTO toExtendedDTO(Itinerary itinerary);
     List<ItineraryDTO> toDTOs(List<Itinerary> itineraries);
 

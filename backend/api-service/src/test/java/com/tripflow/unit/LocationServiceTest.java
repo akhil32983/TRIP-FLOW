@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.tripflow.dto.itinerary.CoordinatesDTO;
-import com.tripflow.dto.itinerary.ItineraryMapper;
 import com.tripflow.dto.itinerary.LocationDTO;
+import com.tripflow.mappers.ItineraryMapper;
 import com.tripflow.model.itinerary.GeographicPoint;
 import com.tripflow.model.itinerary.Location;
 import com.tripflow.service.itinerary.GeographicPointService;
