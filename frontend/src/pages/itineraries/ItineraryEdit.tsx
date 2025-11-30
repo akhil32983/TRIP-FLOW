@@ -14,6 +14,7 @@ import { useNotification } from "@/providers/notificationProvider";
 export default function ItineraryEdit() {
     const [itinerary, setItinerary] = useState<Itinerary | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
 
     const { notify } = useNotification();
     const navigate = useNavigate();
@@ -23,7 +24,9 @@ export default function ItineraryEdit() {
     if (isNaN(itineraryId)) return <Navigate to="/itineraries" />;
 
     const handleSave = async (itinerary: Itinerary) => {
+        setIsSaving(true);
         const res = await updateItinerary(itineraryId, itinerary);
+        setIsSaving(false);
 
         if (!res || !res.id) {
             notify("Ha ocurrido un error al actualizar el itinerario.", "error", {
@@ -56,7 +59,7 @@ export default function ItineraryEdit() {
         <AppLayout>
             <InnerTabHeader title="Editar Itinerario" backUrl={`/itineraries/${id}`} />
             {isLoading && <Loader size={32} variant="dots" />}
-            {itinerary && <ItineraryEditForm initialItinerary={itinerary} onSave={handleSave} />}
+            {itinerary && <ItineraryEditForm initialItinerary={itinerary} onSave={handleSave} isSaving={isSaving} />}
         </AppLayout>
     );
 }

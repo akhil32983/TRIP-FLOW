@@ -16,10 +16,11 @@ import { useNotification } from "@/providers/notificationProvider";
 
 interface ItineraryEditFormProps {
     initialItinerary: ExtendedItinerary;
+    isSaving?: boolean;
     onSave: (itinerary: ExtendedItinerary) => void;
 }
 
-export default function ItineraryEditForm({ initialItinerary, onSave }: ItineraryEditFormProps) {
+export default function ItineraryEditForm({ initialItinerary, isSaving, onSave }: ItineraryEditFormProps) {
     const { itinerary, updateBasicInfo, validateItinerary } = useItineraryForm(initialItinerary);
     const { notify } = useNotification();
     
@@ -60,7 +61,8 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
                 <Button 
                     onClick={handleSave} 
                     style={["primary"]}
-                    label="Guardar"
+                    label={isSaving ? "Guardando..." : "Guardar Todo"}
+                    disabled={isSaving}
                 >
                     <Save size={16} />
                 </Button>
@@ -83,7 +85,8 @@ export default function ItineraryEditForm({ initialItinerary, onSave }: Itinerar
                 <Button 
                     onClick={handleSave} 
                     style={["primary"]}
-                    label="Guardar Todo"
+                    label={isSaving ? "Guardando..." : "Guardar Todo"}
+                    disabled={isSaving}
                 >
                     <Save size={20} />
                 </Button>
