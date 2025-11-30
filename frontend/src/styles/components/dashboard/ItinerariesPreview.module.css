@@ -19,24 +19,74 @@
         flex-direction: column;
         gap: var(--space-lg);
         background-color: var(--bg-overlay);
-        padding: var(--space-xxl);
         border-radius: var(--border-radius-lg);
         border: 1px solid var(--border-primary);
         backdrop-filter: blur(20px);
+        overflow: hidden;
         transition: all 0.15s ease-in-out;
         animation: fadeIn calc(var(--index) * 0.15s) ease;
 
         &:hover {
             transform: scale(1.02);
-            filter: brightness(1.15);
+            filter: brightness(1.05);
+
+            .header .overlay {
+                opacity: 1;
+            }
         }
 
         .header {
+            position: relative;
             width: 100%;
+            min-height: 200px;
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: flex-start;
+            padding: var(--space-xxl);
             font-size: var(--font-size-larger);
+            background-image: linear-gradient(
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15)
+                ),
+                var(--bg-image, url(assets/bg-fallback.webp));
+            background-size: cover;
+            background-position: center;
+
+            .overlay {
+                position: absolute;
+                opacity: 0;
+                width: 100%;
+                bottom: 0;
+                left: 0;
+                padding-inline: var(--space-sm);
+                padding-block: var(--space-xs);
+                font-size: var(--font-size-sm);
+                font-weight: var(--font-weight-light);
+                color: var(--text-secondary);
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                gap: var(--space-xs);
+                background: linear-gradient(
+                    to top,
+                    rgba(0, 0, 0, 0.85) 0%,
+                    rgba(0, 0, 0, 0.6) 60%,
+                    rgba(0, 0, 0, 0) 100%
+                );
+                transition: all 0.15s ease-in-out;
+
+                a {
+                    margin-left: var(--space-xs);
+                    color: var(--text-secondary);
+                    font-weight: var(--font-weight-normal);
+                    letter-spacing: 0.5px;
+                    text-decoration: underline;
+
+                    &:hover {
+                        color: var(--text-primary);
+                    }
+                }
+            }
         }
 
         .content {
@@ -45,6 +95,7 @@
             flex-direction: column;
             gap: var(--space-md);
             color: var(--text-primary);
+            padding-inline: var(--space-xxl);
 
             .title {
                 font-size: var(--font-size-xxl);
@@ -65,6 +116,7 @@
             gap: var(--space-xs);
             color: var(--text-tertiary);
             font-size: var(--font-size-sm);
+            padding-inline: var(--space-xxl);
 
             .stat {
                 width: 100%;
@@ -80,6 +132,8 @@
             flex-wrap: wrap;
             gap: var(--space-md);
             margin-top: var(--space-lg);
+            padding: var(--space-xxl);
+            padding-top: 0;
         }
     }
 

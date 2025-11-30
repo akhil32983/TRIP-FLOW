@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 
 import type { Itinerary } from "@/types/itinerary";
 
-import { formatBudget, formatDate } from "@/utils/formatUtils";
+import { formatBudget, formatDate, formatImageAuthorUrl } from "@/utils/formatUtils";
 
 import Badge from "@components/shared/Badge";
 import Button from "@components/shared/Button";
@@ -33,9 +33,20 @@ export default function ItinerariesPreview(
                         to={`/itineraries/${itinerary.id}`}
                         className={styles.itinerary}
                         style={{ "--index": index + 1 < 4 ? index + 1 : 3 } as React.CSSProperties}>
-                        <div className={styles.header}>
-                            <span className={styles.icon}>{itinerary.icon}</span>
+                        <div className={styles.header} style={{ "--bg-image": `url(${itinerary.coverImage.imageUrl})` } as React.CSSProperties}>
                             <Badge style="semi_thin" status={itinerary.status} />
+                            <div className={styles.overlay}>
+                                <span>Foto de </span>
+                                <a
+                                    href={formatImageAuthorUrl(itinerary.coverImage.authorUsername)}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.imageAuthor}
+                                    onClick={e => e.stopPropagation()}
+                                >
+                                    @{itinerary.coverImage.authorUsername}
+                                </a>
+                            </div>
                         </div>
                         <div className={styles.content}>
                             <h3 className={styles.title}>{itinerary.title}</h3>

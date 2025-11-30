@@ -27,3 +27,7 @@ export const formatStatus = (status: ItineraryStatus) => {
     if (status === "COMPLETED") return "Completado";
     return status;
 };
+
+export const formatImageAuthorUrl = (username: string) => {
+    return `https://unsplash.com/@${username}`;
+};
