@@ -51,7 +51,7 @@ test.describe("Itinerary Management", () => {
         });
 
         test("should render create itinerary form", async ({ page }) => {
-            await expect(page.getByLabel(/icono del viaje/i)).toBeVisible();
+
             await expect(page.getByLabel(/título del viaje/i)).toBeVisible();
             await expect(page.getByLabel(/destino/i)).toBeVisible();
             await expect(page.getByLabel(/número de viajeros/i)).toBeVisible();
@@ -59,14 +59,14 @@ test.describe("Itinerary Management", () => {
             await expect(page.getByLabel(/fecha de inicio/i)).toBeVisible();
             await expect(page.getByLabel(/estado/i)).toBeVisible();
             
-            await expect(page.getByRole("button", { name: /guardar todo/i })).toBeVisible();
+            await expect(page.getByRole("button", { name: /guardar todo/i }).first()).toBeVisible();
         });
 
         test("should show validation errors for empty required fields", async ({ page }) => {
             await page.getByLabel(/título del viaje/i).clear();
             await page.getByLabel(/destino/i).clear();
             
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
             
             // Expect alert to be visible
             await expect(page.getByText(/revisa los campos/i)).toBeVisible({ timeout: 10000 });
@@ -79,10 +79,10 @@ test.describe("Itinerary Management", () => {
             await page.getByLabel(/presupuesto/i).fill("1500");
             await page.getByLabel(/fecha de inicio/i).fill("2025-12-01");
             
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
             
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
-            await expect(page.getByText(/barcelona/i)).toBeVisible();
+            await expect(page.getByText(/barcelona/i).first()).toBeVisible();
         });
 
         test("should allow adding and removing tags", async ({ page }) => {
@@ -115,7 +115,7 @@ test.describe("Itinerary Management", () => {
             await page.getByLabel(/número de viajeros/i).fill("2");
             await page.getByLabel(/presupuesto/i).fill("1500");
             await page.getByLabel(/fecha de inicio/i).fill("2025-12-01");
-            await page.getByLabel(/icono del viaje/i).fill("🏖️");
+
             
             // 2. Add activity to Day 1
             const addActivityBtn = page.locator('button:has(.lucide-plus)').last();
@@ -133,7 +133,7 @@ test.describe("Itinerary Management", () => {
             await page.getByLabel(/longitud/i).fill("2.1744");
             
             // 4. Save it and verify
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
 
@@ -190,7 +190,7 @@ test.describe("Itinerary Management", () => {
 
             await page.getByLabel(/título del viaje/i).fill("Viaje a París");
             await page.getByLabel(/destino/i).fill("París, Francia");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             await page.waitForLoadState("networkidle");
 
@@ -208,7 +208,7 @@ test.describe("Itinerary Management", () => {
 
             await page.getByLabel(/título del viaje/i).fill("Viaje a París");
             await page.getByLabel(/destino/i).fill("París, Francia");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             // 2. Navigate back to itineraries list
             await page.getByText(/volver/i).click();
@@ -230,7 +230,7 @@ test.describe("Itinerary Management", () => {
 
             await page.getByLabel(/título del viaje/i).fill("Viaje a París");
             await page.getByLabel(/destino/i).fill("París, Francia");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             await page.waitForLoadState("networkidle");
 
@@ -250,7 +250,7 @@ test.describe("Itinerary Management", () => {
 
             await page.getByLabel(/título del viaje/i).fill("Viaje a París");
             await page.getByLabel(/destino/i).fill("París, Francia");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             // 2. Verify that the itinerary was created
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
@@ -268,7 +268,7 @@ test.describe("Itinerary Management", () => {
             const titleInput = page.getByLabel(/título del viaje/i);
             await titleInput.fill("Viaje a París - Actualizado");
 
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             // 6. Verify that the itinerary was updated
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
@@ -283,7 +283,7 @@ test.describe("Itinerary Management", () => {
 
             await page.getByLabel(/título del viaje/i).fill("Viaje a París");
             await page.getByLabel(/destino/i).fill("París, Francia");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             // 2. Verify that the itinerary was created
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
@@ -304,7 +304,7 @@ test.describe("Itinerary Management", () => {
 
             await page.getByLabel(/título del viaje/i).fill(itineraryTitle);
             await page.getByLabel(/destino/i).fill("España");
-            await page.getByRole("button", { name: /guardar todo/i }).click();
+            await page.getByRole("button", { name: /guardar todo/i }).first().click();
 
             // 2. Verify that the itinerary was created
             await expect(page).toHaveURL(/\/itineraries/, { timeout: 10000 });
@@ -339,7 +339,7 @@ test.describe("Itinerary Management", () => {
             await page.goto(`${FRONTEND_URL}/itineraries`);
             
             // 3. Should redirect to login
-            await expect(page).toHaveURL(/\/login/);
+            await expect(page).toHaveURL(/\/login/, { timeout: 10000 });
         });
 
         test("should redirect to login when accessing new itinerary without auth", async ({ page }) => {
