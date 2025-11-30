@@ -5,3 +5,10 @@
 
 # JWT Configuration
 jwt.secret=your-jwt-secret-here
+
+# Unsplash API Configuration
+unsplash.api.key=your-unsplash-api-key
+
+# Admin User Configuration
+admin.username=your-admin-username
+admin.password=your-admin-password
