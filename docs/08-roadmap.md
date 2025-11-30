@@ -114,10 +114,9 @@
   - [x] {WebSocket} User-specific notification queues
   - [x] {Service} WebSocket notification push service
   - [x] {Optimization} Configurable heartbeat intervals (1000ms for low latency)
-- [ ] {Feature} Unsplash API Integration
-  - [ ] {Service} Unsplash API client for destination images
-  - [ ] {Cache} Results caching for image queries
-  - [ ] {API} Image search endpoint - `GET /api/v1/images/search?query=...`
+- [x] {Feature} Unsplash API Integration
+  - [x] {Service} Unsplash API client for destination images
+  - [x] {Cache} Results caching for image queries
 
 
 ### ⚛️ Frontend
@@ -146,9 +145,9 @@
   - [ ] {UI} Users table (delete, filter)
   - [ ] {UI} Itineraries table
   - [ ] {Security} Admin-only route guards
-- [ ] {Feature} Unsplash Integration UI
-  - [ ] {UI} Replace itinerary icons with Unsplash images
-  - [ ] {UI} Lazy loading + placeholders
+- [x] {Feature} Unsplash Integration UI
+  - [x] {UI} Replace itinerary icons with Unsplash images
+  - [x] {UI} Lazy loading + placeholders
 
 
 ### ⚙️ Testing
