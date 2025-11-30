@@ -8,6 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tripflow.dto.unsplash.UnsplashResponse;
+import com.tripflow.utils.UnsplashResponseMock;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,9 @@ public class UnsplashService {
     
     @Value("${unsplash.api.key}")
     private String apiKey;
+
+    @Value("${spring.profiles.active:default}")
+    private String activeProfile;
     
     private final RestTemplate restTemplate;
     
@@ -37,6 +41,10 @@ public class UnsplashService {
     public UnsplashResponse getPhoto(String query) {
         if (query == null || query.trim().isEmpty()) {
             throw new IllegalArgumentException("Query cannot be null or empty");
+        }
+
+        if ("test".equals(this.activeProfile)) {
+            return UnsplashResponseMock.getMock();
         }
         
         String url = UriComponentsBuilder

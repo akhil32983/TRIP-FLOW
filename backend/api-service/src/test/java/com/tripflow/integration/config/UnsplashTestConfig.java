@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 
-import com.tripflow.dto.unsplash.UnsplashResponse;
 import com.tripflow.service.UnsplashService;
+import com.tripflow.utils.UnsplashResponseMock;
 
 @TestConfiguration
 public class UnsplashTestConfig {
@@ -16,11 +16,7 @@ public class UnsplashTestConfig {
     public UnsplashService unsplashService() {
         UnsplashService unsplashService = mock(UnsplashService.class);
 
-        when(unsplashService.getPhoto(any())).thenReturn(new UnsplashResponse(
-            "testing alt description",
-            "https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?",
-            "test_user"
-        ));
+        when(unsplashService.getPhoto(any())).thenReturn(UnsplashResponseMock.getMock());
 
         return unsplashService;
     }
