@@ -1,4 +1,4 @@
-package com.tripflow.dto;
+package com.tripflow.mappers;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

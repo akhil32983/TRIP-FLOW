@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
@@ -18,15 +19,19 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
+import com.tripflow.integration.config.UnsplashTestConfig;
+
 import io.restassured.RestAssured;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(UnsplashTestConfig.class)
 @Testcontainers
 @ActiveProfiles("test")
 @TestInstance(Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestPropertySource(properties = {
     "jwt.secret=VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==",
+    "unsplash.api.key=dummy_test_key",
     "POSTGRES_PASSWORD=test",
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.jpa.show-sql=false",

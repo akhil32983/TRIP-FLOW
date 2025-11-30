@@ -3,6 +3,7 @@ package com.tripflow.unit.utils;
 import java.util.List;
 
 import com.tripflow.dto.ai.AIGenerationRequest;
+import com.tripflow.dto.externalImage.ExternalImageDTO;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
 import com.tripflow.dto.itinerary.ItineraryStatusDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
@@ -38,7 +39,12 @@ public class AITestUtils {
             0L,
             ItineraryStatusDTO.DRAFT,
             List.of(),
-            0
+            0,
+            new ExternalImageDTO(
+                "https://example.com/prague.jpg",
+                "A beautiful view of Prague",
+                "photographer_prague"
+            )
         );
     }
 

@@ -219,7 +219,7 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
         return new ExtendedItineraryDTO(
             null, "Paris", "Paris", "🧪",
             2, 1000.0, "2025-06-10", List.of("romantic", "city"),
-            0L, ItineraryStatusDTO.DRAFT, List.of(day), 1
+            0L, ItineraryStatusDTO.DRAFT, List.of(day), 1, null
         );
     }
 }

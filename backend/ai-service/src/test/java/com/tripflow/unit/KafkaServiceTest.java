@@ -11,15 +11,13 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
-import com.tripflow.dto.itinerary.ItineraryStatusDTO;
 import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
 import com.tripflow.service.KafkaService;
 import com.tripflow.unit.utils.AITestUtils;
 import com.tripflow.unit.utils.NotificationTestUtils;
-
-import java.util.List;
+import com.tripflow.utils.AIItineraryMock;
 
 @Tag("unit")
 public class KafkaServiceTest {
@@ -89,20 +87,7 @@ public class KafkaServiceTest {
     @Test
     @DisplayName("Test KafkaTemplate is invoked for AI generation")
     public void testKafkaTemplateInvokedForAIGeneration() {
-        ExtendedItineraryDTO itinerary = new ExtendedItineraryDTO(
-            -1L,
-            "Rome Historical Tour [AI]",
-            "Rome",
-            "A",
-            2,
-            1800.0,
-            "2024-04-10",
-            List.of("History"),
-            0L,
-            ItineraryStatusDTO.DRAFT,
-            List.of(),
-            6
-        );
+        ExtendedItineraryDTO itinerary = AIItineraryMock.getItineraryMock();
 
         AIGenerationMessage message = new AIGenerationMessage("history_fan", itinerary);
 

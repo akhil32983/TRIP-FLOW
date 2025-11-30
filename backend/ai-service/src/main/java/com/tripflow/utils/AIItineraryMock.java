@@ -2,6 +2,7 @@ package com.tripflow.utils;
 
 import java.util.List;
 
+import com.tripflow.dto.externalImage.ExternalImageDTO;
 import com.tripflow.dto.itinerary.ActivityDTO;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
@@ -171,7 +172,12 @@ public class AIItineraryMock {
                     )
                 )
             ),
-            3
+            3,
+            new ExternalImageDTO(
+                "https://example.com/image.jpg",
+                "A beautiful view of New York City skyline",
+                "photographer123"
+            )
         );
     }
 }

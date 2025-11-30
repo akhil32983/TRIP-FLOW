@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Answers;
 
 import com.tripflow.dto.itinerary.ActivityDTO;
-import com.tripflow.dto.itinerary.ItineraryMapper;
 import com.tripflow.dto.itinerary.LocationDTO;
+import com.tripflow.mappers.ItineraryMapper;
 import com.tripflow.dto.itinerary.CoordinatesDTO;
 import com.tripflow.model.itinerary.Activity;
 import com.tripflow.model.itinerary.GeographicPoint;
