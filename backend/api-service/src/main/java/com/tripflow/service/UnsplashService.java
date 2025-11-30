@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tripflow.dto.unsplash.UnsplashResponse;
 import com.tripflow.utils.UnsplashResponseMock;
 
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Map;
 
@@ -46,6 +47,10 @@ public class UnsplashService {
         if ("test".equals(this.activeProfile)) {
             return UnsplashResponseMock.getMock();
         }
+
+        query = Normalizer
+            .normalize(query, Normalizer.Form.NFD)
+            .replaceAll("\\p{M}", "");
         
         String url = UriComponentsBuilder
             .fromUriString(UNSPLASH_API_BASE_URL + SEARCH_PHOTOS_ENDPOINT)
