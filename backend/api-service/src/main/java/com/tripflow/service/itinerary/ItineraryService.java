@@ -256,6 +256,11 @@ public class ItineraryService {
      * @param itineraryDTO the DTO containing updated details
      */
     private void assignExtraDetails(Itinerary itinerary, ExtendedItineraryDTO itineraryDTO) {
+        if (!itineraryDTO.place().equals(itinerary.getPlace())) {
+            ExternalImage coverImage = this.externalImageService.getOrCreateImageByQuery(itineraryDTO.place());
+            itinerary.setCoverImage(coverImage);
+        }
+
         itinerary.setTitle(itineraryDTO.title());
         itinerary.setPlace(itineraryDTO.place());
         itinerary.setIcon(itineraryDTO.icon());
