@@ -62,7 +62,6 @@ export function createDefaultItinerary(): ExtendedItinerary {
     return {
         id: -1,
         title: "Nuevo Itinerario",
-        icon: "✈️",
         place: "",
         people: 1,
         budget: 0,
@@ -71,6 +70,11 @@ export function createDefaultItinerary(): ExtendedItinerary {
         countDays: 1,
         tags: [],
         days: [defaultDay],
+        coverImage: {
+            altDescription: "",
+            imageUrl: "",
+            authorUsername: "",
+        },
     };
 }
 

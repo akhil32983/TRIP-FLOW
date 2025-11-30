@@ -4,7 +4,7 @@ import { render, screen, waitFor } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import * as itineraryService from "@/services/itineraryService";
-import type { ItineraryStatus } from "@/types/itinerary";
+import type { ExtendedItinerary, ItineraryStatus } from "@/types/itinerary";
 
 // Secondary dependencies mocks
 vi.mock("react-router", async () => {
@@ -55,9 +55,8 @@ vi.mock("@/services/itineraryService", () => ({
     updateItinerary: vi.fn(),
 }));
 
-const mockItinerary = {
+const mockItinerary: ExtendedItinerary = {
     id: 1,
-    icon: "🗾",
     title: "Japan Trip",
     place: "Tokyo",
     people: 2,
@@ -67,6 +66,11 @@ const mockItinerary = {
     countDays: 7,
     tags: ["culture", "gastronomy"],
     days: [],
+    coverImage: {
+        altDescription: "A beautiful view of Mount Fuji",
+        imageUrl: "https://example.com/mount-fuji.jpg",
+        authorUsername: "photographer123",
+    }
 };
 
 describe("ItineraryEdit Component", () => {

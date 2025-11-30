@@ -63,7 +63,6 @@ vi.mock("lucide-react", () => ({
 
 const mockItinerary: ExtendedItinerary = {
     id: 1,
-    icon: "✈️",
     title: "Viaje a París",
     place: "París, Francia",
     people: 2,
@@ -73,11 +72,15 @@ const mockItinerary: ExtendedItinerary = {
     countDays: 7,
     tags: ["romántica", "cultural"],
     days: [],
+    coverImage: {
+        altDescription: "Una hermosa vista de la Torre Eiffel",
+        imageUrl: "https://example.com/eiffel-tower.jpg",
+        authorUsername: "photographer789",
+    }
 };
 
 const mockEmptyItinerary: ExtendedItinerary = {
     id: 2,
-    icon: "",
     title: "",
     place: "",
     people: 0,
@@ -87,6 +90,11 @@ const mockEmptyItinerary: ExtendedItinerary = {
     countDays: 0,
     tags: [],
     days: [],
+    coverImage: {
+        altDescription: "",
+        imageUrl: "",
+        authorUsername: "",
+    }
 };
 
 describe("BasicInfoSection Component", () => {

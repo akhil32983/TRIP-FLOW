@@ -4,7 +4,7 @@ import { render, screen, waitFor } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { getItineraryById } from "@/services/itineraryService";
-import type { ItineraryStatus } from "@/types/itinerary";
+import type { ExtendedItinerary, ItineraryStatus } from "@/types/itinerary";
 
 // Mock service
 vi.mock("@/services/itineraryService", () => ({
@@ -54,9 +54,8 @@ vi.mock("@components/shared/Loader", () => ({
     ),
 }));
 
-const mockItinerary = {
+const mockItinerary: ExtendedItinerary = {
     id: 1,
-    icon: "🗾",
     title: "Japan Trip",
     place: "Tokyo",
     people: 2,
@@ -66,6 +65,11 @@ const mockItinerary = {
     countDays: 7,
     tags: ["culture", "gastronomy"],
     days: [],
+    coverImage: {
+        altDescription: "A beautiful view of Mount Fuji",
+        imageUrl: "https://example.com/mount-fuji.jpg",
+        authorUsername: "photographer123",
+    }
 };
 
 describe("ItineraryDetail Page", () => {
