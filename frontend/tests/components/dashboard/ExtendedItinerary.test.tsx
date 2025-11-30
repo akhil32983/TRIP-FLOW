@@ -34,7 +34,6 @@ const onDelete = vi.fn();
 
 const mockItinerary: ExtendedItineraryType = {
     id: 1,
-    icon: "🗾",
     title: "Aventura en Tokio",
     place: "Tokio, Japón",
     status: "PLANNED",
@@ -97,6 +96,11 @@ const mockItinerary: ExtendedItineraryType = {
             ],
         },
     ],
+    coverImage: {
+        altDescription: "Vista del Monte Fuji",
+        imageUrl: "https://example.com/monte-fuji.jpg",
+        authorUsername: "fotografo123",
+    }
 };
 
 describe("ExtendedItinerary Component", () => {
@@ -115,12 +119,6 @@ describe("ExtendedItinerary Component", () => {
 
         const section = container.querySelector("section");
         expect(section).toBeInTheDocument();
-    });
-
-    it("renders itinerary icon", () => {
-        render(<ExtendedItinerary itinerary={mockItinerary} onDelete={onDelete} />);
-
-        expect(screen.getByText("🗾")).toBeInTheDocument();
     });
 
     it("renders itinerary title", () => {

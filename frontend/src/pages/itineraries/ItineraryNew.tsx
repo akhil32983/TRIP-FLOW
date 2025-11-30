@@ -39,7 +39,11 @@ export default function ItineraryNewPage() {
     
     return (
         <AppLayout>
-            <InnerTabHeader title="Crear Itinerario" backUrl={"/itineraries/"} />
+            <InnerTabHeader title="Crear Itinerario" backUrl={"/itineraries/"} coverImage={{
+                imageUrl: "/assets/bg-fallback.webp",
+                altDescription: "Cover image",
+                authorUsername: "Default"
+            }} />
             <ItineraryEditForm initialItinerary={createDefaultItinerary()} onSave={handleSave} isSaving={isSaving} />
         </AppLayout>
     );

@@ -80,7 +80,6 @@ const onSaveMock = vi.fn();
 
 const mockItinerary: ExtendedItinerary = {
     id: 1,
-    icon: "✈️",
     title: "Viaje a París",
     place: "París, Francia",
     people: 2,
@@ -103,11 +102,15 @@ const mockItinerary: ExtendedItinerary = {
             activities: [],
         },
     ],
+    coverImage: {
+        altDescription: "Vista de la Torre Eiffel",
+        imageUrl: "https://example.com/torre-eiffel.jpg",
+        authorUsername: "usuario_ejemplo"
+    }
 };
 
 const mockEmptyItinerary: ExtendedItinerary = {
     id: 2,
-    icon: "",
     title: "",
     place: "",
     people: 0,
@@ -117,6 +120,11 @@ const mockEmptyItinerary: ExtendedItinerary = {
     countDays: 0,
     tags: [],
     days: [],
+    coverImage: {
+        altDescription: "",
+        imageUrl: "",
+        authorUsername: "",
+    }
 };
 
 describe("ItineraryEditForm Component", () => {
@@ -148,13 +156,15 @@ describe("ItineraryEditForm Component", () => {
         );
 
         const h2 = container.querySelector("h2");
-        expect(h2?.textContent).toContain("✈️");
+        // Component only shows title, not icon
+        expect(h2?.textContent).toBe("Viaje a París");
     });
 
     it("renders save button in header", () => {
         render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
-        expect(screen.getByText("Guardar")).toBeInTheDocument();
+        const saveButtons = screen.getAllByText("Guardar Todo");
+        expect(saveButtons[0]).toBeInTheDocument(); // Header button
     });
 
     it("renders save icon in header button", () => {
@@ -179,7 +189,9 @@ describe("ItineraryEditForm Component", () => {
     it("renders footer with save button", () => {
         render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
 
-        expect(screen.getByText("Guardar Todo")).toBeInTheDocument();
+        const saveButtons = screen.getAllByText("Guardar Todo");
+        expect(saveButtons.length).toBe(2); // Header and footer
+        expect(saveButtons[1]).toBeInTheDocument(); // Footer button
     });
 
     it("renders two save buttons", () => {
@@ -202,8 +214,8 @@ describe("ItineraryEditForm Component", () => {
             />
         );
 
-        const saveButton = screen.getByText("Guardar");
-        fireEvent.click(saveButton);
+        const saveButtons = screen.getAllByText("Guardar Todo");
+        fireEvent.click(saveButtons[0]);
 
         vi.advanceTimersByTime(1500);
 
@@ -220,8 +232,8 @@ describe("ItineraryEditForm Component", () => {
             />
         );
 
-        const saveButton = screen.getByText("Guardar");
-        fireEvent.click(saveButton);
+        const saveButtons = screen.getAllByText("Guardar Todo");
+        fireEvent.click(saveButtons[0]);
 
         vi.advanceTimersByTime(1500);
 
@@ -307,8 +319,8 @@ describe("ItineraryEditForm Component", () => {
     it("works without onSave callback", () => {
         render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>);
 
-        const saveButton = screen.getByText("Guardar");
+        const saveButtons = screen.getAllByText("Guardar Todo");
 
-        expect(() => fireEvent.click(saveButton)).not.toThrow();
+        expect(() => fireEvent.click(saveButtons[0])).not.toThrow();
     });
 });

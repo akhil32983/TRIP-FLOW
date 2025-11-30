@@ -44,11 +44,9 @@
             align-items: flex-start;
             padding: var(--space-xxl);
             font-size: var(--font-size-larger);
-            background-image: linear-gradient(
-                    rgba(0, 0, 0, 0.15),
-                    rgba(0, 0, 0, 0.15)
-                ),
-                var(--bg-image, url(assets/bg-fallback.webp));
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)),
+                var(--bg-image);
             background-size: cover;
             background-position: center;
 

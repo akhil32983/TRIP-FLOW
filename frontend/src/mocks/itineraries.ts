@@ -3,7 +3,6 @@ import type { PageResponse } from "@/types/shared";
 
 let itineraries: ExtendedItinerary[] = Array.from({ length: 5 }).map((_, i) => ({
   id: i + 1,
-  icon: "🌍",
   title: `Trip ${i + 1}`,
   place: ["Tokyo", "Paris", "New York", "Rome", "Lisbon"][i],
   people: Math.floor(Math.random() * 4) + 1,
@@ -30,6 +29,11 @@ let itineraries: ExtendedItinerary[] = Array.from({ length: 5 }).map((_, i) => (
       ],
     },
   ],
+  coverImage: {
+    altDescription: `Cover image for Trip ${i + 1}`,
+    imageUrl: `/assets/bg-fallback.webp`,
+    authorUsername: `user${i + 1}`,
+  }
 }));
 
 export const mockItineraries = {

@@ -1,8 +1,19 @@
+@import url("../../animations.css");
+
 .header {
     width: 100%;
+    min-height: 200px;
+    padding: var(--space-xxl);
+    border-radius: var(--border-radius-lg);
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.15)),
+        var(--bg-image);
+    background-size: cover;
+    background-position: center;
+    animation: fadeIn 0.2s ease;
 }
 
 @media (max-width: 1200px) {

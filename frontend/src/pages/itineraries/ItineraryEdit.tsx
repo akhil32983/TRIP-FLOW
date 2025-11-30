@@ -57,7 +57,7 @@ export default function ItineraryEdit() {
     
     return (
         <AppLayout>
-            <InnerTabHeader title="Editar Itinerario" backUrl={`/itineraries/${id}`} />
+            <InnerTabHeader title="Editar Itinerario" backUrl={`/itineraries/${id}`} coverImage={itinerary?.coverImage} />
             {isLoading && <Loader size={32} variant="dots" />}
             {itinerary && <ItineraryEditForm initialItinerary={itinerary} onSave={handleSave} isSaving={isSaving} />}
         </AppLayout>

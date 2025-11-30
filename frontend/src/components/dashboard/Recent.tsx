@@ -69,7 +69,6 @@ export default function Recent() {
                                 className={styles.recentItinerary}
                             >
                                 <div className={styles.details}>
-                                    <span className={styles.icon}>{itinerary.icon}</span>
                                     <div className={styles.text}>
                                         <div className={styles.mainInfo}>
                                             <h3 className={styles.itineraryTitle}>{itinerary.title}</h3>

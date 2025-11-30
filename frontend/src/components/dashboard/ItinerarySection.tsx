@@ -34,7 +34,7 @@ export default function ItinerarySection({
             <div className={styles.sectionHeader}>
                 <div className={styles.sectionTitle}>
                     <TicketsPlane size={24} />
-                    <h3>Planificación Día a Día</h3>
+                    <h3>Planificación</h3>
                 </div>
                 <Button
                     onClick={onAddNewDay}

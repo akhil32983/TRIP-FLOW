@@ -25,7 +25,6 @@ export default function ExtendedItinerary({ itinerary, onDelete }: ExtendedItine
             {/* Header */}
             <div className={styles.header}>
                 <div className={styles.title}>
-                    <span className={styles.icon}>{itinerary.icon}</span>
                     <h1 className={styles.titleText}>{itinerary.title}</h1>
                 </div>
                 <div className={styles.headerActions}>

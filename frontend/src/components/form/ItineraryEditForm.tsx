@@ -57,7 +57,7 @@ export default function ItineraryEditForm({ initialItinerary, isSaving, onSave }
     return (
         <div className={styles.editForm}>
             <div className={styles.formHeader}>
-                <h2>{itinerary.icon} {itinerary.title}</h2>
+                <h2>{itinerary.title}</h2>
                 <Button 
                     onClick={handleSave} 
                     style={["primary"]}

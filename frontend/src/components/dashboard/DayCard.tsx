@@ -63,7 +63,7 @@ export default function DayCard({
 
                 {day.activities.length === 0 && (
                     <div className={styles.emptyActivities}>
-                        <p>No hay actividades planeadas para este día aún</p>
+                        <p>No hay actividades planeadas</p>
                         <p>¡Comienza a planificar lo que harás!</p>
                         <Button
                             onClick={onAddActivity}

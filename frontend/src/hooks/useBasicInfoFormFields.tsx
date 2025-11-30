@@ -2,7 +2,7 @@ import { useCallback, createElement } from "react";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
-import { Tag, MapPin, Users, Euro, Calendar, Plane, BatteryMedium } from "lucide-react";
+import { MapPin, Users, Euro, Calendar, Plane, BatteryMedium } from "lucide-react";
 import type { Field } from "@/components/form/FormGroup";
 import { formatStatus } from "@/utils/formatUtils";
 
@@ -27,15 +27,6 @@ export function useBasicInfoFormFields(
     }, [onUpdateBasicInfo]);
 
     const basicInfoFields: Field[] = [
-        {
-            name: "trip-icon",
-            label: "Icono del viaje",
-            type: "text",
-            value: itinerary.icon,
-            placeholder: "🗼 Elige un emoji",
-            icon: createElement(Tag, { size: 16 }),
-            max: 2
-        },
         {
             name: "trip-title",
             label: "Título del viaje",
@@ -97,8 +88,6 @@ export function useBasicInfoFormFields(
 
     const getFieldHandler = useCallback((fieldName: string) => {
         switch (fieldName) {
-            case 'trip-icon':
-                return handleFieldChange('icon');
             case 'trip-title':
                 return handleFieldChange('title');
             case 'trip-destination':
