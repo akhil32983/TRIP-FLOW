@@ -103,7 +103,7 @@ services:
       POSTGRES_PASSWORD: secure_password
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      UNSPLASH_API_KEY: ${UNSPLASH_API_KEY:-your_unsplash_api_key_here
+      UNSPLASH_API_KEY: ${UNSPLASH_API_KEY:-your_unsplash_api_key_here}
     ports:
       - "8080:8080"
     depends_on:
