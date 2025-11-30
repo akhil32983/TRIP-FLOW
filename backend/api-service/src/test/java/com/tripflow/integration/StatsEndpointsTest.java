@@ -217,7 +217,7 @@ public class StatsEndpointsTest extends BaseIntegrationTest {
         ItineraryDayDTO day = new ItineraryDayDTO(1, List.of(activity));
         
         return new ExtendedItineraryDTO(
-            null, "Paris", "Paris", "🧪",
+            null, "Paris", "Paris",
             2, 1000.0, "2025-06-10", List.of("romantic", "city"),
             0L, ItineraryStatusDTO.DRAFT, List.of(day), 1, null
         );

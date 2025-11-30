@@ -31,7 +31,6 @@ public class AITestUtils {
             -1L,
             "Prague Tour [AI]",
             request.destination(),
-            "A",
             2,
             request.budget(),
             "2024-03-01",

@@ -263,7 +263,6 @@ public class ItineraryService {
 
         itinerary.setTitle(itineraryDTO.title());
         itinerary.setPlace(itineraryDTO.place());
-        itinerary.setIcon(itineraryDTO.icon());
         itinerary.setPeople(itineraryDTO.people());
         itinerary.setBudget(itineraryDTO.budget());
         itinerary.setDate(itineraryDTO.date());

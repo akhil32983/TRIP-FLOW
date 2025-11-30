@@ -35,8 +35,6 @@ public class Itinerary {
 
     private String place;
 
-    private String icon = "✈️";
-
     private int people = 1;
 
     private double budget = 0.0;
@@ -105,14 +103,6 @@ public class Itinerary {
 
     public void setPlace(String place) {
         this.place = place;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public int getPeople() {

@@ -32,7 +32,6 @@ public class AIItineraryPrompt {
             "id": -1,
             "title": "Título relacionado con {{place}} [AI]",
             "place": "{{place}}",
-            "icon": "A",
             "people": Un número entero que indica la cantidad de personas que viajan.
             "budget": {{budget}}
             "date": "La fecha de inicio del viaje",

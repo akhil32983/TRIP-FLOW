@@ -236,7 +236,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ActivityDTO newActivity = new ActivityDTO("Visit Colosseum", "Sightseeing", newLocation, "10:00", "2h");
         ItineraryDayDTO newDay = new ItineraryDayDTO(1, List.of(newActivity));
         ExtendedItineraryDTO updatedItinerary = new ExtendedItineraryDTO(
-            itineraryId, "Rome Trip", "Rome", "🎓",
+            itineraryId, "Rome Trip", "Rome",
             2, 1500.0, "2025-06-10", List.of("history", "culture"),
             1L, ItineraryStatusDTO.DRAFT, List.of(newDay), 1, null
         );
@@ -373,7 +373,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ItineraryDayDTO day2 = new ItineraryDayDTO(2, List.of(activity2));
 
         ExtendedItineraryDTO multiDayItinerary = new ExtendedItineraryDTO(
-            null, "Paris 2-Day Trip", "Paris", "🗼",
+            null, "Paris 2-Day Trip", "Paris",
             2, 1000.0, "2025-06-10", List.of("art", "history"),
             0L, ItineraryStatusDTO.DRAFT, List.of(day1, day2), 2, null
         );
@@ -408,7 +408,7 @@ public class ItineraryEndpointsTest extends BaseIntegrationTest {
         ItineraryDayDTO day = new ItineraryDayDTO(1, List.of(activity));
         
         return new ExtendedItineraryDTO(
-            null, "Paris", "Paris", "🧪",
+            null, "Paris", "Paris",
             2, 1000.0, "2025-06-10", List.of("romantic", "city"),
             0L, ItineraryStatusDTO.DRAFT, List.of(day), 1, null
         );

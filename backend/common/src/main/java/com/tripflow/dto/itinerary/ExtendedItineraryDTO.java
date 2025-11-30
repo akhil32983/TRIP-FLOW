@@ -8,7 +8,6 @@ public record ExtendedItineraryDTO(
     Long id,
     String title,
     String place,
-    String icon,
     int people,
     double budget,
     String date,

@@ -16,7 +16,6 @@ public class AIItineraryMock {
             1L,
             "Aventura en Nueva York",
             "New York, USA",
-            "🗽",
             2,
             2500.0,
             "2025-12-25",
