@@ -17,7 +17,7 @@
     gap: var(--space-lg);
     margin-bottom: var(--space-xxl);
     padding-bottom: var(--space-lg);
-    border-bottom: 2px solid var(--border-primary);
+    border-bottom: 2px solid var(--border-secondary);
 }
 
 .title {
@@ -59,7 +59,7 @@
     background: var(--bg-secondary);
     border-radius: var(--border-radius-lg);
     margin-bottom: var(--space-xl);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     overflow: hidden;
     transition: box-shadow 0.2s ease;
 }
@@ -74,7 +74,7 @@
     align-items: center;
     padding: var(--space-lg);
     background: var(--bg-tertiary);
-    border-bottom: 1px solid var(--border-primary);
+    border-bottom: 1px solid var(--border-secondary);
 }
 
 .dayTitle {
@@ -99,7 +99,7 @@
     border-radius: var(--border-radius-md);
     font-size: var(--font-size-xs);
     color: var(--text-secondary);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
 }
 
 /* Activities */
@@ -135,7 +135,7 @@
     padding: var(--space-sm);
     background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
 }
 
 .time {
@@ -177,7 +177,7 @@
     padding: var(--space-sm);
     background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
 }
 
 .locationIcon {

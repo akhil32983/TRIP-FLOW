@@ -1,6 +1,6 @@
 .activityCard {
     background: var(--bg-primary);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     border-radius: var(--border-radius-md);
     padding: var(--space-lg);
     margin-bottom: var(--space-lg);
@@ -16,7 +16,7 @@
         align-items: center;
         margin-bottom: var(--space-lg);
         padding-bottom: var(--space-sm);
-        border-bottom: 1px solid var(--border-primary);
+        border-bottom: 1px solid var(--border-secondary);
 
         .activityTitle {
             display: flex;

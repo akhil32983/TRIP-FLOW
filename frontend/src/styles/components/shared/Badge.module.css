@@ -5,7 +5,7 @@
     padding: var(--space-xs) var(--space-lg);
     background-color: var(--bg-overlay);
     border-radius: var(--border-radius-full);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
 
     display: flex;
     align-items: center;

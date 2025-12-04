@@ -20,7 +20,7 @@
         gap: var(--space-lg);
         background-color: var(--bg-overlay);
         border-radius: var(--border-radius-lg);
-        border: 1px solid var(--border-primary);
+        border: 1px solid var(--border-secondary);
         backdrop-filter: blur(20px);
         overflow: hidden;
         transition: all 0.15s ease-in-out;

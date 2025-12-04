@@ -10,7 +10,7 @@
 
     background: var(--bg-secondary);
     border-radius: var(--border-radius-lg);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
 
     .sectionHeader {
         width: 100%;

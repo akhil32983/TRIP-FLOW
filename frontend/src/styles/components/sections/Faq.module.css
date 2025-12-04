@@ -10,7 +10,7 @@
   max-width: 1000px;
   margin: var(--space-sm) 0;
   padding: var(--space-xl);
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--border-secondary);
   border-radius: 8px;
   background: var(--bg-card);
   transition: all 0.2s ease;

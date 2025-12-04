@@ -7,7 +7,7 @@
     background: var(--bg-card);
     backdrop-filter: blur(10px);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     padding: var(--space-xl);
     gap: var(--space-lg);
     animation: fadeIn 0.2s ease;

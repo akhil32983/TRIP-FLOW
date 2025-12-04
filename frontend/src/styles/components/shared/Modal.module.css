@@ -18,7 +18,7 @@
     max-width: 500px;
     background: var(--bg-secondary);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     box-shadow: 0 0 12px var(--bg-overlay);
     animation: fadeIn 0.2s ease-out;
 }

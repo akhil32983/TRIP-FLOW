@@ -12,7 +12,7 @@
   gap: calc(var(--space-xxl) * 2);
 
   border-radius: var(--border-radius-lg);
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--border-secondary);
   background-color: var(--bg-card);
   box-shadow: var(--aureola-blue);
 }

@@ -2,7 +2,8 @@ import styles from "@styles/components/shared/Button.module.css";
 
 import { NavLink } from "react-router";
 
-type ButtonStyle = "primary" | "secondary" |"inline" | "tool" | "tool_bordered" | "logo" | "route" | "active" | "danger" | "info" | "wrap";
+type ButtonStyle = "primary" | "secondary" |"inline" | "tool" | "tool_bordered" | "logo"
+    | "route" | "active" | "danger" | "info" | "wrap" | "rounded" | "big";
 type Target = "_blank" | "_self" | "_parent" | "_top";
 type Rel = "noopener noreferrer" | "nofollow" | "noopener" | "noreferrer";
 

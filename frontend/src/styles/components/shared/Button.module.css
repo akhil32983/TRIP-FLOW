@@ -27,6 +27,10 @@
         gap: var(--space-md);
     }
 
+    &.big {
+        font-size: var(--font-size-md);
+    }
+
     &:disabled {
         cursor: auto;
         opacity: 0.6;

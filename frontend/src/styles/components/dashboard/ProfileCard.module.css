@@ -8,7 +8,7 @@
     padding: var(--space);
     gap: var(--space-xxl);
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     background: var(--bg-overlay);
     backdrop-filter: blur(10px);
     transition: all 0.2s ease-in-out;

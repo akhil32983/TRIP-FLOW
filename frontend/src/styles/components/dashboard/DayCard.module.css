@@ -1,7 +1,7 @@
 .dayCard {
     width: 100%;
     background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     border-radius: var(--border-radius-lg);
     margin-bottom: var(--space-xl);
     overflow: hidden;
@@ -14,7 +14,7 @@
             var(--bg-secondary)
         );
         padding: var(--space-lg);
-        border-bottom: 1px solid var(--border-primary);
+        border-bottom: 1px solid var(--border-secondary);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -52,7 +52,7 @@
             color: var(--text-secondary);
             background: var(--bg-tertiary);
             border-radius: var(--border-radius-md);
-            border: 2px dashed var(--border-primary);
+            border: 2px dashed var(--border-secondary);
         }
 
         .emptyActivities p {

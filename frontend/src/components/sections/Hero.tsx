@@ -28,7 +28,7 @@ export default function Hero() {
           tecnología IA.
         </p>
         <div className={styles.actions}>
-          <Button style={["primary"]} label="Comenzar ahora" to={user ? "/dashboard" : "/signup"} />
+          <Button style={["primary", "big"]} label="Comenzar ahora" to={user ? "/dashboard" : "/signup"} />
           <DemoButton style="secondary" />
         </div>
       </div>

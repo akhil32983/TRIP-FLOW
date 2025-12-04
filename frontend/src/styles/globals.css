@@ -178,7 +178,7 @@ textarea {
     height: 42px;
     padding: 10px;
     border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    border: 1px solid var(--border-secondary);
     background-color: var(--bg-secondary);
     color: var(--text-primary);
     font-size: var(--font-size-md);
@@ -286,7 +286,7 @@ select {
   height: 42px;
   padding: var(--space-sm);
   border-radius: var(--border-radius-md);
-  border: 1px solid var(--border-primary);
+  border: 1px solid var(--border-secondary);
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   font-size: var(--font-size-md);
