@@ -7,7 +7,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    line-height: 1.4;
     padding: var(--space-sm);
     border-radius: var(--border-radius-lg);
     border: 1px solid var(--border-secondary);
@@ -17,11 +16,13 @@
     animation: 0.3s fadeIn ease;
 
     .icon {
+        line-height: 1.4;
         font-size: var(--font-size-xl);
         color: var(--primary);
     }
 
     .title {
+        line-height: 1.4;
         font-size: var(--font-size-sm);
         color: var(--text-tertiary);
         font-weight: var(--font-weight-normal);
@@ -31,6 +32,7 @@
     }
 
     .value {
+        line-height: 1.4;
         font-size: var(--font-size-xl);
         font-weight: var(--font-weight-bold);
         color: var(--primary);

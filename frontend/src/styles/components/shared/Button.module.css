@@ -1,5 +1,5 @@
 .button {
-    min-height: 42px;
+    min-height: 36px;
     width: max-content;
     display: flex;
     align-items: center;
@@ -9,12 +9,12 @@
 
     text-decoration: none;
 
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-normal);
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius-lg);
 
     cursor: pointer;
-    transition: all 0.1s ease-in-out;
+    transition: all 0.15s ease-in-out;
 
     .label {
         display: inline-flex;
@@ -40,7 +40,8 @@
     text-transform: capitalize;
 
     &:hover {
-        filter: brightness(1.20);
+        transform: translateY(-2px);
+        filter: brightness(1.10);
     }
 
     &:disabled:hover {
@@ -159,6 +160,10 @@
         &:hover {
             box-shadow: none;
         }
+    }
+
+    &.rounded {
+        border-radius: var(--border-radius-full);
     }
 }
 
