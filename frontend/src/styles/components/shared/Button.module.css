@@ -9,7 +9,7 @@
 
     text-decoration: none;
 
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-normal);
     border-radius: var(--border-radius-md);
 
@@ -37,8 +37,7 @@
     border: none;
     font-weight: var(--font-weight-bold);
     background: var(--gradient-primary);
-    box-shadow: var(--glow-blue);
-    text-transform: uppercase;
+    text-transform: capitalize;
 
     &:hover {
         filter: brightness(1.20);
@@ -54,7 +53,7 @@
     background-color: var(--bg-overlay);
     color: var(--text-secondary);
     font-weight: var(--font-weight-bold);
-    text-transform: uppercase;
+    text-transform: capitalize;
 
     &.danger {
         border: 1px solid var(--error);
@@ -171,7 +170,7 @@
     background-color: transparent;
     width: max-content;
     justify-content: flex-start;
-    color: var(--text-primary);
+    color: var(--primary);
     border-radius: var(--border-radius-sm);
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-bold);

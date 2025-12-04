@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Orbitron:wght@400..900&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Orbitron:wght@400..900&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 * {
     margin: 0;
@@ -8,7 +9,7 @@
     scrollbar-width: thin;
     scrollbar-color: var(--bg-tertiary) transparent;
 
-    font-family: "Exo 2", "Quantico", "Orbitron", "Merriweather", sans-serif;
+    font-family: "Inter", "Quantico", "Orbitron", "Merriweather", sans-serif;
 
     &::selection {
         background: var(--bg-tertiary);
@@ -19,7 +20,7 @@
 /* Css Global Variables */
 :root {
     /* MAIN COLORS */
-    --primary: #3b82f6;
+    --primary: #38BDF8;
     --secondary: #06b6d4;
     --tertiary: #0298b2;
 
@@ -28,13 +29,13 @@
     --bg-primary-alpha: #0f172a80;
     --bg-secondary: #1e293b;
     --bg-tertiary: #334155;
-    --bg-card: #1e293b80;
+    --bg-card: #1e293b;
     --bg-overlay: #24395665;
 
     /* TEXT */
-    --text-primary: #ffffff;
-    --text-secondary: #d1d5db;
-    --text-tertiary: #9ca3af;
+    --text-primary: #FFFFFF;
+    --text-secondary: #F8FAFC;
+    --text-tertiary: #94A3B8;
     --text-muted: #6b7280;
 
     /* STATES */
@@ -57,8 +58,8 @@
     --warning: #f59e0b;
 
     /* BORDERS */
-    --border-primary: #3b82f64d;
-    --border-secondary: #3b82f680;
+    --border-primary: var(--primary);
+    --border-secondary: #334155;
     --border-subtle: #475569;
 
     /* EFFECTS */
@@ -120,15 +121,7 @@ body {
     font-size: var(--font-size-md);
     line-height: 1.6;
     color: var(--text-primary);
-
-    --s: 264px;
-    --c1: #121b31;
-    --c2: #0f172a;
-    --_g: #0000 90deg, var(--c1) 0;
-
-    background: conic-gradient(from 90deg at 2px 2px, var(--_g)),
-        conic-gradient(from 90deg at 1px 1px, var(--_g)), var(--c2);
-    background-size: var(--s) var(--s), calc(var(--s) / 5) calc(var(--s) / 5);
+    background: var(--bg-primary);
 
     -webkit-tap-highlight-color: transparent;
 }

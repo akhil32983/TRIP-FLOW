@@ -6,7 +6,7 @@ import type { UserStat, UserStatKey } from "@/types/stats";
 import { getUserStats } from "@/services/statsService";
 import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 
-import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
+import { CalendarIcon, GlobeIcon, ZapIcon } from "lucide-react";
 import Loader from "@components/shared/Loader";
 import InfoCard from "@components/dashboard/InfoCard";
 
@@ -22,15 +22,15 @@ const ICON_SIZE = 20;
 const statsRender = {
     activities: {
         label: "Actividades",
-        icon: <CircleCheckBigIcon size={ICON_SIZE} />
+        icon: <ZapIcon size={ICON_SIZE} />
     },
     places_visited: {
-        label: "Lugares Visitados",
+        label: "Lugares",
         icon: <GlobeIcon size={ICON_SIZE} />
     },
     total_days: {
-        label: "Días de Actividad",
-        icon: <CalendarRangeIcon size={ICON_SIZE} />
+        label: "Días",
+        icon: <CalendarIcon size={ICON_SIZE} />
     },
 }
 
