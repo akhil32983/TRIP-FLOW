@@ -8,8 +8,9 @@ interface SearchbarProps {
     onSearch: () => void;
 }
 
-export default function Searchbar({ placeHolder, onInputChange, onSearch }: SearchbarProps) {
-    // Handle form submission
+export default function Searchbar({
+    placeHolder, onInputChange, onSearch
+}: SearchbarProps) {
     const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         onSearch();
@@ -17,6 +18,9 @@ export default function Searchbar({ placeHolder, onInputChange, onSearch }: Sear
 
     return (
         <form className={styles.searchbar} onSubmit={handleSearch}>
+            <button type="submit" className={styles.button}>
+                <SearchIcon size={20} />
+            </button>
             <input
                 id="search-input"
                 type="text"
@@ -24,9 +28,6 @@ export default function Searchbar({ placeHolder, onInputChange, onSearch }: Sear
                 className={styles.input}
                 onChange={(e) => onInputChange(e.target.value)}
             />
-            <button type="submit" className={styles.button}>
-                <SearchIcon size={20} />
-            </button>
         </form>
     );
 }

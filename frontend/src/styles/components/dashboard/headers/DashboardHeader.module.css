@@ -6,7 +6,6 @@
     
     .content {
         width: 100%;
-        padding-inline: var(--space-md);
         display: flex;
         justify-content: space-between;
         align-items: center;
