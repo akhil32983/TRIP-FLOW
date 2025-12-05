@@ -2,6 +2,7 @@ import type { ItineraryStatus } from "@/types/itinerary";
 
 interface FormatDateOptions {
     excludeDay?: boolean;
+    excludeMonth?: boolean;
     excludeYear?: boolean;
     shortMonth?: boolean;
 }
@@ -9,7 +10,7 @@ interface FormatDateOptions {
 export const formatDate = (dateString: string, options?: FormatDateOptions) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
         year: options?.excludeYear ? undefined : "numeric",
-        month: options?.shortMonth ? "short" : "long",
+        month: options?.excludeMonth ? undefined : options?.shortMonth ? "short" : "long",
         day: options?.excludeDay ? undefined : "2-digit",
     });
 };

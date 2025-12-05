@@ -2,8 +2,6 @@ import styles from "@styles/components/shared/Avatar.module.css";
 
 import { Link } from "react-router";
 
-import { ShieldUserIcon } from "lucide-react";
-
 interface AvatarProps {
     to: string;
     src?: string;
@@ -11,24 +9,19 @@ interface AvatarProps {
     size?: "default" | "full";
 }
 
-export default function Avatar({
-    src,
-    alt,
-    to,
-    size = "default",
-}: AvatarProps) {
+export default function Avatar({ src, alt, to, size = "default" }: AvatarProps) {
     const avatarClass = `${styles.avatar} ${size === "full" ? styles.full : ""}`;
+    const imageSrc = src || "/demo-avatar.png";
 
     return (
         <Link to={to} className={avatarClass}>
-            {src && (
+            {imageSrc && (
                 <img
-                    className={avatarClass}
-                    src={src}
+                    className={styles.image}
+                    src={imageSrc}
                     alt={alt || "User Avatar"}
                 />
             )}
-            {!src && <ShieldUserIcon className={styles.icon} strokeWidth={1} />}
         </Link>
     );
 }

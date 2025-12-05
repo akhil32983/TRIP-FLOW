@@ -9,7 +9,9 @@ import { formatDate } from "@/utils/formatUtils";
 export default function ProfileCard() {
     const { user } = useAuth();
 
-    const joinedDate = user?.createdAt ? formatDate(user.createdAt, { excludeDay: true }) : "¿?";
+    const joinedDate = user?.createdAt ? formatDate(
+        user.createdAt, { excludeDay: true, excludeMonth: true }
+    ) : "¿?";
     const location = user?.location === "¿?" ? "Alguna parte del mundo" : user?.location;
     const description = user?.description || "Sin descripción.";
 
@@ -19,18 +21,16 @@ export default function ProfileCard() {
                 <Avatar to="/profile" size="full" />
             </div>
             <div className={styles.profileInfo}>
-                <h2 className={styles.profileName}>{user?.username}</h2>
+                <h2 className={styles.profileName}>{user?.name}</h2>
                 <p className={styles.profileUsername}>@{user?.username}</p>
+                <div className={styles.profileMetadataItem}>
+                    <MapPinIcon className={styles.icon} />
+                    <span>{location}</span>
+                </div>
                 <p className={styles.profileDescription}>{description}</p>
-                <div className={styles.profileMetadata}>
-                    <div className={styles.profileMetadataItem}>
-                        <MapPinIcon className={styles.icon} />
-                        <span>{location}</span>
-                    </div>
-                    <div className={styles.profileMetadataItem}>
-                        <CalendarIcon className={styles.icon} />
-                        <span>Miembro desde {joinedDate}</span>
-                    </div>
+                <div className={styles.profileMetadataItem}>
+                    <CalendarIcon className={styles.icon} />
+                    <span>Miembro desde {joinedDate}</span>
                 </div>
             </div>
         </section>

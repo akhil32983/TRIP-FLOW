@@ -6,19 +6,24 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    border: 1px solid var(--border-secondary);
+    border: 4px solid var(--tertiary);
     border-radius: var(--border-radius-full);
     background-color: var(--bg-color);
+    box-shadow: 0 0 10px var(--tertiary);
 
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 
-    &:hover {
-        transform: scale(1.05);
-    }
+    overflow: hidden;
 
     &.full {
         --size: 100%;
+    }
+
+    .image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 }
 
