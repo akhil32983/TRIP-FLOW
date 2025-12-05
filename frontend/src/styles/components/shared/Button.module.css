@@ -169,6 +169,10 @@
     &.rounded {
         border-radius: var(--border-radius-full);
     }
+
+    &:disabled:hover {
+        filter: none;
+    }
 }
 
 .inline {
