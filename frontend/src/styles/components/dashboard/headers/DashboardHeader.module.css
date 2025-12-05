@@ -11,6 +11,7 @@
     
     .content {
         width: 100%;
+        padding-inline: var(--app-padding);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -21,7 +22,7 @@
             line-height: normal;
             
             .welcome {
-                font-size: var(--font-size-l);
+                font-size: var(--font-size-lg);
                 color: var(--text-tertiary);
             }
     

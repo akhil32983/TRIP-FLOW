@@ -71,6 +71,7 @@
     --navbar-height: 80px;
     --max-width: 1400px;
     --sidebar-width: 264px;
+    --app-padding: var(--space-xxl);
 
     --border-radius-sm: 4px;
     --border-radius-md: 8px;
@@ -306,4 +307,10 @@ select {
       background-color: var(--bg-tertiary);
     }
   }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --app-padding: var(--space-md);
+    }
 }

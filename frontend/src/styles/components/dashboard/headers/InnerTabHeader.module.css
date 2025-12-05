@@ -5,10 +5,10 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--space-xxl);
+    gap: var(--space-lg);
     background-color: var(--bg-primary);
     padding-top: var(--space-lg);
-
+    
     .content {
         width: 100%;
         padding-inline: var(--app-padding);
@@ -17,14 +17,11 @@
         align-items: center;
 
         .title {
-            font-size: var(--font-size-xxl);
-            font-weight: 500;
-            color: var(--color-text-primary);
+            display: flex;
+            flex-direction: column;
+            line-height: normal;
+            font-size: var(--font-size-lg);
+            color: var(--text-secondary);
         }
-    }
-
-    .children {
-        width: 100%;
-        padding-inline: var(--app-padding);
     }
 }

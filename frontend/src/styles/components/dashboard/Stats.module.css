@@ -1,5 +1,6 @@
 .stats {
     width: 100%;
+    padding-inline: var(--app-padding);
     display: flex;
     gap: var(--space-lg);
 }

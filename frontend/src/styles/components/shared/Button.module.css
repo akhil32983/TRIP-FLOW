@@ -180,7 +180,6 @@
 }
 
 .inline {
-    position: relative;
     min-height: 0;
     padding: 4px;
     border: none;
@@ -190,28 +189,14 @@
     color: var(--primary);
     border-radius: var(--border-radius-sm);
     font-size: var(--font-size-md);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
     text-decoration: none;
     transition: all 0.2s ease-in-out;
 
-    &::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -2px;
-        width: 100%;
-        height: 2px;
-        background: var(--tertiary);
-        border-radius: var(--border-radius-full);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.3s ease;
-    }
+    gap: 0;
 
     &:hover {
-        &::after {
-            transform: scaleX(1);
-        }
+        transform: scale(1.05);
     }
 }
 

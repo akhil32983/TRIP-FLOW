@@ -3,6 +3,7 @@
 .aiCtaSection {
     max-width: 600px;
     width: 100%;
+    padding-inline: var(--app-padding);
     display: flex;
     flex-direction: column;
     gap: var(--space-xxl);

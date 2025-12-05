@@ -42,16 +42,18 @@ export default function Recent() {
     if (isLoading) return <Loader size={12} />;
 
     return (
-        <Carousel title="Recientes">
-            {recentItineraries.map((itinerary) => (
-                <ItineraryCard key={itinerary.id} itinerary={itinerary} />
-            ))}
-            {recentItineraries.length === 0 && !isLoading && (
-                <p className={styles.noItineraries}>
-                    No hay itinerarios recientes.
-                </p>
-            )}
-            {isLoading && <Loader size={12} />}
-        </Carousel>
+        <div className={styles.recent}>
+            <Carousel title="Recientes">
+                {recentItineraries.map((itinerary) => (
+                    <ItineraryCard key={itinerary.id} itinerary={itinerary} />
+                ))}
+                {recentItineraries.length === 0 && !isLoading && (
+                    <p className={styles.noItineraries}>
+                        No hay itinerarios recientes.
+                    </p>
+                )}
+                {isLoading && <Loader size={12} />}
+            </Carousel>
+        </div>
     );
 }

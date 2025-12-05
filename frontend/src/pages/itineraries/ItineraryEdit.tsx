@@ -7,9 +7,9 @@ import { getItineraryById, updateItinerary } from "@/services/itineraryService";
 
 import AppLayout from "@/layouts/AppLayout";
 import Loader from "@/components/shared/Loader";
-import InnerTabHeader from "@components/dashboard/InnerTabHeader";
 import ItineraryEditForm from "@components/form/ItineraryEditForm";
 import { useNotification } from "@/providers/notificationProvider";
+import InnerTabHeader from "@/components/dashboard/headers/InnerTabHeader";
 
 export default function ItineraryEdit() {
     const [itinerary, setItinerary] = useState<Itinerary | null>(null);
@@ -57,7 +57,11 @@ export default function ItineraryEdit() {
     
     return (
         <AppLayout>
-            <InnerTabHeader title="Editar Itinerario" backUrl={`/itineraries/${id}`} />
+            <InnerTabHeader
+                title="Editar Itinerario"
+                back={{ url: `/itineraries/${id}`, label: "Cancelar" }}
+                
+            />
             {isLoading && <Loader size={32} variant="dots" />}
             {itinerary && <ItineraryEditForm initialItinerary={itinerary} onSave={handleSave} isSaving={isSaving} />}
         </AppLayout>

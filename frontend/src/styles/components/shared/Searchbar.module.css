@@ -1,7 +1,8 @@
 .searchbar {
     --border-radius: var(--border-radius-lg);
     
-    width: 100%;
+    width: calc(100% - var(--app-padding) * 2);
+    margin-inline: var(--app-padding);
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);

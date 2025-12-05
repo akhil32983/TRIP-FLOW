@@ -4,36 +4,22 @@ import type { ExtendedItinerary } from "@/types/itinerary";
 
 import { formatBudget, formatDate } from "@/utils/formatUtils";
 
-import { AlarmClockIcon, CalendarIcon, Edit, MapPinIcon, PiggyBankIcon, Trash2, UsersIcon } from "lucide-react";
+import { AlarmClockIcon, CalendarIcon, MapPinIcon, PiggyBankIcon, UsersIcon } from "lucide-react";
 
 import Badge from "@components/shared/Badge";
-import Button from "@/components/shared/Button";
 import InfoCard from "@components/dashboard/InfoCard";
 
 interface ExtendedItineraryProps {
     itinerary: ExtendedItinerary;
-    onDelete: () => void;
 }
 
 const ICON_SIZE = 20;
 
-export default function ExtendedItinerary({ itinerary, onDelete }: ExtendedItineraryProps) {
+export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps) {
     const countDays = itinerary.days.length;
 
     return (
         <section className={styles.extendedItinerary}>
-            {/* Header */}
-            <div className={styles.header}>
-                <div className={styles.title}>
-                    <h1 className={styles.titleText}>{itinerary.title}</h1>
-                </div>
-                <div className={styles.headerActions}>
-                    <Badge status={itinerary.status} style="default" />
-                    <Button style={["tool_bordered"]} to={`/itineraries/${itinerary.id}/edit`}><Edit size={16} /></Button>
-                    <Button style={["tool_bordered", "danger"]} onClick={onDelete}><Trash2 size={16} /></Button>
-                </div>
-            </div>
-
             {/* Trip Info */}
             <div className={styles.tripInfo}>
                 <InfoCard icon={<MapPinIcon size={ICON_SIZE} />} title="Destino" value={itinerary.place} />

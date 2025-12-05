@@ -10,6 +10,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-inline: var(--app-padding);
     z-index: 1000;
 }
 

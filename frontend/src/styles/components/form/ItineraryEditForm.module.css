@@ -2,6 +2,7 @@
 
 .editForm {
     width: 100%;
+    padding-inline: var(--app-padding);
     background: var(--bg-primary);
     border-radius: var(--border-radius-xl);
     animation: fadeIn 0.3s ease-in-out;
