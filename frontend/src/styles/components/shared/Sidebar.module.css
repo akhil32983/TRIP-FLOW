@@ -31,17 +31,19 @@
 
 @media (max-width: 864px) {
     .sidebar {
-        height: max-content;
+        height: 64px;
         position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
         border-right: none;
         border-top: 1px solid var(--border-secondary);
-        padding: var(--space-xs);
+        padding: 0;
+        padding-inline: var(--space-xs);
         z-index: 1000;
 
         .nav {
+            height: 100%;
             flex-direction: row;
             justify-content: space-around;
             gap: var(--space-sm);
