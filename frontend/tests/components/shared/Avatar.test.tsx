@@ -4,61 +4,37 @@ import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
 
 describe("Avatar Component", () => {
-  it("renders avatar link element", () => {
-    render(<Avatar to="/profile" />);
-
-    const link = screen.getByRole("link");
-    expect(link).toBeInTheDocument();
-  });
-
-  it("renders with correct href attribute", () => {
-    render(<Avatar to="/profile" />);
-
-    const link = screen.getByRole("link");
-    expect(link).toHaveAttribute("href", "/profile");
-  });
-
-  it("renders image when src is provided", () => {
-    render(<Avatar to="/profile" src="/test-avatar.jpg" alt="Test User" />);
-
+  it("renders with src", () => {
+    render(<Avatar src="test.jpg" alt="User Avatar" to="/profile" />);
+    
     const image = screen.getByRole("img");
     expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute("src", "/test-avatar.jpg");
-    expect(image).toHaveAttribute("alt", "Test User");
-  });
-
-  it("renders default alt text when src provided but no alt", () => {
-    render(<Avatar to="/profile" src="/test-avatar.jpg" />);
-
-    const image = screen.getByRole("img");
+    expect(image).toHaveAttribute("src", "test.jpg");
     expect(image).toHaveAttribute("alt", "User Avatar");
   });
 
-  it("renders icon when no src is provided", () => {
-    const { container } = render(<Avatar to="/profile" />);
-
-    const icon = container.querySelector("svg");
-    expect(icon).toBeInTheDocument();
+  it("renders with default image when src is not provided", () => {
+    render(<Avatar alt="User Avatar" to="/profile" />);
+    
+    // It should render an image with default src
+    const image = screen.getByRole("img");
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute("src", "/demo-avatar.png");
   });
 
-  it("applies correct CSS classes", () => {
-    render(<Avatar to="/profile" />);
+  it("renders with size prop", () => {
+    const { container } = render(<Avatar src="test.jpg" size="full" to="/profile" />);
+    
+    const avatarLink = container.querySelector("a");
+    // Check if class contains 'full' (assuming CSS module keeps the name part)
+    expect(avatarLink?.className).toMatch(/full/);
+  });
 
+  it("renders as link with correct to prop", () => {
+    render(<Avatar src="test.jpg" to="/profile" />);
+    
     const link = screen.getByRole("link");
-    expect(link.className).toMatch(/avatar/);
-  });
-
-  it("renders as Link element", () => {
-    render(<Avatar to="/profile" />);
-
-    const link = screen.getByRole("link");
-    expect(link.tagName).toBe("A");
-  });
-
-  it("does not render image when src is not provided", () => {
-    render(<Avatar to="/profile" />);
-
-    const image = screen.queryByRole("img");
-    expect(image).not.toBeInTheDocument();
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/profile");
   });
 });

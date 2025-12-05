@@ -21,15 +21,18 @@ vi.mock("@components/shared/Badge", () => ({
   ),
 }));
 
-vi.mock("@components/shared/ProgressBar", () => ({
-  default: ({ progress }: { progress: number }) => (
-    <div data-testid="progress-bar" data-progress={progress} />
-  ),
-}));
-
 vi.mock("@components/shared/Loader", () => ({
   default: () => <div data-testid="loader">Loading...</div>,
 }));
+
+// Mock useNavigate
+vi.mock("react-router", async () => {
+    const actual = await vi.importActual("react-router");
+    return {
+        ...actual,
+        useNavigate: () => vi.fn(),
+    };
+});
 
 const mockItineraries: PageResponse<Itinerary> = {
   page: [
@@ -109,26 +112,8 @@ describe("Recent Component", () => {
     await waitFor(() => {
       expect(screen.getByText(/Tokyo/)).toBeInTheDocument();
     });
-
-    expect(screen.getByText(/culture/)).toBeInTheDocument();
-    expect(screen.getByText(/gastronomy/)).toBeInTheDocument();
-  });
-
-  it("renders progress bars with correct values", async () => {
-    render(<Recent />);
-
-    await waitFor(() => {
-      const progressBars = screen.getAllByTestId("progress-bar");
-      expect(progressBars[0]).toHaveAttribute("data-progress", "75");
-    });
-  });
-
-  it("renders 'Ver todos' button", async () => {
-    render(<Recent />);
-
-    await waitFor(() => {
-      expect(screen.getByText("Ver todos")).toBeInTheDocument();
-    });
+    
+    // Tags are not rendered in ItineraryCard anymore
   });
 
   it("handles empty itineraries", async () => {

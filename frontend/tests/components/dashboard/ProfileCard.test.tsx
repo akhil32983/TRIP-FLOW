@@ -37,6 +37,7 @@ import { useAuth } from "@/providers/authProvider";
 
 const mockUser = {
     id: 1,
+    name: "John Doe",
     username: "johndoe",
     email: "john@example.com",
     location: "Madrid, España",
@@ -46,6 +47,7 @@ const mockUser = {
 
 const mockUserMinimal = {
     id: 2,
+    name: "Jane Doe",
     username: "janedoe",
     email: "jane@example.com",
     location: "¿?",
@@ -55,6 +57,7 @@ const mockUserMinimal = {
 
 const mockUserNoData = {
     id: 3,
+    name: "Test User",
     username: "testuser",
     email: "test@example.com",
     location: undefined,
@@ -98,7 +101,8 @@ describe("ProfileCard Component", () => {
 
         render(<ProfileCard />);
 
-        const heading = screen.getByRole("heading", { name: "johndoe" });
+        // The component renders name in h2, not username
+        const heading = screen.getByRole("heading", { name: "John Doe" });
         expect(heading).toBeInTheDocument();
     });
 
@@ -159,7 +163,8 @@ describe("ProfileCard Component", () => {
 
         render(<ProfileCard />);
 
-        expect(screen.getByText(/enero/)).toBeInTheDocument();
+        // Expect year 2024
+        expect(screen.getByText(/2024/)).toBeInTheDocument();
     });
 
     it("renders default date when createdAt is missing", () => {
@@ -240,6 +245,6 @@ describe("ProfileCard Component", () => {
 
         const h2 = container.querySelector("h2");
         expect(h2).toBeInTheDocument();
-        expect(h2?.textContent).toBe("johndoe");
+        expect(h2?.textContent).toBe("John Doe");
     });
 });

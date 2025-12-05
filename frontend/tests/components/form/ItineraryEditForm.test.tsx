@@ -6,21 +6,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { ExtendedItinerary } from "@/types/itinerary";
 
 // Secondary dependencies mocks
-vi.mock("@/hooks/useItineraryForm", () => ({
-    useItineraryForm: (initialItinerary: ExtendedItinerary) => ({
-        itinerary: initialItinerary,
-        updateBasicInfo: vi.fn(),
-        validateItinerary: vi.fn(() => ({ isValid: true, error: null })),
-    }),
-}));
-
-vi.mock("@/hooks/useDayManager", () => ({
-    useDayManager: () => ({
-        handleAddNewDay: vi.fn(),
-        handleRemoveDay: vi.fn(),
-    }),
-}));
-
 vi.mock("@components/dashboard/BasicInfoSection", () => ({
     default: ({ itinerary, onUpdateBasicInfo, onTagsChange }: any) => (
         <div data-testid="basic-info-section">
@@ -62,21 +47,8 @@ vi.mock("@/components/shared/Button", () => ({
 }));
 
 vi.mock("lucide-react", () => ({
-    Save: () => <svg data-testid="save-icon" />,
     Trash2: () => <svg data-testid="trash-icon" />,
-    Plus: () => <svg data-testid="plus-icon" />,
-    Edit: () => <svg data-testid="edit-icon" />,
-    MapPin: () => <svg data-testid="map-pin-icon" />,
-    Clock: () => <svg data-testid="clock-icon" />,
-    Calendar: () => <svg data-testid="calendar-icon" />,
-    XIcon: () => <svg data-testid="x-icon" />,
-    CheckCircle: () => <svg data-testid="check-circle-icon" />,
-    AlertCircle: () => <svg data-testid="alert-circle-icon" />,
-    AlertTriangle: () => <svg data-testid="alert-triangle-icon" />,
-    Info: () => <svg data-testid="info-icon" />,
 }));
-
-const onSaveMock = vi.fn();
 
 const mockItinerary: ExtendedItinerary = {
     id: 1,
@@ -128,145 +100,72 @@ const mockEmptyItinerary: ExtendedItinerary = {
 };
 
 describe("ItineraryEditForm Component", () => {
+    const mockHandlers = {
+        onUpdateBasicInfo: vi.fn(),
+        onTagsChange: vi.fn(),
+        onDaysChange: vi.fn(),
+        onAddNewDay: vi.fn(),
+        onRemoveDay: vi.fn(),
+        onDelete: vi.fn(),
+    };
+
     beforeEach(() => {
         vi.clearAllMocks();
-        vi.useFakeTimers();
     });
 
     it("renders itinerary edit form", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
+            <ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />
         );
 
         expect(container.firstChild).toBeInTheDocument();
     });
 
-    it("renders form header with itinerary title", () => {
-        const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
-        );
-
-        const h2 = container.querySelector("h2");
-        expect(h2?.textContent).toContain("Viaje a París");
-    });
-
-    it("renders itinerary icon in header", () => {
-        const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
-        );
-
-        const h2 = container.querySelector("h2");
-        // Component only shows title, not icon
-        expect(h2?.textContent).toBe("Viaje a París");
-    });
-
-    it("renders save button in header", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
-
-        const saveButtons = screen.getAllByText("Guardar Todo");
-        expect(saveButtons[0]).toBeInTheDocument(); // Header button
-    });
-
-    it("renders save icon in header button", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
-
-        const saveIcons = screen.getAllByTestId("save-icon");
-        expect(saveIcons.length).toBeGreaterThan(0);
-    });
-
     it("renders BasicInfoSection component", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
+        render(<ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />);
 
         expect(screen.getByTestId("basic-info-section")).toBeInTheDocument();
     });
 
     it("renders ItinerarySection component", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
+        render(<ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />);
 
         expect(screen.getByTestId("itinerary-section")).toBeInTheDocument();
     });
 
-    it("renders footer with save button", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
+    it("renders delete button when onDelete is provided", () => {
+        render(<ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />);
 
-        const saveButtons = screen.getAllByText("Guardar Todo");
-        expect(saveButtons.length).toBe(2); // Header and footer
-        expect(saveButtons[1]).toBeInTheDocument(); // Footer button
+        const deleteButton = screen.getByText("Eliminar Itinerario");
+        expect(deleteButton).toBeInTheDocument();
     });
 
-    it("renders two save buttons", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
+    it("does not render delete button when onDelete is not provided", () => {
+        const { onDelete, ...handlersWithoutDelete } = mockHandlers;
+        render(<ItineraryEditForm itinerary={mockItinerary} {...handlersWithoutDelete} />);
 
-        const buttons = screen.getAllByTestId("button");
-        const saveButtons = buttons.filter((btn) =>
-            btn.textContent?.includes("Guardar")
-        );
-        expect(saveButtons).toHaveLength(2);
+        const deleteButton = screen.queryByText("Eliminar Itinerario");
+        expect(deleteButton).not.toBeInTheDocument();
     });
 
-    it("calls onSave when save button is clicked", () => {
-        const mockOnSave = vi.fn();
+    it("calls onDelete when delete button is clicked", () => {
+        render(<ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />);
 
-        render(
-            <ItineraryEditForm
-                initialItinerary={mockItinerary}
-                onSave={mockOnSave}
-            />
-        );
+        const deleteButton = screen.getByText("Eliminar Itinerario");
+        fireEvent.click(deleteButton);
 
-        const saveButtons = screen.getAllByText("Guardar Todo");
-        fireEvent.click(saveButtons[0]);
-
-        vi.advanceTimersByTime(1500);
-
-        expect(mockOnSave).toHaveBeenCalledTimes(1);
-    });
-
-    it("calls onSave with itinerary data", () => {
-        const mockOnSave = vi.fn();
-
-        render(
-            <ItineraryEditForm
-                initialItinerary={mockItinerary}
-                onSave={mockOnSave}
-            />
-        );
-
-        const saveButtons = screen.getAllByText("Guardar Todo");
-        fireEvent.click(saveButtons[0]);
-
-        vi.advanceTimersByTime(1500);
-
-        expect(mockOnSave).toHaveBeenCalledWith(mockItinerary);
+        expect(mockHandlers.onDelete).toHaveBeenCalledTimes(1);
     });
 
     it("renders with empty itinerary", () => {
-        render(<ItineraryEditForm initialItinerary={mockEmptyItinerary} onSave={onSaveMock} />);
+        render(<ItineraryEditForm itinerary={mockEmptyItinerary} {...mockHandlers} />);
 
         expect(screen.getByTestId("basic-info-section")).toBeInTheDocument();
     });
 
-    it("renders form header container", () => {
-        const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
-        );
-
-        const formHeader = container.querySelector('[class*="formHeader"]');
-        expect(formHeader).toBeInTheDocument();
-    });
-
-    it("renders form footer container", () => {
-        const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
-        );
-
-        const formFooter = container.querySelector('[class*="formFooter"]');
-        expect(formFooter).toBeInTheDocument();
-    });
-
     it("renders edit form container", () => {
         const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
+            <ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />
         );
 
         const editForm = container.querySelector('[class*="editForm"]');
@@ -274,7 +173,7 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("passes correct props to BasicInfoSection", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
+        render(<ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />);
 
         expect(
             screen.getByText(/Basic Info: Viaje a París/)
@@ -282,45 +181,8 @@ describe("ItineraryEditForm Component", () => {
     });
 
     it("passes correct props to ItinerarySection", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
+        render(<ItineraryEditForm itinerary={mockItinerary} {...mockHandlers} />);
 
         expect(screen.getByText(/Days: 3/)).toBeInTheDocument();
-    });
-
-    it("header save button has primary style", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
-
-        const buttons = screen.getAllByTestId("button");
-        const saveButtons = buttons.filter((btn) =>
-            btn.textContent?.includes("Guardar")
-        );
-        expect(saveButtons[0]).toHaveAttribute("data-style", "primary");
-    });
-
-    it("footer save button has primary style", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock} />);
-
-        const buttons = screen.getAllByTestId("button");
-        const saveButtons = buttons.filter((btn) =>
-            btn.textContent?.includes("Guardar")
-        );
-        expect(saveButtons[1]).toHaveAttribute("data-style", "primary");
-    });
-
-    it("renders header as h2", () => {
-        const { container } = render(
-            <ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>
-        );
-
-        const h2 = container.querySelector("h2");
-        expect(h2).toBeInTheDocument();
-    });
-
-    it("works without onSave callback", () => {
-        render(<ItineraryEditForm initialItinerary={mockItinerary} onSave={onSaveMock}/>);
-
-        const saveButtons = screen.getAllByText("Guardar Todo");
-
-        expect(() => fireEvent.click(saveButtons[0])).not.toThrow();
     });
 });

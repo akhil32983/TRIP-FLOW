@@ -30,18 +30,17 @@ vi.mock("@/layouts/AppLayout", () => ({
     ),
 }));
 
-vi.mock("@components/dashboard/InnerTabHeader", () => ({
-    default: ({ title, backUrl }: { title: string; backUrl: string }) => (
-        <header data-testid="inner-tab-header" data-back-url={backUrl}>
-            {title}
+vi.mock("@/components/dashboard/headers/InnerTabHeader", () => ({
+    default: ({ title, back }: { title: string; back: { url: string } }) => (
+        <header data-testid="inner-tab-header" data-back-url={back?.url}>
+            <h1>{title}</h1>
         </header>
     ),
 }));
 
-vi.mock("@components/dashboard/ExtendedItinerary", () => ({
+vi.mock("@/components/dashboard/ExtendedItinerary", () => ({
     default: ({ itinerary }: any) => (
         <div data-testid="extended-itinerary" data-itinerary-id={itinerary?.id}>
-            {itinerary?.title}
         </div>
     ),
 }));
@@ -107,14 +106,12 @@ describe("ItineraryDetail Page", () => {
         });
     });
 
-    it("renders header with place name", async () => {
+    it("renders header with itinerary title", async () => {
         vi.mocked(getItineraryById).mockResolvedValue(mockItinerary);
 
         render(<ItineraryDetailPage />);
 
-        await waitFor(() => {
-            expect(screen.getByText("Tokyo")).toBeInTheDocument();
-        });
+        expect(await screen.findByText("Japan Trip")).toBeInTheDocument();
     });
 
     it("header has correct back url", async () => {
@@ -149,6 +146,7 @@ describe("ItineraryDetail Page", () => {
             expect(screen.queryByTestId("loader")).not.toBeInTheDocument();
         });
 
+        // The mock renders title
         expect(screen.getByText("Japan Trip")).toBeInTheDocument();
     });
 
