@@ -58,8 +58,7 @@ export default function AIGeneration() {
     return (
         <section className={styles.aiGenerationSection}>
             <div className={styles.gptHeader}>
-                <Sparkles size={24} className={styles.gptIcon} />
-                <h2 className={styles.gptTitle}>Genera tu itinerario con IA</h2>
+                <h2 className={styles.gptTitle}>Generador con IA</h2>
                 <Button
                     style={["tool_bordered"]}
                     type="button"
@@ -78,6 +77,7 @@ export default function AIGeneration() {
                             disabled: isLoading || rateLimit,
                             name: "aiPrompt",
                             label: "Describe tu viaje ideal",
+                            icon: <Sparkles size={18} className={styles.gptIcon} />,
                             value: form.aiPrompt,
                             placeholder: "Por ejemplo: Quiero un viaje romántico de 3 días a París con visitas a la Torre Eiffel y el Louvre..."
                         }}
