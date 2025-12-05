@@ -28,8 +28,21 @@
     .formGrid {
         width: 100%;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr, 100%));
+        grid-template-columns: repeat(3, 1fr);
         gap: var(--space-lg);
         margin-bottom: var(--space-xl);
+    }
+}
+
+
+@media (max-width: 1200px) {
+    .basicInfo .formGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .basicInfo .formGrid {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
