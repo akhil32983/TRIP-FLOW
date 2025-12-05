@@ -3,7 +3,7 @@
     width: 100%;
     min-height: 100dvh;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: minmax(0, 1fr);
 
     .main {
         width: 100%;

@@ -1,0 +1,132 @@
+import styles from "@styles/components/shared/Carousel.module.css";
+
+import { useRef, useState, useEffect, useCallback, useId } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import Button from "@components/shared/Button";
+
+interface CarouselProps {
+    title: string;
+    children: React.ReactNode;
+    action?: React.ReactNode;
+    autoScroll?: boolean;
+    autoScrollInterval?: number;
+}
+
+export default function Carousel({
+    title, children, action, autoScroll = true, autoScrollInterval = 4000
+}: CarouselProps) {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(true);
+    const [hasInteracted, setHasInteracted] = useState(false);
+    const carouselId = useId();
+    const itemsId = `carousel-items-${carouselId}`;
+
+    const checkScroll = useCallback(() => {
+        if (scrollRef.current) {
+            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+            setCanScrollLeft(scrollLeft > 0);
+            setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 1);
+        }
+    }, []);
+
+    useEffect(() => {
+        checkScroll();
+        window.addEventListener("resize", checkScroll);
+        return () => window.removeEventListener("resize", checkScroll);
+    }, [checkScroll, children]);
+
+    const scroll = useCallback((direction: "left" | "right" | "reset") => {
+        if (!scrollRef.current) return;
+        const { current } = scrollRef;
+
+        if (direction === "reset") {
+            current.scrollTo({ left: 0, behavior: "smooth" });
+            return;
+        }
+
+        const firstChild = current.firstElementChild as HTMLElement;
+        const gap = firstChild ? (parseFloat(window.getComputedStyle(current).gap) || 16) : 16;
+        const scrollAmount = firstChild ? firstChild.clientWidth + gap : 300;
+
+        const targetScroll = current.scrollLeft + (direction === "left" ? -scrollAmount : scrollAmount);
+        current.scrollTo({ left: targetScroll, behavior: "smooth" });
+    }, []);
+
+    useEffect(() => {
+        if (hasInteracted || !autoScroll) return;
+
+        const interval = setInterval(() => {
+            if (!scrollRef.current) return;
+            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+            const canScrollMore = Math.ceil(scrollLeft + clientWidth) < scrollWidth - 1;
+            scroll(canScrollMore ? "right" : "reset");
+        }, autoScrollInterval);
+
+        return () => clearInterval(interval);
+    }, [hasInteracted, scroll, autoScrollInterval]);
+
+    const handleInteraction = () => setHasInteracted(true);
+
+    const handleManualScroll = (direction: "left" | "right") => {
+        handleInteraction();
+        scroll(direction);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        const direction = e.key === "ArrowLeft" ? "left" : e.key === "ArrowRight" ? "right" : null;
+        if (direction) {
+            e.preventDefault();
+            handleInteraction();
+            scroll(direction);
+        }
+    };
+
+    return (
+        <section 
+            className={styles.carousel} 
+            aria-roledescription="carousel" 
+            aria-label={title}
+            onMouseEnter={handleInteraction}
+            onTouchStart={handleInteraction}
+        >
+            <div className={styles.header}>
+                <h3 className={styles.title}>{title}</h3>
+                <div className={styles.controls}>
+                    {action}
+                    <Button
+                        style={["tool_bordered", "rounded"]}
+                        onClick={() => handleManualScroll("left")}
+                        ariaLabel="Previous slide"
+                        disabled={!canScrollLeft}
+                        aria-controls={itemsId}
+                    >
+                        <ChevronLeft size={20} />
+                    </Button>
+                    <Button
+                        style={["tool_bordered", "rounded"]}
+                        onClick={() => handleManualScroll("right")}
+                        ariaLabel="Next slide"
+                        disabled={!canScrollRight}
+                        aria-controls={itemsId}
+                    >
+                        <ChevronRight size={20} />
+                    </Button>
+                </div>
+            </div>
+            <div 
+                id={itemsId}
+                className={styles.items} 
+                ref={scrollRef}
+                onScroll={checkScroll}
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                role="region"
+                aria-label={`${title} items`}
+            >
+                {children}
+            </div>
+        </section>
+    );
+}

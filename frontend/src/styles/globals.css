@@ -195,10 +195,6 @@ textarea {
         opacity: 0.75;
     }
 
-    &:not(:disabled):hover {
-        border-color: var(--primary);
-    }
-
     &::placeholder {
         color: var(--text-muted);
     }
@@ -303,10 +299,6 @@ select {
   &:focus {
     border-color: var(--primary);
     outline: none;
-  }
-
-  &:not(:disabled):hover {
-    border-color: var(--primary);
   }
 
   option {
