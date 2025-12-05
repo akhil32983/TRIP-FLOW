@@ -3,13 +3,12 @@ import { Navigate, useNavigate, useParams } from "react-router";
 
 import type { ExtendedItinerary as Itinerary } from "@/types/itinerary";
 
-import { getItineraryById, updateItinerary } from "@/services/itineraryService";
+import { deleteItinerary, getItineraryById, updateItinerary } from "@/services/itineraryService";
 
 import AppLayout from "@/layouts/AppLayout";
 import Loader from "@/components/shared/Loader";
-import ItineraryEditForm from "@components/form/ItineraryEditForm";
+import ItineraryEditor from "@/components/dashboard/itineraries/ItineraryEditor";
 import { useNotification } from "@/providers/notificationProvider";
-import InnerTabHeader from "@/components/dashboard/headers/InnerTabHeader";
 
 export default function ItineraryEdit() {
     const [itinerary, setItinerary] = useState<Itinerary | null>(null);
@@ -41,6 +40,16 @@ export default function ItineraryEdit() {
         });
         navigate(`/itineraries/${itineraryId}`);
     }
+
+    const handleDelete = async () => {
+        await deleteItinerary(itineraryId);
+        
+        notify("Itinerario eliminado correctamente", "success", {
+            title: "Itinerario eliminado",
+        });
+        
+        navigate("/itineraries");
+    };
     
     useEffect(() => {
         const fetchItinerary = async () => {
@@ -57,13 +66,17 @@ export default function ItineraryEdit() {
     
     return (
         <AppLayout>
-            <InnerTabHeader
-                title="Editar Itinerario"
-                back={{ url: `/itineraries/${id}`, label: "Cancelar" }}
-                
-            />
             {isLoading && <Loader size={32} variant="dots" />}
-            {itinerary && <ItineraryEditForm initialItinerary={itinerary} onSave={handleSave} isSaving={isSaving} />}
+            {itinerary && (
+                <ItineraryEditor 
+                    initialItinerary={itinerary} 
+                    onSave={handleSave} 
+                    onDelete={handleDelete}
+                    isSaving={isSaving}
+                    title="Editar Itinerario"
+                    back={{ url: `/itineraries/${id}`, label: "Cancelar" }}
+                />
+            )}
         </AppLayout>
     );
 }

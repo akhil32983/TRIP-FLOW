@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import { useState } from "react";
 
 import { useNotification } from "@/providers/notificationProvider";
 import { createDefaultItinerary } from "@/hooks/useItineraryForm";
@@ -8,9 +9,7 @@ import type { ExtendedItinerary } from "@/types/itinerary";
 import { createItinerary } from "@/services/itineraryService";
 
 import AppLayout from "@/layouts/AppLayout";
-import InnerTabHeader from "@/components/dashboard/InnerTabHeader";
-import ItineraryEditForm from "@/components/form/ItineraryEditForm";
-import { useState } from "react";
+import ItineraryEditor from "@/components/dashboard/itineraries/ItineraryEditor";
 
 export default function ItineraryNewPage() {
     const [isSaving, setIsSaving] = useState(false);
@@ -39,8 +38,13 @@ export default function ItineraryNewPage() {
     
     return (
         <AppLayout>
-            <InnerTabHeader title="Crear Itinerario" backUrl={"/itineraries/"} />
-            <ItineraryEditForm initialItinerary={createDefaultItinerary()} onSave={handleSave} isSaving={isSaving} />
+            <ItineraryEditor 
+                initialItinerary={createDefaultItinerary()} 
+                onSave={handleSave} 
+                isSaving={isSaving}
+                title="Crear Itinerario"
+                back={{ url: "/itineraries/", label: "Cancelar" }}
+            />
         </AppLayout>
     );
 }

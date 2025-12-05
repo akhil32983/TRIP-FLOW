@@ -13,6 +13,7 @@
         align-items: center;
         padding: 0;
         padding-left: var(--sidebar-width);
+        padding-bottom: var(--space-xxxl);
         gap: var(--space-xxxl);
     }
 }

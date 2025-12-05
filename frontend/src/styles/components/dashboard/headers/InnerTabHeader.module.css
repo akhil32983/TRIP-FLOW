@@ -10,6 +10,7 @@
     padding-top: var(--space-lg);
     
     .content {
+        position: relative;
         width: 100%;
         padding-inline: var(--app-padding);
         display: flex;
@@ -17,11 +18,27 @@
         align-items: center;
 
         .title {
-            display: flex;
-            flex-direction: column;
-            line-height: normal;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: var(--font-size-lg);
             color: var(--text-secondary);
+            white-space: nowrap;
+            pointer-events: none;
+            
+            max-width: 50%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+@media (max-width: 864px) {
+    .header {
+        .content {
+            .title {
+                font-size: var(--font-size-sm);
+            }
         }
     }
 }
