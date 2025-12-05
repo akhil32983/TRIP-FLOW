@@ -1,4 +1,4 @@
-import styles from "@styles/components/dashboard/AIGeneration.module.css";
+import styles from "@styles/components/dashboard/ai/AIGeneration.module.css";
 
 import { useState } from "react";
 

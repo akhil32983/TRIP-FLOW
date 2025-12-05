@@ -1,0 +1,62 @@
+@import url("../../../animations.css");
+
+.aiCtaSection {
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
+    animation: fadeIn 0.2s ease;
+
+    .aiCtaHeader {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+
+        .aiCtaIcon {
+            color: var(--primary);
+        }
+
+        .aiCtaTitle {
+            color: var(--text-secondary);
+        }
+    }
+
+    .cta {
+        width: 100%;
+        padding: var(--space-xl);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--space-md);
+        
+        background: var(--bg-card);
+        border-radius: var(--border-radius-lg);
+        border: 1px solid var(--border-secondary);
+
+        p {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-md);
+            text-wrap: balance;
+            margin-bottom: var(--space-md);
+        }
+
+    }
+}
+
+@media (min-width: 768px) {
+    .aiCtaSection {
+        max-width: 100%;
+        
+        .cta {
+            padding: var(--space-xxl);
+
+            p {
+                margin-bottom: var(--space-xl);
+                font-size: var(--font-size-md);
+                max-width: 100%;
+            }
+        }
+    }
+}

@@ -31,6 +31,10 @@
         font-size: var(--font-size-md);
     }
 
+    &.full {
+        width: 100%;
+    }
+
     &:disabled {
         cursor: auto;
         opacity: 0.6;
