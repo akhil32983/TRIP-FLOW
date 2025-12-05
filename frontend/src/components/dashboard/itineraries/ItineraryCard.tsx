@@ -18,10 +18,15 @@ export default function ItineraryCard({ itinerary }: ItineraryCardProps) {
 
     return (
         <NavLink className={styles.card} to={`/itineraries/${itinerary.id}`}>
-            <div
-                className={styles.cover}
-                style={{ "--bg-image": `url(${itinerary.coverImage.imageUrl})` } as React.CSSProperties}
-            >
+            <div className={styles.cover}>
+                <img
+                    className={styles.bgImage}
+                    src={itinerary.coverImage.imageUrl}
+                    alt={itinerary.coverImage.altDescription}
+                    decoding="async"
+                    loading="eager"
+                />
+
                 <Badge style="thin" status={itinerary.status} />
                 <Badge style={["thin", "alpha"]} title={date} />
 
@@ -38,9 +43,12 @@ export default function ItineraryCard({ itinerary }: ItineraryCardProps) {
                     </a>
                 </div>
             </div>
+
             <div className={styles.info}>
                 <h4 className={styles.title}>{itinerary.title}</h4>
-                <span className={styles.place}><MapPinIcon size={14} /> {itinerary.place}</span>
+                <span className={styles.place}>
+                    <MapPinIcon size={14} /> {itinerary.place}
+                </span>
             </div>
         </NavLink>
     );

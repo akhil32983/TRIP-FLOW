@@ -9,20 +9,16 @@ interface CarouselProps {
     title: string;
     children: React.ReactNode;
     action?: React.ReactNode;
-    autoScroll?: boolean;
-    autoScrollInterval?: number;
     elementsGap?: number;
     elementSize?: number;
 }
 
 export default function Carousel({
-    title, children, action, autoScroll = true, autoScrollInterval = 4000,
-    elementsGap = 16, elementSize = 280
+    title, children, action, elementsGap = 16, elementSize = 280
 }: CarouselProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollLeft, setCanScrollLeft] = useState(true);
     const [canScrollRight, setCanScrollRight] = useState(true);
-    const [hasInteracted, setHasInteracted] = useState(false);
     const carouselId = useId();
     const itemsId = `carousel-items-${carouselId}`;
 
@@ -57,23 +53,7 @@ export default function Carousel({
         current.scrollTo({ left: targetScroll, behavior: "smooth" });
     }, []);
 
-    useEffect(() => {
-        if (hasInteracted || !autoScroll) return;
-
-        const interval = setInterval(() => {
-            if (!scrollRef.current) return;
-            const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-            const canScrollMore = Math.ceil(scrollLeft + clientWidth) < scrollWidth - 1;
-            scroll(canScrollMore ? "right" : "reset");
-        }, autoScrollInterval);
-
-        return () => clearInterval(interval);
-    }, [hasInteracted, scroll, autoScrollInterval]);
-
-    const handleInteraction = () => setHasInteracted(true);
-
     const handleManualScroll = (direction: "left" | "right") => {
-        handleInteraction();
         scroll(direction);
     };
 
@@ -81,7 +61,6 @@ export default function Carousel({
         const direction = e.key === "ArrowLeft" ? "left" : e.key === "ArrowRight" ? "right" : null;
         if (direction) {
             e.preventDefault();
-            handleInteraction();
             scroll(direction);
         }
     };
@@ -91,8 +70,6 @@ export default function Carousel({
             className={styles.carousel} 
             aria-roledescription="carousel" 
             aria-label={title}
-            onMouseEnter={handleInteraction}
-            onTouchStart={handleInteraction}
         >
             <div className={styles.header}>
                 <h3 className={styles.title}>{title}</h3>
@@ -122,9 +99,9 @@ export default function Carousel({
                 id={itemsId}
                 className={styles.items} 
                 ref={scrollRef}
-                onScroll={checkScroll}
                 tabIndex={0}
-                onKeyDown={handleKeyDown}
+                onKeyDown={handleKeyDown} 
+                onScroll={checkScroll}
                 role="region"
                 aria-label={`${title} items`}
             >

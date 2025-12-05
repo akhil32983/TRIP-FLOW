@@ -40,7 +40,7 @@
   .fieldLabel {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
 
     .fieldLabelText {
       font-size: var(--font-size-md);
