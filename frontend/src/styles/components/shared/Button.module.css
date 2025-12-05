@@ -146,7 +146,7 @@
     justify-content: center;
 
     border: 1px solid var(--border-secondary);
-    background-color: var(--bg-overlay);
+    background-color: var(--bg-card);
     color: var(--text-secondary);
 
     .label {

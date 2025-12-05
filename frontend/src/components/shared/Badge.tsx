@@ -4,8 +4,10 @@ import type { ItineraryStatus } from "@/types/itinerary";
 
 import { formatStatus } from "@/utils/formatUtils";
 
+type BadgeStyle = "thin" | "default" | "semi_thin" | "alpha";
+
 interface BadgeProps {
-    style: "thin" | "default" | "semi_thin";
+    style: BadgeStyle[] | BadgeStyle;
     title?: string;
     children?: React.ReactNode;
     status?: ItineraryStatus;
@@ -21,8 +23,15 @@ export default function Badge({
 }: BadgeProps) {
     if (!title && !children) title = formatStatus(status);
 
+    let customStyles = "";
+    if (Array.isArray(style)) {
+        style.map(s => customStyles += ` ${styles[s]}`);
+    } else {
+        customStyles = styles[style];
+    }
+
     return (
-        <span className={`${styles.badge} ${styles[style]} ${styles[status.toLowerCase()]}`}>
+        <span className={`${styles.badge} ${customStyles} ${styles[status.toLowerCase()]}`}>
             {title}
             {children}
             {action}

@@ -30,8 +30,8 @@
 }
 
 .success { 
-    color: var(--active-text);
-    border-color: var(--active-border);
+    color: var(--active);
+    border-color: var(--active);
 }
 
 .error {
@@ -45,8 +45,8 @@
 }
 
 .info {
-    color: var(--info-text); 
-    border-color: var(--info-border);
+    color: var(--info); 
+    border-color: var(--info);
 }
 
 .header {

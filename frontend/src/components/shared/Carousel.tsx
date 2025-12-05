@@ -11,10 +11,13 @@ interface CarouselProps {
     action?: React.ReactNode;
     autoScroll?: boolean;
     autoScrollInterval?: number;
+    elementsGap?: number;
+    elementSize?: number;
 }
 
 export default function Carousel({
-    title, children, action, autoScroll = true, autoScrollInterval = 4000
+    title, children, action, autoScroll = true, autoScrollInterval = 4000,
+    elementsGap = 16, elementSize = 280
 }: CarouselProps) {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -47,8 +50,8 @@ export default function Carousel({
         }
 
         const firstChild = current.firstElementChild as HTMLElement;
-        const gap = firstChild ? (parseFloat(window.getComputedStyle(current).gap) || 16) : 16;
-        const scrollAmount = firstChild ? firstChild.clientWidth + gap : 300;
+        const gap = firstChild ? (parseFloat(window.getComputedStyle(current).gap) || elementsGap) : elementsGap;
+        const scrollAmount = firstChild ? firstChild.clientWidth + gap : elementSize;
 
         const targetScroll = current.scrollLeft + (direction === "left" ? -scrollAmount : scrollAmount);
         current.scrollTo({ left: targetScroll, behavior: "smooth" });

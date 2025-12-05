@@ -15,8 +15,8 @@ export default function DashboardPage() {
     <AppLayout>
         <DashboardHeader name={user?.name || ""}/>
         <Stats />
-        {!demo && <AIGeneration />}
         <Recent />
+        {!demo && <AIGeneration />}
     </AppLayout>
   );
 }

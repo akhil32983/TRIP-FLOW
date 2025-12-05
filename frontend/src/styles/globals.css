@@ -39,21 +39,11 @@
     --text-muted: #6b7280;
 
     /* STATES */
-    --active: #264f35d9;
-    --active-border: #22c55e80;
-    --active-text: #86efac;
-    --info: #2c4164d9;
-    --info-border: #3b82f680;
-    --info-text: #93c5fd;
-    --done: #3f2c61d9;
-    --done-border: #6d2bbd80;
-    --done-text: #d8b4fe;
-    --draft: #343e51d9;
-    --draft-border: #8a9cbf;
-    --draft-text: #bdc4cf;
-    --cancelled: #6f4343d9;
-    --cancelled-border: #bc4747;
-    --cancelled-text: #bc4747;
+    --active: #1cac51;
+    --info: #33a7d8;
+    --done: #665486;
+    --draft: #94A3B8;
+    --cancelled: #914242;
     --error: #df5f5f;
     --warning: #f59e0b;
 

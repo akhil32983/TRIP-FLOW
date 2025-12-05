@@ -1,11 +1,10 @@
-
 .badge {
     width: max-content;
     height: 38px;
     padding: var(--space-xs) var(--space-lg);
     background-color: var(--bg-overlay);
-    border-radius: var(--border-radius-full);
-    border: 1px solid var(--border-secondary);
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 
     display: flex;
     align-items: center;
@@ -15,50 +14,47 @@
     text-transform: uppercase;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-bold);
-    color: var(--tertiary);
+    color: var(--text-primary);
     letter-spacing: 0.5px;
 
     &.semi_thin {
         height: 30px;
+        border-radius: var(--border-radius-md);
         padding: var(--space-xs) var(--space-md);
         font-weight: var(--font-weight-bold);
         text-transform: none;
     }
 
     &.thin {
-        height: 20px;
+        height: 24px;
+        border-radius: var(--border-radius-md);
         padding: var(--space-sm) var(--space-md);
         text-transform: none;
         font-weight: var(--font-weight-bold);
     }
 
     &.planned {
-        color: var(--active-text);
         background-color: var(--active);
-        border-color: var(--active-border);
     }
 
     &.ongoing {
-        color: var(--info-text);
         background-color: var(--info);
-        border-color: var(--info-border);
     }
 
     &.completed {
-        color: var(--done-text);
         background-color: var(--done);
-        border-color: var(--done-border);
     }
 
     &.draft {
-        color: var(--draft-text);
         background-color: var(--draft);
-        border-color: var(--draft-border);
     }
 
     &.cancelled {
-        color: var(--cancelled-text);
         background-color: var(--cancelled);
-        border-color: var(--cancelled-border);
+    }
+
+    &.alpha {
+        background-color: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(10px);
     }
 }

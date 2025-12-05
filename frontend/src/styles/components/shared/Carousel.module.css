@@ -31,12 +31,12 @@
     display: flex;
     gap: var(--space-lg);
     overflow-x: auto;
-    overflow-y: hidden;
+    overflow-y: visible;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    padding-bottom: var(--space-md);
+    padding-block: var(--space-md);
 }
 
 .items:focus-visible {
