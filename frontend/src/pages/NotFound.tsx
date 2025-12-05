@@ -15,20 +15,15 @@ export default function NotFoundPage() {
       <section className={styles.notFound}>
         <Logo size="large" />
         <h1 className={styles.title}>
-          <strong>404 - Página no encontrada</strong>
+          <strong>404</strong>
+          <strong>Página no encontrada</strong>
         </h1>
         <h3 className={styles.subtitle}>
           Parece que te has equivocado de ruta.
         </h3>
-        <div className={styles.textContainer}>
-          <p className={styles.text}>
-            Pero no te preocupes, incluso los mejores viajeros se pierden a
-            veces.
-          </p>
-          <p className={styles.text}>
-            Puedes volver al inicio y seguir planeando tu próxima aventura.
-          </p>
-        </div>
+        <p className={styles.text}>
+          No te preocupes, incluso los mejores viajeros se pierden a veces.
+        </p>
         <Button
           to={targetRoute}
           style={["primary"]}
