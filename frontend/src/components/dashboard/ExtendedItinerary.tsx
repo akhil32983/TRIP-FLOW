@@ -8,6 +8,7 @@ import { CalendarIcon, MapPinIcon, PiggyBankIcon, UsersIcon } from "lucide-react
 
 import Badge from "@components/shared/Badge";
 import AttributionImage from "../shared/AttributionImage";
+import ActivityCard from "./itineraries/ActivityCard";
 
 interface ExtendedItineraryProps {
     itinerary: ExtendedItinerary;
@@ -25,7 +26,12 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                 attributionLink={formatImageAuthorUrl(itinerary.coverImage.authorUsername)}
                 loading="eager"
                 className={styles.banner}
-            />
+            >
+                <Badge
+                    style="semi_thin"
+                    status={itinerary.status}
+                />
+            </AttributionImage>
 
             {/* Tags */}
             <div className={styles.tags}>
@@ -36,10 +42,6 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                         title={tag}
                     />
                 ))}
-                <Badge
-                    style="semi_thin"
-                    status={itinerary.status}
-                />
             </div>
 
             {/* Trip Info */}
@@ -64,51 +66,17 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
 
 
             {/* Daily Itinerary */}
-            <div className={styles.dailyItinerary}>
-                {itinerary.days.map((day) => (
-                    <div key={day.day} className={styles.dayCard}>
-                        <div className={styles.dayHeader}>
-                            <h3 className={styles.dayTitle}>
-                                <span className={styles.dayNumber}>Día {day.day}</span>
-                            </h3>
-                            <span className={styles.activityCount}>
-                                {day.activities.length} actividades
-                            </span>
-                        </div>
+            {itinerary.days.map((day) => (
+                <div key={day.day} className={styles.dayCard}>
+                    <h3 className={styles.dayTitle}>Día {day.day}</h3>
 
-                        <div className={styles.activities}>
-                            {day.activities.map((activity, actIndex) => (
-                                <div key={actIndex} className={styles.activityCard}>
-                                    <div className={styles.activityTime}>
-                                        <span className={styles.time}>{activity.time}</span>
-                                        <span className={styles.duration}>{activity.duration}</span>
-                                    </div>
-
-                                    <div className={styles.activityContent}>
-                                        <h4 className={styles.activityTitle}>{activity.activity}</h4>
-                                        <p className={styles.activityDetails}>{activity.details}</p>
-
-                                        <div className={styles.activityLocation}>
-                                            <MapPinIcon size={16} className={styles.locationIcon} />
-                                            <div className={styles.locationInfo}>
-                                                <p className={styles.locationName}>{activity.location.name || "Desconocido"}</p>
-                                                <p className={styles.locationAddress}>
-                                                    {activity.location.address || "Sin dirección proporcionada"}
-                                                    {activity.location.address && (
-                                                        <>
-                                                            {` - (${activity.location.coordinates.latitude}, ${activity.location.coordinates.longitude})`}
-                                                        </>
-                                                    )}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    <div className={styles.activities}>
+                        {day.activities.map((activity, actIndex) => (
+                            <ActivityCard activity={activity} key={actIndex} />
+                        ))}
                     </div>
-                ))}
-            </div>
+                </div>
+            ))}
         </section>
     );
 }

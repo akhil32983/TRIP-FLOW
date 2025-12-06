@@ -44,193 +44,28 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
-
-    *:last-child {
-        margin-left: auto;
-    }
-}
-
-/* Daily Itinerary */
-.dailyItinerary {
-    margin-top: var(--space-sm);
 }
 
 .dayCard {
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-lg);
-    margin-bottom: var(--space-xl);
-    border: 1px solid var(--border-secondary);
-    overflow: hidden;
-    transition: box-shadow 0.2s ease;
-}
-
-.dayCard:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-}
-
-.dayHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--space-lg);
-    background: var(--bg-tertiary);
-    border-bottom: 1px solid var(--border-secondary);
-}
-
-.dayTitle {
-    margin: 0;
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
-}
-
-.dayNumber {
-    background: var(--primary);
-    color: white;
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--border-radius-md);
-    font-size: var(--font-size-md);
-    margin-right: var(--space-sm);
-}
-
-.activityCount {
-    background: var(--bg-primary);
-    padding: var(--space-xs) var(--space-sm);
-    border-radius: var(--border-radius-md);
-    font-size: var(--font-size-xs);
-    color: var(--text-secondary);
-    border: 1px solid var(--border-secondary);
-}
-
-/* Activities */
-.activities {
-    padding: var(--space-lg);
-}
-
-.activityCard {
-    display: flex;
-    gap: var(--space-lg);
-    padding: var(--space-lg);
-    border-left: 3px solid var(--primary);
-    background: var(--bg-primary);
-    border-radius: var(--border-radius-md);
-    margin-bottom: var(--space-lg);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.activityCard:hover {
-    transform: translateX(4px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.activityCard:last-child {
-    margin-bottom: 0;
-}
-
-.activityTime {
-    width: 90px;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: var(--space-sm);
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-secondary);
+    gap: var(--space-xxl);
+    margin-bottom: var(--space-xl);
+
+    .dayTitle {
+        margin: 0;
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        color: var(--primary);
+    }
 }
 
-.time {
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
-    color: var(--primary);
-    margin-bottom: var(--space-xs);
-}
-
-.duration {
-    font-size: var(--font-size-xs);
-    color: var(--text-secondary);
-    text-align: center;
-    line-height: 1.2;
-}
-
-.activityContent {
-    flex: 1;
-}
-
-.activityTitle {
-    margin: 0 0 var(--space-sm) 0;
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
-}
-
-.activityDetails {
-    margin: 0 0 var(--space-md) 0;
-    font-size: var(--font-size-md);
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
-
-.activityLocation {
+.activities {
+    width: 100%;
     display: flex;
-    align-items: flex-start;
-    gap: var(--space-sm);
-    padding: var(--space-sm);
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-secondary);
-}
-
-.locationIcon {
-    color: var(--info-text);
-    margin-top: 4px;
-}
-
-.locationInfo {
-    flex: 1;
-}
-
-.locationName {
-    margin: 0 0 2px 0;
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
-}
-
-.locationAddress {
-    margin: 0;
-    font-size: var(--font-size-xs);
-    color: var(--text-secondary);
-    line-height: 1.3;
-}
-
-.headerActions {
-    display: flex;
-    align-items: center;
+    flex-direction: column;
     gap: var(--space-lg);
-}
-
-@media (max-width: 1200px) {
-
-    .header,
-    .title {
-        flex-direction: column;
-        gap: var(--space-md);
-        font-size: var(--font-size-xxl);
-        text-align: center;
-    }
-
-    .tripInfo {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    }
-
-    .dayHeader {
-        flex-direction: column;
-        gap: var(--space-sm);
-    }
-
-    .dayNumber {
-        margin-right: 0;
-    }
 }
 
 @media (max-width: 768px) {
@@ -242,61 +77,5 @@
         flex-direction: column;
         gap: var(--space-sm);
         text-align: center;
-    }
-
-    .activityCard {
-        flex-direction: column;
-        gap: var(--space-md);
-    }
-
-    .activityTime {
-        flex-direction: row;
-        justify-content: space-between;
-        min-width: auto;
-        width: 100%;
-    }
-
-    .activities {
-        padding: var(--space-md);
-    }
-
-    .headerActions {
-        gap: var(--space-md);
-    }
-
-    .editButton {
-        padding: var(--space-xs) var(--space-md);
-        font-size: var(--font-size-xs);
-    }
-
-    .editText {
-        display: none;
-        /* Ocultar texto en móvil */
-    }
-
-    .editIcon {
-        font-size: var(--font-size-lg);
-        /* Icono más grande para compensar */
-    }
-}
-
-@media (max-width: 480px) {
-    .activityCard {
-        padding: var(--space-md);
-    }
-
-    .activityLocation {
-        flex-direction: column;
-        gap: var(--space-xs);
-    }
-
-    .headerActions {
-        gap: var(--space-sm);
-    }
-
-    .editButton {
-        padding: var(--space-xs);
-        min-width: 40px;
-        justify-content: center;
     }
 }
