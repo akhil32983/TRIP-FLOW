@@ -9,7 +9,7 @@
     align-items: center;
     text-align: center;
     padding: var(--app-padding);
-    padding-top: var(--space-largest);
+    padding-top: var(--space-xxxl);
     gap: var(--space-lg);
     transition: all 0.2s ease-in-out;
     animation: 0.3s fadeIn ease;
@@ -40,7 +40,7 @@
         }
 
         .profileUsername {
-            font-size: var(--font-size-sm);
+            font-size: var(--font-size-md);
             font-weight: var(--font-weight-normal);
             color: var(--tertiary);
         }
@@ -54,7 +54,7 @@
             text-wrap: balance;
             max-width: 400px;
         }
-        
+
         .profileMetadataItem {
             display: flex;
             align-items: center;
