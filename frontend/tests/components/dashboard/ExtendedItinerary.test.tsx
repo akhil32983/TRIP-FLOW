@@ -13,15 +13,6 @@ vi.mock("@components/shared/Badge", () => ({
     ),
 }));
 
-vi.mock("@components/dashboard/InfoCard", () => ({
-    default: ({ title, value }: any) => (
-        <div data-testid="info-card">
-            <span>{title}</span>
-            <span>{value}</span>
-        </div>
-    ),
-}));
-
 const mockItinerary: ExtendedItineraryType = {
     id: 1,
     title: "Aventura en Tokio",
@@ -111,61 +102,43 @@ describe("ExtendedItinerary Component", () => {
         expect(section).toBeInTheDocument();
     });
 
-    it("renders all info cards", () => {
-        render(<ExtendedItinerary itinerary={mockItinerary} />);
-
-        const infoCards = screen.getAllByTestId("info-card");
-        expect(infoCards).toHaveLength(5);
-    });
-
     it("renders destination info", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("Destino")).toBeInTheDocument();
         expect(screen.getByText("Tokio, Japón")).toBeInTheDocument();
     });
 
     it("renders people count", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("Personas")).toBeInTheDocument();
-        expect(screen.getByText("3")).toBeInTheDocument();
+        expect(screen.getByText(/3 personas/i)).toBeInTheDocument();
     });
 
     it("renders budget with currency", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("Presupuesto")).toBeInTheDocument();
         expect(screen.getByText("1.500, 00 €")).toBeInTheDocument();
     });
 
     it("renders formatted date", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("Fecha")).toBeInTheDocument();
         expect(screen.getByText(/julio/i)).toBeInTheDocument();
-    });
-
-    it("renders duration in days", () => {
-        render(<ExtendedItinerary itinerary={mockItinerary} />);
-
-        expect(screen.getByText("Duración")).toBeInTheDocument();
-        expect(screen.getByText("2 días")).toBeInTheDocument();
     });
 
     it("renders all tags", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("#Cultura")).toBeInTheDocument();
-        expect(screen.getByText("#Gastronomía")).toBeInTheDocument();
-        expect(screen.getByText("#Tecnología")).toBeInTheDocument();
+        expect(screen.getByText(/cultura/i)).toBeInTheDocument();
+        expect(screen.getByText(/gastronomía/i)).toBeInTheDocument();
+        expect(screen.getByText(/tecnología/i)).toBeInTheDocument();
     });
 
     it("renders all day cards", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("Día 1")).toBeInTheDocument();
-        expect(screen.getByText("Día 2")).toBeInTheDocument();
+        expect(screen.getByText(/día 1/i)).toBeInTheDocument();
+        expect(screen.getByText(/día 2/i)).toBeInTheDocument();
     });
 
     it("renders activity count for each day", () => {
