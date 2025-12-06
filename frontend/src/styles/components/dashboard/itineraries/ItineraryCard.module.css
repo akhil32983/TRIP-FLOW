@@ -25,54 +25,6 @@
         overflow: hidden;
     }
 
-    .bgImage {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 0;
-    }
-
-    .cover>*:not(.bgImage) {
-        z-index: 1;
-    }
-
-    .overlay {
-        opacity: 0;
-        position: absolute;
-        width: 100%;
-        bottom: 0;
-        left: 0;
-        padding-inline: var(--space-sm);
-        font-size: var(--font-size-xs);
-        font-weight: var(--font-weight-light);
-        color: var(--text-secondary);
-        letter-spacing: 0.5px;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: var(--space-xs);
-        background: linear-gradient(to top,
-                rgba(0, 0, 0, 0.85) 0%,
-                rgba(0, 0, 0, 0.6) 55%,
-                rgba(0, 0, 0, 0.4) 75%,
-                rgba(0, 0, 0, 0) 100%);
-        transition: all 0.15s ease-in-out;
-
-        a {
-            margin-left: var(--space-xs);
-            color: var(--text-secondary);
-            font-weight: var(--font-weight-normal);
-            letter-spacing: 0.5px;
-            text-decoration: underline;
-
-            &:hover {
-                color: var(--text-primary);
-            }
-        }
-    }
-
     .info {
         width: 100%;
         padding: var(--space-lg);
@@ -101,9 +53,5 @@
     &:hover {
         transform: translateY(-4px);
         border-color: var(--primary);
-
-        .cover .overlay {
-            opacity: 1;
-        }
     }
 }

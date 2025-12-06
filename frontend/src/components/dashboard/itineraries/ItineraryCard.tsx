@@ -4,6 +4,7 @@ import type { Itinerary } from "@/types/itinerary";
 import { MapPinIcon } from "lucide-react";
 import Badge from "@/components/shared/Badge";
 import { NavLink } from "react-router";
+import AttributionImage from "@/components/shared/AttributionImage";
 import { formatDate, formatImageAuthorUrl } from "@/utils/formatUtils";
 
 interface ItineraryCardProps {
@@ -18,31 +19,17 @@ export default function ItineraryCard({ itinerary }: ItineraryCardProps) {
 
     return (
         <NavLink className={styles.card} to={`/itineraries/${itinerary.id}`}>
-            <div className={styles.cover}>
-                <img
-                    className={styles.bgImage}
-                    src={itinerary.coverImage.imageUrl}
-                    alt={itinerary.coverImage.altDescription}
-                    decoding="async"
-                    loading="eager"
-                />
-
+            <AttributionImage
+                className={styles.cover}
+                src={itinerary.coverImage.imageUrl}
+                alt={itinerary.coverImage.altDescription}
+                attribution={`@${itinerary.coverImage.authorUsername}`}
+                attributionLink={formatImageAuthorUrl(itinerary.coverImage.authorUsername)}
+                loading="eager"
+            >
                 <Badge style="thin" status={itinerary.status} />
                 <Badge style={["thin", "alpha"]} title={date} />
-
-                <div className={styles.overlay}>
-                    <span>Foto de </span>
-                    <a
-                        href={formatImageAuthorUrl(itinerary.coverImage.authorUsername)}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.imageAuthor}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        @{itinerary.coverImage.authorUsername}
-                    </a>
-                </div>
-            </div>
+            </AttributionImage>
 
             <div className={styles.info}>
                 <h4 className={styles.title}>{itinerary.title}</h4>
