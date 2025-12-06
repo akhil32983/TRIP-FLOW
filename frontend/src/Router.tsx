@@ -44,8 +44,16 @@ function setUpNotifications() {
     useNotifications();
 }
 
+/**
+ * Resets the scroll position to the top of the page.
+ */
+function resetScroll() {
+    window.scrollTo(0, 0);
+}
+
 export default function Router() {
     setUpNotifications();
+    resetScroll();
 
     return (
         <BrowserRouter>
