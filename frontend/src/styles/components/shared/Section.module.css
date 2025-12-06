@@ -14,7 +14,7 @@
   }
 }
 
-@media (max-width: 864px) {
+@media (max-width: 1024px) {
   .section {
     margin-bottom: calc(var(--space-largest) * 2);
 

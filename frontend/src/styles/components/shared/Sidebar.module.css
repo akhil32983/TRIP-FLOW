@@ -25,11 +25,11 @@
         gap: var(--space-md);
         justify-content: center;
         align-items: center;
- 
+
     }
 }
 
-@media (max-width: 864px) {
+@media (max-width: 1024px) {
     .sidebar {
         height: 64px;
         position: fixed;

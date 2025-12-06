@@ -231,7 +231,7 @@
     }
 }
 
-@media (max-width: 864px) {
+@media (max-width: 1024px) {
     .route {
         width: 42px;
         height: 42px;
