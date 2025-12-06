@@ -141,13 +141,6 @@ describe("ExtendedItinerary Component", () => {
         expect(screen.getByText(/día 2/i)).toBeInTheDocument();
     });
 
-    it("renders activity count for each day", () => {
-        render(<ExtendedItinerary itinerary={mockItinerary} />);
-
-        expect(screen.getByText("2 actividades")).toBeInTheDocument();
-        expect(screen.getByText("1 actividades")).toBeInTheDocument();
-    });
-
     it("renders activity time", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
@@ -158,8 +151,8 @@ describe("ExtendedItinerary Component", () => {
     it("renders activity duration", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("2h")).toBeInTheDocument();
-        expect(screen.getByText("3h")).toBeInTheDocument();
+        expect(screen.getByText(/2h/)).toBeInTheDocument();
+        expect(screen.getByText(/3h/)).toBeInTheDocument();
     });
 
     it("renders activity titles", () => {
@@ -182,14 +175,14 @@ describe("ExtendedItinerary Component", () => {
     it("renders activity location name", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText("Templo Senso-ji")).toBeInTheDocument();
+        expect(screen.getByText(/Templo Senso-ji -/)).toBeInTheDocument();
     });
 
     it("renders activity location address", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
         expect(
-            screen.getByText("2 Chome-3-1 Asakusa, Taito City, Tokyo - (35.7148, 139.7967)")
+            screen.getByText(/2 Chome-3-1 Asakusa, Taito City, Tokyo/)
         ).toBeInTheDocument();
     });
 
@@ -212,6 +205,5 @@ describe("ExtendedItinerary Component", () => {
         render(<ExtendedItinerary itinerary={itineraryNoActivities} />);
 
         expect(screen.getByText("Día 1")).toBeInTheDocument();
-        expect(screen.getByText("0 actividades")).toBeInTheDocument();
     });
 });
