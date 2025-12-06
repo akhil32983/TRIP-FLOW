@@ -42,7 +42,7 @@
     filter: brightness(1.25);
 
     .faqQuestion {
-      color: var(--tertiary);
+      color: var(--secondary);
     }
   }
 }
