@@ -3,34 +3,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-xxl);
-
-    margin-bottom: var(--space-xxxl);
-    padding: var(--space-xl);
-
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-lg);
-    border: 1px solid var(--border-secondary);
-
-    .sectionHeader {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        gap: var(--space-md);
-
-        h3 {
-            font-size: var(--font-size-xl);
-            font-weight: var(--font-weight-bold);
-            color: var(--text-primary);
-        }
-    }
+    gap: var(--space-xl);
 
     .formGrid {
         width: 100%;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--space-lg);
-        margin-bottom: var(--space-xl);
+        gap: var(--space-xl);
     }
 }
 
@@ -39,10 +18,10 @@
     .basicInfo .formGrid {
         grid-template-columns: repeat(2, 1fr);
     }
-}
 
-@media (max-width: 768px) {
-    .basicInfo .formGrid {
-        grid-template-columns: repeat(1, 1fr);
+    .basicInfo .formGrid>div:nth-child(1),
+    .basicInfo .formGrid>div:nth-child(2),
+    .basicInfo .formGrid>div:nth-child(7) {
+        grid-column: 1 / -1;
     }
 }

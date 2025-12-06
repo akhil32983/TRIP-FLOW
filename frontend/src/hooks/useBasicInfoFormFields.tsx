@@ -47,7 +47,7 @@ export function useBasicInfoFormFields(
         },
         {
             name: "trip-people",
-            label: "Número de viajeros",
+            label: "Viajeros",
             type: "number",
             value: itinerary.people,
             placeholder: "¿Cuántas personas?",
@@ -57,7 +57,7 @@ export function useBasicInfoFormFields(
         },
         {
             name: "trip-budget",
-            label: "Presupuesto (€)",
+            label: "Presupuesto",
             type: "number",
             value: itinerary.budget,
             placeholder: "Presupuesto total",

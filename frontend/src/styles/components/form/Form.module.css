@@ -30,7 +30,7 @@
   max-width: 500px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-md);
   animation: fadeIn calc(0.3s * var(--index)) ease;
 
   &.fullWidth {
@@ -58,6 +58,46 @@
   .required {
     color: var(--error);
     margin-left: 2px;
+  }
+
+  .inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    &:focus-within {
+      .inputIcon {
+        color: var(--primary);
+      }
+    }
+  }
+
+  .inputIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    --size: 18px;
+    width: var(--size);
+    height: var(--size);
+    color: var(--text-tertiary);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .inputWithIcon {
+    padding-left: 2.75rem;
   }
 }
 

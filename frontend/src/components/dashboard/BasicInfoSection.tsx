@@ -4,8 +4,6 @@ import type { ExtendedItinerary } from "@/types/itinerary";
 
 import { useBasicInfoFormFields } from "@/hooks/useBasicInfoFormFields";
 
-import { Plane } from "lucide-react";
-
 import TagsSection from "@components/dashboard/TagsSection";
 import FormGroup from "@components/form/FormGroup";
 
@@ -24,11 +22,6 @@ export default function BasicInfoSection({
 
     return (
         <section className={styles.basicInfo}>
-            <div className={styles.sectionHeader}>
-                <Plane size={24} />
-                <h3>Planificación General</h3>
-            </div>
-
             <div className={styles.formGrid}>
                 {basicInfoFields.map((field) => (
                     <FormGroup

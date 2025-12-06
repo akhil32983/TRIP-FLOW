@@ -26,14 +26,35 @@ export default function TagsSection({ tags, onTagsChange, label, placeholder }: 
     return (
         <div className={styles.tagsSection}>
             <label className={styles.tagsLabel} htmlFor="newTagInput">
-                <Tag size={18} />
-                {label || "Tags (encuentra fácilmente tu itinerario)"}
+                {label || "Tags"}
             </label>
 
             <div className={styles.content}>
+                <div className={styles.addTagContainer}>
+                    <div className={styles.inputWrapper}>
+                        <input
+                            id="newTagInput"
+                            name="newTagInput"
+                            type="text"
+                            value={newTag}
+                            onChange={(e) => setNewTag(e.target.value)}
+                            placeholder={placeholder || "romántica, aventura, comida..."}
+                            onKeyDown={handleTagKeyPress}
+                        />
+                        <div className={styles.inputIcon}>
+                            <Tag size={18} />
+                        </div>
+                    </div>
+                    <Button
+                        onClick={handleAddTag}
+                        style={["tool_bordered"]}
+                        type="button"
+                    ><Plus size={16} /></Button>
+                </div>
+
                 <div className={styles.tagsContainer}>
                     {tags.map((tag) => (
-                        <Badge style="semi_thin" title={`#${tag}`} key={tag} action={
+                        <Badge style="semi_thin" title={tag} key={tag} action={
                             <Button
                                 style={["tool", "danger", "wrap"]}
                                 onClick={() => handleRemoveTag(tag)}
@@ -43,23 +64,6 @@ export default function TagsSection({ tags, onTagsChange, label, placeholder }: 
                             </Button>
                         } />
                     ))}
-                </div>
-
-                <div className={styles.addTagContainer}>
-                    <input
-                        id="newTagInput"
-                        name="newTagInput"
-                        type="text"
-                        value={newTag}
-                        onChange={(e) => setNewTag(e.target.value)}
-                        placeholder={placeholder || "romántica, aventura, comida..."}
-                        onKeyDown={handleTagKeyPress}
-                    />
-                    <Button
-                        onClick={handleAddTag}
-                        style={["tool_bordered"]}
-                        type="button"
-                    ><Plus size={16} /></Button>
                 </div>
             </div>
         </div>
