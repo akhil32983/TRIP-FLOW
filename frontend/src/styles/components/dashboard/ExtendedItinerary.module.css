@@ -67,15 +67,3 @@
     flex-direction: column;
     gap: var(--space-lg);
 }
-
-@media (max-width: 768px) {
-    .tripInfo {
-        grid-template-columns: 1fr;
-    }
-
-    .dayHeader {
-        flex-direction: column;
-        gap: var(--space-sm);
-        text-align: center;
-    }
-}

@@ -52,7 +52,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                 </div>
                 <div className={styles.item}>
                     <CalendarIcon size={ICON_SIZE} />
-                    <span>{formatDate(itinerary.date)}</span>
+                    <span>{formatDate(itinerary.date, { shortMonth: true })}</span>
                 </div>
                 <div className={styles.item}>
                     <UsersIcon size={ICON_SIZE} />

@@ -26,7 +26,7 @@
 
   /* BACKGROUNDS */
   --bg-primary: #0f172a;
-  --bg-primary-alpha: #0f172a80;
+  --bg-primary-alpha: rgba(23, 32, 52, 0.95);
   --bg-secondary: #1e293b;
   --bg-tertiary: #1A3047;
   --bg-card: #1e293b;

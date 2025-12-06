@@ -123,7 +123,7 @@ describe("ExtendedItinerary Component", () => {
     it("renders formatted date", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText(/julio/i)).toBeInTheDocument();
+        expect(screen.getByText(/jul/i)).toBeInTheDocument();
     });
 
     it("renders all tags", () => {

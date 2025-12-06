@@ -2,5 +2,5 @@
     width: 100%;
     padding-inline: var(--app-padding);
     display: flex;
-    gap: var(--space-lg);
+    gap: var(--space-md);
 }

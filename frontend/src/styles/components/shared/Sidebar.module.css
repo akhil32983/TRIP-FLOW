@@ -2,7 +2,8 @@
     height: 100dvh;
     position: fixed;
     width: var(--sidebar-width);
-    background: var(--gradient-secondary);
+    background: var(--bg-primary-alpha);
+    backdrop-filter: blur(10px);
     border-right: 1px solid var(--border-secondary);
     display: flex;
     flex-direction: column;
