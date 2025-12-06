@@ -39,6 +39,10 @@
         cursor: auto;
         opacity: 0.6;
     }
+
+    &:active {
+        transform: scale(0.95);
+    }
 }
 
 .primary {
@@ -48,7 +52,6 @@
     text-transform: capitalize;
 
     &:hover {
-        transform: translateY(-2px);
         filter: brightness(1.10);
     }
 
@@ -123,7 +126,7 @@
         color: var(--secondary);
         filter: drop-shadow(var(--glow-blue));
     }
-    
+
     &.danger {
         background: none;
         color: var(--text-secondary);

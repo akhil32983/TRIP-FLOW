@@ -5,7 +5,7 @@ import { useLocation } from "react-router";
 import {
     CalendarIcon,
     MapPinIcon,
-    UsersRoundIcon
+    UserIcon,
 } from "lucide-react";
 
 import Button from "@components/shared/Button";
@@ -15,7 +15,7 @@ import LogoutButton from "@components/buttons/LogoutButton";
 const ROUTES = [
     { path: "/dashboard", label: "Dashboard", icon: <MapPinIcon /> },
     { path: "/itineraries", label: "Itinerarios", icon: <CalendarIcon /> },
-    { path: "/profile", label: "Perfil", icon: <UsersRoundIcon /> },
+    { path: "/profile", label: "Perfil", icon: <UserIcon /> },
 ];
 
 export default function Sidebar() {
