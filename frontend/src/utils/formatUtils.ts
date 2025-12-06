@@ -23,6 +23,11 @@ export const formatBudget = (budget: number) => {
     return `${formattedInteger}, ${decimalPart} €`;
 };
 
+export const formatPeople = (people: number) => {
+    if (people === 1) return "1 persona";
+    return `${people} personas`;
+};
+
 export const formatStatus = (status: ItineraryStatus) => {
     if (status === "DRAFT") return "Borrador";
     if (status === "PLANNED") return "Planeado";

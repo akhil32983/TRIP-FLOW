@@ -2,39 +2,66 @@ import styles from "@styles/components/dashboard/ExtendedItinerary.module.css";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
-import { formatBudget, formatDate } from "@/utils/formatUtils";
+import { formatBudget, formatDate, formatImageAuthorUrl, formatPeople } from "@/utils/formatUtils";
 
-import { AlarmClockIcon, CalendarIcon, MapPinIcon, PiggyBankIcon, UsersIcon } from "lucide-react";
+import { CalendarIcon, MapPinIcon, PiggyBankIcon, UsersIcon } from "lucide-react";
 
 import Badge from "@components/shared/Badge";
-import InfoCard from "@components/dashboard/InfoCard";
+import AttributionImage from "../shared/AttributionImage";
 
 interface ExtendedItineraryProps {
     itinerary: ExtendedItinerary;
 }
 
-const ICON_SIZE = 20;
+const ICON_SIZE = 24;
 
 export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps) {
-    const countDays = itinerary.days.length;
-
     return (
         <section className={styles.extendedItinerary}>
-            {/* Trip Info */}
-            <div className={styles.tripInfo}>
-                <InfoCard icon={<MapPinIcon size={ICON_SIZE} />} title="Destino" value={itinerary.place} />
-                <InfoCard icon={<UsersIcon size={ICON_SIZE} />} title="Personas" value={itinerary.people} />
-                <InfoCard icon={<PiggyBankIcon size={ICON_SIZE} />} title="Presupuesto" value={formatBudget(itinerary.budget)} />
-                <InfoCard icon={<CalendarIcon size={ICON_SIZE} />} title="Fecha" value={formatDate(itinerary.date)} />
-                <InfoCard icon={<AlarmClockIcon size={ICON_SIZE} />} title="Duración" value={`${countDays} ${countDays === 1 ? "día" : "días"}`} />
-            </div>
+            <AttributionImage
+                src={itinerary.coverImage.imageUrl}
+                alt={itinerary.coverImage.altDescription}
+                attribution={`@${itinerary.coverImage.authorUsername}`}
+                attributionLink={formatImageAuthorUrl(itinerary.coverImage.authorUsername)}
+                loading="eager"
+                className={styles.banner}
+            />
 
             {/* Tags */}
             <div className={styles.tags}>
                 {itinerary.tags.map((tag, index) => (
-                    <Badge key={index} style="semi_thin" title={`#${tag}`} />
+                    <Badge
+                        key={index}
+                        style="semi_thin"
+                        title={tag}
+                    />
                 ))}
+                <Badge
+                    style="semi_thin"
+                    status={itinerary.status}
+                />
             </div>
+
+            {/* Trip Info */}
+            <div className={styles.tripInfo}>
+                <div className={styles.item}>
+                    <MapPinIcon size={ICON_SIZE} />
+                    <span>{itinerary.place}</span>
+                </div>
+                <div className={styles.item}>
+                    <CalendarIcon size={ICON_SIZE} />
+                    <span>{formatDate(itinerary.date)}</span>
+                </div>
+                <div className={styles.item}>
+                    <UsersIcon size={ICON_SIZE} />
+                    <span>{formatPeople(itinerary.people)}</span>
+                </div>
+                <div className={styles.item}>
+                    <PiggyBankIcon size={ICON_SIZE} />
+                    <span>{formatBudget(itinerary.budget)}</span>
+                </div>
+            </div>
+
 
             {/* Daily Itinerary */}
             <div className={styles.dailyItinerary}>
@@ -56,11 +83,11 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                                         <span className={styles.time}>{activity.time}</span>
                                         <span className={styles.duration}>{activity.duration}</span>
                                     </div>
-                                    
+
                                     <div className={styles.activityContent}>
                                         <h4 className={styles.activityTitle}>{activity.activity}</h4>
                                         <p className={styles.activityDetails}>{activity.details}</p>
-                                        
+
                                         <div className={styles.activityLocation}>
                                             <MapPinIcon size={16} className={styles.locationIcon} />
                                             <div className={styles.locationInfo}>
