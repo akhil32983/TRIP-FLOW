@@ -2,75 +2,114 @@
 
 .aiGenerationSection {
     width: 100%;
+    padding-inline: var(--app-padding);
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
+    gap: var(--space-xxl);
     animation: fadeIn 0.2s ease;
-}
 
-.gptHeader {
-    display: flex;
-    align-items: center;
-    gap: var(--space-lg);
-}
+    @media (min-width: 1400px) {
+        max-width: 800px;
+        margin: 0 auto;
 
-.gptIcon {
-    color: var(--primary, #4f8cff);
-}
-
-.gptTitle {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    color: var(--text-primary);
-    flex: 1;
-}
-
-.gptForm {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-}
-
-.promptSection {
-    width: 100%;
-}
-
-.advancedOptions {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-lg);
-    padding: var(--space-lg);
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-lg);
-    border: 1px solid var(--border-secondary);
-}
-
-.formGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-lg);
-}
-
-.tagsContainer {
-    width: 100%;
-}
-
-.gptFooter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-md);
-}
-
-@media (max-width: 1024px) {
-    .formGrid {
-        grid-template-columns: repeat(2, 1fr);
+        .title {
+            font-size: var(--font-size-xxxl);
+        }
     }
 }
 
-@media (max-width: 768px) {
-    .formGrid {
-        grid-template-columns: 1fr;
+.title {
+    font-size: var(--font-size-xxl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-primary);
+}
+
+.suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+
+    .suggestionChip {
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-secondary);
+        border-radius: var(--border-radius-full);
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border-color: var(--border-primary);
+            transform: translateY(-1px);
+        }
+    }
+}
+
+.gptForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+
+    .toggleAdvanced {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        background: none;
+        border: none;
+        color: var(--text-secondary);
+        font-size: var(--font-size-sm);
+        font-weight: var(--font-weight-medium);
+        cursor: pointer;
+        padding: 0;
+        width: fit-content;
+        transition: color 0.2s ease;
+
+        &:hover {
+            color: var(--primary);
+        }
+    }
+
+    .advancedOptions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
+        padding: var(--space-lg);
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-lg);
+        border: 1px solid var(--border-secondary);
+        animation: fadeIn 0.2s ease;
+
+        .formGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+
+            @media (max-width: 1024px) {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            @media (max-width: 768px) {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+        }
+
+        .tagsContainer {
+            width: 100%;
+        }
+    }
+
+    .gptFooter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         gap: var(--space-md);
     }
 }

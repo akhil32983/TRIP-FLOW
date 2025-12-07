@@ -28,7 +28,7 @@ export const useAIGenerationForm = () => {
     };
 
     const resetForm = () => {
-        setForm({...defaultForm});
+        setForm({ ...defaultForm });
     };
 
     const lodgingOptions = [
@@ -67,7 +67,7 @@ export const useAIGenerationForm = () => {
         {
             type: "number",
             name: "budget",
-            label: "Presupuesto (€)",
+            label: "Presupuesto",
             value: form.budget,
             placeholder: "500",
             icon: <Euro size={18} />
@@ -82,10 +82,18 @@ export const useAIGenerationForm = () => {
         }
     ];
 
+    const updateField = (name: keyof AIGenerationRequest, value: any) => {
+        setForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     return {
         form,
         handleChange,
         handleInterestsChange,
+        updateField,
         resetForm,
         advancedFields
     };

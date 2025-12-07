@@ -5,11 +5,14 @@ import { useState } from "react";
 import type { AIUsage } from "@/types/ai";
 
 import { generateItinerary } from "@/services/aiService";
+import { useDemo } from "@/providers/demoProvider";
 import { useAuth } from "@/providers/authProvider";
 import { useNotification } from "@/providers/notificationProvider";
 import { useAIGenerationForm } from "@/hooks/useAIGenerationForm";
+import { suggestions } from "@/utils/aiSuggestions";
 
-import { Sparkles, Send, Package, PackageOpen, Loader } from "lucide-react";
+import { Send, Package, PackageOpen, Loader } from "lucide-react";
+
 import FormGroup from "@components/form/FormGroup";
 import Button from "@components/shared/Button";
 import TagsSection from "@components/dashboard/TagsSection";
@@ -21,10 +24,16 @@ export default function AIGeneration() {
     const [isLoading, setIsLoading] = useState(false);
 
     const [aiUsage, setAiUsage] = useState<AIUsage | null>(null);
-    
+
+    const { demo } = useDemo();
     const { user } = useAuth();
     const { notify } = useNotification();
-    const { form, handleChange, handleInterestsChange, resetForm, advancedFields } = useAIGenerationForm();
+    const { form, handleChange, handleInterestsChange, resetForm, updateField, advancedFields } = useAIGenerationForm();
+
+    const handleSuggestionClick = (text: string) => {
+        updateField("aiPrompt", text);
+    };
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,23 +59,27 @@ export default function AIGeneration() {
         notify("Tu solicitud se está procesando.", "success", {
             title: "Solicitud recibida!"
         });
-        
+
         setRateLimit(false);
         setIsLoading(false);
     };
 
     return (
         <section className={styles.aiGenerationSection}>
-            <div className={styles.gptHeader}>
-                <h2 className={styles.gptTitle}>Generador con IA</h2>
-                <Button
-                    style={["tool_bordered"]}
-                    type="button"
-                    onClick={() => setShowAdvanced(!showAdvanced)}
-                    ariaLabel="Opciones avanzadas"
-                >
-                    {showAdvanced ? <PackageOpen size={20} /> : <Package size={20} />}
-                </Button>
+            <h2 className={styles.title}>Tu Asistente de Viajes</h2>
+
+            <div className={styles.suggestions}>
+                {suggestions.map((suggestion) => (
+                    <button
+                        key={suggestion.label}
+                        type="button"
+                        className={styles.suggestionChip}
+                        onClick={() => handleSuggestionClick(suggestion.text)}
+                    >
+                        {suggestion.icon}
+                        {suggestion.label}
+                    </button>
+                ))}
             </div>
 
             <form className={styles.gptForm} onSubmit={handleSubmit}>
@@ -76,16 +89,23 @@ export default function AIGeneration() {
                             type: "textarea",
                             disabled: isLoading || rateLimit,
                             name: "aiPrompt",
-                            label: "Describe tu viaje ideal",
-                            icon: <Sparkles size={18} className={styles.gptIcon} />,
                             value: form.aiPrompt,
-                            placeholder: "Por ejemplo: Quiero un viaje romántico de 3 días a París con visitas a la Torre Eiffel y el Louvre..."
+                            placeholder: "Escribe tu solicitud aquí..."
                         }}
                         index={-1}
                         handleChange={handleChange}
                         fullWidth
                     />
                 </div>
+
+                <button
+                    type="button"
+                    className={styles.toggleAdvanced}
+                    onClick={() => setShowAdvanced(!showAdvanced)}
+                >
+                    {showAdvanced ? <PackageOpen size={16} /> : <Package size={16} />}
+                    {showAdvanced ? "Ocultar opciones avanzadas" : "Mostrar opciones avanzadas"}
+                </button>
 
                 {showAdvanced && (
                     <div className={styles.advancedOptions}>
@@ -111,8 +131,8 @@ export default function AIGeneration() {
                     </div>
                 )}
 
-                <div className={styles.gptFooter}>                    
-                    { (user?.plan === "FREE" || user?.plan === "PRO") && aiUsage
+                <div className={styles.gptFooter}>
+                    {(user?.plan === "FREE" || user?.plan === "PRO") && aiUsage
                         ? (
                             <Badge
                                 style="default"
@@ -125,7 +145,7 @@ export default function AIGeneration() {
 
                     <Button
                         label={isLoading ? "Generando..." : "Generar"}
-                        disabled={isLoading || rateLimit}
+                        disabled={isLoading || rateLimit || demo}
                         style={["primary"]}
                         type="submit"
                     >
