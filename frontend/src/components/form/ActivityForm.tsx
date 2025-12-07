@@ -117,6 +117,7 @@ export default function ActivityForm({
                             key={field.name}
                             field={field}
                             handleChange={getFieldHandler(field.name)}
+                            fullWidth
                         />
                     ))}
                 </div>
