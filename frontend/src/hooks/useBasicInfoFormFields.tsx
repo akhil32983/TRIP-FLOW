@@ -36,7 +36,7 @@ export function useBasicInfoFormFields(
         onUpdateBasicInfo(field, value);
     }, [onUpdateBasicInfo]);
 
-    const handleEndDateChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleEndDateChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const newEndDateStr = e.target.value;
         if (!newEndDateStr || !itinerary.date) return;
 

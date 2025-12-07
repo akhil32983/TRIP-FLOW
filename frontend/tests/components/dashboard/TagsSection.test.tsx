@@ -57,7 +57,7 @@ describe("TagsSection Component", () => {
         render(<TagsSection tags={mockTags} onTagsChange={vi.fn()} />);
 
         expect(
-            screen.getByText("Tags (encuentra fácilmente tu itinerario)")
+            screen.getByText("Tags")
         ).toBeInTheDocument();
     });
 
@@ -77,9 +77,9 @@ describe("TagsSection Component", () => {
     it("renders tags with # prefix", () => {
         render(<TagsSection tags={mockTags} onTagsChange={vi.fn()} />);
 
-        expect(screen.getByText("#romántica")).toBeInTheDocument();
-        expect(screen.getByText("#aventura")).toBeInTheDocument();
-        expect(screen.getByText("#comida")).toBeInTheDocument();
+        expect(screen.getByText("romántica")).toBeInTheDocument();
+        expect(screen.getByText("aventura")).toBeInTheDocument();
+        expect(screen.getByText("comida")).toBeInTheDocument();
     });
 
     it("renders input field with placeholder", () => {
@@ -142,7 +142,7 @@ describe("TagsSection Component", () => {
 
         const badges = screen.getAllByTestId("badge");
         expect(badges).toHaveLength(1);
-        expect(screen.getByText("#romántica")).toBeInTheDocument();
+        expect(screen.getByText("romántica")).toBeInTheDocument();
     });
 
     it("renders tags container", () => {

@@ -123,7 +123,7 @@ describe("ExtendedItinerary Component", () => {
     it("renders formatted date", () => {
         render(<ExtendedItinerary itinerary={mockItinerary} />);
 
-        expect(screen.getByText(/jul/i)).toBeInTheDocument();
+        expect(screen.getAllByText(/jul/i).length).toBeGreaterThan(0);
     });
 
     it("renders all tags", () => {
@@ -204,6 +204,6 @@ describe("ExtendedItinerary Component", () => {
 
         render(<ExtendedItinerary itinerary={itineraryNoActivities} />);
 
-        expect(screen.getByText("Día 1")).toBeInTheDocument();
+        expect(screen.getByText(/Día 1/)).toBeInTheDocument();
     });
 });

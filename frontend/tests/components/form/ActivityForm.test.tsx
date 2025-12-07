@@ -103,7 +103,7 @@ vi.mock("@components/form/LocationForm", () => ({
 }));
 
 vi.mock("lucide-react", () => ({
-    Crosshair: () => <span data-testid="crosshair-icon">Crosshair</span>,
+    ChevronUp: () => <span data-testid="chevron-up-icon">ChevronUp</span>,
     Trash2: () => <span data-testid="trash-icon">Trash</span>,
 }));
 
@@ -146,6 +146,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -160,27 +162,31 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
-        expect(screen.getByText("Actividad 1")).toBeInTheDocument();
+        expect(screen.getByText("Visita al museo")).toBeInTheDocument();
     });
 
-    it("renders correct activity number", () => {
+    it("renders correct activity number when activity title is empty", () => {
         render(
             <ActivityForm
-                activity={mockActivity}
+                activity={mockEmptyActivity}
                 activityIndex={2}
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
         expect(screen.getByText("Actividad 3")).toBeInTheDocument();
     });
 
-    it("renders crosshair icon in header", () => {
+    it("renders collapse icon in header when expanded", () => {
         render(
             <ActivityForm
                 activity={mockActivity}
@@ -188,13 +194,15 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
-        expect(screen.getByTestId("crosshair-icon")).toBeInTheDocument();
+        expect(screen.getByTestId("chevron-up-icon")).toBeInTheDocument();
     });
 
-    it("renders remove activity button", () => {
+    it("renders remove activity button in summary view", () => {
         render(
             <ActivityForm
                 activity={mockActivity}
@@ -202,6 +210,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -216,6 +226,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -232,6 +244,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={mockOnRemoveActivity}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -241,7 +255,7 @@ describe("ActivityForm Component", () => {
         expect(mockOnRemoveActivity).toHaveBeenCalledTimes(1);
     });
 
-    it("renders all activity fields", () => {
+    it("renders all activity fields when expanded", () => {
         render(
             <ActivityForm
                 activity={mockActivity}
@@ -249,6 +263,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -264,6 +280,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -278,6 +296,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -292,6 +312,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -306,6 +328,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -320,6 +344,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -339,6 +365,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -355,6 +383,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={mockOnLocationUpdate}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -372,42 +402,12 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
         expect(screen.getByText("Actividad 1")).toBeInTheDocument();
-    });
-
-    it("renders activity card container", () => {
-        const { container } = render(
-            <ActivityForm
-                activity={mockActivity}
-                activityIndex={0}
-                onActivityUpdate={vi.fn()}
-                onLocationUpdate={vi.fn()}
-                onRemoveActivity={vi.fn()}
-            />
-        );
-
-        const activityCard = container.querySelector('[class*="activityCard"]');
-        expect(activityCard).toBeInTheDocument();
-    });
-
-    it("renders activity header", () => {
-        const { container } = render(
-            <ActivityForm
-                activity={mockActivity}
-                activityIndex={0}
-                onActivityUpdate={vi.fn()}
-                onLocationUpdate={vi.fn()}
-                onRemoveActivity={vi.fn()}
-            />
-        );
-
-        const activityHeader = container.querySelector(
-            '[class*="activityHeader"]'
-        );
-        expect(activityHeader).toBeInTheDocument();
     });
 
     it("renders form row container", () => {
@@ -418,6 +418,8 @@ describe("ActivityForm Component", () => {
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={true}
+                onToggleExpand={vi.fn()}
             />
         );
 
@@ -425,34 +427,21 @@ describe("ActivityForm Component", () => {
         expect(formRow).toBeInTheDocument();
     });
 
-    it("renders location form container", () => {
-        const { container } = render(
+
+
+    it("renders activity title in summary view", () => {
+        render(
             <ActivityForm
                 activity={mockActivity}
                 activityIndex={0}
                 onActivityUpdate={vi.fn()}
                 onLocationUpdate={vi.fn()}
                 onRemoveActivity={vi.fn()}
+                isExpanded={false}
+                onToggleExpand={vi.fn()}
             />
         );
 
-        const locationForm = container.querySelector('[class*="locationForm"]');
-        expect(locationForm).toBeInTheDocument();
-    });
-
-    it("renders activity title as h4", () => {
-        const { container } = render(
-            <ActivityForm
-                activity={mockActivity}
-                activityIndex={0}
-                onActivityUpdate={vi.fn()}
-                onLocationUpdate={vi.fn()}
-                onRemoveActivity={vi.fn()}
-            />
-        );
-
-        const h4 = container.querySelector("h4");
-        expect(h4).toBeInTheDocument();
-        expect(h4?.textContent).toBe("Actividad 1");
+        expect(screen.getByText("Visita al museo")).toBeInTheDocument();
     });
 });

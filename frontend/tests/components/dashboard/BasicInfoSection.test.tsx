@@ -57,10 +57,6 @@ vi.mock("@components/form/FormGroup", () => ({
     ),
 }));
 
-vi.mock("lucide-react", () => ({
-    Plane: () => <span data-testid="plane-icon">Plane</span>,
-}));
-
 const mockItinerary: ExtendedItinerary = {
     id: 1,
     title: "Viaje a París",
@@ -108,30 +104,6 @@ describe("BasicInfoSection Component", () => {
         );
 
         expect(container.firstChild).toBeInTheDocument();
-    });
-
-    it("renders section header with title", () => {
-        render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        expect(screen.getByText("Planificación General")).toBeInTheDocument();
-    });
-
-    it("renders plane icon in header", () => {
-        render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        expect(screen.getByTestId("plane-icon")).toBeInTheDocument();
     });
 
     it("renders all form groups", () => {
@@ -252,20 +224,6 @@ describe("BasicInfoSection Component", () => {
         expect(section).toBeInTheDocument();
     });
 
-    it("renders header as h3", () => {
-        const { container } = render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        const h3 = container.querySelector("h3");
-        expect(h3).toBeInTheDocument();
-        expect(h3?.textContent).toBe("Planificación General");
-    });
-
     it("renders form grid container", () => {
         const { container } = render(
             <BasicInfoSection
@@ -277,21 +235,6 @@ describe("BasicInfoSection Component", () => {
 
         const formGrid = container.querySelector('[class*="formGrid"]');
         expect(formGrid).toBeInTheDocument();
-    });
-
-    it("renders section header container", () => {
-        const { container } = render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        const sectionHeader = container.querySelector(
-            '[class*="sectionHeader"]'
-        );
-        expect(sectionHeader).toBeInTheDocument();
     });
 
     it("renders with empty tags array", () => {

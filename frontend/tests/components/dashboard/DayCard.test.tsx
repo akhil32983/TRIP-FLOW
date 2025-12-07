@@ -18,10 +18,11 @@ vi.mock("@/components/shared/Button", () => ({
 }));
 
 vi.mock("@components/form/ActivityForm", () => ({
-    default: ({ activity, activityIndex, onRemoveActivity }: any) => (
-        <div data-testid="activity-form" data-index={activityIndex}>
+    default: ({ activity, activityIndex, onRemoveActivity, isExpanded, onToggleExpand }: any) => (
+        <div data-testid="activity-form" data-index={activityIndex} data-expanded={isExpanded}>
             <span>{activity.activity}</span>
             <button onClick={onRemoveActivity}>Remove</button>
+            <button onClick={onToggleExpand}>Toggle</button>
         </div>
     ),
 }));
@@ -56,9 +57,8 @@ describe("DayCard Component", () => {
         const { container } = render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
@@ -72,33 +72,31 @@ describe("DayCard Component", () => {
         render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
             />
         );
 
-        expect(screen.getByText("Día 1")).toBeInTheDocument();
+        expect(screen.getByText(/Día 1/)).toBeInTheDocument();
     });
 
     it("renders add activity button", () => {
         render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
             />
         );
 
-        const buttons = screen.getAllByTestId("button");
-        expect(buttons.length).toBeGreaterThan(0);
+        const button = screen.getByRole("button", { name: /Añadir actividad/i });
+        expect(button).toBeInTheDocument();
     });
 
     it("calls onAddActivity when add button is clicked", () => {
@@ -107,83 +105,28 @@ describe("DayCard Component", () => {
         render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={mockOnAddActivity}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
             />
         );
 
-        const buttons = screen.getAllByTestId("button");
-        fireEvent.click(buttons[0]);
+        const button = screen.getByRole("button", { name: /Añadir actividad/i });
+        fireEvent.click(button);
 
         expect(mockOnAddActivity).toHaveBeenCalledTimes(1);
     });
 
-    it("renders remove day button when totalDays > 1", () => {
-        render(
-            <DayCard
-                day={mockDay}
-                totalDays={3}
-                onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
-                onRemoveActivity={vi.fn()}
-                onUpdateActivity={vi.fn()}
-                onUpdateActivityLocation={vi.fn()}
-            />
-        );
 
-        const buttons = screen.getAllByTestId("button");
-        expect(buttons.length).toBe(2);
-    });
-
-    it("does not render remove day button when totalDays is 1", () => {
-        render(
-            <DayCard
-                day={mockDay}
-                totalDays={1}
-                onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
-                onRemoveActivity={vi.fn()}
-                onUpdateActivity={vi.fn()}
-                onUpdateActivityLocation={vi.fn()}
-            />
-        );
-
-        const buttons = screen.getAllByTestId("button");
-        expect(buttons.length).toBe(1);
-    });
-
-    it("calls onRemoveDay when remove button is clicked", () => {
-        const mockOnRemoveDay = vi.fn();
-
-        render(
-            <DayCard
-                day={mockDay}
-                totalDays={3}
-                onAddActivity={vi.fn()}
-                onRemoveDay={mockOnRemoveDay}
-                onRemoveActivity={vi.fn()}
-                onUpdateActivity={vi.fn()}
-                onUpdateActivityLocation={vi.fn()}
-            />
-        );
-
-        const buttons = screen.getAllByTestId("button");
-        fireEvent.click(buttons[1]);
-
-        expect(mockOnRemoveDay).toHaveBeenCalledTimes(1);
-    });
 
     it("renders activity forms for each activity", () => {
         render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
@@ -194,13 +137,12 @@ describe("DayCard Component", () => {
         expect(activityForms).toHaveLength(1);
     });
 
-    it("renders empty state when no activities", () => {
+    it("renders empty state with add button only", () => {
         render(
             <DayCard
                 day={mockEmptyDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
@@ -208,44 +150,25 @@ describe("DayCard Component", () => {
         );
 
         expect(
-            screen.getByText(/No hay actividades planeadas/)
+            screen.getByRole("button", { name: /Añadir actividad/i })
         ).toBeInTheDocument();
     });
 
-    it("renders add first activity button in empty state", () => {
-        render(
-            <DayCard
-                day={mockEmptyDay}
-                totalDays={3}
-                onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
-                onRemoveActivity={vi.fn()}
-                onUpdateActivity={vi.fn()}
-                onUpdateActivityLocation={vi.fn()}
-            />
-        );
-
-        expect(
-            screen.getByText("Añadir primera actividad")
-        ).toBeInTheDocument();
-    });
-
-    it("calls onAddActivity from empty state button", () => {
+    it("calls onAddActivity from add button", () => {
         const mockOnAddActivity = vi.fn();
 
         render(
             <DayCard
                 day={mockEmptyDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={mockOnAddActivity}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
             />
         );
 
-        const addButton = screen.getByText("Añadir primera actividad");
+        const addButton = screen.getByRole("button", { name: /Añadir actividad/i });
         fireEvent.click(addButton);
 
         expect(mockOnAddActivity).toHaveBeenCalledTimes(1);
@@ -255,9 +178,8 @@ describe("DayCard Component", () => {
         render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
@@ -273,9 +195,8 @@ describe("DayCard Component", () => {
         render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={mockOnRemoveActivity}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
@@ -300,9 +221,8 @@ describe("DayCard Component", () => {
         render(
             <DayCard
                 day={dayWithMultipleActivities}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
@@ -317,17 +237,16 @@ describe("DayCard Component", () => {
         const { container } = render(
             <DayCard
                 day={mockDay}
-                totalDays={3}
+                date="2025-07-15"
                 onAddActivity={vi.fn()}
-                onRemoveDay={vi.fn()}
                 onRemoveActivity={vi.fn()}
                 onUpdateActivity={vi.fn()}
                 onUpdateActivityLocation={vi.fn()}
             />
         );
 
-        const h4 = container.querySelector("h4");
-        expect(h4).toBeInTheDocument();
-        expect(h4?.textContent).toBe("Día 1");
+        const h3 = container.querySelector("h3");
+        expect(h3).toBeInTheDocument();
+        expect(h3?.textContent).toContain("Día 1");
     });
 });
