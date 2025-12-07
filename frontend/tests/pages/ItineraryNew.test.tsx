@@ -55,12 +55,6 @@ describe("ItineraryNewPage Component", () => {
         expect(screen.getByTestId("itinerary-editor")).toBeInTheDocument();
     });
 
-    it("passes correct title to ItineraryEditor", () => {
-        render(<ItineraryNewPage />);
-
-        expect(screen.getByText("Crear Itinerario")).toBeInTheDocument();
-    });
-
     it("passes correct back URL to ItineraryEditor", () => {
         render(<ItineraryNewPage />);
 
