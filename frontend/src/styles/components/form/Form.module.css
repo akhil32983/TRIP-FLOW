@@ -97,7 +97,8 @@
   }
 
   .inputWithIcon {
-    padding-left: 2.75rem;
+    padding-left: 2.5rem;
+    padding-right: var(--space-sm);
   }
 }
 

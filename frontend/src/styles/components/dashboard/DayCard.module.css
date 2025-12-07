@@ -1,46 +1,17 @@
 .dayCard {
     width: 100%;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-secondary);
-    border-radius: var(--border-radius-lg);
-    margin-bottom: var(--space-xl);
-    overflow: hidden;
-    transition: box-shadow 0.2s ease, transform 0.1s ease;
+    margin-top: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
 
-    .dayHeader {
-        background: linear-gradient(
-            135deg,
-            var(--bg-tertiary),
-            var(--bg-secondary)
-        );
-        padding: var(--space-lg);
-        border-bottom: 1px solid var(--border-secondary);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .dayTitle {
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-
-            .dayTitleText {
-                font-size: var(--font-size-lg);
-                color: var(--text-primary);
-                font-weight: var(--font-weight-bold);
-            }
-        }
-
-        .dayActions {
-            display: flex;
-            gap: var(--space-md);
-            align-items: center;
-        }
+    .dayTitle {
+        font-size: var(--font-size-lg);
+        color: var(--primary);
+        font-weight: var(--font-weight-bold);
     }
 
     .activitiesContainer {
-        padding: var(--space-lg);
-
         .emptyActivities {
             width: 100%;
             display: flex;

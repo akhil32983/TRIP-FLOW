@@ -7,6 +7,12 @@ interface FormatDateOptions {
     shortMonth?: boolean;
 }
 
+export const getDate = (initialDate: string, offset: number) => {
+    const date = new Date(initialDate);
+    date.setDate(date.getDate() + offset);
+    return date.toISOString().split('T')[0];
+}
+
 export const formatDate = (dateString: string, options?: FormatDateOptions) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
         year: options?.excludeYear ? undefined : "numeric",

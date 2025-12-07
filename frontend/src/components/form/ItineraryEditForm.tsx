@@ -14,17 +14,15 @@ interface ItineraryEditFormProps {
     onTagsChange: (newTags: string[]) => void;
     onDaysChange: (newDays: any[]) => void;
     onAddNewDay: () => void;
-    onRemoveDay: (dayIndex: number) => void;
     onDelete?: () => void;
 }
 
-export default function ItineraryEditForm({ 
-    itinerary, 
-    onUpdateBasicInfo, 
-    onTagsChange, 
-    onDaysChange, 
-    onAddNewDay, 
-    onRemoveDay,
+export default function ItineraryEditForm({
+    itinerary,
+    onUpdateBasicInfo,
+    onTagsChange,
+    onDaysChange,
+    onAddNewDay,
     onDelete
 }: ItineraryEditFormProps) {
     return (
@@ -36,16 +34,16 @@ export default function ItineraryEditForm({
             />
 
             <ItinerarySection
+                initialDate={itinerary.date}
                 days={itinerary.days}
                 onDaysChange={onDaysChange}
                 onAddNewDay={onAddNewDay}
-                onRemoveDay={onRemoveDay}
             />
 
             {onDelete && (
                 <div className={styles.formFooter}>
-                    <Button 
-                        onClick={onDelete} 
+                    <Button
+                        onClick={onDelete}
                         style={["secondary", "danger"]}
                         label="Eliminar Itinerario"
                     >
