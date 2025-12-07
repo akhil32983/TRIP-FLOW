@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { useState } from "react";
 
 import { useNotification } from "@/providers/notificationProvider";
@@ -16,6 +16,11 @@ export default function ItineraryNewPage() {
 
     const { notify } = useNotification();
     const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams();
+    const editorType = searchParams.get("editorType") === "ai"
+        ? "ai"
+        : "manual";
 
     const handleSave = async (itinerary: ExtendedItinerary) => {
         setIsSaving(true);
@@ -35,14 +40,15 @@ export default function ItineraryNewPage() {
         });
         navigate(`/itineraries/${res.id}`);
     };
-    
+
     return (
         <AppLayout>
-            <ItineraryEditor 
-                initialItinerary={createDefaultItinerary()} 
-                onSave={handleSave} 
+            <ItineraryEditor
+                key={editorType}
+                type={editorType}
+                initialItinerary={createDefaultItinerary()}
+                onSave={handleSave}
                 isSaving={isSaving}
-                title="Crear Itinerario"
                 back={{ url: "/itineraries/", label: "Cancelar" }}
             />
         </AppLayout>

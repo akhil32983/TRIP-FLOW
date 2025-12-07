@@ -6,7 +6,7 @@ import type { ItineraryDay } from "@/types/itinerary";
  * Handles adding, removing, and reordering days
  */
 export function useDayManager(
-    days: ItineraryDay[], 
+    days: ItineraryDay[],
     onDaysChange: (newDays: ItineraryDay[]) => void
 ) {
     const handleAddNewDay = useCallback(() => {
@@ -14,21 +14,10 @@ export function useDayManager(
             day: days.length + 1,
             activities: []
         };
-        
+
         const newDays = [...days, newDay];
         onDaysChange(newDays);
     }, [days, onDaysChange]);
 
-    const handleRemoveDay = useCallback((dayIndex: number) => {
-        const newDays = days
-            .filter((_, index) => index !== dayIndex)
-            .map((day, index) => ({ ...day, day: index + 1 }));
-
-        onDaysChange(newDays);
-    }, [days, onDaysChange]);
-
-    return {
-        handleAddNewDay,
-        handleRemoveDay
-    };
+    return { handleAddNewDay };
 }

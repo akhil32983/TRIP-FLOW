@@ -43,14 +43,14 @@ export default function ItineraryEdit() {
 
     const handleDelete = async () => {
         await deleteItinerary(itineraryId);
-        
+
         notify("Itinerario eliminado correctamente", "success", {
             title: "Itinerario eliminado",
         });
-        
+
         navigate("/itineraries");
     };
-    
+
     useEffect(() => {
         const fetchItinerary = async () => {
             setIsLoading(true);
@@ -63,17 +63,17 @@ export default function ItineraryEdit() {
 
         fetchItinerary();
     }, [id]);
-    
+
     return (
         <AppLayout>
             {isLoading && <Loader size={32} variant="dots" />}
             {itinerary && (
-                <ItineraryEditor 
-                    initialItinerary={itinerary} 
-                    onSave={handleSave} 
+                <ItineraryEditor
+                    type="edit"
+                    initialItinerary={itinerary}
+                    onSave={handleSave}
                     onDelete={handleDelete}
                     isSaving={isSaving}
-                    title="Editar Itinerario"
                     back={{ url: `/itineraries/${id}`, label: "Cancelar" }}
                 />
             )}
