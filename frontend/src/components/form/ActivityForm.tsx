@@ -3,7 +3,7 @@ import styles from "@/styles/components/form/ActivityForm.module.css";
 import type { Activity } from "@/types/itinerary";
 import { useActivityFormFields } from "@/hooks/useActivityFormFields";
 
-import { Crosshair, Trash2 } from "lucide-react";
+import { Trash2, ChevronUp } from "lucide-react";
 
 import Button from "@components/shared/Button";
 import FormGroup from "@components/form/FormGroup";
@@ -15,6 +15,9 @@ interface ActivityFormProps {
     onActivityUpdate: (field: keyof Activity, value: any) => void;
     onLocationUpdate: (field: keyof Activity['location'] | 'latitude' | 'longitude', value: any) => void;
     onRemoveActivity: () => void;
+    isExpanded: boolean;
+    onToggleExpand: () => void;
+    displayIndex?: number;
 }
 
 export default function ActivityForm({
@@ -22,7 +25,10 @@ export default function ActivityForm({
     activityIndex,
     onActivityUpdate,
     onLocationUpdate,
-    onRemoveActivity
+    onRemoveActivity,
+    isExpanded,
+    onToggleExpand,
+    displayIndex
 }: ActivityFormProps) {
     const { activityFields, detailsField, locationFields, getFieldHandler } = useActivityFormFields(
         activity,
@@ -30,17 +36,69 @@ export default function ActivityForm({
         onActivityUpdate
     );
 
+    const visualIndex = (displayIndex ?? activityIndex) + 1;
+
+    if (!isExpanded) {
+        return (
+            <div className={styles.activitySummary} onClick={onToggleExpand}>
+                <div className={styles.summaryContent}>
+                    {activity.time && (
+                        <span className={styles.summaryTime}>
+                            {activity.time}
+                        </span>
+                    )}
+                    <span className={styles.summaryTitle}>
+                        {activity.activity || `Actividad ${visualIndex}`}
+                    </span>
+                </div>
+                <div className={styles.summaryActions}>
+                    <Button
+                        onClick={(e) => {
+                            e?.stopPropagation();
+                            onRemoveActivity();
+                        }}
+                        style={["tool_bordered", "danger"]}
+                    >
+                        <Trash2 size={16} />
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.activityCard}>
-            <div className={styles.activityHeader}>
-                <div className={styles.activityTitle}>
-                    <Crosshair size={18} />
-                    <h4 className={styles.activityTitleText}>Actividad {activityIndex + 1}</h4>
+            <div className={styles.activityHeader} onClick={onToggleExpand}>
+                <div className={styles.summaryContent}>
+                    {activity.time && (
+                        <span className={styles.summaryTime}>
+                            {activity.time}
+                        </span>
+                    )}
+                    <span className={styles.summaryTitle}>
+                        {activity.activity || `Actividad ${visualIndex}`}
+                    </span>
                 </div>
-                <Button
-                    onClick={onRemoveActivity}
-                    style={["tool_bordered", "danger"]}
-                ><Trash2 size={16} /></Button>
+                <div className={styles.headerActions}>
+                    <Button
+                        onClick={(e) => {
+                            e?.stopPropagation();
+                            onToggleExpand();
+                        }}
+                        style={["tool_bordered"]}
+                    >
+                        <ChevronUp size={16} />
+                    </Button>
+                    <Button
+                        onClick={(e) => {
+                            e?.stopPropagation();
+                            onRemoveActivity();
+                        }}
+                        style={["tool_bordered", "danger"]}
+                    >
+                        <Trash2 size={16} />
+                    </Button>
+                </div>
             </div>
 
             <div className={styles.activityForm}>

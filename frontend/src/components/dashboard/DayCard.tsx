@@ -1,10 +1,11 @@
+import { useState, useMemo } from "react";
 import styles from "@/styles/components/dashboard/DayCard.module.css";
 
 import type { ItineraryDay, Activity } from "@/types/itinerary";
 
 import { Plus } from "lucide-react";
 
-import Button from "@/components/shared/Button";
+
 import ActivityForm from "@components/form/ActivityForm";
 import { formatDate } from "@/utils/formatUtils";
 
@@ -25,6 +26,18 @@ export default function DayCard({
     onUpdateActivity,
     onUpdateActivityLocation
 }: DayCardProps) {
+    const [expandedActivityIndex, setExpandedActivityIndex] = useState<number | null>(null);
+
+    const sortedActivities = useMemo(() => {
+        return day.activities
+            .map((activity, index) => ({ activity, originalIndex: index }))
+            .sort((a, b) => {
+                const timeA = a.activity.time || "99:99";
+                const timeB = b.activity.time || "99:99";
+                return timeA.localeCompare(timeB);
+            });
+    }, [day.activities]);
+
     return (
         <div className={styles.dayCard}>
             <h3 className={styles.dayTitle}>
@@ -32,30 +45,27 @@ export default function DayCard({
             </h3>
 
             <div className={styles.activitiesContainer}>
-                {day.activities.map((activity, activityIndex) => (
+                {sortedActivities.map(({ activity, originalIndex }, index) => (
                     <ActivityForm
-                        key={activityIndex}
+                        key={originalIndex}
                         activity={activity}
-                        activityIndex={activityIndex}
-                        onActivityUpdate={(field, value) => onUpdateActivity(activityIndex, field, value)}
-                        onLocationUpdate={(field, value) => onUpdateActivityLocation(activityIndex, field, value)}
-                        onRemoveActivity={() => onRemoveActivity(activityIndex)}
+                        activityIndex={originalIndex}
+                        displayIndex={index}
+                        onActivityUpdate={(field, value) => onUpdateActivity(originalIndex, field, value)}
+                        onLocationUpdate={(field, value) => onUpdateActivityLocation(originalIndex, field, value)}
+                        onRemoveActivity={() => onRemoveActivity(originalIndex)}
+                        isExpanded={expandedActivityIndex === originalIndex}
+                        onToggleExpand={() => setExpandedActivityIndex(curr => curr === originalIndex ? null : originalIndex)}
                     />
                 ))}
 
-                {day.activities.length === 0 && (
-                    <div className={styles.emptyActivities}>
-                        <p>No hay actividades planeadas</p>
-                        <p>¡Comienza a planificar lo que harás!</p>
-                        <Button
-                            onClick={onAddActivity}
-                            style={["secondary"]}
-                            label="Añadir primera actividad"
-                        >
-                            <Plus size={16} />
-                        </Button>
-                    </div>
-                )}
+                <button
+                    className={styles.addActivityButton}
+                    onClick={onAddActivity}
+                >
+                    <Plus size={16} />
+                    <span>Añadir actividad</span>
+                </button>
             </div>
         </div>
     );

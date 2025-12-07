@@ -2,7 +2,7 @@ import styles from "@styles/components/shared/Button.module.css";
 
 import { NavLink } from "react-router";
 
-type ButtonStyle = "primary" | "secondary" |"inline" | "tool" | "tool_bordered" | "logo"
+type ButtonStyle = "primary" | "secondary" | "inline" | "tool" | "tool_bordered" | "logo"
     | "route" | "active" | "danger" | "info" | "wrap" | "rounded" | "big" | "full";
 type Target = "_blank" | "_self" | "_parent" | "_top";
 type Rel = "noopener noreferrer" | "nofollow" | "noopener" | "noreferrer";
@@ -11,7 +11,7 @@ interface ButtonProps {
     style: ButtonStyle[];
     label?: string;
     type?: "button" | "submit" | "reset";
-    onClick?: () => void;
+    onClick?: (e?: React.MouseEvent) => void;
     to?: string;
     target?: Target;
     rel?: Rel;

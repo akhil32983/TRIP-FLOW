@@ -2,7 +2,13 @@ import styles from "@styles/components/dashboard/ExtendedItinerary.module.css";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
-import { formatBudget, formatDate, formatImageAuthorUrl, formatPeople, getDate } from "@/utils/formatUtils";
+import {
+    formatBudget,
+    formatDate,
+    formatImageAuthorUrl,
+    formatPeople,
+    getDate
+} from "@/utils/formatUtils";
 
 import { CalendarIcon, MapPinIcon, PiggyBankIcon, UsersIcon } from "lucide-react";
 
@@ -76,9 +82,11 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                     </h3>
 
                     <div className={styles.activities}>
-                        {day.activities.map((activity, actIndex) => (
-                            <ActivityCard activity={activity} key={actIndex} />
-                        ))}
+                        {[...day.activities]
+                            .sort((a, b) => (a.time || "99:99").localeCompare(b.time || "99:99"))
+                            .map((activity, actIndex) => (
+                                <ActivityCard activity={activity} key={actIndex} />
+                            ))}
                     </div>
                 </div>
             ))}
