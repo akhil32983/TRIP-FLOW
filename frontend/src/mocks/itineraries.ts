@@ -1,6 +1,12 @@
 import type { ExtendedItinerary, Itinerary } from "@/types/itinerary";
 import type { PageResponse } from "@/types/shared";
 
+const defaultCoverImage: ExtendedItinerary["coverImage"] = {
+  imageUrl: "https://images.unsplash.com/photo-1611416457332-946853cc75d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w4MzA1NjJ8MHwxfHNlYXJjaHwxfHxuaWdodCUyMGNpdHl8ZW58MHx8fHwxNzY1MTA3ODUyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+  altDescription: "city skyline during night time",
+  authorUsername: "chentianlu",
+}
+
 let itineraries: ExtendedItinerary[] = [
   {
     id: 1,
@@ -345,8 +351,11 @@ export const mockItineraries = {
       }
 
       case "POST": {
-        const newItinerary = {
-          ...(body as ExtendedItinerary),
+        const bodyData = body as ExtendedItinerary;
+
+        const newItinerary: ExtendedItinerary = {
+          ...bodyData,
+          coverImage: defaultCoverImage,
           id: itineraries.length + 1,
         };
 
@@ -370,7 +379,7 @@ export const mockItineraries = {
 
     switch (method) {
       case "GET":
-        return itineraries[index];
+        return itineraries[index] || itineraries[1];
 
       case "PUT":
         itineraries[index] = { ...(body as ExtendedItinerary), id };
