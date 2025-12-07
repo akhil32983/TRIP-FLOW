@@ -8,6 +8,7 @@ import { Trash2, ChevronUp } from "lucide-react";
 import Button from "@components/shared/Button";
 import FormGroup from "@components/form/FormGroup";
 import LocationForm from "@components/form/LocationForm";
+import Divider from "@components/shared/Divider";
 
 interface ActivityFormProps {
     activity: Activity;
@@ -101,9 +102,17 @@ export default function ActivityForm({
                 </div>
             </div>
 
+            <Divider />
+
             <div className={styles.activityForm}>
+                <FormGroup
+                    field={activityFields[0]}
+                    handleChange={getFieldHandler(activityFields[0].name)}
+                    fullWidth
+                />
+
                 <div className={styles.formRow}>
-                    {activityFields.map((field) => (
+                    {activityFields.slice(1).map((field) => (
                         <FormGroup
                             key={field.name}
                             field={field}
@@ -113,18 +122,17 @@ export default function ActivityForm({
                 </div>
 
                 <FormGroup
-                    key={detailsField.name}
                     field={detailsField}
                     handleChange={getFieldHandler(detailsField.name)}
                     fullWidth
                 />
 
-                <div className={styles.locationForm}>
-                    <LocationForm
-                        fields={locationFields}
-                        onLocationUpdate={onLocationUpdate}
-                    />
-                </div>
+                <Divider />
+
+                <LocationForm
+                    fields={locationFields}
+                    onLocationUpdate={onLocationUpdate}
+                />
             </div>
         </div>
     );

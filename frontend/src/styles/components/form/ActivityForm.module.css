@@ -1,4 +1,8 @@
 .activityCard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
     background: var(--bg-card);
     border: 1px solid var(--border-secondary);
     border-radius: var(--border-radius-md);
@@ -14,26 +18,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: var(--space-lg);
-        padding-bottom: var(--space-sm);
-        border-bottom: 1px solid var(--border-secondary);
     }
 
     .activityForm {
         display: flex;
         flex-direction: column;
-        gap: var(--space-lg);
+        gap: var(--space-xxl);
 
         .formRow {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: var(--space-lg);
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-xxl);
         }
     }
-}
-
-.locationForm {
-    margin-top: var(--space-lg);
 }
 
 @media (max-width: 768px) {
