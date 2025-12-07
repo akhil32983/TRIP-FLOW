@@ -6,8 +6,10 @@ import { validatePassword, validateUsername } from "@/utils/validationUtils";
 
 import type { RegisterRequest } from "@/types/auth";
 
-import AuthForm from "@/components/form/AuthForm";
+import { LockIcon, UserIcon } from "lucide-react";
+
 import Layout from "@/layouts/Layout";
+import AuthForm from "@components/form/AuthForm";
 
 export default function RegisterPage() {
   const { user, register } = useAuth();
@@ -61,18 +63,25 @@ export default function RegisterPage() {
     <Layout single>
       <AuthForm
         fields={[
-          { name: "username", label: "Usuario", placeholder: "CuB1z" },
+          {
+            name: "username",
+            label: "Usuario",
+            placeholder: "CuB1z",
+            icon: <UserIcon size={16} />
+          },
           {
             name: "password",
             label: "Contraseña",
             type: "password",
             placeholder: "********",
+            icon: <LockIcon size={16} />
           },
           {
             name: "confirmPassword",
             label: "Confirmar contraseña",
             type: "password",
             placeholder: "********",
+            icon: <LockIcon size={16} />
           },
         ]}
         buttonLabel="Registrarse"

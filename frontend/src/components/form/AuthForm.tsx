@@ -3,11 +3,12 @@ import styles from "@styles/components/form/Form.module.css";
 import { useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 
+import type { Field } from "@/types/form";
+
 import Button from "@components/shared/Button";
 import Divider from "@components/shared/Divider";
 import Logo from "@components/shared/Logo";
-
-import type { Field } from "@/types/form";
+import FormGroup from "@components/form/FormGroup";
 
 export type Errors = Record<string, string>;
 
@@ -34,7 +35,9 @@ export default function AuthForm<T extends Record<string, any>>({
 }: AuthFormProps<T>) {
   const [values, setValues] = useState<T>({} as T);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
@@ -50,27 +53,15 @@ export default function AuthForm<T extends Record<string, any>>({
       </Button>
       <form className={styles.form} onSubmit={handleSubmit}>
         {fields.map((field, index) => (
-          <div
+          <FormGroup
             key={field.name}
-            className={styles.field}
-            style={{ "--index": index + 1 } as React.CSSProperties}
-          >
-            <label className={styles.fieldLabel} htmlFor={field.name}>
-              {field.label}
-            </label>
-            <input
-              type={field.type || "text"}
-              id={field.name}
-              name={field.name}
-              placeholder={field.placeholder || ""}
-              onChange={handleChange}
-            />
-            {errors && errors[field.name] && (
-              <div className={styles.error}>{errors[field.name]}</div>
-            )}
-          </div>
+            index={index}
+            field={{ ...field, value: values[field.name] }}
+            handleChange={handleChange}
+            errors={errors || undefined}
+          />
         ))}
-        <Button style={["primary"]} label={buttonLabel} type="submit" />
+        <Button style={["primary", "big"]} label={buttonLabel} type="submit" />
       </form>
       {alternative && (
         <div className={styles.alternative}>

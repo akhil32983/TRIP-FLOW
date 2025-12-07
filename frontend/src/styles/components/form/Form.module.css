@@ -13,7 +13,8 @@
 
   border-radius: var(--border-radius-lg);
   border: 1px solid var(--border-secondary);
-  background-color: var(--bg-card);
+  background-color: var(--bg-primary-alpha);
+  backdrop-filter: blur(1px);
   box-shadow: var(--aureola-blue);
 }
 
@@ -130,4 +131,18 @@
   font-weight: var(--font-weight-bold);
   text-align: center;
   margin-top: var(--space-lg);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    max-width: 100%;
+    height: 100%;
+    justify-content: space-around;
+    margin-top: 0;
+    gap: var(--space-xl);
+    padding: var(--space-xl);
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+  }
 }

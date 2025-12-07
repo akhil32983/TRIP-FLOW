@@ -12,7 +12,7 @@ interface LayoutProps {
 
 export default function Layout({ single, children }: LayoutProps) {
     return (
-        <div className={styles.layout}>
+        <div className={`${styles.layout} ${single ? styles.single : ""}`}>
             {!single && <Header />}
             <main className={styles.main}>
                 {children}
