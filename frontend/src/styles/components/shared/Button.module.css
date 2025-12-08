@@ -1,15 +1,15 @@
 .button {
-    min-height: 36px;
+    height: 42px;
     width: max-content;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-sm) var(--space-xl);
+    padding: var(--space-sm) var(--space-lg);
     color: var(--text-color);
 
     text-decoration: none;
 
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-md);
     font-weight: var(--font-weight-normal);
     border-radius: var(--border-radius-lg);
 
@@ -25,10 +25,6 @@
 
     &.withChildren {
         gap: var(--space-md);
-    }
-
-    &.big {
-        font-size: var(--font-size-md);
     }
 
     &.full {
@@ -47,7 +43,7 @@
 
 .primary {
     border: none;
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
     background: var(--gradient-primary);
     text-transform: capitalize;
 
@@ -61,10 +57,10 @@
 }
 
 .secondary {
-    border: 1px solid var(--border-secondary);
-    background-color: var(--bg-overlay);
+    border: none;
+    background-color: var(--bg-secondary);
     color: var(--text-secondary);
-    font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-normal);
     text-transform: capitalize;
 
     &.danger {
