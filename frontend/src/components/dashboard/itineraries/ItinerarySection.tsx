@@ -1,4 +1,4 @@
-import styles from "@/styles/components/dashboard/ItinerarySection.module.css";
+import styles from "@/styles/components/dashboard/itineraries/ItinerarySection.module.css";
 
 import type { ItineraryDay, Activity } from "@/types/itinerary";
 

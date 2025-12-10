@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import styles from "@/styles/components/dashboard/DayCard.module.css";
+import styles from "@/styles/components/dashboard/itineraries/DayCard.module.css";
 
 import type { ItineraryDay, Activity } from "@/types/itinerary";
 

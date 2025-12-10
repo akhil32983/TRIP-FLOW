@@ -1,4 +1,4 @@
-@import url("../../animations.css");
+@import url("../../../animations.css");
 
 .profileCard {
     --space: var(--space-lg);

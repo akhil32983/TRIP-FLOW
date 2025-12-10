@@ -1,4 +1,4 @@
-import ProfileCard from "@components/dashboard/ProfileCard";
+import ProfileCard from "@components/dashboard/profile/ProfileCard";
 
 import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";

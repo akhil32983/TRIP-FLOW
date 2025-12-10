@@ -1,4 +1,4 @@
-import styles from "@styles/components/dashboard/ProfileCard.module.css";
+import styles from "@styles/components/dashboard/profile/ProfileCard.module.css";
 
 import { useAuth } from "@/providers/authProvider";
 

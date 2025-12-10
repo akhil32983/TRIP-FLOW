@@ -1,4 +1,4 @@
-import styles from "@styles/components/dashboard/ExtendedItinerary.module.css";
+import styles from "@styles/components/dashboard/itineraries/ExtendedItinerary.module.css";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
