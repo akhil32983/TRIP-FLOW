@@ -1,4 +1,4 @@
-import styles from "./AttributionImage.module.css";
+import styles from "@styles/components/shared/AttributionImage.module.css";
 import type { ComponentProps } from "react";
 
 interface AttributionImageProps extends ComponentProps<"div"> {

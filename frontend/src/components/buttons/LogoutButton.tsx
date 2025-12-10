@@ -2,17 +2,15 @@ import { useNavigate } from "react-router";
 
 import { useAuth } from "@/providers/authProvider";
 import { useDemo } from "@/providers/demoProvider";
-
-import Button from "@components/shared/Button";
 import { useIsPWA } from "@/hooks/useIsPWA";
-import { LogOutIcon } from "lucide-react";
 
 interface LogoutButtonProps {
     to?: string;
-    responsive?: boolean;
+    className?: string;
+    children?: React.ReactNode;
 }
 
-export default function LogoutButton({ to, responsive }: LogoutButtonProps) {
+export default function LogoutButton({ to, className, children }: LogoutButtonProps) {
     const { logout } = useAuth();
     const { deactivateDemo } = useDemo();
     const isPWA = useIsPWA();
@@ -27,12 +25,8 @@ export default function LogoutButton({ to, responsive }: LogoutButtonProps) {
     }
 
     return (
-        <Button
-            style={[responsive ? "tool_bordered" : "secondary"]}
-            label="Cerrar sesión"
-            onClick={handleLogout}
-        >
-            <LogOutIcon size={18} />
-        </Button>
+        <button className={className} onClick={handleLogout}>
+            {children}
+        </button>
     );
 }

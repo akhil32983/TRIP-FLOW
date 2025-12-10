@@ -10,7 +10,6 @@ import {
 
 import Button from "@components/shared/Button";
 import Logo from "@components/shared/Logo";
-import LogoutButton from "@components/buttons/LogoutButton";
 
 const ROUTES = [
     { path: "/dashboard", label: "Dashboard", icon: <MapPinIcon /> },
@@ -44,9 +43,6 @@ export default function Sidebar() {
                     </Button>
                 ))}
             </nav>
-            <div className={styles.actions}>
-                <LogoutButton />
-            </div>
         </aside>
     );
 }

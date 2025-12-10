@@ -18,7 +18,7 @@
 /* Css Global Variables */
 :root {
   /* MAIN COLORS */
-  --primary: #38BDF8;
+  --primary: #33a7d8;
   --secondary: #11a9c4;
   --tertiary: #1A3047;
 
@@ -38,15 +38,19 @@
 
   /* STATES */
   --active: #1cac51;
+  --active-bg: #1cac511a;
   --info: #33a7d8;
-  --done: #665486;
+  --info-bg: #33a7d81a;
+  --done: #66508e;
+  --done-bg: #5338813b;
   --draft: #94A3B8;
   --cancelled: #914242;
   --error: #df5f5f;
+  --error-bg: #df5f5f1a;
   --warning: #f59e0b;
 
   /* BORDERS */
-  --border-primary: var(--primary);
+  --border-primary: #33a7d8;
   --border-secondary: #334155;
   --border-subtle: #475569;
 
@@ -57,7 +61,7 @@
   --aureola-blue: 0 0 200px rgba(59, 130, 246, 0.5);
 
   /* GRADIENTS */
-  --gradient-primary: linear-gradient(165deg, #1da4bc 0%, #18819b 100%);
+  --gradient-primary: linear-gradient(165deg, #1698ae 0%, #1567be 100%);
 
   /* SIZES */
   --navbar-height: 80px;
