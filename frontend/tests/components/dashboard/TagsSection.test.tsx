@@ -1,4 +1,4 @@
-import TagsSection from "@components/dashboard/TagsSection";
+import TagsSection from "@/components/dashboard/TagsSection";
 
 import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect, vi } from "vitest";

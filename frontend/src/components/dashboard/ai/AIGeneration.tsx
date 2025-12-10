@@ -15,7 +15,7 @@ import { Send, Package, PackageOpen, Loader } from "lucide-react";
 
 import FormGroup from "@components/form/FormGroup";
 import Button from "@components/shared/Button";
-import TagsSection from "@components/dashboard/TagsSection";
+import TagsSection from "@/components/dashboard/TagsSection";
 import Badge from "@components/shared/Badge";
 
 export default function AIGeneration() {

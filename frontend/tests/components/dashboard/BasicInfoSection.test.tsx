@@ -1,4 +1,4 @@
-import BasicInfoSection from "@components/dashboard/BasicInfoSection";
+import BasicInfoSection from "@/components/dashboard/itineraries/BasicInfoSection";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
 import { describe, it, expect, vi } from "vitest";

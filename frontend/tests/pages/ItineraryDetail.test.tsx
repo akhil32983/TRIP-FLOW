@@ -38,7 +38,7 @@ vi.mock("@/components/dashboard/headers/InnerTabHeader", () => ({
     ),
 }));
 
-vi.mock("@/components/dashboard/ExtendedItinerary", () => ({
+vi.mock("@/components/dashboard/itineraries/ExtendedItinerary", () => ({
     default: ({ itinerary }: any) => (
         <div data-testid="extended-itinerary" data-itinerary-id={itinerary?.id}>
         </div>

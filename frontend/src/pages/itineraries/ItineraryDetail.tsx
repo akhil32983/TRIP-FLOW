@@ -8,7 +8,7 @@ import { getItineraryById } from "@/services/itineraryService";
 import AppLayout from "@/layouts/AppLayout";
 import Loader from "@/components/shared/Loader";
 import InnerTabHeader from "@components/dashboard/headers/InnerTabHeader";
-import ExtendedItinerary from "@components/dashboard/ExtendedItinerary";
+import ExtendedItinerary from "@/components/dashboard/itineraries/ExtendedItinerary";
 import Button from "@/components/shared/Button";
 
 export default function ItineraryDetailPage() {

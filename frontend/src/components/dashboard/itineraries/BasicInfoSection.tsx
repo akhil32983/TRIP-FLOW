@@ -4,7 +4,7 @@ import type { ExtendedItinerary } from "@/types/itinerary";
 
 import { useBasicInfoFormFields } from "@/hooks/useBasicInfoFormFields";
 
-import TagsSection from "@components/dashboard/TagsSection";
+import TagsSection from "@/components/dashboard/TagsSection";
 import FormGroup from "@components/form/FormGroup";
 
 interface BasicInfoSectionProps {

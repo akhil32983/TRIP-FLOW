@@ -4,7 +4,7 @@ import type { Itinerary } from "@/types/itinerary";
 
 import Button from "@components/shared/Button";
 import Loader from "@components/shared/Loader";
-import ItineraryCard from "./itineraries/ItineraryCard";
+import ItineraryCard from "./ItineraryCard";
 
 interface ItinerariesPreviewProps {
     itineraries: Itinerary[];

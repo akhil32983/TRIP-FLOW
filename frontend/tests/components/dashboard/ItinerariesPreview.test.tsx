@@ -1,4 +1,4 @@
-import ItinerariesPreview from "@components/dashboard/ItinerariesPreview";
+import ItinerariesPreview from "@/components/dashboard/itineraries/ItinerariesPreview";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";

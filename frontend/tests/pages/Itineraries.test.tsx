@@ -30,7 +30,7 @@ vi.mock("@/components/shared/Searchbar", () => ({
     default: () => <div data-testid="searchbar" />,
 }));
 
-vi.mock("@/components/dashboard/ItinerariesPreview", () => ({
+vi.mock("@/components/dashboard/itineraries/ItinerariesPreview", () => ({
     default: () => <section data-testid="itineraries-preview" />,
 }));
 

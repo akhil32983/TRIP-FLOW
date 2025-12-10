@@ -8,7 +8,7 @@ import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNot
 
 import AppLayout from "@/layouts/AppLayout";
 import Searchbar from "@components/shared/Searchbar";
-import ItinerariesPreview from "@components/dashboard/ItinerariesPreview";
+import ItinerariesPreview from "@/components/dashboard/itineraries/ItinerariesPreview";
 import ItinerariesHeader from "@/components/dashboard/headers/ItinerariesHeader";
 
 const PAGE_SIZE = 10;

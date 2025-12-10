@@ -7,7 +7,7 @@ import { useActivityManager } from "@/hooks/useActivityManager";
 import { Plus } from "lucide-react";
 
 import Button from "@/components/shared/Button";
-import DayCard from "@components/dashboard/DayCard";
+import DayCard from "@/components/dashboard/itineraries/DayCard";
 import { getDate } from "@/utils/formatUtils";
 
 interface ItinerarySectionProps {

@@ -2,8 +2,8 @@ import styles from "@styles/components/form/ItineraryEditForm.module.css";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
-import BasicInfoSection from "@components/dashboard/BasicInfoSection";
-import ItinerarySection from "@components/dashboard/ItinerarySection";
+import BasicInfoSection from "@/components/dashboard/itineraries/BasicInfoSection";
+import ItinerarySection from "@/components/dashboard/itineraries/ItinerarySection";
 
 import { Trash2 } from "lucide-react";
 import Button from "@/components/shared/Button";

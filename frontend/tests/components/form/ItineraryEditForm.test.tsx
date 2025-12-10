@@ -6,7 +6,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { ExtendedItinerary } from "@/types/itinerary";
 
 // Secondary dependencies mocks
-vi.mock("@components/dashboard/BasicInfoSection", () => ({
+vi.mock("@components/dashboard/itineraries/BasicInfoSection", () => ({
     default: ({ itinerary, onUpdateBasicInfo, onTagsChange }: any) => (
         <div data-testid="basic-info-section">
             <span>Basic Info: {itinerary.title}</span>
@@ -18,7 +18,7 @@ vi.mock("@components/dashboard/BasicInfoSection", () => ({
     ),
 }));
 
-vi.mock("@components/dashboard/ItinerarySection", () => ({
+vi.mock("@components/dashboard/itineraries/ItinerarySection", () => ({
     default: ({ days, onDaysChange, onAddNewDay, onRemoveDay }: any) => (
         <div data-testid="itinerary-section">
             <span>Days: {days.length}</span>
@@ -48,6 +48,17 @@ vi.mock("@/components/shared/Button", () => ({
 
 vi.mock("lucide-react", () => ({
     Trash2: () => <svg data-testid="trash-icon" />,
+    Plane: () => <svg data-testid="plane-icon" />,
+    Euro: () => <svg data-testid="euro-icon" />,
+    BatteryMedium: () => <svg data-testid="battery-medium-icon" />,
+    Calendar: () => <svg data-testid="calendar-icon" />,
+    CalendarDays: () => <svg data-testid="calendar-days-icon" />,
+    MapPin: () => <svg data-testid="map-pin-icon" />,
+    PiggyBank: () => <svg data-testid="piggy-bank-icon" />,
+    Users: () => <svg data-testid="users-icon" />,
+    Tag: () => <svg data-testid="tag-icon" />,
+    Plus: () => <svg data-testid="plus-icon" />,
+    X: () => <svg data-testid="x-icon" />,
 }));
 
 const mockItinerary: ExtendedItinerary = {

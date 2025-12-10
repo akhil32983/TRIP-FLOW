@@ -1,4 +1,4 @@
-import DayCard from "@components/dashboard/DayCard";
+import DayCard from "@/components/dashboard/itineraries/DayCard";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
 import { describe, it, expect, vi } from "vitest";

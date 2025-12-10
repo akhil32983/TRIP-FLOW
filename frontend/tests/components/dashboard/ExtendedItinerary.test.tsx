@@ -1,4 +1,4 @@
-import ExtendedItinerary from "@components/dashboard/ExtendedItinerary";
+import ExtendedItinerary from "@/components/dashboard/itineraries/ExtendedItinerary";
 
 import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect, vi } from "vitest";

@@ -13,8 +13,8 @@ import {
 import { CalendarIcon, MapPinIcon, PiggyBankIcon, UsersIcon } from "lucide-react";
 
 import Badge from "@components/shared/Badge";
-import AttributionImage from "../shared/AttributionImage";
-import ActivityCard from "./itineraries/ActivityCard";
+import AttributionImage from "../../shared/AttributionImage";
+import ActivityCard from "./ActivityCard";
 
 interface ExtendedItineraryProps {
     itinerary: ExtendedItinerary;
