@@ -27,7 +27,7 @@ vi.mock("@/components/dashboard/headers/InnerTabHeader", () => ({
 }));
 
 vi.mock("@/components/form/ItineraryEditForm", () => ({
-    default: ({ itinerary, onSave }: any) => (
+    default: ({ itinerary, onSave: _onSave }: any) => (
         <div data-testid="itinerary-edit-form">
             <span>Itinerary Form</span>
             <span>ID: {itinerary?.id}</span>
