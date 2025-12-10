@@ -277,8 +277,10 @@ select {
     font-size: var(--font-size-md);
     border: none;
 
-    &:hover {
-      background-color: var(--bg-tertiary);
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--bg-tertiary);
+      }
     }
 
     &:checked {

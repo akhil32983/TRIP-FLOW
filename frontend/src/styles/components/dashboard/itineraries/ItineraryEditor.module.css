@@ -23,10 +23,12 @@
     font-weight: var(--font-weight-medium);
     cursor: pointer;
     transition: all 0.2s ease;
-}
 
-.tab:hover {
-    color: var(--text-primary);
+    @media (hover: hover) {
+        &:hover {
+            color: var(--text-primary);
+        }
+    }
 }
 
 .activeTab {

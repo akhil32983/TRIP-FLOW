@@ -18,9 +18,11 @@
         background-color: var(--bg-card);
         transition: all 0.2s ease-in-out;
 
-        &:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-primary);
+        @media (hover: hover) {
+            &:hover {
+                transform: translateY(-2px);
+                border-color: var(--border-primary);
+            }
         }
 
         &.info {
@@ -45,8 +47,10 @@
         }
 
         &.danger {
-            &:hover {
-                border-color: var(--error);
+            @media (hover: hover) {
+                &:hover {
+                    border-color: var(--error);
+                }
             }
 
             .iconContainer {
@@ -70,18 +74,18 @@
             border-radius: var(--border-radius-lg);
             background-color: var(--info-bg);
         }
-    
+
         .labelContainer {
             display: flex;
             flex-direction: column;
-    
+
             .title {
                 text-align: left;
                 line-height: 1.4;
                 font-size: var(--font-size-sm);
                 font-weight: var(--font-weight-bold);
             }
-    
+
             .description {
                 text-align: left;
                 line-height: 1.2;

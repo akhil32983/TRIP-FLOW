@@ -29,7 +29,7 @@
     animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.success { 
+.success {
     color: var(--active);
     border-color: var(--active);
 }
@@ -45,7 +45,7 @@
 }
 
 .info {
-    color: var(--info); 
+    color: var(--info);
     border-color: var(--info);
 }
 
@@ -85,10 +85,12 @@
     color: var(--primary);
     transition: all 0.2s;
     cursor: pointer;
-}
 
-.closeButton:hover {
-    color: var(--error);
+    @media (hover: hover) {
+        &:hover {
+            color: var(--error);
+        }
+    }
 }
 
 .message {

@@ -50,8 +50,10 @@
         }
     }
 
-    &:hover {
-        transform: translateY(-4px);
-        border-color: var(--primary);
+    @media (hover: hover) {
+        &:hover {
+            transform: translateY(-4px);
+            border-color: var(--primary);
+        }
     }
 }

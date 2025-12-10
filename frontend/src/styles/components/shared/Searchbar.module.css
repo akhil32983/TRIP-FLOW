@@ -1,6 +1,6 @@
 .searchbar {
     --border-radius: var(--border-radius-lg);
-    
+
     width: calc(100% - var(--app-padding) * 2);
     margin-inline: var(--app-padding);
     display: flex;
@@ -34,16 +34,19 @@
         cursor: pointer;
         transition: all 0.2s ease;
 
-        &:hover {
-            color: var(--text-primary);
+        @media (hover: hover) {
+            &:hover {
+                color: var(--text-primary);
+            }
         }
-        
+
         &:focus {
             outline: none;
         }
     }
 
     &:has(.input:focus) {
+
         .input,
         .button {
             backdrop-filter: blur(24px);
@@ -51,11 +54,14 @@
         }
     }
 
-    &:hover {
-        .input,
-        .button {
-            backdrop-filter: blur(24px);
-            border-color: var(--primary);
+    @media (hover: hover) {
+        &:hover {
+
+            .input,
+            .button {
+                backdrop-filter: blur(24px);
+                border-color: var(--primary);
+            }
         }
     }
 }

@@ -38,9 +38,11 @@
         color: var(--primary);
     }
 
-    &:hover {
-        transform: translateY(-2px);
-        border-color: var(--border-primary);
+    @media (hover: hover) {
+        &:hover {
+            transform: translateY(-2px);
+            border-color: var(--border-primary);
+        }
     }
 }
 

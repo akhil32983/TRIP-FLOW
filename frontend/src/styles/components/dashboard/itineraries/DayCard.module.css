@@ -33,8 +33,10 @@
             transition: all 0.2s ease;
             font-weight: var(--font-weight-medium);
 
-            &:hover {
-                border-color: var(--border-subtle);
+            @media (hover: hover) {
+                &:hover {
+                    border-color: var(--border-subtle);
+                }
             }
         }
     }

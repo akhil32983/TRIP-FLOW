@@ -25,8 +25,10 @@
         object-fit: cover;
     }
 
-    &:hover {
-        border-color: var(--border-primary);
+    @media (hover: hover) {
+        &:hover {
+            border-color: var(--border-primary);
+        }
     }
 }
 

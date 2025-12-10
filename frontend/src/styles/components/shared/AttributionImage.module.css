@@ -54,12 +54,16 @@
   letter-spacing: 0.5px;
   text-decoration: underline;
   cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
 }
 
-.authorLink:hover {
-  color: var(--text-primary);
-}
-
-.container:hover .overlay {
-  opacity: 1;
+@media (hover: hover) {
+  .container:hover .overlay {
+    opacity: 1;
+  }
 }

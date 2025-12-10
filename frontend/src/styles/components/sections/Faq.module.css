@@ -15,8 +15,10 @@
   background: var(--bg-card);
   transition: all 0.2s ease;
 
-  &:hover {
-    filter: brightness(1.25);
+  @media (hover: hover) {
+    &:hover {
+      filter: brightness(1.25);
+    }
   }
 
   .faqQuestion {
@@ -26,8 +28,10 @@
     cursor: pointer;
     transition: color 0.2s ease;
 
-    &:hover {
-      color: var(--primary-color);
+    @media (hover: hover) {
+      &:hover {
+        color: var(--primary-color);
+      }
     }
   }
 
