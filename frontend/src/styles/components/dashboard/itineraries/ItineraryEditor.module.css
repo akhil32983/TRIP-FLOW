@@ -32,7 +32,7 @@
 .activeTab {
     padding: var(--space-sm) var(--space-xl);
     border-radius: var(--border-radius-full);
-    background: var(--primary);
+    background: var(--gradient-primary);
     border: none;
     color: var(--text-inverse);
     font-size: var(--font-size-sm);
