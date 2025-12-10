@@ -19,7 +19,7 @@
 :root {
   /* MAIN COLORS */
   --primary: #38BDF8;
-  --secondary: #06b6d4;
+  --secondary: #11a9c4;
   --tertiary: #1A3047;
 
   /* BACKGROUNDS */
@@ -57,11 +57,7 @@
   --aureola-blue: 0 0 200px rgba(59, 130, 246, 0.5);
 
   /* GRADIENTS */
-  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #0891b2 100%);
-  --gradient-secondary: linear-gradient(135deg,
-      var(--bg-secondary) 0%,
-      var(--bg-primary) 100%);
-  --gradient-text: linear-gradient(135deg, #60a5fa 0%, #22d3ee 100%);
+  --gradient-primary: linear-gradient(165deg, #1da4bc 0%, #18819b 100%);
 
   /* SIZES */
   --navbar-height: 80px;
@@ -139,11 +135,7 @@ h1 {
 
 strong {
   font-weight: var(--font-weight-bold);
-  background: var(--gradient-text);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
+  color: var(--primary);
 }
 
 p {

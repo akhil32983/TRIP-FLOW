@@ -11,7 +11,7 @@
     flex-direction: column;
     align-items: center;
     gap: var(--space-lg);
-    background: var(--gradient-secondary);
+    background: var(--bg-secondary);
     padding: var(--space-xxl);
     border: 1px solid var(--border-secondary);
     border-radius: var(--border-radius-lg);

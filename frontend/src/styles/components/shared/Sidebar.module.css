@@ -9,7 +9,8 @@
     flex-direction: column;
     align-items: center;
     gap: var(--space-xxxl);
-    padding: var(--space-lg);
+    padding-block: var(--space-xxxl);
+    padding-inline: var(--space-lg);
 
     .nav {
         width: 100%;
