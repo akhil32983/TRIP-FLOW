@@ -68,7 +68,7 @@ export default function Modal({
                     <Button style={["secondary"]} onClick={onCancel}>
                         {cancelText}
                     </Button>
-                    <Button style={["secondary", variant]} onClick={onConfirm}>
+                    <Button style={["primary", variant]} onClick={onConfirm}>
                         {confirmText}
                     </Button>
                 </div>

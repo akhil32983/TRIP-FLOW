@@ -44,7 +44,7 @@ export default function ItineraryEditForm({
                 <div className={styles.formFooter}>
                     <Button
                         onClick={onDelete}
-                        style={["secondary", "danger"]}
+                        style={["primary", "danger"]}
                         label="Eliminar Itinerario"
                     >
                         <Trash2 size={20} />

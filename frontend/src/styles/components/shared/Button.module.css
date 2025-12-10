@@ -47,6 +47,10 @@
     background: var(--gradient-primary);
     text-transform: capitalize;
 
+    &.danger {
+        background: var(--error);
+    }
+
     &:hover {
         filter: brightness(1.10);
     }
@@ -57,7 +61,7 @@
 }
 
 .secondary {
-    border: none;
+    border: 1px solid var(--border-secondary);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
     font-weight: var(--font-weight-normal);
