@@ -195,6 +195,8 @@ test.describe("Authentication Flow", () => {
             
             await expect(page).toHaveURL(/\/dashboard/, { timeout: 10000 });
 
+            await page.goto(`${FRONTEND_URL}/profile`);
+
             // 3. Logout
             await page.getByRole("button", { name: /cerrar sesión/i }).click();
             await expect(page).toHaveURL(/\/login/, { timeout: 5000 });
