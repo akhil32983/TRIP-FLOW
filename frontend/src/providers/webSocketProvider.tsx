@@ -3,6 +3,7 @@ import { Client, type IMessage, type StompSubscription } from "@stomp/stompjs";
 
 import { WS_BASE_URL } from "@/config/environment";
 import { useAuth } from "@/providers/authProvider";
+import { useDemo } from "./demoProvider";
 
 interface WebSocketContextType {
     client: Client | null;
@@ -19,9 +20,10 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
     const [isConnected, setIsConnected] = useState(false);
 
     const { user } = useAuth();
+    const { demo } = useDemo();
 
     useEffect(() => {
-        if (!user) return;
+        if (!user || demo) return;
 
         const stompClient = new Client({
             brokerURL: `${WS_BASE_URL}/notifications`,
@@ -43,7 +45,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
                 stompClient.deactivate();
             }
         };
-    }, [user]);
+    }, [user, demo]);
 
     const subscribe = useCallback((
         destination: string,
