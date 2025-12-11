@@ -1,4 +1,4 @@
-import ProfilePage from "@/pages/Profile";
+import ProfilePage from "@/pages/profile/Profile";
 
 import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect, vi } from "vitest";
