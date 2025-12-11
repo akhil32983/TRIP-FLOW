@@ -7,6 +7,7 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
+  retries: 1,
   use: {
     trace: 'on-first-retry',
   },
