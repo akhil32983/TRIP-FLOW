@@ -10,7 +10,7 @@
   font-family: "Inter", "Quantico", "Orbitron", "Merriweather", sans-serif;
 
   &::selection {
-    background: var(--bg-card);
+    background: var(--secondary);
     color: var(--text-primary);
   }
 }
@@ -24,7 +24,7 @@
 
   /* BACKGROUNDS */
   --bg-primary: #0f172a;
-  --bg-primary-alpha: rgba(23, 32, 52, 0.95);
+  --bg-primary-alpha: #172034f2;
   --bg-secondary: #1e293b;
   --bg-tertiary: #1A3047;
   --bg-card: #1e293b;
