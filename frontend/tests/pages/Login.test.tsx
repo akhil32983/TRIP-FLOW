@@ -53,6 +53,7 @@ describe("Login Page Validation", () => {
       login: mockLogin,
       logout: vi.fn(),
       register: vi.fn(),
+      updateProfile: vi.fn(),
     });
 
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
@@ -346,6 +347,7 @@ describe("Login Page Validation", () => {
       login: mockLogin,
       logout: vi.fn(),
       register: vi.fn(),
+      updateProfile: vi.fn(),
     });
 
     render(<Login />);
