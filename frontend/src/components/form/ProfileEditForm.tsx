@@ -1,0 +1,115 @@
+import styles from "@styles/components/form/ProfileEditForm.module.css";
+
+import { useState } from "react";
+import { useNavigate } from "react-router";
+
+import type { UpdateProfileRequest } from "@/types/user";
+import type { Field } from "@/types/form";
+
+import { useAuth } from "@/providers/authProvider";
+import { useNotification } from "@/providers/notificationProvider";
+
+import { uploadAvatar } from "@/services/userService";
+
+import { MapPinIcon, UserIcon } from "lucide-react";
+
+import Button from "@components/shared/Button";
+import FormGroup from "@components/form/FormGroup";
+import AvatarUploader from "@components/form/AvatarUploader";
+
+const ICON_SIZE = 20;
+
+export default function ProfileEditForm() {
+    const { user, updateProfile } = useAuth();
+    const { notify } = useNotification();
+    const navigate = useNavigate();
+
+    const [values, setValues] = useState<UpdateProfileRequest>({
+        name: user?.name,
+        description: user?.description,
+        location: user?.location
+    });
+
+    const fields: Field[] = [
+        {
+            name: "name", label: "Nombre",
+            type: "text", value: values.name,
+            icon: <UserIcon size={ICON_SIZE} />
+        },
+        {
+            name: "location", label: "Ubicación",
+            type: "text", value: values.location,
+            icon: <MapPinIcon size={ICON_SIZE} />
+        },
+        {
+            name: "description", label: "Sobre mí",
+            type: "textarea", value: values.description,
+        }
+    ];
+
+    const [preview, setPreview] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+
+    if (!user) return null;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsLoading(true);
+        try {
+            await updateProfile(values);
+            notify("Perfil actualizado correctamente", "success", {
+                title: "Éxito",
+                duration: 3000
+            });
+            navigate("/profile");
+        } catch (error) {
+            notify("Error al actualizar el perfil", "error", {
+                title: "Error",
+                duration: 4000
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleFileSelect = (file: File) => {
+        uploadAvatar(user.username, file);
+        setPreview(URL.createObjectURL(file));
+    };
+
+    const handleChange = (e: React.ChangeEvent<any>) => {
+        setValues(p => ({ ...p, [e.target.name]: e.target.value }));
+    };
+
+    return (
+        <div className={styles.container}>
+            <AvatarUploader
+                username={user.username}
+                preview={preview}
+                onFileSelect={handleFileSelect}
+            />
+
+            <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.group}>
+                    {fields.map((field) => (
+                        <FormGroup
+                            key={field.name}
+                            field={field}
+                            handleChange={handleChange}
+                            fullWidth
+                        />
+                    ))}
+                </div>
+
+                <div className={styles.actions}>
+                    <Button
+                        style={["primary"]}
+                        label={isLoading ? "Guardando..." : "Guardar"}
+                        type="submit"
+                        disabled={isLoading}
+                    />
+                </div>
+            </form>
+        </div>
+    );
+}
