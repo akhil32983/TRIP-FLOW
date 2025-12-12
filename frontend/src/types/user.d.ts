@@ -10,3 +10,9 @@ export type PublicUser = {
   role: UserRole;
   plan: UserPlan;
 };
+
+export type UpdateProfileRequest = {
+    name?: string;
+    description?: string;
+    location?: string;
+}

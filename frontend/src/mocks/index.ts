@@ -1,6 +1,7 @@
 import { mockAuth } from "./auth";
 import { mockItineraries } from "./itineraries";
 import { mockStats } from "./stats";
+import { mockUser } from "./user";
 
 type MockHandler = (
   method: string,
@@ -12,6 +13,7 @@ const mockRegistry: Record<string, MockHandler> = {
   ...mockAuth,
   ...mockItineraries,
   ...mockStats,
+  ...mockUser
 };
 
 /**

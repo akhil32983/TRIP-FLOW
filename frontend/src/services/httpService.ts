@@ -42,20 +42,26 @@ async function refreshAuthToken(): Promise<boolean> {
 export async function http<T>(
   path: string,
   method: HttpMethod = "GET",
-  body?: unknown
+  body?: unknown,
 ): Promise<T> {
+  const isFormData = body instanceof FormData;
+  
+  const headers: HeadersInit = {
+    ...(!isFormData && { "Content-Type": "application/json" }),
+  };
+
   const options: RequestInit = {
     method,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     credentials: "include",
   };
 
   const isDemo = retrieveFromLocalStorage<string>(DEMO_KEY) === "true";
   if (isDemo) return getMock(path, method, body) as Promise<T>;
 
-  if (body) options.body = JSON.stringify(body);
+  if (body) options.body = isFormData
+    ? (body as FormData)
+    : JSON.stringify(body);
 
   const url = `${API_BASE_URL}${path.startsWith("/") ? "" : "/"}${path}`;
 
