@@ -14,7 +14,7 @@
 }
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1024px) {
     .basicInfo .formGrid {
         grid-template-columns: repeat(2, 1fr);
     }

@@ -10,7 +10,8 @@ import ItinerariesPage from "@pages/itineraries/Itineraries";
 import ItineraryDetailPage from "@pages/itineraries/ItineraryDetail";
 import ItineraryNewPage from "@pages/itineraries/ItineraryNew";
 import ItineraryEditPage from "@pages/itineraries/ItineraryEdit";
-import ProfilePage from "@pages/Profile";
+import ProfilePage from "@pages/profile/Profile";
+import ProfileEditPage from "@pages/profile/ProfileEdit";
 import NotFound from "@pages/NotFound";
 
 import { useAuth } from "@/providers/authProvider";
@@ -73,7 +74,10 @@ export default function Router() {
                     </Route>
                     <Route path="new" element={<PrivateRoute><ItineraryNewPage /></PrivateRoute>} />
                 </Route>
-                <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+                <Route path="/profile">
+                    <Route index element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+                    <Route path="edit" element={<PrivateRoute><ProfileEditPage /></PrivateRoute>} />
+                </Route>
 
                 {/* Catch-all route for 404 Not Found */}
                 <Route path="/404" element={<NotFound />} />
