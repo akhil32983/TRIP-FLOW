@@ -4,7 +4,7 @@
     padding-inline: var(--app-padding);
     display: flex;
     flex-direction: column;
-    gap: var(--space-xl);
+    gap: var(--space-xxxl);
     align-items: center;
 }
 
@@ -28,7 +28,8 @@
         width: 100%;
         margin-top: var(--space-lg);
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        gap: var(--space-xl);
     }
 }
 
@@ -40,9 +41,11 @@
 
         .actions {
             width: 100%;
+            flex-direction: column-reverse;
             justify-content: stretch;
-    
-            button {
+            gap: var(--space-xxxl);
+
+            & > button {
                 width: 100%;
             }
         }

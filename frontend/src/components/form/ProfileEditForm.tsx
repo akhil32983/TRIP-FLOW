@@ -16,6 +16,7 @@ import { MapPinIcon, UserIcon } from "lucide-react";
 import Button from "@components/shared/Button";
 import FormGroup from "@components/form/FormGroup";
 import AvatarUploader from "@components/form/AvatarUploader";
+import DeleteAccountButton from "@components/buttons/DeleteAccountButton";
 
 const ICON_SIZE = 20;
 
@@ -89,7 +90,9 @@ export default function ProfileEditForm() {
                 onFileSelect={handleFileSelect}
             />
 
+
             <form className={styles.form} onSubmit={handleSubmit}>
+            <h3>Información Personal</h3>
                 <div className={styles.group}>
                     {fields.map((field) => (
                         <FormGroup
@@ -102,6 +105,7 @@ export default function ProfileEditForm() {
                 </div>
 
                 <div className={styles.actions}>
+                    <DeleteAccountButton />
                     <Button
                         style={["primary"]}
                         label={isLoading ? "Guardando..." : "Guardar"}

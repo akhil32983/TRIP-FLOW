@@ -4,6 +4,16 @@ import { http } from "./httpService";
 const BASE_PATH = "/api/v1/users";
 
 /**
+ * Deletes the user with the given username.
+ * 
+ * @param username The username of the user to delete.
+ * @returns A promise that resolves when the user is deleted.
+ */
+export async function deleteAccount(username: string): Promise<void> {
+    await http(`${BASE_PATH}/${username}`, "DELETE");
+}
+
+/**
  * Updates the profile of the user with the given username.
  * 
  * @param username The username of the user to update.
