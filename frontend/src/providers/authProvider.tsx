@@ -1,13 +1,17 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 import type { LoginRequest, RegisterRequest } from "@/types/auth";
-import type { PublicUser } from "@/types/user";
+import type { PublicUser, UpdateProfileRequest } from "@/types/user";
 
 import {
   login as loginService,
   logout as logoutService,
   register as registerService,
 } from "@/services/authService";
+
+import {
+    updateProfile as updateProfileService
+} from "@/services/userService";
 
 import {
   removeFromLocalStorage,
@@ -28,6 +32,7 @@ type AuthContextType = {
   login: (req: LoginRequest) => Promise<AuthResult>;
   logout: () => Promise<AuthResult>;
   register: (req: RegisterRequest) => Promise<AuthResult>;
+  updateProfile: (req: UpdateProfileRequest) => Promise<PublicUser>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -114,8 +119,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  /**
+   * Updates the profile of the user with the given username.
+   *
+   * @param req - The update profile request containing user details.
+   * @return A promise that resolves to the updated public user.
+   */
+  const updateProfile = async (req: UpdateProfileRequest): Promise<PublicUser> => {
+    if (!user?.username) {
+        throw new Error("User not found");
+    }
+
+    const res = await updateProfileService(user.username, req);
+    if (res && res.username) {
+        setUser(res);
+        saveToLocalStorage(AUTH_LOCAL_STORAGE_KEY, res);
+        return res;
+    } else {
+        throw new Error("Update profile failed");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, errors, login, logout, register }}>
+    <AuthContext.Provider value={{ user, errors, login, logout, register, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );
