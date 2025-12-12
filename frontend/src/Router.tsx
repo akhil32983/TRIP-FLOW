@@ -1,4 +1,5 @@
-import { BrowserRouter, Navigate, Route, Routes } from "react-router";
+import { useEffect } from "react";
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router";
 
 import type { ReactNode } from "react";
 
@@ -46,18 +47,25 @@ function setUpNotifications() {
 }
 
 /**
- * Resets the scroll position to the top of the page.
+ * Component that resets the scroll position to the top of the page
+ * whenever the route path changes.
  */
-function resetScroll() {
-    window.scrollTo(0, 0);
+function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
 }
 
 export default function Router() {
     setUpNotifications();
-    resetScroll();
 
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <Routes>
                 {/* Public routes */}
                 <Route index element={<IndexPage />} />
