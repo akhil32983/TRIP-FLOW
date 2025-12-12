@@ -1,7 +1,7 @@
 import AttributionImage from "@components/shared/AttributionImage";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 describe("AttributionImage Component", () => {
     const defaultProps = {
@@ -18,11 +18,26 @@ describe("AttributionImage Component", () => {
         expect(image).toHaveAttribute("alt", defaultProps.alt);
     });
 
-    it("renders attribution link successfully", () => {
+    it("renders attribution text", () => {
         render(<AttributionImage {...defaultProps} />);
-        const link = screen.getByRole("link", { name: defaultProps.attribution });
-        expect(link).toHaveAttribute("href", defaultProps.attributionLink);
-        expect(link).toBeInTheDocument();
+        const element = screen.getByText(defaultProps.attribution);
+        expect(element).toBeInTheDocument();
+        expect(element.tagName).toBe("SPAN");
+    });
+
+    it("opens attribution link in new tab on click", () => {
+        const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
+        render(<AttributionImage {...defaultProps} />);
+        
+        const element = screen.getByText(defaultProps.attribution);
+        fireEvent.click(element);
+        
+        expect(openSpy).toHaveBeenCalledWith(
+            defaultProps.attributionLink, 
+            "_blank", 
+            "noopener,noreferrer"
+        );
+        openSpy.mockRestore();
     });
 
     it("renders default attribution prefix", () => {
@@ -37,15 +52,21 @@ describe("AttributionImage Component", () => {
 
     it("stops propagation when clicking attribution link", () => {
         const handleClick = vi.fn();
+        const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
+
         render(
             <div onClick={handleClick}>
                 <AttributionImage {...defaultProps} />
             </div>
         );
 
-        const link = screen.getByRole("link");
-        fireEvent.click(link);
+        const element = screen.getByText(defaultProps.attribution);
+        fireEvent.click(element);
+        
         expect(handleClick).not.toHaveBeenCalled();
+        expect(openSpy).toHaveBeenCalled();
+        
+        openSpy.mockRestore();
     });
 
     it("applies additional class names", () => {

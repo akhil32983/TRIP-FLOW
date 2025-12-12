@@ -35,15 +35,16 @@ export default function AttributionImage({
 
       <div className={styles.overlay}>
         <span>{attributionPrefix}</span>
-        <a
-          href={attributionLink}
-          target="_blank"
-          rel="noopener noreferrer"
+        <span
           className={styles.authorLink}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(attributionLink, "_blank", "noopener,noreferrer");
+          }}
         >
           {attribution}
-        </a>
+        </span>
       </div>
     </div>
   );
