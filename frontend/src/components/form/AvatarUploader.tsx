@@ -19,7 +19,7 @@ export default function AvatarUploader({
     const { demo } = useDemo();
 
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [imgError, setImgError] = useState(false);
+    const [imgError, setImgError] = useState(demo);
 
     const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -38,7 +38,7 @@ export default function AvatarUploader({
     return (
         <div className={styles.container}>
             <div className={styles.wrapper} onClick={handleClick}>
-                {(!imgError && src && !demo) ? (
+                {(!imgError && src) ? (
                     <img 
                         key={src}
                         src={src} 
