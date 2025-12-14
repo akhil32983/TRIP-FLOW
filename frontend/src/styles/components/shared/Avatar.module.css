@@ -9,8 +9,6 @@
     border: 2px solid var(--border-secondary);
     border-radius: var(--border-radius-full);
     background-color: var(--bg-color);
-
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
 
     overflow: hidden;
@@ -37,16 +35,20 @@
         height: 100%;
         object-fit: cover;
     }
-
-    @media (hover: hover) {
-        &:hover {
-            border-color: var(--border-primary);
-        }
-    }
 }
 
 .icon {
     width: 65%;
     height: 65%;
     color: var(--primary);
+}
+
+a.avatar {
+    cursor: pointer;
+
+    @media (hover: hover) {
+        &:hover {
+            border-color: var(--border-primary);
+        }
+    }
 }
