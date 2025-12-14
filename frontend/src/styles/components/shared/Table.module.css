@@ -1,0 +1,84 @@
+.container {
+    width: 100%;
+    padding-inline: var(--app-padding);
+
+    .tableContainer {
+        width: 100%;
+        background: var(--bg-card);
+        border-radius: var(--border-radius-lg);
+        border: 1px solid var(--border-secondary);
+        overflow: hidden;
+        overflow-x: auto;
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        
+            th, td {
+                padding: var(--space-md) var(--space-lg);
+            }
+        
+            th {
+                background: var(--bg-secondary);
+                color: var(--text-secondary);
+                font-weight: 600;
+                font-size: 0.875rem;
+                letter-spacing: 0.05em;
+                border-bottom: 1px solid var(--border-secondary);
+                white-space: nowrap;
+        
+                &:first-child .headerContent {
+                    justify-content: flex-start;
+                }
+        
+                &:last-child .headerContent {
+                    justify-content: flex-end;
+                }
+            }
+        
+            td {
+                color: var(--text-primary);
+                vertical-align: middle;
+                white-space: nowrap;
+        
+                &:first-child .cellContent {
+                    justify-content: flex-start;
+                }
+        
+                &:last-child .cellContent {
+                    justify-content: flex-end;
+                }
+            }
+
+            .headerContent,
+            .cellContent {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+            }
+
+            .loadingCell {
+                text-align: center;
+                padding: var(--space-lg);
+                color: var(--text-secondary);
+            }
+
+            .emptyState {
+                padding: var(--space-lg);
+                text-align: center;
+                color: var(--text-secondary);
+            }
+
+            .clickableRow {
+                cursor: pointer;
+                transition: background-color 0.15s;
+
+                &:hover {
+                    background-color: var(--bg-secondary);
+                }
+            }
+        }
+    }
+}
