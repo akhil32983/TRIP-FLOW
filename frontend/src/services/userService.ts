@@ -1,7 +1,23 @@
 import type { PublicUser, UpdateProfileRequest } from "@/types/user";
 import { http } from "./httpService";
 
+import type { PageRequest, PageResponse } from "@/types/shared";
+
 const BASE_PATH = "/api/v1/users";
+
+/**
+ * Retrieves a paginated list of users.
+ * 
+ * @param page The page number to retrieve.
+ * @param search The search query to filter users by username.
+ * @returns A promise that resolves to a page of users.
+ */
+export async function getUsers(page: PageRequest, search?: string): Promise<PageResponse<PublicUser>> {
+    const query = new URLSearchParams({ page: page.page.toString(), size: page.size.toString() });
+    if (search) query.append("search", search);
+    
+    return http<PageResponse<PublicUser>>(`${BASE_PATH}?${query.toString()}`, "GET");
+}
 
 /**
  * Deletes the user with the given username.
