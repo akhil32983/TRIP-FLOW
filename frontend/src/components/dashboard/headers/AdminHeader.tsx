@@ -7,12 +7,14 @@ interface AdminHeaderProps {
     children?: React.ReactNode;
 }
 
-export default function AdminHeader({ children } : AdminHeaderProps) {
+export default function AdminHeader({ children }: AdminHeaderProps) {
     return (
         <header className={styles.header}>
             <div className={styles.content}>
-                <h3 className={styles.title}>Panel de Administración</h3>
-                <LogoutButton to="/" integrated>Cerrar Sesión</LogoutButton>
+                <h3 className={styles.title}>Administración</h3>
+                <LogoutButton to="/" integrated>
+                    <span>Cerrar Sesión</span>
+                </LogoutButton>
             </div>
             {children}
             <Divider />

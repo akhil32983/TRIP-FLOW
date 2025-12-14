@@ -29,7 +29,7 @@ export default function LogoutButton({ to, integrated, className, children }: Lo
 
     if (integrated) {
         return <Button
-            style={["danger", "inline"]}
+            style={["danger", "primary"]}
             onClick={handleLogout}
             children={children}
         />
