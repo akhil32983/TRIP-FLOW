@@ -18,7 +18,9 @@ export default function LoginPage() {
 
   // If user is already logged in, redirect to dashboard page
   useEffect(() => {
-    if (user) {
+    if (user && user.role === "ADMIN") {
+      navigate("/admin");
+    } else if (user) {
       navigate("/dashboard");
     }
   }, [user, navigate]);
@@ -53,9 +55,7 @@ export default function LoginPage() {
     if (!isValid) return;
 
     const res = await login(values);
-    if (res.success) {
-      navigate("/dashboard");
-    } else {
+    if (!res.success) {
       setErrors(res.errors as Record<string, string>);
     }
   };

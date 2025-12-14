@@ -17,13 +17,13 @@ export default function Pagination({ pageData, onPageChange }: PaginationProps) 
     if (totalItems === 0) return null;
 
     const handlePreviousPage = () => {
-        if (currentPage > 1) {
+        if (currentPage > 0) {
             onPageChange(currentPage - 1);
         }
     };
 
     const handleNextPage = () => {
-        if (currentPage < totalPages) {
+        if (currentPage < totalPages - 1) {
             onPageChange(currentPage + 1);
         }
     };
@@ -41,7 +41,7 @@ export default function Pagination({ pageData, onPageChange }: PaginationProps) 
                 if (
                     pageNumber === 1 ||
                     pageNumber === totalPages ||
-                    (pageNumber >= currentPage - 1 && pageNumber <= currentPage + 1)
+                    (pageNumber >= currentPage && pageNumber <= currentPage + 2)
                 ) {
                     return (
                         <Button
@@ -53,8 +53,8 @@ export default function Pagination({ pageData, onPageChange }: PaginationProps) 
                         </Button>
                     );
                 } else if (
-                    pageNumber === currentPage - 2 ||
-                    pageNumber === currentPage + 2
+                    pageNumber === currentPage - 1 ||
+                    pageNumber === currentPage + 1
                 ) {
                     return <span key={pageNumber} className={styles.ellipsis}>...</span>;
                 }

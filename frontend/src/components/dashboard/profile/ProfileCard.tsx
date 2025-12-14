@@ -18,7 +18,7 @@ export default function ProfileCard() {
     return (
         <section className={styles.profileCard}>
             <div className={styles.profileImage}>
-                <Avatar to="/profile" size="full" />
+                <Avatar size="full" />
             </div>
             <div className={styles.profileInfo}>
                 <h2 className={styles.profileName}>{user?.name}</h2>
