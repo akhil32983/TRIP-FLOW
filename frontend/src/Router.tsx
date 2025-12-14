@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router";
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "react-router";
 
-import type { ReactNode } from "react";
+
 
 import IndexPage from "@pages/Index";
 import LoginPage from "@pages/Login";
@@ -13,24 +13,30 @@ import ItineraryNewPage from "@pages/itineraries/ItineraryNew";
 import ItineraryEditPage from "@pages/itineraries/ItineraryEdit";
 import ProfilePage from "@pages/profile/Profile";
 import ProfileEditPage from "@pages/profile/ProfileEdit";
+import AdminPage from "@pages/Admin";
 import NotFound from "@pages/NotFound";
 
 import { useAuth } from "@/providers/authProvider";
 import { useDemo } from "@/providers/demoProvider";
 import { useNotifications } from "@/hooks/notifications/useNotifications";
 
-/**
- * PrivateRoute component that checks if the user is authenticated.
- * If not, redirects to the login page.
- */
-function PrivateRoute({ children }: { children: ReactNode }) {
+function PrivateWrapper() {
     const { demo } = useDemo();
     const { user } = useAuth();
 
-    if (demo) return children;
+    if (demo) return <Outlet />;
+    if (!user) return <Navigate to="/login" replace />;
+
+    return <Outlet />;
+}
+
+function AdminWrapper() {
+    const { user } = useAuth();
 
     if (!user) return <Navigate to="/login" replace />;
-    return children;
+    if (user.role !== "ADMIN") return <Navigate to="/dashboard" replace />;
+
+    return <Outlet />;
 }
 
 /**
@@ -73,18 +79,25 @@ export default function Router() {
                 <Route path="/signup" element={<RegisterPage />} />
 
                 {/* Private routes */}
-                <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-                <Route path="/itineraries">
-                    <Route index element={<PrivateRoute><ItinerariesPage /></PrivateRoute>} />
-                    <Route path=":id">
-                        <Route index element={<PrivateRoute><ItineraryDetailPage /></PrivateRoute>} />
-                        <Route path="edit" element={<PrivateRoute><ItineraryEditPage /></PrivateRoute>} />
+                <Route element={<PrivateWrapper />}>
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="/itineraries">
+                        <Route index element={<ItinerariesPage />} />
+                        <Route path=":id">
+                            <Route index element={<ItineraryDetailPage />} />
+                            <Route path="edit" element={<ItineraryEditPage />} />
+                        </Route>
+                        <Route path="new" element={<ItineraryNewPage />} />
                     </Route>
-                    <Route path="new" element={<PrivateRoute><ItineraryNewPage /></PrivateRoute>} />
+                    <Route path="/profile">
+                        <Route index element={<ProfilePage />} />
+                        <Route path="edit" element={<ProfileEditPage />} />
+                    </Route>
                 </Route>
-                <Route path="/profile">
-                    <Route index element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
-                    <Route path="edit" element={<PrivateRoute><ProfileEditPage /></PrivateRoute>} />
+
+                {/* Admin routes */}
+                <Route element={<AdminWrapper />}>
+                    <Route path="/admin" element={<AdminPage />} />
                 </Route>
 
                 {/* Catch-all route for 404 Not Found */}
