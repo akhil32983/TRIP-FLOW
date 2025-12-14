@@ -1,6 +1,7 @@
 .searchbar {
     --border-radius: var(--border-radius-lg);
 
+    height: 42px;
     width: calc(100% - var(--app-padding) * 2);
     margin-inline: var(--app-padding);
     display: flex;
@@ -9,6 +10,7 @@
     transition: all 0.2s ease;
 
     .input {
+        height: 100%;
         border: 1px solid var(--border-secondary);
         border-left: none;
         padding-left: 0;

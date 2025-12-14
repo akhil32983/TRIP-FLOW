@@ -17,8 +17,13 @@ const ROUTES = [
     { path: "/profile", label: "Perfil", icon: <UserIcon /> },
 ];
 
-export default function Sidebar() {
+const ADMIN_ROUTES = [
+    { path: "/admin", label: "Admin", icon: <UserIcon /> },
+];
+
+export default function Sidebar({ admin }: { admin?: boolean }) {
     const location = useLocation();
+    const routes = admin ? ADMIN_ROUTES : ROUTES;
 
     return (
         <aside className={styles.sidebar}>
@@ -28,7 +33,7 @@ export default function Sidebar() {
                 </Button>
             </div>
             <nav className={styles.nav}>
-                {ROUTES.map((route) => (
+                {routes.map((route) => (
                     <Button
                         key={route.path}
                         style={

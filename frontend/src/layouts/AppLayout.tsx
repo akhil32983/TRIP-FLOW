@@ -5,13 +5,14 @@ import type { ReactNode } from "react";
 import Sidebar from "@components/shared/Sidebar";
 
 interface LayoutProps {
+    admin?: boolean;
     children: ReactNode;
 }
 
-export default function AppLayout({ children }: LayoutProps) {
+export default function AppLayout({ admin, children }: LayoutProps) {
     return (
         <div className={styles.layout}>
-            <Sidebar />
+            <Sidebar admin={admin} />
             <main className={styles.main}>
                 {children}
             </main>

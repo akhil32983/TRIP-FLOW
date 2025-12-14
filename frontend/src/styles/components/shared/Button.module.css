@@ -210,8 +210,11 @@
     font-weight: var(--font-weight-normal);
     text-decoration: none;
     transition: all 0.2s ease-in-out;
-
     gap: 0;
+
+    &.danger {
+        color: var(--error);
+    }
 
     @media (hover: hover) {
         &:hover {
