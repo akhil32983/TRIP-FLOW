@@ -546,6 +546,11 @@ paths:
         required: true
         schema:
           $ref: "#/components/schemas/Pageable"
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           description: OK
@@ -681,8 +686,6 @@ components:
           type: string
         place:
           type: string
-        icon:
-          type: string
         people:
           type: integer
           format: int32
@@ -712,6 +715,17 @@ components:
         countDays:
           type: integer
           format: int32
+        coverImage:
+          $ref: "#/components/schemas/ExternalImageDTO"
+    ExternalImageDTO:
+      type: object
+      properties:
+        imageUrl:
+          type: string
+        altDescription:
+          type: string
+        authorUsername:
+          type: string
     ItineraryDayDTO:
       type: object
       properties:
@@ -866,8 +880,6 @@ components:
           type: string
         place:
           type: string
-        icon:
-          type: string
         people:
           type: integer
           format: int32
@@ -893,6 +905,8 @@ components:
           - PLANNED
           - ONGOING
           - COMPLETED
+        coverImage:
+          $ref: "#/components/schemas/ExternalImageDTO"
     PaginatedDTOItineraryDTO:
       type: object
       properties:
