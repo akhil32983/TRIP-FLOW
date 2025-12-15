@@ -184,7 +184,7 @@ describe("Login Page Validation", () => {
   it("navigates to dashboard on successful login", async () => {
     mockLogin.mockResolvedValue({ success: true });
 
-    render(<Login />);
+    const { rerender } = render(<Login />);
 
     const usernameInput = screen.getByLabelText("Usuario");
     const passwordInput = screen.getByLabelText("Contraseña");
@@ -194,6 +194,22 @@ describe("Login Page Validation", () => {
 
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
     fireEvent.click(submitButton);
+
+    await waitFor(() => {
+        expect(mockLogin).toHaveBeenCalled();
+    });
+
+    // Simulate state update in provider which triggers re-render with user
+    vi.mocked(useAuth).mockReturnValue({
+        user: mockUser as any,
+        errors: null,
+        login: mockLogin,
+        logout: vi.fn(),
+        register: vi.fn(),
+        updateProfile: vi.fn(),
+    });
+
+    rerender(<Login />);
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/dashboard");

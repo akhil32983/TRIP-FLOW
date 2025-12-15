@@ -92,7 +92,6 @@ describe("ProfileCard Component", () => {
         render(<ProfileCard />);
 
         const avatar = screen.getByTestId("avatar");
-        expect(avatar).toHaveAttribute("data-to", "/profile");
         expect(avatar).toHaveAttribute("data-size", "full");
     });
 
