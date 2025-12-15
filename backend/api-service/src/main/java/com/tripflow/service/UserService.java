@@ -72,10 +72,18 @@ public class UserService {
      * Retrieves a paginated list of public user DTOs.
      *
      * @param pageable the pagination information
+     * @param search the search query
+     * 
      * @return a PaginatedDTO containing the list of PublicUserDTOs
      */
-    public PaginatedDTO<PublicUserDTO> getAllUsers(Pageable pageable) {
-        Page<User> usersPage = this.userRepository.findAllByRole(UserType.USER, pageable);
+    public PaginatedDTO<PublicUserDTO> getAllUsers(Pageable pageable, String search) {
+        String searchTerm = (search != null && !search.trim().isEmpty()) 
+            ? "%" + search.trim().toLowerCase() + "%" 
+            : null;
+
+        Page<User> usersPage = this.userRepository.findAllByRoleAndUsernameContaining(
+            UserType.USER, searchTerm, pageable
+        );
         List<PublicUserDTO> userDTOs = this.userMapper.toPublicUserDTOs(usersPage.getContent());
 
         return new PaginatedDTO<PublicUserDTO>(

@@ -39,10 +39,11 @@ public class RestUserController {
 
     @GetMapping("")
     public ResponseEntity<PaginatedDTO<PublicUserDTO>> getAllUsers(
-        @PageableDefault(page = 0, size = 10) Pageable pageable
+        @PageableDefault(page = 0, size = 10) Pageable pageable,
+        @RequestParam(required = false) String search
     ) {
         try {
-            PaginatedDTO<PublicUserDTO> users = this.userService.getAllUsers(pageable);
+            PaginatedDTO<PublicUserDTO> users = this.userService.getAllUsers(pageable, search);
             return ResponseEntity.ok(users);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
