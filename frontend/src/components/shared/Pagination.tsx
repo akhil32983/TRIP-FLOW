@@ -35,8 +35,7 @@ export default function Pagination({ pageData, onPageChange }: PaginationProps) 
             <Button
                 style={["tool_bordered", "rounded", "active"]}
                 onClick={handleNextPage}
-                ariaLabel="Página siguiente"
-                disabled={isLastPage}
+                ariaLabel="Página actual"
             >{currentPage + 1}</Button>
             <Button
                 style={["tool_bordered", "rounded"]}
