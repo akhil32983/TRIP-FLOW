@@ -223,7 +223,9 @@ public class UserServiceTest {
         PublicUserDTO publicUserDTO = mock(PublicUserDTO.class);
         List<PublicUserDTO> publicUserDTOs = List.of(publicUserDTO);
 
-        when(userRepository.findAllByRole(UserType.USER, pageable)).thenReturn(usersPage);
+        when(userRepository.findAllByRoleAndUsernameContaining(
+            UserType.USER, null, pageable
+        )).thenReturn(usersPage);
         when(usersPage.getContent()).thenReturn(users);
         when(userMapper.toPublicUserDTOs(users)).thenReturn(publicUserDTOs);
         
@@ -233,12 +235,12 @@ public class UserServiceTest {
         when(usersPage.getSize()).thenReturn(10);
         when(usersPage.isLast()).thenReturn(true);
 
-        PaginatedDTO<PublicUserDTO> result = userService.getAllUsers(pageable);
+        PaginatedDTO<PublicUserDTO> result = userService.getAllUsers(pageable, null);
 
         assertNotNull(result);
         assertEquals(1, result.page().size());
         assertEquals(publicUserDTO, result.page().get(0));
-        verify(userRepository).findAllByRole(UserType.USER, pageable);
+        verify(userRepository).findAllByRoleAndUsernameContaining(UserType.USER, null, pageable);
     }
 
     @Test
