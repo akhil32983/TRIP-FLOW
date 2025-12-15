@@ -44,6 +44,7 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
             if (stompClient.active) {
                 stompClient.deactivate();
             }
+            setIsConnected(false);
         };
     }, [user, demo]);
 
@@ -51,10 +52,14 @@ export const WebSocketProvider = ({ children }: { children: ReactNode }) => {
         destination: string,
         callback: (message: IMessage) => void
     ): StompSubscription | null => {
-        if (!client || !isConnected) return null;
+        if (!client || !client.connected) return null;
         
-        return client.subscribe(destination, callback);
-    }, [client, isConnected]);
+        try {
+            return client.subscribe(destination, callback);
+        } catch (error) {
+            return null;
+        }
+    }, [client]);
 
     return (
         <WebSocketContext.Provider value={{ client, isConnected, subscribe }}>

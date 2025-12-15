@@ -38,7 +38,7 @@ export const useWebSocketNotifications = (options?: UseWebSocketNotificationsOpt
     const { types = [], onNotification } = options || {};
 
     useEffect(() => {
-        if (!ws?.isConnected) return;
+        if (!ws?.client?.connected) return;
         if (!user) return;
         if (!onNotification) return;
 
@@ -61,5 +61,5 @@ export const useWebSocketNotifications = (options?: UseWebSocketNotificationsOpt
         });
 
         return () => subscription?.unsubscribe();
-    }, [ws?.isConnected, ws, user, onNotification, types]);
+    }, [ws?.client?.connected, ws, user, onNotification, types]);
 };

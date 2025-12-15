@@ -40,16 +40,11 @@ function AdminWrapper() {
 }
 
 /**
- * Sets up WebSocket notifications for authenticated users.
- * If the user is in demo mode or not authenticated, does nothing.
+ * Sets up WebSocket notifications.
  */
-function setUpNotifications() {
-    const { demo } = useDemo();
-    const { user } = useAuth();
-
-    if (demo || !user) return;
-
+function NotificationsInitializer() {
     useNotifications();
+    return null;
 }
 
 /**
@@ -67,10 +62,9 @@ function ScrollToTop() {
 }
 
 export default function Router() {
-    setUpNotifications();
-
     return (
         <BrowserRouter>
+            <NotificationsInitializer />
             <ScrollToTop />
             <Routes>
                 {/* Public routes */}
