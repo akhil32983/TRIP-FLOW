@@ -83,7 +83,6 @@
   - [x] {API} AI Generation endpoint - `POST /api/v1/ai`
   - [x] {Model} AI Logs entity for tracking requests and usage
   - [x] {Pattern} AI response rate limiting (daily limit per user)
-  - [ ] {API} AI logs endpoint - `GET /api/v1/ai/logs`
 - [x] {Feature} User profile management
   - [x] {API} Avatar upload endpoint - `POST /api/v1/users/{username}/avatar`
   - [x] {API} Avatar retrieval endpoint - `GET /api/v1/users/{username}/avatar`
@@ -126,10 +125,10 @@
   - [x] {UI} Advanced options (budget, pace, accommodation)
   - [x] {UI} AI usage tracking and rate limit display
   - [x] {UI} Loading states and error handling
-- [ ] {Feature} User Profile Component
-  - [ ] {UI} Avatar upload and display
-  - [ ] {UI} User profile details and editable form
-  - [ ] {UI} Account deletion UI
+- [x] {Feature} User Profile Component
+  - [x] {UI} Avatar upload and display
+  - [x] {UI} User profile details and editable form
+  - [x] {UI} Account deletion UI
 - [x] {Feature} Real-time Notifications UI
   - [x] {Provider} WebSocket provider with STOMP client
   - [x] {Provider} Notification provider for UI notifications
@@ -140,11 +139,10 @@
     - [x] Itineraries list auto-refresh on `ITINERARY_GENERATED`
     - [x] Recent itineraries auto-refresh on `ITINERARY_GENERATED`
     - [x] User stats auto-refresh on `ITINERARY_GENERATED`
-- [ ] {Feature} Admin Panel UI
-  - [ ] {UI} Admin dashboard - `/admin`
-  - [ ] {UI} Users table (delete, filter)
-  - [ ] {UI} Itineraries table
-  - [ ] {Security} Admin-only route guards
+- [x] {Feature} Admin Panel UI
+  - [x] {UI} Admin dashboard - `/admin`
+  - [x] {UI} Users table (delete, filter)
+  - [x] {Security} Admin-only route guards
 - [x] {Feature} Unsplash Integration UI
   - [x] {UI} Replace itinerary icons with Unsplash images
   - [x] {UI} Lazy loading + placeholders
@@ -157,16 +155,14 @@
 - [x] {Unit-Backend} Kafka producer/consumer tests
 - [ ] {Unit-Backend} Notifications service tests
 - [ ] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
-- [ ] {Unit-Backend} Admin backend tests (role restrictions, data access)
 - [ ] {Unit-Backend} Unsplash service tests (API + caching)
 - [ ] {Integration-Backend} AI Generation endpoint tests
-- [ ] {Integration-Backend} AI Logs endpoint tests
 - [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
 - [ ] {Integration-Backend} Notifications endpoints tests
 - [ ] {Integration-Backend} Unsplash endpoint tests
 - [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
 - [ ] {Unit-Frontend} Notifications component tests
-- [ ] {Unit-Frontend} Admin panel component tests
+- [x] {Unit-Frontend} Admin panel component tests
 - [ ] {Integration-Frontend} AI workflow tests (generate → display → save)
 - [ ] {Integration-Frontend} Profile management workflow tests (upload → update → delete)
 - [ ] {Integration-Frontend} Notifications workflow tests
