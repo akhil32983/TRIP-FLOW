@@ -9,6 +9,7 @@ import Searchbar from "@components/shared/Searchbar";
 import Table from "@components/shared/Table";
 import Pagination from "@components/shared/Pagination";
 import Modal from "@components/shared/Modal";
+import Loader from "@/components/shared/Loader";
 
 export default function AdminPage() {
     const [search, setSearch] = useState("");
@@ -48,12 +49,16 @@ export default function AdminPage() {
                 />
             </AdminHeader>
 
-            <Table
-                data={users}
-                columns={columns}
-                emptyMessage="No se encontraron usuarios"
-                isLoading={isLoading}
-            />
+            {isLoading ? (
+                <Loader variant="dots" />
+            ) : (
+                <Table
+                    data={users}
+                    columns={columns}
+                    emptyMessage="No se encontraron usuarios"
+                    isLoading={isLoading}
+                />
+            )}
 
             {!isLoading && (
                 <Pagination

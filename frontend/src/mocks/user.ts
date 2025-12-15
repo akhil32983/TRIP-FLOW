@@ -102,8 +102,8 @@ export const mockUser = {
 
         return {
             page: filteredUsers,
-            currentPage: 1,
-            totalPages: 4,
+            currentPage: 0,
+            totalPages: 1,
             totalItems: filteredUsers.length,
             itemsPerPage: 10,
             isLastPage: true

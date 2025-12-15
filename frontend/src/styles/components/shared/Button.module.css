@@ -186,6 +186,11 @@
         }
     }
 
+    &.active {
+        color: var(--primary);
+        filter: brightness(1.20);
+    }
+
     &.rounded {
         border-radius: var(--border-radius-full);
     }
