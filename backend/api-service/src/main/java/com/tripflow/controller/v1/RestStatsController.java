@@ -4,7 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import com.tripflow.dto.stats.UserStatsDTO;
 import com.tripflow.service.StatsService;
@@ -36,14 +36,8 @@ public class RestStatsController {
         @ApiResponse(responseCode = "401", description = "Unauthorized access"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<UserStatsDTO> getUserStats() {
-        try {
-            UserStatsDTO stats = this.statsService.getUserStats();
-            return ResponseEntity.ok(stats);
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).body(null);
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
-        }
+    public ResponseEntity<UserStatsDTO> getUserStats() throws Exception {
+        UserStatsDTO stats = this.statsService.getUserStats();
+        return ResponseEntity.ok(stats);
     }
 }

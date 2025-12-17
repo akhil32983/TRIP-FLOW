@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tripflow.dto.shared.PaginatedDTO;
@@ -19,7 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,86 +41,50 @@ public class RestUserController {
     public ResponseEntity<PaginatedDTO<PublicUserDTO>> getAllUsers(
         @PageableDefault(page = 0, size = 10) Pageable pageable,
         @RequestParam(required = false) String search
-    ) {
-        try {
-            PaginatedDTO<PublicUserDTO> users = this.userService.getAllUsers(pageable, search);
-            return ResponseEntity.ok(users);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    ) throws Exception {
+        PaginatedDTO<PublicUserDTO> users = this.userService.getAllUsers(pageable, search);
+        return ResponseEntity.ok(users);
+
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<PublicUserDTO> getUserByUsername(@PathVariable String username) {
-        try {
-            PublicUserDTO user = this.userService.getPublicUserByUsername(username);
-            return ResponseEntity.ok(user);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<PublicUserDTO> getUserByUsername(@PathVariable String username) throws Exception {
+        PublicUserDTO user = this.userService.getPublicUserByUsername(username);
+        return ResponseEntity.ok(user);
+
     }
 
     @PutMapping("/{username}")
     public ResponseEntity<PublicUserDTO> updateUser(
         @PathVariable String username, @RequestBody UpdateUserRequest request
-    ) {
-        try {
-            PublicUserDTO user = this.userService.updateUser(username, request);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-            return ResponseEntity.ok().location(location).body(user);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    ) throws Exception {
+        PublicUserDTO user = this.userService.updateUser(username, request);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        return ResponseEntity.ok().location(location).body(user);
+
     }
 
     @DeleteMapping("/{username}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String username) {
-        try {
-            this.userService.deleteUser(username);
-            return ResponseEntity.noContent().build();
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Void> deleteUser(@PathVariable String username) throws Exception {
+        this.userService.deleteUser(username);
+        return ResponseEntity.noContent().build();
+
     }
     
     @PostMapping("/{username}/avatar")
     public ResponseEntity<PublicUserDTO> uploadAvatar(
         @PathVariable String username, @RequestParam MultipartFile avatar
-    ) {
-        try {
-            PublicUserDTO user = this.userService.uploadAvatar(username, avatar);
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-            return ResponseEntity.ok().location(location).body(user);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    ) throws Exception {
+        PublicUserDTO user = this.userService.uploadAvatar(username, avatar);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+        return ResponseEntity.ok().location(location).body(user);
+
     }
     
     @GetMapping("/{username}/avatar")
-    public ResponseEntity<Resource> getAvatar(@PathVariable String username) {
-        try {
-            Resource resource = this.userService.getAvatar(username);
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
-        } catch (UsernameNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (ResponseStatusException e) {
-            return ResponseEntity.status(e.getStatusCode()).build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<Resource> getAvatar(@PathVariable String username) throws Exception {
+        Resource resource = this.userService.getAvatar(username);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
+
     }
 }
