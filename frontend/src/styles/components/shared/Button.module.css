@@ -63,19 +63,19 @@
 }
 
 .secondary {
-    border: 1px solid var(--border-secondary);
+    border: 1.5px solid var(--border-secondary);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
     font-weight: var(--font-weight-normal);
     text-transform: capitalize;
 
     &.danger {
-        border: 1px solid var(--error);
+        border: 1.5px solid var(--error);
         color: var(--error);
     }
 
     &.info {
-        border: 1px solid var(--info-border);
+        border: 1.5px solid var(--info-border);
         color: var(--info-text);
     }
 
@@ -118,7 +118,7 @@
     width: var(--size);
     border: none;
     background-color: transparent;
-    color: var(--text-secondary);
+    color: var(--text-tertiary);
     padding: 0;
     min-height: auto;
 
@@ -161,9 +161,9 @@
     align-items: center;
     justify-content: center;
 
-    border: 1px solid var(--border-secondary);
-    background-color: var(--bg-card);
-    color: var(--text-secondary);
+    border: 1.5px solid var(--border-secondary);
+    background-color: var(--bg-secondary);
+    color: var(--text-tertiary);
 
     .label {
         display: none;
@@ -176,7 +176,7 @@
     }
 
     &.danger {
-        border: 1px solid var(--error);
+        border-color: var(--error);
         color: var(--error);
 
         @media (hover: hover) {
@@ -239,16 +239,16 @@
     color: var(--text-tertiary);
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-normal);
-    border: 1px solid transparent;
+    border: 1.5px solid transparent;
 
     &:active {
         background: none;
     }
 
     &.active {
-        border: 1px solid var(--border-secondary);
+        border: 1.5px solid var(--border-secondary);
         background: var(--bg-secondary);
-        color: var(--text-primary);
+        color: var(--primary);
     }
 
     @media (hover: hover) {
@@ -260,14 +260,18 @@
 
 @media (max-width: 1024px) {
     .route {
-        width: 42px;
-        height: 42px;
+        height: var(--sidebar-mobile-height);
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         padding: var(--space-sm);
         outline: none;
         box-shadow: none;
         background: none;
+
+        &.withChildren {
+            gap: var(--space-xs);
+        }
 
         &:focus {
             outline: none;
@@ -277,18 +281,17 @@
         &.active {
             background: none;
             border: none;
-            color: var(--text-primary);
         }
 
         @media (hover: hover) {
             &:hover {
                 background: none;
-                color: var(--text-primary);
+                color: var(--primary);
             }
         }
 
         .label {
-            display: none;
+            font-size: var(--font-size-xxs);
         }
     }
 }

@@ -13,7 +13,7 @@
     justify-content: center;
     font-size: var(--font-size-md);
     color: var(--text-tertiary);
-    background-color: var(--bg-card);
+    background-color: var(--bg-secondary);
     border-radius: var(--border-radius-lg);
     border-style: dashed;
     border-color: var(--border-subtle);

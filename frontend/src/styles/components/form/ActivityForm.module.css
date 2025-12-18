@@ -3,10 +3,10 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-xxl);
-    background: var(--bg-card);
-    border: 1px solid var(--border-secondary);
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-secondary);
     border-radius: var(--border-radius-md);
-    padding: var(--space-lg);
+    padding-block: var(--space-lg);
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
     &:last-child {
@@ -14,13 +14,15 @@
     }
 
     .activityHeader {
-        cursor: pointer;
+        padding-inline: var(--space-lg);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        cursor: pointer;
     }
 
     .activityForm {
+        padding-inline: var(--space-lg);
         display: flex;
         flex-direction: column;
         gap: var(--space-xxl);
@@ -44,11 +46,11 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--space-md) var(--space-lg);
-    background: var(--bg-card);
+    background: var(--bg-secondary);
     cursor: pointer;
-    border: 1px solid var(--border-secondary);
+    border: 1.5px solid var(--border-secondary);
     border-radius: var(--border-radius-md);
-    transition: all 0.2s ease;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
 
     &:last-child {
         margin-bottom: 0;

@@ -2,29 +2,13 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    padding-inline: var(--app-padding);
     width: 100%;
+    height: var(--header-mobile-height);
     display: flex;
-    flex-direction: column;
-    gap: var(--space-xxl);
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
     background-color: var(--bg-primary);
-    padding-top: var(--space-lg);
-
-    .content {
-        width: 100%;
-        padding-inline: var(--app-padding);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .title {
-            font-size: var(--font-size-xxl);
-            font-weight: 500;
-            color: var(--color-text-primary);
-        }
-    }
-
-    .children {
-        width: 100%;
-        padding-inline: var(--app-padding);
-    }
+    border-bottom: 1px solid var(--border-secondary);
 }

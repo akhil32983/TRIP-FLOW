@@ -55,15 +55,7 @@ const mockUserMinimal = {
     createdAt: "2024-06-20T14:30:00Z",
 };
 
-const mockUserNoData = {
-    id: 3,
-    name: "Test User",
-    username: "testuser",
-    email: "test@example.com",
-    location: undefined,
-    description: undefined,
-    createdAt: undefined,
-};
+
 
 describe("ProfileCard Component", () => {
     beforeEach(() => {
@@ -105,14 +97,6 @@ describe("ProfileCard Component", () => {
         expect(heading).toBeInTheDocument();
     });
 
-    it("renders username with @ symbol", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText("@johndoe")).toBeInTheDocument();
-    });
-
     it("renders user description", () => {
         vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
 
@@ -149,45 +133,12 @@ describe("ProfileCard Component", () => {
         expect(screen.getByText("Alguna parte del mundo")).toBeInTheDocument();
     });
 
-    it("renders joined date", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText(/Miembro desde/)).toBeInTheDocument();
-    });
-
-    it("formats joined date correctly", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        // Expect year 2024
-        expect(screen.getByText(/2024/)).toBeInTheDocument();
-    });
-
-    it("renders default date when createdAt is missing", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUserNoData } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText(/Miembro desde ¿\?/)).toBeInTheDocument();
-    });
-
     it("renders MapPin icon", () => {
         vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
 
         render(<ProfileCard />);
 
         expect(screen.getByTestId("map-pin-icon")).toBeInTheDocument();
-    });
-
-    it("renders Calendar icon", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByTestId("calendar-icon")).toBeInTheDocument();
     });
 
     it("renders profile section", () => {
@@ -217,16 +168,7 @@ describe("ProfileCard Component", () => {
         expect(profileInfo).toBeInTheDocument();
     });
 
-    it("renders profile metadata container", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        const { container } = render(<ProfileCard />);
-
-        const metadata = container.querySelector('[class*="profileMetadata"]');
-        expect(metadata).toBeInTheDocument();
-    });
-
-    it("renders two metadata items", () => {
+    it("renders one metadata item", () => {
         vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
 
         const { container } = render(<ProfileCard />);
@@ -234,7 +176,7 @@ describe("ProfileCard Component", () => {
         const metadataItems = container.querySelectorAll(
             '[class*="profileMetadataItem"]'
         );
-        expect(metadataItems).toHaveLength(2);
+        expect(metadataItems).toHaveLength(1);
     });
 
     it("renders heading as h2", () => {

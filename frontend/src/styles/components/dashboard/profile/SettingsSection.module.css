@@ -16,9 +16,9 @@
         align-items: center;
         gap: var(--space-lg);
         color: var(--text-primary);
-        border: 1px solid var(--border-secondary);
+        border: 1.5px solid var(--border-secondary);
         border-radius: var(--border-radius-lg);
-        background-color: var(--bg-card);
+        background-color: var(--bg-secondary);
         cursor: pointer;
         transition: all 0.2s ease-in-out;
 

@@ -7,10 +7,10 @@
 
 .tabs {
     display: inline-flex;
-    background: var(--bg-card);
+    background: var(--bg-secondary);
     padding: var(--space-xs);
     border-radius: var(--border-radius-full);
-    border: 1px solid var(--border-secondary);
+    border: 1.5px solid var(--border-secondary);
 }
 
 .tab {

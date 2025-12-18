@@ -16,7 +16,9 @@ export default function AdminHeader({ children }: AdminHeaderProps) {
                     <span>Cerrar Sesión</span>
                 </LogoutButton>
             </div>
-            {children}
+            <div className={styles.children}>
+                {children}
+            </div>
             <Divider />
         </header>
     );

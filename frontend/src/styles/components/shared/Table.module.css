@@ -4,9 +4,9 @@
 
     .tableContainer {
         width: 100%;
-        background: var(--bg-card);
+        background: var(--bg-secondary);
         border-radius: var(--border-radius-lg);
-        border: 1px solid var(--border-secondary);
+        border: 1.5px solid var(--border-secondary);
         overflow: hidden;
         overflow-x: auto;
         

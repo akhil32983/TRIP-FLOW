@@ -3,8 +3,8 @@ import styles from "@styles/components/shared/Sidebar.module.css";
 import { useLocation } from "react-router";
 
 import {
-    CalendarIcon,
-    MapPinIcon,
+    HomeIcon,
+    MapIcon,
     UserIcon,
 } from "lucide-react";
 
@@ -12,8 +12,8 @@ import Button from "@components/shared/Button";
 import Logo from "@components/shared/Logo";
 
 const ROUTES = [
-    { path: "/dashboard", label: "Dashboard", icon: <MapPinIcon /> },
-    { path: "/itineraries", label: "Itinerarios", icon: <CalendarIcon /> },
+    { path: "/dashboard", label: "Dashboard", icon: <HomeIcon /> },
+    { path: "/itineraries", label: "Itinerarios", icon: <MapIcon /> },
     { path: "/profile", label: "Perfil", icon: <UserIcon /> },
 ];
 

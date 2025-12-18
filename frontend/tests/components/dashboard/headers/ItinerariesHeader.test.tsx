@@ -4,22 +4,13 @@ import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect } from "vitest";
 
 describe("ItinerariesHeader Component", () => {
-    it("renders title", () => {
+    it("renders 'Crear itinerario' button", () => {
         render(
             <ItinerariesHeader>
                 <div>Child Content</div>
             </ItinerariesHeader>
         );
-        expect(screen.getByText("Itinerarios")).toBeInTheDocument();
-    });
-
-    it("renders 'Crear Itinerario' button", () => {
-        render(
-            <ItinerariesHeader>
-                <div>Child Content</div>
-            </ItinerariesHeader>
-        );
-        const button = screen.getByRole("link", { name: "Crear Itinerario" });
+        const button = screen.getByRole("link", { name: "Crear itinerario" });
         expect(button).toBeInTheDocument();
         expect(button).toHaveAttribute("href", "/itineraries/new");
     });

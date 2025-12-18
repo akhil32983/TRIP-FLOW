@@ -186,21 +186,7 @@ describe("ActivityForm Component", () => {
         expect(screen.getByText("Actividad 3")).toBeInTheDocument();
     });
 
-    it("renders collapse icon in header when expanded", () => {
-        render(
-            <ActivityForm
-                activity={mockActivity}
-                activityIndex={0}
-                onActivityUpdate={vi.fn()}
-                onLocationUpdate={vi.fn()}
-                onRemoveActivity={vi.fn()}
-                isExpanded={true}
-                onToggleExpand={vi.fn()}
-            />
-        );
 
-        expect(screen.getByTestId("chevron-up-icon")).toBeInTheDocument();
-    });
 
     it("renders remove activity button in summary view", () => {
         render(

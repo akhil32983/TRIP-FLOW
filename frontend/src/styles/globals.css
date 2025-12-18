@@ -5,7 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   scrollbar-width: thin;
-  scrollbar-color: var(--bg-card) transparent;
+  scrollbar-color: var(--bg-secondary) transparent;
 
   font-family: "Inter", "Quantico", "Orbitron", "Merriweather", sans-serif;
 
@@ -23,11 +23,10 @@
   --tertiary: #1A3047;
 
   /* BACKGROUNDS */
-  --bg-primary: #0f172a;
-  --bg-primary-alpha: #172034f2;
-  --bg-secondary: #1e293b;
+  --bg-primary: #101922;
+  --bg-primary-alpha: #101922f2;
+  --bg-secondary: #1c252e;
   --bg-tertiary: #1A3047;
-  --bg-card: #1e293b;
   --bg-overlay: #24395665;
 
   /* TEXT */
@@ -51,14 +50,14 @@
 
   /* BORDERS */
   --border-primary: #33a7d8;
-  --border-secondary: #334155;
+  --border-secondary: #273240;
   --border-subtle: #475569;
 
   /* EFFECTS */
-  --glow-blue: 0 0 10px #3b82f680;
+  --glow-blue: 0 0 10px #33a6d85b;
   --glow-cyan: 0 0 10px #06b6d480;
 
-  --aureola-blue: 0 0 200px rgba(59, 130, 246, 0.5);
+  --aureola-blue: 0 0 128px rgba(49, 70, 105, 0.503);
 
   /* GRADIENTS */
   --gradient-primary: linear-gradient(165deg, #1698ae 0%, #1567be 100%);
@@ -67,6 +66,8 @@
   --navbar-height: 80px;
   --max-width: 1400px;
   --sidebar-width: 264px;
+  --sidebar-mobile-height: 64px;
+  --header-mobile-height: 96px;
   --app-padding: var(--space-xxl);
 
   --border-radius-sm: 4px;
@@ -155,7 +156,7 @@ textarea {
   height: 42px;
   padding: 10px;
   border-radius: var(--border-radius-lg);
-  border: 1px solid var(--border-secondary);
+  border: 1.5px solid var(--border-secondary);
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   font-size: var(--font-size-md);
@@ -251,7 +252,7 @@ select {
   height: 42px;
   padding: var(--space-sm);
   border-radius: var(--border-radius-lg);
-  border: 1px solid var(--border-secondary);
+  border: 1.5px solid var(--border-secondary);
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   font-size: var(--font-size-md);

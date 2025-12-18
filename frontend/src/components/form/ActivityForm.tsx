@@ -3,7 +3,7 @@ import styles from "@/styles/components/form/ActivityForm.module.css";
 import type { Activity } from "@/types/itinerary";
 import { useActivityFormFields } from "@/hooks/useActivityFormFields";
 
-import { Trash2, ChevronUp } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import Button from "@components/shared/Button";
 import FormGroup from "@components/form/FormGroup";
@@ -84,15 +84,6 @@ export default function ActivityForm({
                     <Button
                         onClick={(e) => {
                             e?.stopPropagation();
-                            onToggleExpand();
-                        }}
-                        style={["tool_bordered"]}
-                    >
-                        <ChevronUp size={16} />
-                    </Button>
-                    <Button
-                        onClick={(e) => {
-                            e?.stopPropagation();
                             onRemoveActivity();
                         }}
                         style={["tool_bordered", "danger"]}
@@ -128,13 +119,13 @@ export default function ActivityForm({
                     fullWidth
                 />
 
-                <Divider />
-
-                <LocationForm
-                    fields={locationFields}
-                    onLocationUpdate={onLocationUpdate}
-                />
             </div>
+            <Divider />
+
+            <LocationForm
+                fields={locationFields}
+                onLocationUpdate={onLocationUpdate}
+            />
         </div>
     );
 }

@@ -15,7 +15,7 @@
     box-shadow: var(--aureola-blue);
 
     border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
-    border: 1px solid var(--border-secondary);
+    border: 1.5px solid var(--border-secondary);
     border-bottom: none;
 
     .content {

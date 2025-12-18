@@ -1,7 +1,8 @@
 import styles from "@styles/components/dashboard/headers/ItinerariesHeader.module.css";
 
+import { PlusIcon } from "lucide-react";
+
 import Button from "@/components/shared/Button";
-import Divider from "@/components/shared/Divider";
 
 interface ItinerariesHeaderProps {
     children: React.ReactNode;
@@ -10,16 +11,12 @@ interface ItinerariesHeaderProps {
 export default function ItinerariesHeader({ children } : ItinerariesHeaderProps) {
     return (
         <header className={styles.header}>
-            <div className={styles.content}>
-                <h3 className={styles.title}>Itinerarios</h3>
-                <Button
-                    style={["primary"]}
-                    label="Crear Itinerario"
-                    to="/itineraries/new"
-                />
-            </div>
             {children}
-            <Divider />
+            <Button
+                style={["tool_bordered"]}
+                label="Crear itinerario"
+                to="/itineraries/new"
+            ><PlusIcon /></Button>
         </header>
     );
 }

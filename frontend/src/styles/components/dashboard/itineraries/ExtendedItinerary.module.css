@@ -20,9 +20,9 @@
     width: 100%;
     margin-block: var(--space-xl);
     padding: var(--space-lg);
-    background-color: var(--bg-card);
+    background-color: var(--bg-secondary);
     border-radius: var(--border-radius-xl);
-    border: 1px solid var(--border-secondary);
+    border: 1.5px solid var(--border-secondary);
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-lg);

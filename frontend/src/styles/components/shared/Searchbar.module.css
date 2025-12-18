@@ -2,19 +2,19 @@
     --border-radius: var(--border-radius-lg);
 
     height: 42px;
-    width: calc(100% - var(--app-padding) * 2);
-    margin-inline: var(--app-padding);
+    width: 100%;
     display: flex;
     align-items: center;
     border-radius: var(--border-radius);
+    color: var(--text-tertiary);
     transition: all 0.2s ease;
 
     .input {
         height: 100%;
-        border: 1px solid var(--border-secondary);
+        border: 1.5px solid var(--border-secondary);
         border-left: none;
         padding-left: 0;
-        background-color: var(--bg-card);
+        background-color: var(--bg-secondary);
         border-radius: 0 var(--border-radius) var(--border-radius) 0;
         transition: all 0.2s ease;
 
@@ -25,10 +25,10 @@
     }
 
     .button {
-        color: var(--text-secondary);
-        border: 1px solid var(--border-secondary);
+        color: var(--text-tertiary);
+        border: 1.5px solid var(--border-secondary);
         border-right: none;
-        background-color: var(--bg-card);
+        background-color: var(--bg-secondary);
         height: 100%;
         aspect-ratio: 1;
         padding: var(--space-sm);
@@ -38,7 +38,7 @@
 
         @media (hover: hover) {
             &:hover {
-                color: var(--text-primary);
+                color: var(--primary);
             }
         }
 
