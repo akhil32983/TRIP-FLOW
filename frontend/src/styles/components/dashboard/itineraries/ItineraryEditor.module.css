@@ -10,7 +10,7 @@
     background: var(--bg-secondary);
     padding: var(--space-xs);
     border-radius: var(--border-radius-full);
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
 }
 
 .tab {
@@ -22,7 +22,6 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     cursor: pointer;
-    transition: all 0.2s ease;
 
     @media (hover: hover) {
         &:hover {
@@ -36,10 +35,9 @@
     border-radius: var(--border-radius-full);
     background: var(--gradient-primary);
     border: none;
-    color: var(--text-inverse);
+    color: #FFFFFF;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     cursor: pointer;
-    transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
 }

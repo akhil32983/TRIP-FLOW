@@ -34,7 +34,7 @@
         gap: var(--space-md);
         padding: var(--space-xs) var(--space-sm);
         background: var(--bg-secondary);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         border-radius: var(--border-radius-full);
         color: var(--text-secondary);
         font-size: var(--font-size-sm);
@@ -86,7 +86,7 @@
         padding: var(--space-lg);
         background: var(--bg-secondary);
         border-radius: var(--border-radius-lg);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         animation: fadeIn 0.2s ease;
 
         .formGrid {

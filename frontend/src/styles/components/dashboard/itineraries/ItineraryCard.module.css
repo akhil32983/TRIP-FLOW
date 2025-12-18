@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     border-radius: var(--border-radius-xl);
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     background: var(--bg-secondary);
     overflow: hidden;
     cursor: pointer;

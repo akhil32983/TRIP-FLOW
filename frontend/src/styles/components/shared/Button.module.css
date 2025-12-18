@@ -5,7 +5,6 @@
     align-items: center;
     justify-content: center;
     padding: var(--space-sm) var(--space-lg);
-    color: var(--text-color);
 
     text-decoration: none;
 
@@ -45,6 +44,7 @@
     border: none;
     font-weight: var(--font-weight-normal);
     background: var(--gradient-primary);
+    color: var(--gradient-primary-text);
     text-transform: capitalize;
 
     &.danger {
@@ -63,19 +63,19 @@
 }
 
 .secondary {
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
     font-weight: var(--font-weight-normal);
     text-transform: capitalize;
 
     &.danger {
-        border: 1.5px solid var(--error);
+        border: 2px solid var(--error);
         color: var(--error);
     }
 
     &.info {
-        border: 1.5px solid var(--info-border);
+        border: 2px solid var(--info-border);
         color: var(--info-text);
     }
 
@@ -129,7 +129,7 @@
 
     @media (hover: hover) {
         &:hover {
-            color: var(--secondary);
+            color: var(--primary);
             filter: drop-shadow(var(--glow-blue));
         }
     }
@@ -161,7 +161,7 @@
     align-items: center;
     justify-content: center;
 
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     background-color: var(--bg-secondary);
     color: var(--text-tertiary);
 
@@ -176,6 +176,7 @@
     }
 
     &.danger {
+        background-color: var(--bg-secondary);
         border-color: var(--error);
         color: var(--error);
 
@@ -239,14 +240,14 @@
     color: var(--text-tertiary);
     font-size: var(--font-size-md);
     font-weight: var(--font-weight-normal);
-    border: 1.5px solid transparent;
+    border: 2px solid transparent;
 
     &:active {
         background: none;
     }
 
     &.active {
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         background: var(--bg-secondary);
         color: var(--primary);
     }

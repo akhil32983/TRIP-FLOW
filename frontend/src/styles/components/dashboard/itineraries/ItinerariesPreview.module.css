@@ -28,7 +28,7 @@
         gap: var(--space-lg);
         background-color: var(--bg-overlay);
         border-radius: var(--border-radius-lg);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         backdrop-filter: blur(20px);
         overflow: hidden;
         transition: all 0.15s ease-in-out;
@@ -163,7 +163,7 @@
         color: var(--text-secondary);
         background: var(--bg-overlay);
         border-radius: var(--border-radius-md);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         animation: fadeIn 0.2s ease;
     }
 }

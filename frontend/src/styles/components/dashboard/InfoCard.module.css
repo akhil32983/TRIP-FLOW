@@ -9,7 +9,7 @@
     justify-content: space-between;
     padding: var(--space-md);
     border-radius: var(--border-radius-lg);
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     background: var(--bg-secondary);
     backdrop-filter: blur(10px);
     transition: all 0.15s ease-in-out;

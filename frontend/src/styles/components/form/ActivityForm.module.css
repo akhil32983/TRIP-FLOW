@@ -4,7 +4,7 @@
     flex-direction: column;
     gap: var(--space-xxl);
     background: var(--bg-secondary);
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     border-radius: var(--border-radius-md);
     padding-block: var(--space-lg);
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
@@ -48,7 +48,7 @@
     padding: var(--space-md) var(--space-lg);
     background: var(--bg-secondary);
     cursor: pointer;
-    border: 1.5px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     border-radius: var(--border-radius-md);
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
 

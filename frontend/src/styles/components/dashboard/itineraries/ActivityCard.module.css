@@ -4,7 +4,7 @@
   flex-direction: column;
   padding: var(--space-lg);
   border-radius: var(--border-radius-xl);
-  border: 1.5px solid var(--border-secondary);
+  border: 2px solid var(--border-secondary);
   background-color: var(--bg-secondary);
   transition: all 0.15s ease-in-out;
 

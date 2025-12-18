@@ -18,7 +18,7 @@
         align-items: center;
         justify-content: space-between;
         border-radius: var(--border-radius-xl);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
     }
 
     .logo {

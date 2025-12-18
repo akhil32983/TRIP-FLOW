@@ -6,7 +6,7 @@
         width: 100%;
         background: var(--bg-secondary);
         border-radius: var(--border-radius-lg);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         overflow: hidden;
         overflow-x: auto;
         

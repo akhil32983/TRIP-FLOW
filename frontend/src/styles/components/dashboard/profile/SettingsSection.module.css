@@ -16,7 +16,7 @@
         align-items: center;
         gap: var(--space-lg);
         color: var(--text-primary);
-        border: 1.5px solid var(--border-secondary);
+        border: 2px solid var(--border-secondary);
         border-radius: var(--border-radius-lg);
         background-color: var(--bg-secondary);
         cursor: pointer;

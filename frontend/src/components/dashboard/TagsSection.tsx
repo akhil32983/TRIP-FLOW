@@ -60,7 +60,7 @@ export default function TagsSection({ tags, onTagsChange, label, placeholder }: 
                                 onClick={() => handleRemoveTag(tag)}
                                 type="button"
                             >
-                                <X size={16} />
+                                <X size={16} color="#FFFFFF"/>
                             </Button>
                         } />
                     ))}
