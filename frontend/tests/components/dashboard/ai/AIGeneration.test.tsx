@@ -2,7 +2,7 @@ import AIGeneration from "@components/dashboard/ai/AIGeneration";
 
 import { render, screen, fireEvent, waitFor } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { generateItinerary } from "@/services/aiService";
+import { generateItinerary, getAIStatus } from "@/services/aiService";
 
 import * as authProvider from "@/providers/authProvider";
 import * as demoProvider from "@/providers/demoProvider";
@@ -12,7 +12,12 @@ import * as aiGenerationForm from "@/hooks/useAIGenerationForm";
 // Mock services and hooks
 vi.mock("@/services/aiService", () => ({
     generateItinerary: vi.fn(),
-    getAIStatus: vi.fn(),
+    getAIStatus: vi.fn(() => ({
+        isProcessing: false,
+        canUseAI: true,
+        dailyLimit: 10,
+        remainingRequests: 5
+    })),
 }));
 
 vi.mock("@/providers/authProvider", () => ({
@@ -74,6 +79,13 @@ describe("AIGeneration Component", () => {
             advancedFields: [
                 { name: "days", label: "Days", type: "number" }
             ],
+        });
+
+        (getAIStatus as any).mockResolvedValue({
+            canUseAI: true,
+            isProcessing: false,
+            dailyLimit: 10,
+            remainingRequests: 5
         });
     });
 
