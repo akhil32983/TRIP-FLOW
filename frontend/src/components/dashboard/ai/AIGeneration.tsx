@@ -1,10 +1,10 @@
 import styles from "@styles/components/dashboard/ai/AIGeneration.module.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { AIUsage } from "@/types/ai";
 
-import { generateItinerary } from "@/services/aiService";
+import { generateItinerary, getAIStatus } from "@/services/aiService";
 import { useDemo } from "@/providers/demoProvider";
 import { useAuth } from "@/providers/authProvider";
 import { useNotification } from "@/providers/notificationProvider";
@@ -17,6 +17,7 @@ import FormGroup from "@components/form/FormGroup";
 import Button from "@components/shared/Button";
 import TagsSection from "@/components/dashboard/TagsSection";
 import Badge from "@components/shared/Badge";
+import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 
 export default function AIGeneration() {
     const [showAdvanced, setShowAdvanced] = useState(false);
@@ -34,6 +35,28 @@ export default function AIGeneration() {
         updateField("aiPrompt", text);
     };
 
+    const handleAIStatusChange = async () => {
+        const status = await getAIStatus();
+        setRateLimit(!status.canUseAI);
+        setIsLoading(status.isProcessing);
+        setAiUsage({
+            usedQuota: status.dailyLimit - status.remainingRequests,
+            remainingQuota: status.remainingRequests,
+            limit: status.dailyLimit,
+            resetDate: "Mañana"
+        })
+    }
+
+    useEffect(() => {
+        handleAIStatusChange();
+    }, []);
+
+    useWebSocketNotifications({
+        types: ["ITINERARY_GENERATED", "ITINERARY_GENERATION_FAILED"],
+        onNotification: (_) => {
+            handleAIStatusChange();
+        }
+    })
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -61,7 +84,6 @@ export default function AIGeneration() {
         });
 
         setRateLimit(false);
-        setIsLoading(false);
     };
 
     return (

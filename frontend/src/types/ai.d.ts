@@ -19,3 +19,10 @@ export interface AIResponse {
     message: string;
     aiUsage: AIUsage;
 }
+
+export interface AIStatus {
+    isProcessing: boolean;
+    canUseAI: boolean;
+    dailyLimit: number;
+    remainingRequests: number;
+}
