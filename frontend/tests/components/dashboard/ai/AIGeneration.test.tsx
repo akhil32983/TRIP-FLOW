@@ -12,7 +12,7 @@ import * as aiGenerationForm from "@/hooks/useAIGenerationForm";
 // Mock services and hooks
 vi.mock("@/services/aiService", () => ({
     generateItinerary: vi.fn(),
-    getAiStatus: vi.fn(),
+    getAIStatus: vi.fn(),
 }));
 
 vi.mock("@/providers/authProvider", () => ({
