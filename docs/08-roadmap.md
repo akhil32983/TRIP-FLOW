@@ -81,6 +81,7 @@
 
 - [x] {Feature} AI-Powered Itinerary Generation (OpenRouter)
   - [x] {API} AI Generation endpoint - `POST /api/v1/ai`
+  - [x] {API} AI Status endpoint - `GET /api/v1/ai/status`
   - [x] {Model} AI Logs entity for tracking requests and usage
   - [x] {Pattern} AI response rate limiting (daily limit per user)
 - [x] {Feature} User profile management
@@ -153,20 +154,14 @@
 - [x] {Unit-Backend} AI Generation service tests (OpenRouter integration, rate limiting)
 - [x] {Unit-Backend} AI Logs service tests (request tracking and retrieval)
 - [x] {Unit-Backend} Kafka producer/consumer tests
-- [ ] {Unit-Backend} Notifications service tests
-- [ ] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
-- [ ] {Unit-Backend} Unsplash service tests (API + caching)
+- [x] {Unit-Backend} Notifications service tests
+- [x] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
 - [ ] {Integration-Backend} AI Generation endpoint tests
 - [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
-- [ ] {Integration-Backend} Notifications endpoints tests
 - [ ] {Integration-Backend} Unsplash endpoint tests
-- [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
-- [ ] {Unit-Frontend} Notifications component tests
+- [x] {Unit-Frontend} User profile component tests (avatar upload, form handling)
+- [x] {Unit-Frontend} Notifications component tests
 - [x] {Unit-Frontend} Admin panel component tests
-- [ ] {Integration-Frontend} AI workflow tests (generate → display → save)
-- [ ] {Integration-Frontend} Profile management workflow tests (upload → update → delete)
-- [ ] {Integration-Frontend} Notifications workflow tests
-- [ ] {Integration-Frontend} Admin panel workflow tests
 - [ ] {E2E} Complete AI itinerary generation flow
 - [ ] {E2E} Complete user profile management flow
 - [ ] {E2E} Complete notifications flow
