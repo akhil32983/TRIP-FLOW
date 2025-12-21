@@ -37,6 +37,11 @@ public class AIGenerationService {
      */
     public ExtendedItineraryDTO generateItinerary(AIGenerationRequest request) throws JsonProcessingException {
         if (activeProfile != null && activeProfile.contains("dev")) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return AIItineraryMock.getItineraryMock();
         }
 

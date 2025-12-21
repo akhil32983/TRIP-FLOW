@@ -65,6 +65,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Itinerary> itineraries = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AIUsage> aiUsages = new ArrayList<>();
+
     // [Constructors] =================================================
 
     public User() {
@@ -204,5 +207,13 @@ public class User {
 
     public void setProcessingAI(boolean processingAI) {
         this.processingAI = processingAI;
+    }
+
+    public List<AIUsage> getAiUsages() {
+        return aiUsages;
+    }
+
+    public void setAiUsages(List<AIUsage> aiUsages) {
+        this.aiUsages = aiUsages;
     }
 }
