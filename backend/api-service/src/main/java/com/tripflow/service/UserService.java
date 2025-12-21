@@ -228,6 +228,18 @@ public class UserService {
     }
 
     /**
+     * Sets the processing AI flag for the user with the specified username.
+     *
+     * @param username the username of the user to update
+     * @param processing the processing AI flag to set
+     */
+    public void setProcessingAI(String username, boolean processing) {
+        User user = this.getUserByUsername(username);
+        user.setProcessingAI(processing);
+        this.userRepository.save(user);
+    }
+
+    /**
      * Updates the fields of a user entity based on the provided PublicUserDTO.
      *
      * @param user the User entity to update

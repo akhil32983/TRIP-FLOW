@@ -303,7 +303,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"destination\": \"París\",\r\n    \"style\": \"Romantic\",\r\n    \"budget\": 500,\r\n    \"lodging\": \"hostel\",\r\n    \"duration\": \"1 day\",\r\n    \"interests\": [\"Eifel Tower\", \"Seine\", \"Les Champs-Élysées\"]\r\n}",
+									"raw": "{\r\n    \"aiPrompt\": \"Un viaje a parís para ver los campos eliseos\",\r\n    \"destination\": \"París\",\r\n    \"style\": \"Romantic\",\r\n    \"budget\": 500,\r\n    \"lodging\": \"hostel\",\r\n    \"duration\": \"1 day\",\r\n    \"interests\": [\"Eifel Tower\", \"Seine\", \"Les Champs-Élysées\"]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -319,6 +319,33 @@
 										"api",
 										"v1",
 										"ai"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AI Status",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"destination\": \"París\",\r\n    \"style\": \"Romantic\",\r\n    \"budget\": 500,\r\n    \"lodging\": \"hostel\",\r\n    \"duration\": \"1 day\",\r\n    \"interests\": [\"Eifel Tower\", \"Seine\", \"Les Champs-Élysées\"]\r\n}"
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/ai/status",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"ai",
+										"status"
 									]
 								}
 							},

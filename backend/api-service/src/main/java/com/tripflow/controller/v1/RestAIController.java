@@ -3,9 +3,9 @@ package com.tripflow.controller.v1;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.ai.AIResponse;
+import com.tripflow.dto.ai.AIStatus;
 import com.tripflow.service.ai.AIService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/v1/ai")
@@ -25,6 +25,22 @@ public class RestAIController {
 
     public RestAIController(AIService aiService) {
         this.aiService = aiService;
+    }
+
+    @GetMapping("/status")
+    @Operation(
+        summary = "Get AI Status",
+        description = "Retrieves the AI status for the authenticated user.",
+        security = @SecurityRequirement(name = "auth_token")
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "AI status retrieved successfully"),
+        @ApiResponse(responseCode = "401", description = "Unauthorized access"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<AIStatus> getAIStatus() {
+        AIStatus aiStatus = this.aiService.getAIStatus();
+        return ResponseEntity.ok(aiStatus);
     }
     
     @PostMapping

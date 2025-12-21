@@ -59,6 +59,8 @@ public class User {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
+    private boolean processingAI = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Itinerary> itineraries = new ArrayList<>();
@@ -194,5 +196,13 @@ public class User {
 
     public void setItineraries(List<Itinerary> itineraries) {
         this.itineraries = itineraries;
+    }
+
+    public boolean getProcessingAI() {
+        return processingAI;
+    }
+
+    public void setProcessingAI(boolean processingAI) {
+        this.processingAI = processingAI;
     }
 }

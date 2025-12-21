@@ -53,6 +53,10 @@ public class AIUsageService {
      * @return true if the user can use AI services, false otherwise.
      */
     public boolean canUseAI(User user) {
+        if (user.getProcessingAI()) {
+            return false;
+        }
+
         if (user.getPlan().equals(PlanType.PREMIUM)) {
             return true;
         }
@@ -62,9 +66,37 @@ public class AIUsageService {
 
         if (op.isPresent()) {
             AIUsage usage = op.get();
-            return usage.getUsage() < user.getPlan().getDailyLimit();
+            return usage.getUsage() < this.getDailyLimit(user);
         } else {
             return true;
+        }
+    }
+
+    /**
+     * Retrieves the daily limit for the given user.
+     * 
+     * @param user The user to retrieve the daily limit for.
+     * @return the daily limit for the user
+     */
+    public int getDailyLimit(User user) {
+        return user.getPlan().getDailyLimit();
+    }
+
+    /**
+     * Retrieves the remaining requests for the given user.
+     * 
+     * @param user The user to retrieve the remaining requests for.
+     * @return the remaining requests for the user
+     */
+    public int getRemainingRequests(User user) {
+        LocalDate today = LocalDate.now();
+        Optional<AIUsage> op = this.aiUsageRepository.findByUserAndDate(user, today);
+
+        if (op.isPresent()) {
+            AIUsage usage = op.get();
+            return this.getDailyLimit(user) - usage.getUsage();
+        } else {
+            return this.getDailyLimit(user);
         }
     }
 }

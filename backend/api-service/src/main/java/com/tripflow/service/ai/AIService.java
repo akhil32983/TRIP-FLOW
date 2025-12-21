@@ -6,6 +6,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.ai.AIResponse;
+import com.tripflow.dto.ai.AIStatus;
 import com.tripflow.dto.ai.AIUsageDTO;
 import com.tripflow.kafka.messages.AIRequestMessage;
 import com.tripflow.model.User;
@@ -25,6 +26,32 @@ public class AIService {
     }
 
     /**
+     * Retrieves the AI status for the authenticated user.
+     *
+     * @return an AIStatus object containing the AI status information
+     */
+    public AIStatus getAIStatus() {
+        User authenticatedUser = this.userService.getAuthenticatedUser();
+
+        return new AIStatus(
+            authenticatedUser.getProcessingAI(),
+            this.aiUsageService.canUseAI(authenticatedUser),
+            this.aiUsageService.getDailyLimit(authenticatedUser),
+            this.aiUsageService.getRemainingRequests(authenticatedUser)
+        );
+    }
+
+    /**
+     * Sets the processing AI flag for the user with the specified username.
+     *
+     * @param username the username of the user to update
+     * @param processing the processing AI flag to set
+     */
+    public void setAIProcessing(String username, boolean processing) {
+        this.userService.setProcessingAI(username, processing);
+    }
+
+    /**
      * Handles an AI processing request by sending it to the Kafka topic.
      * 
      * @param aiRequest The AIRequest containing user preferences.
@@ -41,6 +68,7 @@ public class AIService {
         }
 
         AIUsageDTO aiUsage = this.aiUsageService.recordUsage(authenticatedUser);
+        this.setAIProcessing(authenticatedUser.getUsername(), true);
 
         this.kafkaService.sendAIRequestMessage(
             new AIRequestMessage(authenticatedUser.getUsername(), aiRequest)
