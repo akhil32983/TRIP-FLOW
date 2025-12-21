@@ -20,49 +20,6 @@ services:
     networks:
       - tripflow-network-local
 
-
-  postgres-ai:
-    image: postgres:15-alpine
-    container_name: tripflow-postgres-ai
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: tripflow_ai_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
-    ports:
-      - "5433:5432"
-    volumes:
-      - pgdata-ai-local:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tripflow_user -d tripflow_ai_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - tripflow-network-local
-
-
-  postgres-notification:
-    image: postgres:15-alpine
-    container_name: tripflow-postgres-notification
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: tripflow_notification_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
-    ports:
-      - "5434:5432"
-    volumes:
-      - pgdata-notification-local:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tripflow_user -d tripflow_notification_db"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - tripflow-network-local
-  
-
   kafka:
     image: confluentinc/cp-kafka:8.1.0
     container_name: kafka-local
@@ -90,7 +47,6 @@ services:
     networks:
       - tripflow-network-local
 
-
   api-service:
     build:
       context: ../backend
@@ -99,9 +55,6 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      POSTGRES_URL: jdbc:postgresql://postgres-api:5432/tripflow_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       UNSPLASH_API_KEY: ${UNSPLASH_API_KEY:-your_unsplash_api_key_here}
@@ -120,7 +73,6 @@ services:
     networks:
       - tripflow-network-local
   
-
   ai-service:
     build:
       context: ../backend
@@ -129,9 +81,6 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      POSTGRES_URL: jdbc:postgresql://postgres-ai:5432/tripflow_ai_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       AI_API_KEY: ${AI_API_KEY}
@@ -140,8 +89,6 @@ services:
     ports:
       - "8081:8081"
     depends_on:
-      postgres-ai:
-        condition: service_healthy
       kafka:
         condition: service_healthy
     healthcheck:
@@ -152,7 +99,6 @@ services:
     networks:
       - tripflow-network-local
 
-  
   notification-service:
     build:
       context: ../backend
@@ -161,16 +107,11 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      POSTGRES_URL: jdbc:postgresql://postgres-notification:5432/tripflow_notification_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
       - "8082:8082"
     depends_on:
-      postgres-notification:
-        condition: service_healthy
       kafka:
         condition: service_healthy
     healthcheck:
@@ -180,7 +121,6 @@ services:
       retries: 3
     networks:
       - tripflow-network-local
-
 
   frontend:
     build:
@@ -201,13 +141,8 @@ services:
       timeout: 10s
       retries: 5
 
-
 volumes:
   pgdata-api-local:
-    driver: local
-  pgdata-ai-local:
-    driver: local
-  pgdata-notification-local:
     driver: local
   kafkadata-local:
     driver: local
