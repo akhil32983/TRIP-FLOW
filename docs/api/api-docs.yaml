@@ -586,6 +586,34 @@ paths:
                 $ref: "#/components/schemas/UserStatsDTO"
       security:
       - auth_token: []
+  /api/v1/ai/status:
+    get:
+      tags:
+      - rest-ai-controller
+      summary: Get AI Status
+      description: Retrieves the AI status for the authenticated user.
+      operationId: getAIStatus
+      responses:
+        "200":
+          description: AI status retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIStatus"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIStatus"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIStatus"
+      security:
+      - auth_token: []
   /api/health/:
     get:
       tags:
@@ -928,6 +956,19 @@ components:
           format: int64
         isLastPage:
           type: boolean
+    AIStatus:
+      type: object
+      properties:
+        isProcessing:
+          type: boolean
+        canUseAI:
+          type: boolean
+        dailyLimit:
+          type: integer
+          format: int32
+        remainingRequests:
+          type: integer
+          format: int32
   securitySchemes:
     auth_token:
       type: apiKey
