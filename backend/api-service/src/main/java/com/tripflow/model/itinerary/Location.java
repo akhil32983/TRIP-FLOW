@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Column;
 
 @Entity
 public class Location {
@@ -18,6 +19,7 @@ public class Location {
 
     private String name;
 
+    @Column(columnDefinition = "TEXT")
     private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)

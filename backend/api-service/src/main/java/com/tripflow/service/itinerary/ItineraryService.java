@@ -55,6 +55,10 @@ public class ItineraryService {
      * @return true if the itinerary was processed successfully, false otherwise
      */
     public boolean processGeneratedItinerary(AIGenerationMessage message) {
+        if (message.itinerary() == null) {
+            return false;
+        }
+        
         try {
             User user = this.userService.getUserByUsername(message.username());
             ExtendedItineraryDTO itineraryDTO = message.itinerary();

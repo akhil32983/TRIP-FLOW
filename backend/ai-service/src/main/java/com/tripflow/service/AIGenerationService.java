@@ -47,7 +47,10 @@ public class AIGenerationService {
 
         String prompt = AIItineraryPrompt.generatePrompt(request);
         ChatCompletion chatCompletion = this.createChat(prompt);
-        String response = chatCompletion.choices().get(0).message().content().get();
+        String response = chatCompletion
+            .choices().get(0).message().content().get()
+            .replace("```json", "")
+            .replace("```", "");
 
         ObjectMapper objectMapper = new ObjectMapper();
         return objectMapper.readValue(response, ExtendedItineraryDTO.class);
