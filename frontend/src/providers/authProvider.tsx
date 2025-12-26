@@ -106,14 +106,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await registerService(req);
 
     if (res.status === "SUCCESS") {
-      // Registration successful, redirect to login or show success message
       return { success: true };
     } else {
-      // Transform error messages to a more user-friendly format
-      const error: Record<string, string> =
-        res.errors.username === "User already exists with username"
-          ? { username: "El nombre de usuario ya está en uso." }
-          : { global: res.message ?? "Ha ocurrido un error desconocido." };
+      const error: Record<string, string> = {};
+      if (res.errors.email === "User already exists with email") {
+        error.email = "El correo electrónico ya está en uso.";
+      } else if (res.errors.username === "User already exists with username") {
+        error.username = "El nombre de usuario ya está en uso.";
+      } else {
+        error.global = "Ha ocurrido un error desconocido.";
+      }
+
       setErrors(error);
       return { success: false, errors: error };
     }

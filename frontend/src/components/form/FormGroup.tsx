@@ -75,9 +75,8 @@ export default function FormGroup({ field, index, handleChange, errors, fullWidt
 
     return (
         <div
-            key={field.name}
+            key={`${field.name}-${index}`}
             className={`${styles.field} ${fullWidth ? styles.fullWidth : ""}`}
-            style={{ "--index": (index ? index + 1 : 1) } as React.CSSProperties}
         >
             {field.label && (
                 <label className={styles.fieldLabel} htmlFor={field.name}>
