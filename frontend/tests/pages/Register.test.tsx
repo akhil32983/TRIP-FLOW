@@ -62,9 +62,10 @@ describe("Register Page Validation", () => {
   it("renders register form with correct fields", () => {
     render(<Register />);
 
-    expect(screen.getByLabelText("Usuario")).toBeInTheDocument();
-    expect(screen.getByLabelText("Contraseña")).toBeInTheDocument();
-    expect(screen.getByLabelText("Confirmar contraseña")).toBeInTheDocument();
+    expect(screen.getByText(/correo electrónico/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/usuario/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^contraseña/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/confirmar contraseña/i)).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Registrarse" })
     ).toBeInTheDocument();
@@ -88,7 +89,7 @@ describe("Register Page Validation", () => {
   it("shows validation error for empty password", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText(/usuario/i);
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
 
     const submitButton = screen.getByRole("button", { name: "Registrarse" });
@@ -106,8 +107,8 @@ describe("Register Page Validation", () => {
   it("shows validation error for empty confirm password", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "password123" } });
@@ -129,7 +130,7 @@ describe("Register Page Validation", () => {
   it("shows validation error for whitespace-only username", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText(/usuario/i);
     fireEvent.change(usernameInput, { target: { value: "   " } });
 
     const submitButton = screen.getByRole("button", { name: "Registrarse" });
@@ -147,8 +148,8 @@ describe("Register Page Validation", () => {
   it("shows validation error for whitespace-only password", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "   " } });
@@ -168,9 +169,9 @@ describe("Register Page Validation", () => {
   it("shows validation error for mismatched passwords", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "Password123" } });
@@ -213,9 +214,9 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "Validpassword123" } });
@@ -240,9 +241,9 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "Validpassword123" } });
@@ -268,9 +269,9 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "Validpassword123" } });
@@ -298,9 +299,9 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "existinguser" } });
     fireEvent.change(passwordInput, { target: { value: "ValidPassword123" } });
@@ -327,9 +328,9 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
     const submitButton = screen.getByRole("button", { name: "Registrarse" });
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -366,9 +367,9 @@ describe("Register Page Validation", () => {
   it("handles registration with special characters in username", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "user@test" } });
     fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -394,9 +395,9 @@ describe("Register Page Validation", () => {
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: longUsername } });
     fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -420,9 +421,9 @@ describe("Register Page Validation", () => {
   it("handles short username (edge case)", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "ab" } });
     fireEvent.change(passwordInput, { target: { value: "password" } });
@@ -445,9 +446,9 @@ describe("Register Page Validation", () => {
   it("handles short password (edge case)", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
-    const passwordInput = screen.getByLabelText("Contraseña");
-    const confirmPasswordInput = screen.getByLabelText("Confirmar contraseña");
+    const usernameInput = screen.getByLabelText(/usuario/i);
+    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
     fireEvent.change(passwordInput, { target: { value: "123" } });

@@ -62,7 +62,7 @@ describe("Login Page Validation", () => {
   it("renders login form with correct fields", () => {
     render(<Login />);
 
-    expect(screen.getByLabelText("Usuario")).toBeInTheDocument();
+    expect(screen.getByLabelText("Usuario / Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Contraseña")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Iniciar sesión" })
@@ -87,7 +87,7 @@ describe("Login Page Validation", () => {
   it("shows validation error for empty password", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
 
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
@@ -105,7 +105,7 @@ describe("Login Page Validation", () => {
   it("shows validation error for whitespace-only username", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     fireEvent.change(usernameInput, { target: { value: "   " } });
 
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
@@ -123,7 +123,7 @@ describe("Login Page Validation", () => {
   it("shows validation error for whitespace-only password", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -164,7 +164,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -186,7 +186,7 @@ describe("Login Page Validation", () => {
 
     const { rerender } = render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -226,7 +226,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -253,7 +253,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "nonexistent" } });
@@ -279,7 +279,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
 
@@ -314,7 +314,7 @@ describe("Login Page Validation", () => {
   it("handles login with special characters in username (edge case)", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "user@test" } });
@@ -337,7 +337,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: longUsername } });
