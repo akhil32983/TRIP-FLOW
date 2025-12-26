@@ -21,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.dto.user.UserMapper;
+import com.tripflow.exception.EmailAlreadyExistsException;
+import com.tripflow.exception.UsernameAlreadyExistsException;
 import com.tripflow.model.User;
 import com.tripflow.model.types.UserType;
 import com.tripflow.repository.UserRepository;
@@ -86,7 +88,9 @@ public class UserServiceTest {
     @Test
     @DisplayName("UserService should register new user")
     public void testRegisterUser() {
-        RegisterUserRequest request = new RegisterUserRequest("newuser", "password123", "password123");
+        RegisterUserRequest request = new RegisterUserRequest(
+            "newuser@example.com", "newuser", "password123", "password123"
+        );
 
         when(userRepository.existsByUsername("newuser")).thenReturn(false);
         when(passwordEncoder.encode("password123")).thenReturn("hashedPassword");
@@ -109,13 +113,31 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("UserService should throw exception when email already exists")
+    public void testRegisterUserEmailAlreadyExists() {
+        RegisterUserRequest request = new RegisterUserRequest(
+            "existingemail@example.com", "newuser", "password123", "password123"
+        );
+
+        when(userRepository.existsByEmail("existingemail@example.com")).thenReturn(true);
+
+        EmailAlreadyExistsException ex = assertThrows(EmailAlreadyExistsException.class, () ->
+            userService.registerUser(request)
+        );
+        assertEquals("User already exists with email", ex.getMessage());
+        verify(userRepository, never()).save(any());
+    }
+
+    @Test
     @DisplayName("UserService should throw exception when username already exists")
     public void testRegisterUserAlreadyExists() {
-        RegisterUserRequest request = new RegisterUserRequest("existinguser", "password123", "password123");
+        RegisterUserRequest request = new RegisterUserRequest(
+            "existinguser@example.com", "existinguser", "password123", "password123"
+        );
 
         when(userRepository.existsByUsername("existinguser")).thenReturn(true);
 
-        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class, () ->
+        UsernameAlreadyExistsException ex = assertThrows(UsernameAlreadyExistsException.class, () ->
             userService.registerUser(request)
         );
         assertEquals("User already exists with username", ex.getMessage());
@@ -169,7 +191,9 @@ public class UserServiceTest {
     @Test
     @DisplayName("UserService should hash password when registering user")
     public void testRegisterUserPasswordHashing() {
-        RegisterUserRequest request = new RegisterUserRequest("testuser", "plainPassword", "plainPassword");
+        RegisterUserRequest request = new RegisterUserRequest(
+            "testuser@example.com", "testuser", "plainPassword", "plainPassword"
+        );
 
         when(userRepository.existsByUsername("testuser")).thenReturn(false);
         when(passwordEncoder.encode("plainPassword")).thenReturn("$2a$10$hashedPassword");

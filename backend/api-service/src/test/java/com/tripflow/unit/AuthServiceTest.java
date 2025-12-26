@@ -21,6 +21,8 @@ import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.exception.EmailAlreadyExistsException;
+import com.tripflow.exception.UsernameAlreadyExistsException;
 import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 import com.tripflow.security.jwt.JwtTokenProvider;
@@ -106,12 +108,14 @@ public class AuthServiceTest {
     @Test
     @DisplayName("Test register fails due to validation errors")
     public void testRegisterValidationErrors() {
+        String email = "invalid-email";
         String username = "12";
-        RegisterUserRequest request = new RegisterUserRequest(username, "pass", "pass");
+        RegisterUserRequest request = new RegisterUserRequest(email, username, "pass", "pass");
 
         AuthResponse result = this.authService.register(request);
 
         assertEquals(AuthStatus.FAILURE, result.status(), "Registration should fail due to validation errors");
+        assertTrue(result.errors().containsKey("email"), "Email error should be present");
         assertTrue(result.errors().containsKey("username"), "Username error should be present");
         assertTrue(result.errors().containsKey("password"), "Password error should be present");
 
@@ -121,10 +125,11 @@ public class AuthServiceTest {
     @Test
     @DisplayName("Test register successfully")
     public void testRegisterSuccess() {
+        String email = "user@example.com";
         String username = "user";
         String password = "Abc12345678";
 
-        RegisterUserRequest request = new RegisterUserRequest(username, password, password);
+        RegisterUserRequest request = new RegisterUserRequest(email, username, password, password);
         PublicUserDTO publicUser = new PublicUserDTO(
             username, username, 
             "", "Earth", null, UserType.USER, PlanType.FREE
@@ -144,13 +149,35 @@ public class AuthServiceTest {
     }
 
     @Test
-    @DisplayName("Test register fails due to user already exists")
-    public void testRegisterUserAlreadyExists() {
+    @DisplayName("Test register fails due to email already exists")
+    public void testRegisterEmailAlreadyExists() {
+        String email = "user@example.com";
         String username = "user";
         String password = "Abc12345678";
-        RegisterUserRequest request = new RegisterUserRequest(username, password, password);
+        RegisterUserRequest request = new RegisterUserRequest(email, username, password, password);
 
-        when(this.userService.registerUser(request)).thenThrow(new IllegalArgumentException("User already exists with username"));
+        when(this.userService.registerUser(request)).thenThrow(
+            new EmailAlreadyExistsException("User already exists with email")
+        );
+
+        AuthResponse result = this.authService.register(request);
+
+        assertEquals(AuthStatus.FAILURE, result.status());
+        assertTrue(result.errors().containsKey("email"), "Email error should be present");
+        assertEquals("User already exists with email", result.errors().get("email"));
+    }
+
+    @Test
+    @DisplayName("Test register fails due to user already exists")
+    public void testRegisterUserAlreadyExists() {
+        String email = "user@example.com";
+        String username = "user";
+        String password = "Abc12345678";
+        RegisterUserRequest request = new RegisterUserRequest(email, username, password, password);
+
+        when(this.userService.registerUser(request)).thenThrow(
+            new UsernameAlreadyExistsException("User already exists with username")
+        );
 
         AuthResponse result = this.authService.register(request);
 

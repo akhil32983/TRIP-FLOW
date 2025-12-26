@@ -32,9 +32,14 @@ public class AuthTestUtils {
         String uniqueUsername = unique
             ? generateUniqueValue(username)
             : username;
-        
+            
+        String uniqueEmail = unique
+            ? generateUniqueEmail(uniqueUsername)
+            : uniqueUsername + "@example.com";
+
         // Register user
         RegisterUserRequest registerRequest = new RegisterUserRequest(
+            uniqueEmail,
             uniqueUsername,
             "Ab12345678",
             "Ab12345678"
@@ -91,5 +96,15 @@ public class AuthTestUtils {
      */
     public static String generateUniqueValue(String prefix) {
         return prefix + System.nanoTime();
+    }
+    
+    /**
+     * Generates a unique email by appending the current time in nanoseconds to the given prefix.
+     *
+     * @param prefix the prefix to use
+     * @return the unique email
+     */
+    public static String generateUniqueEmail(String prefix) {
+        return prefix + System.nanoTime() + "@example.com";
     }
 }
