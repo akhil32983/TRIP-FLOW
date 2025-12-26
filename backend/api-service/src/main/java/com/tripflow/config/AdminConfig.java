@@ -13,6 +13,9 @@ import jakarta.annotation.PostConstruct;
 public class AdminConfig {
     private final UserService userService;
 
+    @Value("${admin.email}")
+    private String adminEmail;
+
     @Value("${admin.username}")
     private String adminUsername;
 
@@ -29,7 +32,7 @@ public class AdminConfig {
             this.userService.getUserByUsername(adminUsername);
         } catch (Exception e) {
             this.userService.registerUser(
-                new RegisterUserRequest(adminUsername, adminPassword, adminPassword),
+                new RegisterUserRequest(adminEmail, adminUsername, adminPassword, adminPassword),
                 UserType.ADMIN
             );
         }

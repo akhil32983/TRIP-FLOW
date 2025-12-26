@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.tripflow.dto.shared.PaginatedDTO;
+import com.tripflow.exception.EmailAlreadyExistsException;
+import com.tripflow.exception.UsernameAlreadyExistsException;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.dto.user.UpdateUserRequest;
@@ -69,6 +71,18 @@ public class UserService {
     }
 
     /**
+     * Retrieves a user entity by email.
+     *
+     * @param email the email of the user to retrieve
+     * @return the User entity
+     * @throws UsernameNotFoundException
+     */
+    public User getUserByEmail(String email) throws UsernameNotFoundException {
+        return this.userRepository.findByEmail(email)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    /**
      * Retrieves a paginated list of public user DTOs.
      *
      * @param pageable the pagination information
@@ -115,10 +129,15 @@ public class UserService {
      * 
      * @return a PublicUserDTO containing the registered user's public information
      */
-    public PublicUserDTO registerUser(RegisterUserRequest request, UserType userType) throws IllegalArgumentException {
+    public PublicUserDTO registerUser(RegisterUserRequest request, UserType userType) {
+        // Check if the email already exists
+        if (this.userRepository.existsByEmail(request.email())) {
+            throw new EmailAlreadyExistsException("User already exists with email");
+        }
+
         // Check if the user already exists
         if (this.userRepository.existsByUsername(request.username())) {
-            throw new IllegalArgumentException("User already exists with username");
+            throw new UsernameAlreadyExistsException("User already exists with username");
         }
 
         // Create a new user entity from the request

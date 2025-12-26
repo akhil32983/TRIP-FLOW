@@ -10,6 +10,7 @@ import java.util.Map;
 public class AuthValidator {
     private static final String USERNAME_REGEX = "^[a-zA-Z0-9_]+$";
     private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
     private static final int MAX_USERNAME_LENGTH = 30;
     private static final int MIN_USERNAME_LENGTH = 3;
     private static final int MIN_PASSWORD_LENGTH = 8;
@@ -23,6 +24,15 @@ public class AuthValidator {
     public Map<String, String> validateUserRegistrationRequest(RegisterUserRequest request) {
         Map<String, String> errors = new HashMap<>();
         String key;
+
+        // Email validation
+        String email = request.email();
+        key = "email";
+        if (email == null || email.trim().isEmpty()) {
+            errors.put(key, "Email is required.");
+        } else if (!email.matches(EMAIL_REGEX)) {
+            errors.put(key, "Email format is invalid.");
+        }
 
         // Username validation
         String username = request.username();

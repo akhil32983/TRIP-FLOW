@@ -15,6 +15,8 @@ import com.tripflow.dto.auth.AuthResponse;
 import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.PublicUserDTO;
+import com.tripflow.exception.EmailAlreadyExistsException;
+import com.tripflow.exception.UsernameAlreadyExistsException;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.security.jwt.JwtTokenProvider;
 import com.tripflow.security.jwt.TokenType;
@@ -73,11 +75,18 @@ public class AuthService {
                 null,
                 publicUser
             );
-        } catch (IllegalArgumentException e) {
+        } catch (UsernameAlreadyExistsException e) {
             return new AuthResponse(
                 AuthStatus.FAILURE,
                 null,
-                Map.of("username", "User already exists with username"),
+                Map.of("username", e.getMessage()),
+                null
+            );
+        } catch (EmailAlreadyExistsException e) {
+            return new AuthResponse(
+                AuthStatus.FAILURE,
+                null,
+                Map.of("email", e.getMessage()),
                 null
             );
         } catch (Exception e) {
@@ -98,11 +107,20 @@ public class AuthService {
      * @return an AuthResponse containing the status, message, and public user information
      */
     public AuthResponse login(HttpServletResponse response, LoginRequest request) {
+        // Retrieve username or email from the request
+        String identifier = request.username();
+        String username;
+        if (identifier != null && identifier.contains("@")) {
+            username = this.userService.getUserByEmail(identifier).getUsername();
+        } else {
+            username = identifier;
+        }
+
         // Try to authenticate the user
         Authentication authentication;
         try {
             authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.username(), request.password())
+                new UsernamePasswordAuthenticationToken(username, request.password())
             );
         } catch (AuthenticationException e) {
             return new AuthResponse(
@@ -117,7 +135,6 @@ public class AuthService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Retrieve user details and public user information
-        String username = request.username();
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
         PublicUserDTO publicUser = this.userService.getPublicUserByUsername(username);
 

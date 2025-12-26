@@ -10,5 +10,6 @@ jwt.secret=your-jwt-secret-here
 unsplash.api.key=your-unsplash-api-key
 
 # Admin User Configuration
+admin.email=your-admin-email
 admin.username=your-admin-username
 admin.password=your-admin-password
