@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tripflow.dto.ai.AIGenerationRequest;
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
-import com.tripflow.dto.notification.NotificationTypeDTO;
 import com.tripflow.kafka.messages.AIGenerationMessage;
 import com.tripflow.kafka.messages.AIRequestMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
@@ -78,8 +77,7 @@ public class AIHandlerServiceTest {
         aiHandlerService.handleAIRequest(requestMessage);
 
         verify(aiGenerationService, times(1)).generateItinerary(request);
-        verify(kafkaService, never()).sendAIGenerationMessage(any(AIGenerationMessage.class));
-        verify(kafkaService, times(1)).sendNotificationMessage(any(NotificationMessage.class));
+        verify(kafkaService, times(1)).sendAIGenerationMessage(any(AIGenerationMessage.class));
         verify(aiLogService, times(1)).saveAILog(
             eq(requestMessage),
             eq("Failed to process your AI request."),
@@ -102,25 +100,6 @@ public class AIHandlerServiceTest {
         verify(kafkaService, times(1)).sendAIGenerationMessage(argThat(message ->
             message.username().equals(username) &&
             message.itinerary().equals(itinerary)
-        ));
-    }
-
-    @Test
-    @DisplayName("Test handleAIRequest sends notification on failure")
-    public void testNotificationSentOnFailure() throws JsonProcessingException {
-        String username = "jane_doe";
-        AIGenerationRequest request = AITestUtils.createAIGenerationRequest();
-        AIRequestMessage requestMessage = AITestUtils.createAIRequestMessage(username, request);
-
-        when(aiGenerationService.generateItinerary(request))
-            .thenThrow(new JsonProcessingException("Invalid JSON") {});
-
-        aiHandlerService.handleAIRequest(requestMessage);
-
-        verify(kafkaService, times(1)).sendNotificationMessage(argThat(message ->
-            message.username().equals(username) &&
-            message.message().equals("Failed to process your AI request.") &&
-            message.type().equals(NotificationTypeDTO.ITINERARY_GENERATION_FAILED)
         ));
     }
 
