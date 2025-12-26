@@ -1,0 +1,50 @@
+.tabsWrapper {
+    width: 100%;
+    margin-bottom: var(--space-lg);
+    display: flex;
+    justify-content: center;
+
+    .tabs {
+        display: inline-flex;
+        background: var(--bg-secondary);
+        padding: var(--space-xs);
+        border-radius: var(--border-radius-full);
+        border: 2px solid var(--border-secondary);
+
+        .tab {
+            padding: var(--space-sm) var(--space-xl);
+            border-radius: var(--border-radius-full);
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        
+            @media (hover: hover) {
+                &:hover {
+                    color: var(--text-primary);
+                }
+            }
+        }
+
+        .activeTab {
+            padding: var(--space-sm) var(--space-xl);
+            border-radius: var(--border-radius-full);
+            background: var(--gradient-primary);
+            border: none;
+            color: #FFFFFF;
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-medium);
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+    }
+}
+
+
+

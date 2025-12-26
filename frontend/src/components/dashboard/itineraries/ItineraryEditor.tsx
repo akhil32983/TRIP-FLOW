@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import styles from "@styles/components/dashboard/itineraries/ItineraryEditor.module.css";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
@@ -10,9 +9,10 @@ import { useModal } from "@/hooks/useModal";
 
 import InnerTabHeader from "@/components/dashboard/headers/InnerTabHeader";
 import Button from "@/components/shared/Button";
+import Modal from "@/components/shared/Modal";
+import Tabs from "@/components/shared/Tabs";
 import ItineraryEditForm from "@/components/form/ItineraryEditForm";
 import AIGeneration from "@/components/dashboard/ai/AIGeneration";
-import Modal from "@/components/shared/Modal";
 
 type ItineraryEditorType = "manual" | "ai" | "edit";
 
@@ -100,22 +100,14 @@ export default function ItineraryEditor({
             />
 
             {type !== "edit" && (
-                <div className={styles.tabsWrapper}>
-                    <div className={styles.tabs}>
-                        <button
-                            className={activeTab === 'manual' ? styles.activeTab : styles.tab}
-                            onClick={() => setActiveTab('manual')}
-                        >
-                            Manual
-                        </button>
-                        <button
-                            className={activeTab === 'ai' ? styles.activeTab : styles.tab}
-                            onClick={() => setActiveTab('ai')}
-                        >
-                            Asistente IA
-                        </button>
-                    </div>
-                </div>
+                <Tabs
+                    tabs={[
+                        { id: 'manual', label: 'Manual' },
+                        { id: 'ai', label: 'Asistente IA' }
+                    ]}
+                    activeTab={activeTab}
+                    onChange={(id) => setActiveTab(id as ItineraryEditorType)}
+                />
             )}
 
             {activeTab !== "ai" ? (

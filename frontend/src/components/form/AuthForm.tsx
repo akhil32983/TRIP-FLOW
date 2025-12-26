@@ -1,13 +1,14 @@
 import styles from "@styles/components/form/Form.module.css";
 
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import type { ChangeEvent, FormEvent } from "react";
 
 import type { Field } from "@/types/form";
 
 import Button from "@components/shared/Button";
-import Divider from "@components/shared/Divider";
 import Logo from "@components/shared/Logo";
+import Tabs from "@components/shared/Tabs";
 import FormGroup from "@components/form/FormGroup";
 
 export type Errors = Record<string, string>;
@@ -19,21 +20,22 @@ export type Alternative = {
 };
 
 type AuthFormProps<T extends Record<string, any>> = {
+  active: "login" | "signup";
   fields: Field[];
   buttonLabel: string;
   onSubmit: (values: T) => void;
-  alternative?: Alternative;
   errors?: Errors | null;
 };
 
 export default function AuthForm<T extends Record<string, any>>({
+  active,
   fields,
   buttonLabel,
   onSubmit,
-  alternative,
   errors,
 }: AuthFormProps<T>) {
   const [values, setValues] = useState<T>({} as T);
+  const navigate = useNavigate();
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -51,6 +53,14 @@ export default function AuthForm<T extends Record<string, any>>({
       <Button style={["logo"]} to="/">
         <Logo size="medium" />
       </Button>
+      <Tabs
+        tabs={[
+          { id: "login", label: "Iniciar Sesión" },
+          { id: "signup", label: "Registrarse" },
+        ]}
+        activeTab={active}
+        onChange={(id) => navigate(`/${id}`)}
+      />
       <form className={styles.form} onSubmit={handleSubmit}>
         {fields.map((field, index) => (
           <FormGroup
@@ -63,19 +73,6 @@ export default function AuthForm<T extends Record<string, any>>({
         ))}
         <Button style={["primary", "big"]} label={buttonLabel} type="submit" />
       </form>
-      {alternative && (
-        <div className={styles.alternative}>
-          <Divider maxWidth={400} />
-          <div className={styles.alternativeText}>
-            {alternative.alternative}
-            <Button
-              style={["inline"]}
-              label={alternative.alternativeLabel}
-              to={alternative.alternativeLink}
-            />
-          </div>
-        </div>
-      )}
       {errors && errors["global"] && (
         <div className={styles.error}>{errors["global"]}</div>
       )}

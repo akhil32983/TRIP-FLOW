@@ -62,6 +62,7 @@ export default function RegisterPage() {
     return (
         <Layout single>
             <AuthForm
+                active="signup"
                 fields={[
                     {
                         name: "email",
@@ -97,11 +98,6 @@ export default function RegisterPage() {
                 ]}
                 buttonLabel="Registrarse"
                 onSubmit={(values: RegisterRequest) => handleRegister(values)}
-                alternative={{
-                    alternative: "¿Ya tienes una cuenta?",
-                    alternativeLink: "/login",
-                    alternativeLabel: "Inicia sesión aquí",
-                }}
                 errors={errors}
             />
         </Layout>

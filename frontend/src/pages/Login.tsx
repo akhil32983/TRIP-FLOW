@@ -63,6 +63,7 @@ export default function LoginPage() {
     return (
         <Layout single>
             <AuthForm
+                active="login"
                 fields={[
                     {
                         name: "username",
@@ -80,11 +81,6 @@ export default function LoginPage() {
                 ]}
                 buttonLabel="Iniciar sesión"
                 onSubmit={(values: LoginRequest) => handleLogin(values)}
-                alternative={{
-                    alternative: "¿No tienes una cuenta?",
-                    alternativeLink: "/signup",
-                    alternativeLabel: "Regístrate aquí",
-                }}
                 errors={errors}
             />
         </Layout>
