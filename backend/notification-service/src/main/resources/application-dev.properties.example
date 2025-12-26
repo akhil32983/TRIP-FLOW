@@ -5,3 +5,7 @@
 
 # JWT Configuration
 jwt.secret=your-jwt-secret-here
+
+# Mailing Config
+email.sender=your-email-here
+email.brevo.apiKey=your-brevo-api-key-here
