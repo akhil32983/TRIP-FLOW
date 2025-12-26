@@ -304,11 +304,7 @@ describe("Login Page Validation", () => {
   it("renders signup alternative link", () => {
     render(<Login />);
 
-    expect(screen.getByText("¿No tienes una cuenta?")).toBeInTheDocument();
-
-    const signupLink = screen.getByRole("link", { name: "Regístrate aquí" });
-    expect(signupLink).toBeInTheDocument();
-    expect(signupLink).toHaveAttribute("href", "/signup");
+    expect(screen.getByText("Registrarse")).toBeInTheDocument();
   });
 
   it("handles login with special characters in username (edge case)", async () => {

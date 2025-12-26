@@ -1,5 +1,5 @@
 import AuthForm from "@components/form/AuthForm";
-import type { Errors, Alternative } from "@components/form/AuthForm";
+import type { Errors } from "@components/form/AuthForm";
 import type { Field } from "@/types/form";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
@@ -30,6 +30,7 @@ describe("AuthForm Component", () => {
   it("renders form with fields", () => {
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -44,6 +45,7 @@ describe("AuthForm Component", () => {
   it("renders logo button with link to home", () => {
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -58,6 +60,7 @@ describe("AuthForm Component", () => {
   it("renders input fields with correct attributes", () => {
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -78,6 +81,7 @@ describe("AuthForm Component", () => {
   it("handles input changes correctly", () => {
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -93,6 +97,7 @@ describe("AuthForm Component", () => {
   it("calls onSubmit with form values when submitted", () => {
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -121,6 +126,7 @@ describe("AuthForm Component", () => {
 
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -139,6 +145,7 @@ describe("AuthForm Component", () => {
 
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -149,29 +156,6 @@ describe("AuthForm Component", () => {
     expect(screen.getByText("Authentication failed")).toBeInTheDocument();
   });
 
-  it("renders alternative section when provided", () => {
-    const alternative: Alternative = {
-      alternative: "Don't have an account?",
-      alternativeLink: "/register",
-      alternativeLabel: "Sign up",
-    };
-
-    render(
-      <AuthForm
-        fields={mockFields}
-        buttonLabel="Sign In"
-        onSubmit={mockOnSubmit}
-        alternative={alternative}
-      />
-    );
-
-    expect(screen.getByText("Don't have an account?")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Sign up" })).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "Sign up" })).toHaveAttribute(
-      "href",
-      "/register"
-    );
-  });
 
   it("renders offline warning when navigator is offline", () => {
     // Mock navigator.onLine
@@ -182,6 +166,7 @@ describe("AuthForm Component", () => {
 
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -200,6 +185,7 @@ describe("AuthForm Component", () => {
 
     render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -212,6 +198,7 @@ describe("AuthForm Component", () => {
   it("renders form as form element", () => {
     const { container } = render(
       <AuthForm
+        active="login"
         fields={mockFields}
         buttonLabel="Sign In"
         onSubmit={mockOnSubmit}
@@ -232,6 +219,7 @@ describe("AuthForm Component", () => {
 
     render(
       <AuthForm
+        active="login"
         fields={fieldsWithoutType}
         buttonLabel="Submit"
         onSubmit={mockOnSubmit}

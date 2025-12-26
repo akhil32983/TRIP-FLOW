@@ -357,11 +357,7 @@ describe("Register Page Validation", () => {
   it("renders login alternative link", () => {
     render(<Register />);
 
-    expect(screen.getByText("¿Ya tienes una cuenta?")).toBeInTheDocument();
-
-    const loginLink = screen.getByRole("link", { name: "Inicia sesión aquí" });
-    expect(loginLink).toBeInTheDocument();
-    expect(loginLink).toHaveAttribute("href", "/login");
+    expect(screen.getByText("Iniciar Sesión")).toBeInTheDocument();
   });
 
   it("handles registration with special characters in username", async () => {
