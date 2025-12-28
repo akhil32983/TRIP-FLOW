@@ -24,5 +24,10 @@ public interface UserMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "plan", ignore = true)
     @Mapping(target = "itineraries", ignore = true)
+    @Mapping(target = "verified", ignore = true)
+    @Mapping(target = "verificationCode", ignore = true)
+    @Mapping(target = "verificationCodeExpiresAt", ignore = true)
+    @Mapping(target = "processingAI", ignore = true)
+    @Mapping(target = "aiUsages", ignore = true)
     User toDomain(RegisterUserRequest request, String hashedPassword, UserType role);
 }

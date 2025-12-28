@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import java.time.Instant;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
@@ -12,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -21,8 +22,10 @@ import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.dto.user.VerificationCode;
 import com.tripflow.exception.EmailAlreadyExistsException;
 import com.tripflow.exception.UsernameAlreadyExistsException;
+import com.tripflow.model.User;
 import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 import com.tripflow.security.jwt.JwtTokenProvider;
@@ -74,12 +77,15 @@ public class AuthServiceTest {
             username, username, 
             "", "Earth", null, UserType.USER, PlanType.FREE
         );
+        User user = mock(User.class);
         
+        when(user.getVerified()).thenReturn(true);
         when(this.authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authentication);
         when(this.userDetailsService.loadUserByUsername(username)).thenReturn(userDetails);
         when(this.userService.getPublicUserByUsername(username)).thenReturn(publicUser);
         when(this.jwtTokenProvider.generateAuthToken(userDetails)).thenReturn("authToken");
         when(this.jwtTokenProvider.generateRefreshToken(userDetails)).thenReturn("refreshToken");
+        when(this.userService.getUserByUsername(username)).thenReturn(user);
 
         AuthResponse result = this.authService.login(response, request);
 
@@ -140,6 +146,9 @@ public class AuthServiceTest {
 
         when(this.userService.registerUser(request)).thenReturn(publicUser);
 
+        VerificationCode verificationCode = new VerificationCode("123456", Instant.now());
+        when(this.userService.generateVerificationCode(email)).thenReturn(verificationCode);
+
         AuthResponse result = this.authService.register(request);
 
         assertNull(result.errors(), "No errors should be present in the response");
@@ -148,6 +157,7 @@ public class AuthServiceTest {
         assertEquals(publicUser, result.user());
 
         verify(this.userService, times(1)).registerUser(request);
+        verify(this.userService, times(1)).generateVerificationCode(email);
         verifyNoMoreInteractions(this.userService);
     }
 
@@ -213,7 +223,7 @@ public class AuthServiceTest {
 
         // Mock claims and user details
         Claims claims = new DefaultClaimsBuilder().setSubject(username).build();
-        UserDetails userDetails = User.builder()
+        UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
             .username(username)
             .password(password)
             .roles("USER")

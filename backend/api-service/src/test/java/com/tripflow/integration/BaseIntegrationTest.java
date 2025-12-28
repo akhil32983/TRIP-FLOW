@@ -26,7 +26,7 @@ import io.restassured.RestAssured;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Import(UnsplashTestConfig.class)
 @Testcontainers
-@ActiveProfiles("test")
+@ActiveProfiles("dev")
 @TestInstance(Lifecycle.PER_CLASS)
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
 @TestPropertySource(properties = {
