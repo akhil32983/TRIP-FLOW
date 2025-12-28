@@ -25,4 +25,10 @@ public class KafkaTopicConfig {
         return TopicBuilder.name("notification")
             .build();
     }
+
+    @Bean
+    public NewTopic emailTopic() {
+        return TopicBuilder.name("email")
+            .build();
+    }
 }
