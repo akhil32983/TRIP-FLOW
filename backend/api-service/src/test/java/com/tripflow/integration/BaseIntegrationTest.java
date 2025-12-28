@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.TestPropertySource;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -49,15 +50,19 @@ public abstract class BaseIntegrationTest {
         .withStartupTimeout(Duration.ofSeconds(60))
         .withCommand("postgres -c fsync=off -c synchronous_commit=off");
 
-    @Container
-    @ServiceConnection
     @SuppressWarnings("resource")
-    public static final KafkaContainer kafka = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:8.1.0"))
-        .withExposedPorts(9092, 9093)
-        .withKraft();
+    public static final KafkaContainer kafka = new KafkaContainer(
+        DockerImageName.parse("confluentinc/cp-kafka:7.6.0")
+    ).withKraft();
 
     @LocalServerPort
     protected int port;
+
+    @DynamicPropertySource
+    public static void overrideProperties(org.springframework.test.context.DynamicPropertyRegistry registry) {
+        kafka.start();
+        registry.add("spring.kafka.bootstrap-servers", kafka::getBootstrapServers);
+    }
 
     @BeforeEach
     public void setUp() {
@@ -65,4 +70,5 @@ public abstract class BaseIntegrationTest {
         RestAssured.baseURI = "http://localhost";
         RestAssured.basePath = "/api";
     }
+
 }
