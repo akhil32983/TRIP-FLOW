@@ -1,10 +1,18 @@
 package com.tripflow.email.application;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import com.tripflow.email.domain.EmailMessage;
 import com.tripflow.email.domain.EmailService;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class SendEmailUseCase {
     private final EmailService emailService;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     public SendEmailUseCase(EmailService emailService) {
         this.emailService = emailService;
@@ -17,6 +25,11 @@ public class SendEmailUseCase {
      * @throws IllegalArgumentException if the email is invalid
      */
     public void execute(EmailMessage email) {
+        if ("dev".equals(this.activeProfile)) {
+            System.out.println("Email sent to " + email.to() + " with subject " + email.subject());
+            return;
+        }
+        
         this.validateEmail(email);
         this.emailService.sendEmail(email);
     }

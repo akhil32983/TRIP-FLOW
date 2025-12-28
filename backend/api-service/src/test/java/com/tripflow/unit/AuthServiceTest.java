@@ -26,6 +26,7 @@ import com.tripflow.exception.UsernameAlreadyExistsException;
 import com.tripflow.model.types.PlanType;
 import com.tripflow.model.types.UserType;
 import com.tripflow.security.jwt.JwtTokenProvider;
+import com.tripflow.service.KafkaService;
 import com.tripflow.service.UserService;
 import com.tripflow.service.auth.AuthService;
 import com.tripflow.service.auth.AuthValidator;
@@ -44,6 +45,7 @@ public class AuthServiceTest {
     private AuthValidator authValidator;
     private HttpServletResponse response;
     private AuthService authService;
+    private KafkaService kafkaService;
 
     @BeforeEach
     public void setUp() {
@@ -53,10 +55,11 @@ public class AuthServiceTest {
         this.userService = mock(UserService.class);
         this.response = mock(HttpServletResponse.class);
         this.authValidator = new AuthValidator();
+        this.kafkaService = mock(KafkaService.class);
 
         this.authService = new AuthService(
             authenticationManager, userDetailsService,
-            jwtTokenProvider, userService, authValidator
+            jwtTokenProvider, userService, authValidator, kafkaService
         );
     }
 

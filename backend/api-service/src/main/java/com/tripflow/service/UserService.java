@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +39,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${spring.profiles.active}")
+    private String activeProfile;
 
     public UserService(
         UserRepository userRepository, UserMapper userMapper,
@@ -151,7 +155,12 @@ public class UserService {
         // Generate and set verification code
         user.setVerificationCode(VerificationUtils.generateVerificationCode());
         user.setVerificationCodeExpiresAt(VerificationUtils.generateVerificationCodeExpiresAt());
-        user.setVerified(false);
+
+        if (userType == UserType.ADMIN || "dev".equals(this.activeProfile)) {
+            user.setVerified(true);
+        } else {
+            user.setVerified(false);
+        }
 
         return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
     }

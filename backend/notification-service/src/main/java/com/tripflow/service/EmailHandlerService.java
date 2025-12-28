@@ -2,16 +2,16 @@ package com.tripflow.service;
 
 import org.springframework.stereotype.Service;
 
-import com.tripflow.email.domain.EmailService;
+import com.tripflow.email.application.SendEmailUseCase;
 import com.tripflow.utils.EmailUtils;
 import com.tripflow.email.domain.EmailMessage;
 
 @Service
 public class EmailHandlerService {
-    private final EmailService emailService;
+    private final SendEmailUseCase sendEmailUseCase;
 
-    public EmailHandlerService(EmailService emailService) {
-        this.emailService = emailService;
+    public EmailHandlerService(SendEmailUseCase sendEmailUseCase) {
+        this.sendEmailUseCase = sendEmailUseCase;
     }
     
     /**
@@ -26,7 +26,7 @@ public class EmailHandlerService {
             kafkaMessage.variables()
         );
 
-        this.emailService.sendEmail(new EmailMessage(
+        this.sendEmailUseCase.execute(new EmailMessage(
             kafkaMessage.to(),
             subject,
             processedBody

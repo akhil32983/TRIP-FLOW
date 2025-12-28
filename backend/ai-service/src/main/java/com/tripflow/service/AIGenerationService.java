@@ -18,7 +18,7 @@ public class AIGenerationService {
     @Value("${ai.api.model}")
     private String apiModel;
 
-    @Value("${spring.profiles.active:default}")
+    @Value("${spring.profiles.active}")
     private String activeProfile;
     
     private final OpenAIClient openAIClient;
@@ -36,7 +36,7 @@ public class AIGenerationService {
      * @throws JsonProcessingException if there is an error processing the JSON response
      */
     public ExtendedItineraryDTO generateItinerary(AIGenerationRequest request) throws JsonProcessingException {
-        if (activeProfile != null && activeProfile.contains("dev")) {
+        if ("dev".equals(activeProfile)) {
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
