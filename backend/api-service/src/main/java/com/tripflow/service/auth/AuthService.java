@@ -17,9 +17,15 @@ import com.tripflow.dto.auth.LoginRequest;
 import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.exception.EmailAlreadyExistsException;
 import com.tripflow.exception.UsernameAlreadyExistsException;
+import com.tripflow.kafka.messages.EmailMessage;
+import com.tripflow.kafka.messages.EmailType;
 import com.tripflow.dto.user.RegisterUserRequest;
+import com.tripflow.dto.user.VerificationCode;
+import com.tripflow.dto.auth.VerifyAccountRequest;
+import com.tripflow.model.User;
 import com.tripflow.security.jwt.JwtTokenProvider;
 import com.tripflow.security.jwt.TokenType;
+import com.tripflow.service.KafkaService;
 import com.tripflow.service.UserService;
 
 import io.jsonwebtoken.Claims;
@@ -33,16 +39,19 @@ public class AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
     private final AuthValidator authValidator;
+    private final KafkaService kafkaService;
 
     public AuthService(
         AuthenticationManager authenticationManager, UserDetailsService userDetailsService,
-        JwtTokenProvider jwtTokenProvider, UserService userService, AuthValidator authValidator
+        JwtTokenProvider jwtTokenProvider, UserService userService, AuthValidator authValidator,
+        KafkaService kafkaService
     ) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.userService = userService;
         this.authValidator = authValidator;
+        this.kafkaService = kafkaService;
     }
 
     /**
@@ -68,6 +77,7 @@ public class AuthService {
         try {
             // Try to register the user
             PublicUserDTO publicUser = this.userService.registerUser(request);
+            this.sendVerificationEmail(request.email());
 
             return new AuthResponse(
                 AuthStatus.SUCCESS,
@@ -94,6 +104,42 @@ public class AuthService {
                 AuthStatus.FAILURE,
                 null,
                 Map.of("unexpected", "An error occurred during registration"),
+                null
+            );
+        }
+    }
+
+    /**
+     * Handles account verification.
+     * 
+     * @param request the verification request
+     * @return an AuthResponse indicating the status
+     */
+    public AuthResponse verify(VerifyAccountRequest request) {
+        try {
+            PublicUserDTO publicUserDTO = this.userService.verifyUser(
+                request.username(),
+                request.code()
+            );
+            
+            return new AuthResponse(
+                AuthStatus.SUCCESS,
+                "Account verified successfully",
+                null,
+                publicUserDTO
+            );
+        } catch (IllegalArgumentException e) {
+            return new AuthResponse(
+                AuthStatus.FAILURE,
+                "Verification failed",
+                Map.of("error", e.getMessage()),
+                null
+            );
+        } catch (Exception e) {
+            return new AuthResponse(
+                AuthStatus.FAILURE,
+                "Verification failed",
+                Map.of("unexpected", "An error occurred during verification"),
                 null
             );
         }
@@ -136,6 +182,20 @@ public class AuthService {
 
         // Retrieve user details and public user information
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+        
+        // Check if user is verified
+        User user = this.userService.getUserByUsername(username);
+        if (!user.getVerified()) {
+            this.sendVerificationEmail(user.getEmail());
+
+            return new AuthResponse(
+                AuthStatus.FAILURE,
+                "Account not verified",
+                Map.of("error", "Account not verified"),
+                null
+            );
+        }
+
         PublicUserDTO publicUser = this.userService.getPublicUserByUsername(username);
 
         // Add the JWT token to the response as a Read-Only Cookie
@@ -228,5 +288,15 @@ public class AuthService {
         cookie.setHttpOnly(true);
         cookie.setPath("/");
         return cookie;
+    }
+
+    private void sendVerificationEmail(String email) {
+        VerificationCode verificationCode = this.userService.generateVerificationCode(email);
+
+        this.kafkaService.sendEmailMessage(new EmailMessage(
+            email,
+            EmailType.VERIFICATION,
+            Map.of("code", verificationCode.code())
+        ));
     }
 }

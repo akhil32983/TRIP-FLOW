@@ -24,10 +24,14 @@ import com.tripflow.dto.user.PublicUserDTO;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.dto.user.UpdateUserRequest;
 import com.tripflow.dto.user.UserMapper;
+import com.tripflow.dto.user.VerificationCode;
 import com.tripflow.model.User;
 import com.tripflow.model.types.UserType;
 import com.tripflow.repository.UserRepository;
 import com.tripflow.utils.ImageUtils;
+import com.tripflow.utils.VerificationUtils;
+
+import java.time.Instant;
 
 @Service
 public class UserService {
@@ -144,7 +148,35 @@ public class UserService {
         String hashedPassword = this.passwordEncoder.encode(request.password());
         User user = this.userMapper.toDomain(request, hashedPassword, userType);
 
+        // Generate and set verification code
+        user.setVerificationCode(VerificationUtils.generateVerificationCode());
+        user.setVerificationCodeExpiresAt(VerificationUtils.generateVerificationCodeExpiresAt());
+        user.setVerified(false);
+
         return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
+    }
+
+    /**
+     * Generates a verification code for the user with the specified email.
+     * 
+     * @param email the email of the user to generate a verification code for
+     * 
+     * @return a VerificationCode containing the generated verification code and its expiration time
+     */
+    public VerificationCode generateVerificationCode(String email) {
+        User user = this.getUserByEmail(email);
+        String verificationCode = VerificationUtils.generateVerificationCode();
+        Instant verificationCodeExpiresAt = VerificationUtils.generateVerificationCodeExpiresAt();
+
+        user.setVerificationCode(verificationCode);
+        user.setVerificationCodeExpiresAt(verificationCodeExpiresAt);
+
+        this.userRepository.save(user);
+
+        return new VerificationCode(
+            verificationCode,
+            verificationCodeExpiresAt
+        );
     }
 
     /**
@@ -256,6 +288,46 @@ public class UserService {
         User user = this.getUserByUsername(username);
         user.setProcessingAI(processing);
         this.userRepository.save(user);
+    }
+
+    /**
+     * Verifies a user's account using the provided code.
+     * 
+     * @param usernameOrEmail the username or email of the user to verify
+     * @param code the verification code
+     * 
+     * @throws UsernameNotFoundException
+     * @throws IllegalArgumentException
+     */
+    public PublicUserDTO verifyUser(
+        String usernameOrEmail, String code
+    )throws UsernameNotFoundException, IllegalArgumentException {
+        User user;
+        user = this.getUserByUsername(usernameOrEmail);
+        if (user == null) {
+            user = this.getUserByEmail(usernameOrEmail);
+        }
+        
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+
+        if (user.getVerified()) {
+             throw new IllegalArgumentException("User is already verified");
+        }
+
+        if (user.getVerificationCode() == null || !user.getVerificationCode().equals(code)) {
+            throw new IllegalArgumentException("Invalid verification code");
+        }
+
+        if (user.getVerificationCodeExpiresAt().isBefore(Instant.now())) {
+            throw new IllegalArgumentException("Verification code has expired");
+        }
+
+        user.setVerified(true);
+        user.setVerificationCode(null);
+        user.setVerificationCodeExpiresAt(null);
+        return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
     }
 
     /**

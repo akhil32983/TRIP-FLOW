@@ -34,8 +34,20 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private Boolean verified = false;
+
     @Column(nullable = false, unique = true, updatable = false)
     private String username;
+
+    @Column(nullable = false)
+    private String hashedPassword;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "verification_code_expires_at")
+    private java.time.Instant verificationCodeExpiresAt;
 
     @Column(nullable = true, unique = false)
     private String name;
@@ -45,9 +57,6 @@ public class User {
 
     @Column(nullable = false, unique = false)
     private String location = "¿?";
-
-    @Column(nullable = false)
-    private String hashedPassword;
 
     @Column(nullable = false)
     private UserType role;
@@ -130,6 +139,30 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public java.time.Instant getVerificationCodeExpiresAt() {
+        return verificationCodeExpiresAt;
+    }
+
+    public void setVerificationCodeExpiresAt(java.time.Instant verificationCodeExpiresAt) {
+        this.verificationCodeExpiresAt = verificationCodeExpiresAt;
     }
 
     public String getUsername() {

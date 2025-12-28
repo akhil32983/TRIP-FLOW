@@ -4,6 +4,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import com.tripflow.kafka.messages.AIRequestMessage;
+import com.tripflow.kafka.messages.EmailMessage;
 import com.tripflow.kafka.messages.NotificationMessage;
 
 @Service
@@ -34,5 +35,14 @@ public class KafkaService {
      */
     public void sendNotificationMessage(NotificationMessage message) {
         this.sendMessage("notification", message);
+    }
+
+    /**
+     * Sends an Email message to the "email" topic.
+     * 
+     * @param message The EmailMessage to be sent.
+     */
+    public void sendEmailMessage(EmailMessage message) {
+        this.sendMessage("email", message);
     }
 }

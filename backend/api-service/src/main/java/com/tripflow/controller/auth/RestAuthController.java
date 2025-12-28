@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tripflow.dto.auth.AuthResponse;
 import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
+import com.tripflow.dto.auth.VerifyAccountRequest;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.service.auth.AuthService;
 
@@ -45,6 +46,24 @@ public class RestAuthController {
         HttpStatusCode status = response.status() == AuthStatus.FAILURE
             ? HttpStatusCode.valueOf(400)
             : HttpStatusCode.valueOf(201);
+
+        return ResponseEntity.status(status).body(response);
+    }
+
+    @PostMapping("/verify")
+    @Operation(
+        summary = "Account Verification Endpoint",
+        description = "Verifies a user account using the provided code."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Account verified successfully"),
+        @ApiResponse(responseCode = "400", description = "Account verification failed")
+    })
+    public ResponseEntity<AuthResponse> verify(@RequestBody VerifyAccountRequest request) {
+        AuthResponse response = authService.verify(request);
+        HttpStatusCode status = response.status() == AuthStatus.FAILURE
+            ? HttpStatusCode.valueOf(400)
+            : HttpStatusCode.valueOf(200);
 
         return ResponseEntity.status(status).body(response);
     }
