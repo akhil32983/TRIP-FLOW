@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"cub1zdev@gmail.com\",\r\n    \"password\": \"Ab12345678\"\r\n}",
+							"raw": "{\r\n    \"username\": \"CuB1\",\r\n    \"password\": \"Ab12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -102,6 +102,62 @@
 								"api",
 								"auth",
 								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"CuB1\",\r\n    \"code\": \"909766\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/auth/verify",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resend Code",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"CuB1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/auth/resend-code",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"resend-code"
 							]
 						}
 					},
