@@ -54,6 +54,7 @@ describe("Register Page Validation", () => {
       logout: vi.fn(),
       register: mockRegister,
       updateProfile: vi.fn(),
+      verify: vi.fn(),
     });
 
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
@@ -255,7 +256,7 @@ describe("Register Page Validation", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith("/login");
+      expect(mockNavigate).toHaveBeenCalledWith("/verify");
     });
   });
 
@@ -471,6 +472,7 @@ describe("Register Page Validation", () => {
       logout: vi.fn(),
       register: mockRegister,
       updateProfile: vi.fn(),
+      verify: vi.fn(),
     });
 
     render(<Register />);

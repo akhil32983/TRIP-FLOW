@@ -56,7 +56,7 @@ export default function RegisterPage() {
         const res = await register(values);
         if (res.success) {
             saveToLocalStorage(STORAGE_KEYS.VERIFICATION_USERNAME, values.username);
-            navigate("/verify", { state: { username: values.username } });
+            navigate("/verify");
         } else {
             setErrors(res.errors as Record<string, string>);
         }

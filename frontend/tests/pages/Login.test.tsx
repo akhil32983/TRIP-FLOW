@@ -54,6 +54,7 @@ describe("Login Page Validation", () => {
       logout: vi.fn(),
       register: vi.fn(),
       updateProfile: vi.fn(),
+      verify: vi.fn(),
     });
 
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
@@ -207,6 +208,7 @@ describe("Login Page Validation", () => {
         logout: vi.fn(),
         register: vi.fn(),
         updateProfile: vi.fn(),
+        verify: vi.fn(),
     });
 
     rerender(<Login />);
@@ -219,6 +221,7 @@ describe("Login Page Validation", () => {
   it("displays server errors on login failure", async () => {
     mockLogin.mockResolvedValue({
       success: false,
+      verified: true,
       errors: {
         global: "Credenciales inválidas",
       },
@@ -245,6 +248,7 @@ describe("Login Page Validation", () => {
   it("displays specific field errors from server", async () => {
     mockLogin.mockResolvedValue({
       success: false,
+      verified: true,
       errors: {
         username: "Usuario no encontrado",
         password: "Contraseña incorrecta",
@@ -272,6 +276,7 @@ describe("Login Page Validation", () => {
     // First submission with errors
     mockLogin.mockResolvedValueOnce({
       success: false,
+      verified: true,
       errors: {
         global: "Error del servidor",
       },
@@ -360,6 +365,7 @@ describe("Login Page Validation", () => {
       logout: vi.fn(),
       register: vi.fn(),
       updateProfile: vi.fn(),
+      verify: vi.fn(),
     });
 
     render(<Login />);

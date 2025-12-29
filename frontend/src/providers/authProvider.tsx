@@ -74,7 +74,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setErrors(error);
 
       removeFromLocalStorage(STORAGE_KEYS.AUTH);
-      return { success: false, errors: error, verified: false };
+      return { success: false, errors: error, verified: true };
     }
   };
 
