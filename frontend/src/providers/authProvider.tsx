@@ -1,12 +1,15 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-import type { LoginRequest, RegisterRequest } from "@/types/auth";
+import type { LoginRequest, RegisterRequest, VerifyAccountRequest } from "@/types/auth";
 import type { PublicUser, UpdateProfileRequest } from "@/types/user";
+
+import { STORAGE_KEYS } from "@/constants/storageKeys";
 
 import {
   login as loginService,
   logout as logoutService,
   register as registerService,
+  verify as verifyService,
 } from "@/services/authService";
 
 import {
@@ -19,10 +22,9 @@ import {
   saveToLocalStorage,
 } from "@/utils/localStorageUtils";
 
-export const AUTH_LOCAL_STORAGE_KEY = "user";
-
 type AuthResult = {
   success: boolean;
+  verified?: boolean;
   errors?: Record<string, string>;
 };
 
@@ -32,6 +34,7 @@ type AuthContextType = {
   login: (req: LoginRequest) => Promise<AuthResult>;
   logout: () => Promise<AuthResult>;
   register: (req: RegisterRequest) => Promise<AuthResult>;
+  verify: (req: VerifyAccountRequest) => Promise<AuthResult>;
   updateProfile: (req: UpdateProfileRequest) => Promise<PublicUser>;
 };
 
@@ -39,7 +42,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const storedUser =
-    retrieveFromLocalStorage<PublicUser>(AUTH_LOCAL_STORAGE_KEY) || null;
+    retrieveFromLocalStorage<PublicUser>(STORAGE_KEYS.AUTH) || null;
   const [user, setUser] = useState<PublicUser | null>(storedUser);
   const [errors, setErrors] = useState<Record<string, string> | null>(null);
 
@@ -55,9 +58,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     if (res.status === "SUCCESS") {
       setUser(res.user);
-      saveToLocalStorage(AUTH_LOCAL_STORAGE_KEY, res.user);
-      return { success: true };
+      saveToLocalStorage(STORAGE_KEYS.AUTH, res.user);
+      return { success: true, verified: true };
     } else {
+
+      if (res.message === "Account not verified") {
+        return { success: false, verified: false };
+      }
+
       // Transform error messages to a more user-friendly format
       const error: Record<string, string> =
         res.message === "Invalid credentials"
@@ -65,8 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           : { global: res.message ?? "Ha ocurrido un error desconocido" };
       setErrors(error);
 
-      removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY);
-      return { success: false, errors: error };
+      removeFromLocalStorage(STORAGE_KEYS.AUTH);
+      return { success: false, errors: error, verified: false };
     }
   };
 
@@ -78,7 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
    */
   const logout = async (): Promise<AuthResult> => {
     setUser(null);
-    removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY);
+    removeFromLocalStorage(STORAGE_KEYS.AUTH);
 
     if (!navigator.onLine) {
       console.warn("You are offline. Logout may not be fully processed.");
@@ -123,6 +131,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   /**
+   * Verifies a user account by calling the verify service.
+   *
+   * @param req - The verification request containing username and code.
+   * @return A promise that resolves to an AuthResult indicating success or failure.
+   */
+  const verify = async (req: VerifyAccountRequest): Promise<AuthResult> => {
+    const res = await verifyService(req);
+
+    if (res.status === "SUCCESS") {
+      if (res.user) {
+        setUser(res.user);
+        saveToLocalStorage(STORAGE_KEYS.AUTH, res.user);
+      }
+      return { success: true, verified: true };
+    } else {
+        const error: Record<string, string> = {};
+        error.global = "Error de verificación.";
+        setErrors(error);
+        return { success: false, errors: error };
+    }
+  };
+
+  /**
    * Updates the profile of the user with the given username.
    *
    * @param req - The update profile request containing user details.
@@ -136,7 +167,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const res = await updateProfileService(user.username, req);
     if (res && res.username) {
         setUser(res);
-        saveToLocalStorage(AUTH_LOCAL_STORAGE_KEY, res);
+        saveToLocalStorage(STORAGE_KEYS.AUTH, res);
         return res;
     } else {
         throw new Error("Update profile failed");
@@ -144,7 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, errors, login, logout, register, updateProfile }}>
+    <AuthContext.Provider value={{ user, errors, login, logout, register, verify, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

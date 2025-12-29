@@ -1,6 +1,6 @@
 import { API_BASE_URL } from "@/config/environment";
+import { STORAGE_KEYS } from "@/constants/storageKeys";
 import { getMock } from "@/mocks";
-import { AUTH_LOCAL_STORAGE_KEY } from "@/providers/authProvider";
 import { DEMO_KEY } from "@/providers/demoProvider";
 import { removeFromLocalStorage, retrieveFromLocalStorage } from "@/utils/localStorageUtils";
 
@@ -87,14 +87,14 @@ export async function http<T>(
       } else {
         processQueue(new Error("Session expired"));
         isRefreshing = false;
-        removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY);
+        removeFromLocalStorage(STORAGE_KEYS.AUTH);
         window.location.href = "/login";
         throw new Error("Session expired");
       }
     } catch (error) {
       processQueue(error as Error);
       isRefreshing = false;
-      removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY);
+      removeFromLocalStorage(STORAGE_KEYS.AUTH);
       window.location.href = "/login";
       throw error;
     }

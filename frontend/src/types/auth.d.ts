@@ -12,6 +12,15 @@ export interface RegisterRequest extends LoginRequest {
     confirmPassword: string;
 }
 
+export interface VerifyAccountRequest {
+    username: string;
+    code: string;
+}
+
+export interface ResendCodeRequest {
+    username: string;
+}
+
 export interface AuthResponse {
     status: AuthStatus;
     message: string;
