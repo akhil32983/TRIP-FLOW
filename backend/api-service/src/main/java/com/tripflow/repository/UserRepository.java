@@ -1,5 +1,7 @@
 package com.tripflow.repository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -28,5 +30,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
         @Param("role") UserType role, 
         @Param("search") String search, 
         Pageable pageable
-    ); 
+    );
+
+    List<User> findByVerifiedFalseAndCreatedAtBefore(LocalDateTime expiryDate); 
 }
