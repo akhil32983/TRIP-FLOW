@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-import { useAuth } from "@/providers/authProvider";
+import type { LoginRequest } from "@/types/auth";
+
+import { STORAGE_KEYS } from "@/constants/storageKeys";
+import { removeFromLocalStorage, saveToLocalStorage } from "@/utils/localStorageUtils";
 import { validateUsername, validatePassword } from "@/utils/validationUtils";
 
-import type { LoginRequest } from "@/types/auth";
+import { useAuth } from "@/providers/authProvider";
 
 import { LockIcon, UserIcon } from "lucide-react";
 
@@ -55,7 +58,15 @@ export default function LoginPage() {
         if (!isValid) return;
 
         const res = await login(values);
+
+        if (!res.success && !res.verified) {
+            saveToLocalStorage(STORAGE_KEYS.VERIFICATION_USERNAME, values.username);
+            navigate("/verify");
+            return;
+        }
+
         if (!res.success) {
+            removeFromLocalStorage(STORAGE_KEYS.VERIFICATION_USERNAME);
             setErrors(res.errors as Record<string, string>);
         }
     };

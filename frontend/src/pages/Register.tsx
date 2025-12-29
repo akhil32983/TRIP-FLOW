@@ -3,6 +3,8 @@ import { useNavigate } from "react-router";
 
 import { useAuth } from "@/providers/authProvider";
 import { validatePassword, validateUsername } from "@/utils/validationUtils";
+import { saveToLocalStorage } from "@/utils/localStorageUtils";
+import { STORAGE_KEYS } from "@/constants/storageKeys";
 
 import type { RegisterRequest } from "@/types/auth";
 
@@ -53,7 +55,8 @@ export default function RegisterPage() {
 
         const res = await register(values);
         if (res.success) {
-            navigate("/login");
+            saveToLocalStorage(STORAGE_KEYS.VERIFICATION_USERNAME, values.username);
+            navigate("/verify", { state: { username: values.username } });
         } else {
             setErrors(res.errors as Record<string, string>);
         }

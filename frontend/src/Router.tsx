@@ -6,6 +6,7 @@ import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from "rea
 import IndexPage from "@pages/Index";
 import LoginPage from "@pages/Login";
 import RegisterPage from "@pages/Register";
+import VerifyPage from "@pages/Verify";
 import DashboardPage from "@pages/Dashboard";
 import ItinerariesPage from "@pages/itineraries/Itineraries";
 import ItineraryDetailPage from "@pages/itineraries/ItineraryDetail";
@@ -71,6 +72,7 @@ export default function Router() {
                 <Route index element={<IndexPage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<RegisterPage />} />
+                <Route path="/verify" element={<VerifyPage />} />
 
                 {/* Private routes */}
                 <Route element={<PrivateWrapper />}>

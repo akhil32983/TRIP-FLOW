@@ -16,6 +16,10 @@
   background-color: var(--bg-primary-alpha);
   backdrop-filter: blur(1px);
   box-shadow: var(--aureola-blue);
+
+  &.center {
+    justify-content: center;
+  }
 }
 
 .form {
