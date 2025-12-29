@@ -154,6 +154,43 @@ public class AuthService {
     }
 
     /**
+     * Resends the verification code to the user's email.
+     * 
+     * @param username the username of the user
+     * @return an AuthResponse indicating the status
+     */
+    public AuthResponse resendVerificationCode(String username) {
+        try {
+            User user = this.userService.getUserByUsername(username);
+            
+            if (user.getVerified()) {
+                return new AuthResponse(
+                    AuthStatus.FAILURE,
+                    "Account already verified",
+                    Map.of("error", "Account is already verified"),
+                    null
+                );
+            }
+
+            this.sendVerificationEmail(user.getEmail());
+
+            return new AuthResponse(
+                AuthStatus.SUCCESS,
+                "Verification code sent successfully",
+                null,
+                null
+            );
+        } catch (Exception e) {
+            return new AuthResponse(
+                AuthStatus.FAILURE,
+                "Failed to resend verification code",
+                Map.of("error", e.getMessage()),
+                null
+            );
+        }
+    }
+
+    /**
      * Handles user login by authenticating the user and generating JWT tokens.
      *
      * @param response the HTTP response to add cookies to

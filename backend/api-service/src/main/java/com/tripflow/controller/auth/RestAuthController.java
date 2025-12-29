@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tripflow.dto.auth.AuthResponse;
 import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
+import com.tripflow.dto.auth.ResendCodeRequest;
 import com.tripflow.dto.auth.VerifyAccountRequest;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.service.auth.AuthService;
@@ -66,6 +67,24 @@ public class RestAuthController {
             : HttpStatusCode.valueOf(200);
 
         return ResponseEntity.status(status).body(authResponse);
+    }
+
+    @PostMapping("/resend-code")
+    @Operation(
+        summary = "Resend Verification Code",
+        description = "Resends the verification code to the user's email."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Verification code sent successfully"),
+        @ApiResponse(responseCode = "400", description = "Failed to resend verification code")
+    })
+    public ResponseEntity<AuthResponse> resendCode(@RequestBody ResendCodeRequest request) {
+        AuthResponse response = authService.resendVerificationCode(request.username());
+        HttpStatusCode status = response.status() == AuthStatus.FAILURE
+            ? HttpStatusCode.valueOf(400)
+            : HttpStatusCode.valueOf(200);
+
+        return ResponseEntity.status(status).body(response);
     }
 
     @PostMapping("/login")
