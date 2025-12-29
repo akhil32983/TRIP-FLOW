@@ -1,4 +1,4 @@
-package com.tipflow.unit;
+package com.tripflow.unit;
 
 import static org.mockito.Mockito.*;
 
