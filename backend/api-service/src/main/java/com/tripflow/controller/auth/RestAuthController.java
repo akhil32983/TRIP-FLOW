@@ -59,13 +59,13 @@ public class RestAuthController {
         @ApiResponse(responseCode = "200", description = "Account verified successfully"),
         @ApiResponse(responseCode = "400", description = "Account verification failed")
     })
-    public ResponseEntity<AuthResponse> verify(@RequestBody VerifyAccountRequest request) {
-        AuthResponse response = authService.verify(request);
-        HttpStatusCode status = response.status() == AuthStatus.FAILURE
+    public ResponseEntity<AuthResponse> verify(HttpServletResponse response, @RequestBody VerifyAccountRequest request) {
+        AuthResponse authResponse = authService.verify(response, request);
+        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE
             ? HttpStatusCode.valueOf(400)
             : HttpStatusCode.valueOf(200);
 
-        return ResponseEntity.status(status).body(response);
+        return ResponseEntity.status(status).body(authResponse);
     }
 
     @PostMapping("/login")

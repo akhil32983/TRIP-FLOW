@@ -115,12 +115,20 @@ public class AuthService {
      * @param request the verification request
      * @return an AuthResponse indicating the status
      */
-    public AuthResponse verify(VerifyAccountRequest request) {
+    public AuthResponse verify(HttpServletResponse response, VerifyAccountRequest request) {
         try {
             PublicUserDTO publicUserDTO = this.userService.verifyUser(
                 request.username(),
                 request.code()
             );
+
+            // Auto-login logic
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(request.username());
+            
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            this.createSession(response, userDetails);
             
             return new AuthResponse(
                 AuthStatus.SUCCESS,
@@ -197,13 +205,7 @@ public class AuthService {
         }
 
         PublicUserDTO publicUser = this.userService.getPublicUserByUsername(username);
-
-        // Add the JWT token to the response as a Read-Only Cookie
-        String newAuthToken = this.jwtTokenProvider.generateAuthToken(userDetails);
-        String newRefreshToken = this.jwtTokenProvider.generateRefreshToken(userDetails);
-
-        response.addCookie(this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken));
-        response.addCookie(this.buildTokenCookie(TokenType.REFRESH_TOKEN, newRefreshToken));
+        this.createSession(response, userDetails);
 
         return new AuthResponse(
             AuthStatus.SUCCESS,
@@ -220,7 +222,6 @@ public class AuthService {
      * @return an AuthResponse indicating the logout status
      */
     public AuthResponse logout(HttpServletResponse response) {
-        // Clear the authentication from the security context
         SecurityContextHolder.clearContext();
 
         response.addCookie(this.removeTokenFromCookie(TokenType.AUTH_TOKEN));
@@ -298,5 +299,13 @@ public class AuthService {
             EmailType.VERIFICATION,
             Map.of("code", verificationCode.code())
         ));
+    }
+
+    private void createSession(HttpServletResponse response, UserDetails userDetails) {
+        String newAuthToken = this.jwtTokenProvider.generateAuthToken(userDetails);
+        String newRefreshToken = this.jwtTokenProvider.generateRefreshToken(userDetails);
+
+        response.addCookie(this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken));
+        response.addCookie(this.buildTokenCookie(TokenType.REFRESH_TOKEN, newRefreshToken));
     }
 }
