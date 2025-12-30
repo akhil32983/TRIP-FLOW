@@ -56,9 +56,9 @@ services:
       POSTGRES_URL: jdbc:postgresql://postgres-api:5432/tripflow_db
       POSTGRES_USER: tripflow_user
       POSTGRES_PASSWORD: secure_password
-      JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
+      JWT_SECRET: ${JWT_SECRET}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      UNSPLASH_API_KEY: ${UNSPLASH_API_KEY:-your_unsplash_api_key_here}
+      UNSPLASH_API_KEY: ${UNSPLASH_API_KEY}
     ports:
       - "8080:8080"
     depends_on:
@@ -80,11 +80,11 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
+      JWT_SECRET: ${JWT_SECRET}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       AI_API_KEY: ${AI_API_KEY}
-      AI_API_URL: https://openrouter.ai/api/v1
-      AI_API_MODEL: ${AI_API_MODEL:-openai/gpt-oss-20b:free}
+      AI_API_URL: ${AI_API_URL}
+      AI_API_MODEL: ${AI_API_MODEL}
     ports:
       - "8081:8081"
     depends_on:
@@ -104,8 +104,10 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: prod
-      JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
+      JWT_SECRET: ${JWT_SECRET}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      EMAIL_SENDER: ${EMAIL_SENDER}
+      EMAIL_BREVO_API_KEY: ${EMAIL_BREVO_API_KEY}
     ports:
       - "8082:8082"
     depends_on:

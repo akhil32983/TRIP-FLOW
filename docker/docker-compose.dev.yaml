@@ -82,9 +82,9 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-      AI_API_KEY: ${AI_API_KEY}
-      AI_API_URL: https://openrouter.ai/api/v1
-      AI_API_MODEL: ${AI_API_MODEL:-openai/gpt-oss-20b:free}
+      AI_API_KEY: ${AI_API_KEY:-your-openai-api-key-here}
+      AI_API_URL: ${AI_API_URL:-your-url-here}
+      AI_API_MODEL: ${AI_API_MODEL:-your-model-here}
     ports:
       - "8081:8081"
     depends_on:
@@ -106,6 +106,8 @@ services:
       SPRING_PROFILES_ACTIVE: dev
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      EMAIL_SENDER: ${EMAIL_SENDER:-your-email-sender-here}
+      EMAIL_BREVO_API_KEY: ${EMAIL_BREVO_API_KEY:-your-email-brevo-api-key-here}
     ports:
       - "8082:8082"
     depends_on:

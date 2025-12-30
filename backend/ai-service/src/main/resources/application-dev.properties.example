@@ -5,6 +5,8 @@
 
 # AI Configuration (OpenAI or compatible API)
 ai.api.key=sk-your-openai-api-key-here
+ai.api.url=your-url-here
+ai.api.model=your-model-here
 
 # JWT Configuration
 jwt.secret=your-jwt-secret-here
