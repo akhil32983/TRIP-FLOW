@@ -437,6 +437,58 @@ paths:
                 $ref: "#/components/schemas/AIResponse"
       security:
       - auth_token: []
+  /api/auth/verify:
+    post:
+      tags:
+      - Authentication
+      summary: Account Verification Endpoint
+      description: Verifies a user account using the provided code.
+      operationId: verify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyAccountRequest"
+        required: true
+      responses:
+        "200":
+          description: Account verified successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Account verification failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/resend-code:
+    post:
+      tags:
+      - Authentication
+      summary: Resend Verification Code
+      description: Resends the verification code to the user's email.
+      operationId: resendCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResendCodeRequest"
+        required: true
+      responses:
+        "200":
+          description: Verification code sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Failed to resend verification code
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
   /api/auth/register:
     post:
       tags:
@@ -815,14 +867,12 @@ components:
         resetDate:
           type: string
           format: date
-    RegisterUserRequest:
+    VerifyAccountRequest:
       type: object
       properties:
         username:
           type: string
-        password:
-          type: string
-        confirmPassword:
+        code:
           type: string
     AuthResponse:
       type: object
@@ -840,6 +890,22 @@ components:
             type: string
         user:
           $ref: "#/components/schemas/PublicUserDTO"
+    ResendCodeRequest:
+      type: object
+      properties:
+        username:
+          type: string
+    RegisterUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        confirmPassword:
+          type: string
     LoginRequest:
       type: object
       properties:
