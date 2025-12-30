@@ -34,6 +34,9 @@ import io.restassured.RestAssured;
     "jwt.secret=VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==",
     "unsplash.api.key=dummy_test_key",
     "POSTGRES_PASSWORD=test",
+    "admin.email=admin@admin.com",
+    "admin.username=admin",
+    "admin.password=secure_password",
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.jpa.show-sql=false",
     "spring.datasource.hikari.maximum-pool-size=3"

@@ -180,13 +180,13 @@ public class UserEndpointsTest extends BaseIntegrationTest {
         String username = AuthTestUtils.generateUniqueValue("User");
         String token = AuthTestUtils.authenticateUserAndGetToken(username, false);
 
-        File tempFile = File.createTempFile("avatar", ".jpg");
-        java.nio.file.Files.write(tempFile.toPath(), "dummy image content".getBytes());
+        File tempFile = File.createTempFile("avatar", ".jpeg");
+        Files.write(tempFile.toPath(), "dummy image content".getBytes());
 
         RestAssured
             .given()
                 .cookie("auth_token", token)
-                .multiPart("avatar", tempFile)
+                .multiPart("avatar", tempFile, "image/jpeg")
             .when()
                 .post("/v1/users/" + username + "/avatar")
             .then()
@@ -204,13 +204,13 @@ public class UserEndpointsTest extends BaseIntegrationTest {
         String username2 = AuthTestUtils.generateUniqueValue("User");
         AuthTestUtils.authenticateUserAndGetToken(username2, false);
 
-        File tempFile = File.createTempFile("avatar", ".jpg");
-        java.nio.file.Files.write(tempFile.toPath(), "dummy image content".getBytes());
+        File tempFile = File.createTempFile("avatar", ".jpeg");
+        Files.write(tempFile.toPath(), "dummy image content".getBytes());
 
         RestAssured
             .given()
                 .cookie("auth_token", token1)
-                .multiPart("avatar", tempFile)
+                .multiPart("avatar", tempFile, "image/jpeg")
             .when()
                 .post("/v1/users/" + username2 + "/avatar")
             .then()
@@ -231,7 +231,7 @@ public class UserEndpointsTest extends BaseIntegrationTest {
         RestAssured
             .given()
                 .cookie("auth_token", token)
-                .multiPart("avatar", tempFile)
+                .multiPart("avatar", tempFile, "image/jpeg")
             .when()
                 .post("/v1/users/" + username + "/avatar")
             .then()
