@@ -44,7 +44,7 @@ public class UnsplashService {
             throw new IllegalArgumentException("Query cannot be null or empty");
         }
 
-        if ("test".equals(this.activeProfile)) {
+        if ("dev".equals(this.activeProfile)) {
             return UnsplashResponseMock.getMock();
         }
 

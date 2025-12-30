@@ -53,7 +53,7 @@ services:
     container_name: tripflow-api-service-test
     restart: unless-stopped
     environment:
-      SPRING_PROFILES_ACTIVE: test
+      SPRING_PROFILES_ACTIVE: dev
       POSTGRES_URL: jdbc:postgresql://postgres-api:5432/tripflow_db
       POSTGRES_USER: tripflow_user
       POSTGRES_PASSWORD: secure_password
@@ -82,7 +82,7 @@ services:
     container_name: tripflow-ai-service-test
     restart: unless-stopped
     environment:
-      SPRING_PROFILES_ACTIVE: test
+      SPRING_PROFILES_ACTIVE: dev
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       AI_API_KEY: ${AI_API_KEY}
@@ -108,7 +108,7 @@ services:
     container_name: tripflow-notification-service-test
     restart: unless-stopped
     environment:
-      SPRING_PROFILES_ACTIVE: test
+      SPRING_PROFILES_ACTIVE: dev
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     ports:
