@@ -79,7 +79,7 @@
 
 ### 🔧 Backend
 
-- [x] {Feature} AI-Powered Itinerary Generation (OpenRouter)
+- [x] {Feature} AI-Powered Itinerary Generation
   - [x] {API} AI Generation endpoint - `POST /api/v1/ai`
   - [x] {API} AI Status endpoint - `GET /api/v1/ai/status`
   - [x] {Model} AI Logs entity for tracking requests and usage
@@ -103,10 +103,13 @@
   - [x] {Event} `AIRequestMessage` (API → AI Service)
   - [x] {Event} `AIGenerationMessage` (AI Service → API Service)
   - [x] {Event} `NotificationMessage` (API Service → Notification Service)
-  - [x] {Kafka} API Service: Produces `ai-request`, `notification`; Consumes `ai-generation`
+  - [x] {Event} `EmailMessage` (API Service → Notification Service)
+  - [x] {Kafka} API Service: Produces `ai-request`, `notification`, `email`; Consumes `ai-generation`
   - [x] {Kafka} AI Service: Consumes `ai-request`; Produces `ai-generation`
-  - [x] {Kafka} Notification Service: Consumes `notification`
-  - [x] {DB} Separate PostgreSQL databases per microservice
+  - [x] {Kafka} Notification Service: Consumes `notification`, `email`
+  - [x] {DB} H2 database for secondary microservices (AI Service, Notification Service)
+- [x] {Feature} Email System
+  - [x] {Service} Email service for sending emails
 - [x] {Feature} Real-time Notifications System
   - [x] {Model} Notification entity (in Notification Service)
   - [x] {WebSocket} STOMP WebSocket configuration
@@ -140,6 +143,8 @@
     - [x] Itineraries list auto-refresh on `ITINERARY_GENERATED`
     - [x] Recent itineraries auto-refresh on `ITINERARY_GENERATED`
     - [x] User stats auto-refresh on `ITINERARY_GENERATED`
+- [x] {Feature} Verification Code UI
+  - [x] {UI} Verification code flow when registering new user and email verification
 - [x] {Feature} Admin Panel UI
   - [x] {UI} Admin dashboard - `/admin`
   - [x] {UI} Users table (delete, filter)
@@ -156,16 +161,14 @@
 - [x] {Unit-Backend} Kafka producer/consumer tests
 - [x] {Unit-Backend} Notifications service tests
 - [x] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
-- [ ] {Integration-Backend} AI Generation endpoint tests
-- [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
-- [ ] {Integration-Backend} Unsplash endpoint tests
+- [x] {Integration-Backend} AI Generation endpoint tests
+- [x] {Integration-Backend} User profile endpoints tests (file upload, data validation)
 - [x] {Unit-Frontend} User profile component tests (avatar upload, form handling)
 - [x] {Unit-Frontend} Notifications component tests
 - [x] {Unit-Frontend} Admin panel component tests
-- [ ] {E2E} Complete AI itinerary generation flow
-- [ ] {E2E} Complete user profile management flow
-- [ ] {E2E} Complete notifications flow
-- [ ] {E2E} Complete admin panel flow
+- [x] {E2E} Complete AI itinerary generation flow
+- [x] {E2E} Complete user profile management flow
+- [x] {E2E} Complete admin panel flow
 
 ---
 
