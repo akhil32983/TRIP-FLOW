@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ["api-service","ai-service"]
+        service: ["api-service","ai-service","notification-service"]
     defaults:
       run:
         working-directory: ./backend

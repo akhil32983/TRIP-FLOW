@@ -46,4 +46,7 @@ jobs:
         env:
           CI: true
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ADMIN_EMAIL: "admin@admin.com"
+          ADMIN_USERNAME: "admin"
+          ADMIN_PASSWORD: "secure_password"
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
