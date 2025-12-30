@@ -382,6 +382,7 @@ public class UserServiceTest {
 
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
         when(avatar.getBytes()).thenReturn(avatarBytes);
+        when(avatar.getContentType()).thenReturn("image/jpeg");
         when(userRepository.save(user)).thenReturn(user);
         PublicUserDTO publicUserDTO = mock(PublicUserDTO.class);
         when(userMapper.toPublicUserDTO(user)).thenReturn(publicUserDTO);
