@@ -261,4 +261,25 @@ public class UserEndpointsTest extends BaseIntegrationTest {
             .then()
                 .statusCode(404);
     }
+    
+    @Test
+    @DisplayName("Test upload invalid avatar file")
+    public void testUploadInvalidAvatar() throws IOException {
+        String username = AuthTestUtils.generateUniqueValue("User");
+        String token = AuthTestUtils.authenticateUserAndGetToken(username, false);
+
+        File tempFile = File.createTempFile("invalid", ".txt");
+        Files.write(tempFile.toPath(), "not an image".getBytes());
+
+        RestAssured
+            .given()
+                .cookie("auth_token", token)
+                .multiPart("avatar", tempFile)
+            .when()
+                .post("/v1/users/" + username + "/avatar")
+            .then()
+                .statusCode(anyOf(is(400), is(415)));
+        
+        tempFile.delete();
+    }
 }

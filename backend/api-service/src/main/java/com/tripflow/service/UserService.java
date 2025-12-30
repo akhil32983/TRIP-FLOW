@@ -249,6 +249,10 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You are not allowed to upload an avatar for this user");
         }
 
+        if (avatar.getContentType() == null || !avatar.getContentType().startsWith("image/")) {
+            throw new ResponseStatusException(HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Only image files are allowed");
+        }
+
         user.setAvatar(ImageUtils.toByteArray(avatar));
         return this.userMapper.toPublicUserDTO(this.userRepository.save(user));
     }
