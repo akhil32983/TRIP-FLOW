@@ -26,7 +26,8 @@
 > - Editing and deleting profiles.
 > - Display of itinerary statistics (number of trips, days, destinations).
 > - AI-powered itinerary generation based on user preferences.
-> - Administration panel for user and AI logs management.
+> - Notifications in real-time.
+> - Administration panel for users.
 
 > ---
 
@@ -35,9 +36,10 @@
 > Features that provide a competitive advantage and improve the overall user experience.
 >
 > - User preferences management for AI generation.
-> - Routes and itineraries optimization.
-> - Achievements and experience points system.
 > - Progressive Web App (PWA) features for offline access and mobile installation.
+> - Map and geolocation integration.
+> - Collaborative itinerary sharing.
+> - Routes and itineraries optimization.
 > - PDF export of itineraries.
 
 ---

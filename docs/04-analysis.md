@@ -32,7 +32,6 @@
 > *Relationships:*
 > - Itineraries: One-to-many relationship with Itinerary
 > - AI Log: One-to-many relationship with AILog
-> - Achievements: One-to-many relationship with Achievement
 > - Preferences: One-to-one relationship with UserPreferences
 
 > ---
@@ -61,20 +60,6 @@
 > - id: Long (Primary key, auto-increment)
 > - place: String (Not null)
 > - days: int (Positive, default: 1)
-> - createdAt: Timestamp (Not null, auto-generated)
-> - user: User (Foreign key)
->
-> *Relationships:*
-> - user: User (Many-to-one relationship)
-
-> ---
-
-> **🏆 Achievement**
->
-> Achievement entity tracks user achievements in the application.
->
-> - id: Long (Primary key, auto-increment)
-> - type: AchievementType (Enum)
 > - createdAt: Timestamp (Not null, auto-generated)
 > - user: User (Foreign key)
 >
@@ -143,6 +128,48 @@
 >
 > *Relationships:*
 > - activities: One-to-many relationship with Activity
+>
+> ---
+>
+> **🔔 Notification**
+>
+> Notification entity stores user alerts and messages for the notification center.
+>
+> - id: Long (Primary key, auto-increment)
+> - username: String (Not null)
+> - message: String (Not null)
+> - type: NotificationType (Enum)
+> - timestamp: Instant (Not null, auto-generated)
+>
+> *Relationships:*
+> - Linked to User via `username` (Loose coupling)
+>
+> ---
+>
+> **🖼️ ExternalImage**
+>
+> Stores metadata about images fetched from external APIs (Unsplash) to cache results and attribute authors.
+>
+> - id: Long (Primary key, auto-increment)
+> - query: String (Nullable)
+> - imageUrl: String (Not null)
+> - altDescription: String (Not null)
+> - authorUsername: String (Not null)
+> - createdAt: LocalDate (Not null, auto-generated)
+>
+> ---
+>
+> **🚦 AIUsage**
+>
+> Tracks the daily usage of AI generation per user for rate limiting purposes.
+>
+> - id: Long (Primary key, auto-increment)
+> - date: LocalDate (Not null)
+> - usage: int (Not null)
+> - user: User (Foreign key)
+>
+> *Relationships:*
+> - user: User (Many-to-one relationship)
 
 > ---
 
@@ -164,13 +191,11 @@
 > - Full access to all features
 > - Ability to create, edit, and delete itineraries
 > - AI itinerary generation and advanced route optimization
-> - Achievement tracking
 
 > ---
 
 > **🔑 Admin Users**
-> - User management (create, edit, delete users)
-> - Manage application settings (AI rate limits, optimization algorithms, etc.)
+> - User management (delete users)
 
 ---
 
@@ -186,7 +211,10 @@
 
 > **🌐 External API Rest**
 > 
-> The application will integrate the OpenRouter API to provide AI-powered itinerary generation capabilities.
+> The application will integrate:
+> - AI LLM providers to provide AI-powered itinerary generation capabilities.
+> - Unsplash API to provide high-quality images for destinations.
+> - Brevo to provide transactional email service for account verification and notifications.
 
 > ---
 

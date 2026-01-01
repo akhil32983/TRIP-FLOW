@@ -25,8 +25,8 @@
 > The application consists of three main components:
 >
 > - **Client:** React + TypeScript + Vite PWA.
-> - **Server:** Spring Boot backend exposing REST APIs.
-> - **Database:** PostgreSQL for data storage.
+> - **Server:** Ecosystem of Spring Boot Microservices (API, AI, Notification).
+> - **Infrastructure:** Apache Kafka (Event Bus) & PostgreSQL (Data).
 >
 > This architecture allows scalability and maintainability by separating concerns between the client and server.
 
@@ -78,6 +78,12 @@
 > Relational database management system known for its robustness and scalability.
 >
 > [PostgreSQL](https://www.postgresql.org/)
+>
+> _📨 Apache Kafka_
+>
+> Distributed event streaming platform used for asynchronous communication between microservices.
+>
+> [Apache Kafka](https://kafka.apache.org/)
 >
 > _🤖 OpenRouter API_
 >
@@ -185,7 +191,13 @@
 
 > **💻 Server Architecture Overview**
 >
-> The backend follows a layered architecture pattern, separating concerns into distinct layers:
+> The backend has evolved into a **Microservices Architecture**, splitting responsibilities into specialized services:
+>
+> - **API Service:** Main entry point, handles user requests, authentication, and itinerary management.
+> - **AI Service:** Dedicated service for interacting with AI models.
+> - **Notification Service:** Manages real-time updates (WebSocket) and emails.
+>
+> The services communicate asynchronously via **Apache Kafka**.
 >
 > ![Backend Architecture Diagram](/docs/diagrams/png/architecture-backend.png)
 
@@ -586,6 +598,7 @@
 > - **Java 21** - [Download JDK](https://www.oracle.com/java/technologies/downloads/#java21)
 > - **Node.js 24+** - [Download Node.js](https://nodejs.org/)
 > - **PostgreSQL 15+** - [Download PostgreSQL](https://www.postgresql.org/download/)
+> - **Apache Kafka** - (If running locally without Docker)
 > - **Maven 3.9+** - Included with the project (Maven Wrapper)
 >
 > ---
@@ -600,37 +613,61 @@
 >
 > ---
 >
-> _🛠️ Step 2: Configure Environment Variables_
+> _🛠️ Step 2: Configure Service Configuration_
 >
-> Create a `.env` file in the `backend` directory based on `.env.example`:
+> Each microservice has its own configuration file. You must ensure that the `application.properties` in each service is configured correctly, especially for Database and Kafka connections.
 >
-> ```env
-> # Database Configuration
-> POSTGRES_URL=jdbc:postgresql://localhost:5432/tripflow_db
-> POSTGRES_USER=YOUR_USER
-> POSTGRES_PASSWORD=YOUR_PASSWORD
+> **Configuration Files:**
 >
-> # JWT Configuration
-> JWT_SECRET=your-secret-key-min-32-characters-long
-> ```
+> 1. **API Service:** `backend/api-service/src/main/resources/application.properties`
+> 2. **AI Service:** `backend/ai-service/src/main/resources/application.properties`
+> 3. **Notification Service:** `backend/notification-service/src/main/resources/application.properties`
 >
-> **ℹ️ Note:** This `.env` file can be used because the backend is configured to read environment variables from it during development.
+> Ensure the following settings match your local environment:
+> - **Database:** `spring.datasource.url`, `username`, `password`
+> - **Kafka:** `spring.kafka.bootstrap-servers`
+> - **JWT Secret:** `app.jwt.secret` (ensure it's consistent across services)
 >
 > ---
+
+> _☕ Step 3: Run the Backend Services_
 >
-> _☕ Step 3: Run the Backend_
+> Since the backend consists of multiple microservices, the recommended way to run the application is using **Docker Compose** (see below).
 >
-> Navigate to the `backend` directory and start the Spring Boot application:
+> If you wish to run services individually for development, you must first ensure **PostgreSQL** and **Kafka** are running. You can start these infrastructure services using:
 >
 > ```bash
-> # For Linux and macOS
-> ./mvnw spring-boot:run
->
-> # For Windows
-> mvnw.cmd spring-boot:run
+> docker compose -f docker/docker-compose.infra.yaml up -d
 > ```
 >
-> The backend will start on **http://localhost:8080**
+> Then, start each service:
+>
+> ```bash
+> # Linux / macOS
+> # Terminal 1
+> cd backend/api-service && ../mvnw spring-boot:run
+>
+> # Terminal 2
+> cd backend/ai-service && ../mvnw spring-boot:run
+>
+> # Terminal 3
+> cd backend/notification-service && ../mvnw spring-boot:run
+> ```
+>
+> ```bash
+> # Windows
+> # Terminal 1
+> cd backend/api-service
+> ../mvnw.cmd spring-boot:run
+>
+> # Terminal 2
+> cd backend/ai-service
+> ../mvnw.cmd spring-boot:run
+>
+> # Terminal 3
+> cd backend/notification-service
+> ../mvnw.cmd spring-boot:run
+> ```
 >
 > ---
 >
