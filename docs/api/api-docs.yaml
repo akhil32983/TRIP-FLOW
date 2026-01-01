@@ -9,8 +9,12 @@ servers:
 security:
 - auth_token: []
 tags:
+- name: AI Generation
+  description: AI generation and processing
 - name: Statistics
   description: Endpoints for retrieving statistics
+- name: Users Management
+  description: User management and operations
 - name: Health Check
   description: Endpoint for checking the health status of the application
 - name: Authentication
@@ -21,7 +25,9 @@ paths:
   /api/v1/users/{username}:
     get:
       tags:
-      - rest-user-controller
+      - Users Management
+      summary: Get user by username
+      description: Retrieves a user by their username.
       operationId: getUserByUsername
       parameters:
       - name: username
@@ -31,14 +37,28 @@ paths:
           type: string
       responses:
         "200":
-          description: OK
+          description: User retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "500":
+          description: Internal server error
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PublicUserDTO"
     put:
       tags:
-      - rest-user-controller
+      - Users Management
+      summary: Update user by username
+      description: Updates a user by their username.
       operationId: updateUser
       parameters:
       - name: username
@@ -54,14 +74,30 @@ paths:
         required: true
       responses:
         "200":
-          description: OK
+          description: User updated successfully
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PublicUserDTO"
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+      security:
+      - auth_token: []
     delete:
       tags:
-      - rest-user-controller
+      - Users Management
+      summary: Delete user by username
+      description: Deletes a user by their username.
       operationId: deleteUser
       parameters:
       - name: username
@@ -70,8 +106,14 @@ paths:
         schema:
           type: string
       responses:
-        "200":
-          description: OK
+        "204":
+          description: User deleted successfully
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+      security:
+      - auth_token: []
   /api/v1/itineraries/{id}:
     get:
       tags:
@@ -207,7 +249,9 @@ paths:
   /api/v1/users/{username}/avatar:
     get:
       tags:
-      - rest-user-controller
+      - Users Management
+      summary: Get avatar for user by username
+      description: Retrieves an avatar for a user by their username.
       operationId: getAvatar
       parameters:
       - name: username
@@ -217,15 +261,26 @@ paths:
           type: string
       responses:
         "200":
-          description: OK
+          description: Avatar retrieved successfully
           content:
             '*/*':
               schema:
                 type: string
                 format: binary
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+      security:
+      - auth_token: []
     post:
       tags:
-      - rest-user-controller
+      - Users Management
+      summary: Upload avatar for user by username
+      description: Uploads an avatar for a user by their username.
       operationId: uploadAvatar
       parameters:
       - name: username
@@ -246,11 +301,31 @@ paths:
               - avatar
       responses:
         "200":
-          description: OK
+          description: Avatar uploaded successfully
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/PublicUserDTO"
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "415":
+          description: Unsupported media type
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+      security:
+      - auth_token: []
   /api/v1/itineraries:
     get:
       tags:
@@ -400,7 +475,7 @@ paths:
   /api/v1/ai:
     post:
       tags:
-      - rest-ai-controller
+      - AI Generation
       summary: Submit AI Processing Request
       description: Submits a request for AI processing based on user preferences.
       operationId: handleAIRequest
@@ -590,7 +665,9 @@ paths:
   /api/v1/users:
     get:
       tags:
-      - rest-user-controller
+      - Users Management
+      summary: Get all users
+      description: Retrieves a list of all users.
       operationId: getAllUsers
       parameters:
       - name: pageable
@@ -605,7 +682,13 @@ paths:
           type: string
       responses:
         "200":
-          description: OK
+          description: Users retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOPublicUserDTO"
+        "500":
+          description: Internal server error
           content:
             '*/*':
               schema:
@@ -641,7 +724,7 @@ paths:
   /api/v1/ai/status:
     get:
       tags:
-      - rest-ai-controller
+      - AI Generation
       summary: Get AI Status
       description: Retrieves the AI status for the authenticated user.
       operationId: getAIStatus
