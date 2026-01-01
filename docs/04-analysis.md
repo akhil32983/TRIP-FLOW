@@ -215,6 +215,7 @@
 > - AI LLM providers to provide AI-powered itinerary generation capabilities.
 > - Unsplash API to provide high-quality images for destinations.
 > - Brevo to provide transactional email service for account verification and notifications.
+> - Apache Kafka to handle asynchronous event-driven communication between microservices.
 
 > ---
 
@@ -229,6 +230,12 @@
 > **🧩 Route Optimization**
 >
 > The application will implement advanced algorithms to optimize travel routes, taking into account factors such as distance and time.
+>
+> ---
+>
+> **⏳ Rate Limiting (Token Bucket)**
+>
+> The AI Service implements a Token Bucket algorithm to control the rate of AI generation requests per user, ensuring fair usage and preventing abuse.
 
 ---
 
