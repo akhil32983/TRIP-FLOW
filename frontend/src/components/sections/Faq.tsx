@@ -1,5 +1,9 @@
 import styles from "@styles/components/sections/Faq.module.css";
+
+import { useState } from "react";
+
 import Section from "@components/shared/Section";
+import AccordionItem from "@/components/shared/Accordion";
 
 const FAQ_DATA = [
   {
@@ -25,18 +29,25 @@ const FAQ_DATA = [
 ];
 
 export default function Faq() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const toggleAccordion = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <Section title={<>Preguntas Frecuentes</>}>
       <div className={styles.faq}>
         {FAQ_DATA.map((item, index) => (
-          <details key={index} className={styles.faqItem} open={index === 0}>
-            <summary className={styles.faqQuestion}>{item.question}</summary>
-            <p className={styles.faqAnswer}>{item.answer}</p>
-          </details>
+          <AccordionItem
+            key={index}
+            title={item.question}
+            isOpen={openIndex === index}
+            onToggle={() => toggleAccordion(index)}
+          >
+           <p className={styles.faqAnswer}>{item.answer}</p>
+          </AccordionItem>
         ))}
-        {/* <div className={styles.faqActions}>
-          <Button label="Quiero saber más" to="/about" style={["primary"]} />
-        </div> */}
       </div>
     </Section>
   );
