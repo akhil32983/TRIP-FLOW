@@ -1,6 +1,5 @@
 .accordionItem {
     width: 100%;
-    max-width: 1000px;
     border: 1px solid var(--border-secondary);
     border-radius: var(--border-radius-lg);
     background-color: var(--bg-secondary);
@@ -52,6 +51,10 @@
             opacity: 0;
             transition: all 0.2s ease-out;
         }
+    }
+
+    &.accordionWidthLimited {
+        max-width: 1000px;
     }
 
     &.accordionOpen {

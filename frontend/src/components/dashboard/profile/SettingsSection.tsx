@@ -30,7 +30,7 @@ export default function SettingsSection() {
                     <span className={styles.description}>Gestiona tus notificaciones</span>
                 </div>
             </button>
-            <NavLink to="/" target="_blank" className={`${styles.action} ${styles.done}`}>
+            <NavLink to="/help" target="_blank" className={`${styles.action} ${styles.done}`}>
                 <div className={styles.iconContainer}>
                     <BadgeQuestionMarkIcon size={ICON_SIZE} />
                 </div>

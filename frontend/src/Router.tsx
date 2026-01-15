@@ -7,6 +7,7 @@ import IndexPage from "@pages/Index";
 import LoginPage from "@pages/Login";
 import RegisterPage from "@pages/Register";
 import VerifyPage from "@pages/Verify";
+import HelpPage from "@pages/Help";
 import DashboardPage from "@pages/Dashboard";
 import ItinerariesPage from "@pages/itineraries/Itineraries";
 import ItineraryDetailPage from "@pages/itineraries/ItineraryDetail";
@@ -73,6 +74,7 @@ export default function Router() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<RegisterPage />} />
                 <Route path="/verify" element={<VerifyPage />} />
+                <Route path="/help" element={<HelpPage />} />
 
                 {/* Private routes */}
                 <Route element={<PrivateWrapper />}>

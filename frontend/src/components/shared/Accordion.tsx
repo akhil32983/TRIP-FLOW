@@ -4,16 +4,23 @@ import type { ReactNode } from "react";
 
 import { ChevronDown } from "lucide-react";
 
-interface AccordionItemProps {
+interface AccordionProps {
     title: ReactNode;
+    widthLimited?: boolean;
     isOpen: boolean;
     onToggle: () => void;
     children: ReactNode;
 }
 
-export default function AccordionItem({ title, isOpen, onToggle, children }: AccordionItemProps) {
+export default function Accordion({ title, widthLimited, isOpen, onToggle, children }: AccordionProps) {
+    const accordionStyles = `
+        ${styles.accordionItem}
+        ${isOpen ? styles.accordionOpen : ''}
+        ${widthLimited ? styles.accordionWidthLimited : ''}
+    `;
+
     return (
-        <div className={`${styles.accordionItem} ${isOpen ? styles.accordionOpen : ''}`}>
+        <div className={accordionStyles}>
             <button
                 className={styles.accordionHeader}
                 onClick={onToggle}

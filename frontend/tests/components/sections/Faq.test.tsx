@@ -14,19 +14,23 @@ describe("Faq", () => {
   it("renders correct number of FAQ items", () => {
     const { container } = render(<Faq />);
 
+    // In the new Accordion, items are divs with class accordionItem
+    // We can also count how many toggle buttons there are
     const faqButtons = screen.getAllByRole("button");
     const faqItems = container.querySelectorAll("div[class*='accordionItem']");
     
-    expect(faqButtons).toHaveLength(4);
-    expect(faqItems).toHaveLength(4);
+    expect(faqButtons).toHaveLength(5);
+    expect(faqItems).toHaveLength(5);
   });
 
   it("renders FAQ structure correctly", () => {
     render(<Faq />);
 
+    // Each accordion header is a button
     const buttons = screen.getAllByRole("button");
-    expect(buttons).toHaveLength(4);
+    expect(buttons).toHaveLength(5);
 
+    // Each button should have aria-expanded attribute
     buttons.forEach((button) => {
       expect(button).toHaveAttribute("aria-expanded");
     });
@@ -39,13 +43,13 @@ describe("Faq", () => {
     expect(faq).toBeInTheDocument();
 
     const faqItems = container.querySelectorAll("div[class*='accordionItem']");
-    expect(faqItems).toHaveLength(4);
+    expect(faqItems).toHaveLength(5);
 
     const faqHeaders = container.querySelectorAll("button[class*='accordionHeader']");
-    expect(faqHeaders).toHaveLength(4);
+    expect(faqHeaders).toHaveLength(5);
 
     const faqAnswers = container.querySelectorAll("p[class*='faqAnswer']");
-    expect(faqAnswers).toHaveLength(4);
+    expect(faqAnswers).toHaveLength(5);
   });
 
   it("has first FAQ item open by default", () => {
@@ -53,11 +57,14 @@ describe("Faq", () => {
 
     const buttons = screen.getAllByRole("button");
     
+    // First item should be expanded (aria-expanded="true")
     expect(buttons[0]).toHaveAttribute("aria-expanded", "true");
     
+    // Others should be closed (aria-expanded="false")
     expect(buttons[1]).toHaveAttribute("aria-expanded", "false");
     expect(buttons[2]).toHaveAttribute("aria-expanded", "false");
     expect(buttons[3]).toHaveAttribute("aria-expanded", "false");
+    expect(buttons[4]).toHaveAttribute("aria-expanded", "false");
   });
 
   it("toggles FAQ item on click", () => {
