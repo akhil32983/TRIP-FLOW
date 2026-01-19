@@ -27,76 +27,80 @@
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-.success {
-    color: var(--active);
-    border-color: var(--active);
-}
+    &.success {
+        color: var(--active);
+        border-color: var(--active);
+    }
 
-.error {
-    color: var(--error);
-    border-color: var(--error);
-}
+    &.error {
+        color: var(--error);
+        border-color: var(--error);
+    }
 
-.warning {
-    color: var(--warning);
-    border-color: var(--warning);
-}
+    &.warning {
+        color: var(--warning);
+        border-color: var(--warning);
+    }
 
-.info {
-    color: var(--info);
-    border-color: var(--info);
-}
+    &.info {
+        color: var(--info);
+        border-color: var(--info);
+    }
 
-.header {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-left: calc(-1 * var(--space-xm));
-}
+    &.closing {
+        animation: slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
 
-.header .icon {
-    --size: 20px;
-    width: var(--size);
-    height: var(--size);
-}
+    .header {
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-left: calc(-1 * var(--space-xm));
 
-.header .title {
-    font-size: var(--font-size-sm);
-    color: var(--text-primary);
-}
+        .icon {
+            --size: 20px;
+            width: var(--size);
+            height: var(--size);
+        }
 
-.closeButton {
-    position: absolute;
-    --space: var(--space-md);
-    top: var(--space);
-    right: var(--space);
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 9999px;
-    border: none;
-    background: none;
-    color: var(--primary);
-    transition: all 0.2s;
-    cursor: pointer;
-
-    @media (hover: hover) {
-        &:hover {
-            color: var(--error);
+        .title {
+            font-size: var(--font-size-sm);
+            color: var(--text-primary);
         }
     }
-}
 
-.message {
-    width: 100%;
-    font-size: var(--font-size-sm);
-    color: var(--text-secondary);
+    .closeButton {
+        position: absolute;
+        --space: var(--space-md);
+        top: var(--space);
+        right: var(--space);
+        width: 20px;
+        height: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 9999px;
+        border: none;
+        background: none;
+        color: var(--primary);
+        transition: all 0.2s;
+        cursor: pointer;
+
+        @media (hover: hover) {
+            &:hover {
+                color: var(--error);
+            }
+        }
+    }
+
+    .message {
+        width: 100%;
+        font-size: var(--font-size-sm);
+        color: var(--text-secondary);
+    }
 }
 
 @keyframes slideIn {
@@ -123,6 +127,71 @@
     }
 }
 
-.closing {
-    animation: slideOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 1024px) {
+    .notificationContainer {
+        right: 0;
+        left: 0;
+        width: 100%;
+        align-items: center;
+    }
+
+    .notification {
+        min-width: auto;
+        width: fit-content;
+        max-width: 90%;
+        flex-direction: row;
+        align-items: center;
+        padding: var(--space-sm) var(--space-lg);
+        border-radius: 9999px;
+        border-left: none;
+        border: 1px solid var(--border-secondary);
+        animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        gap: var(--space-md);
+
+        &.closing {
+            animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .header {
+            width: auto;
+            margin: 0;
+
+            .title {
+                display: none;
+            }
+        }
+
+        .closeButton {
+            display: none;
+        }
+
+        .message {
+            margin: 0;
+            width: auto;
+        }
+    }
 }

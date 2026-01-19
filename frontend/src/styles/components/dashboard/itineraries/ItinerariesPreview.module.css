@@ -153,17 +153,24 @@
 
     .empty {
         width: 100%;
-        padding: var(--space-xl);
+        height: 100%;
+        min-height: 200px;
+        max-width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: var(--space-xl);
+        justify-content: center;
+        gap: var(--space-lg);
+        font-size: var(--font-size-md);
+        color: var(--text-tertiary);
+        background-color: var(--bg-secondary);
+        border-radius: var(--border-radius-lg);
+        border-style: dashed;
+        border-color: var(--border-subtle);
+        border-width: 1px;
 
-        font-size: var(--font-size-lg);
-        color: var(--text-secondary);
-        background: var(--bg-overlay);
-        border-radius: var(--border-radius-md);
-        border: 2px solid var(--border-secondary);
-        animation: fadeIn 0.2s ease;
+        p {
+            color: inherit;
+        }
     }
 }

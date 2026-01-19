@@ -33,7 +33,7 @@ export default function Notification({
     return (
         <div
             className={`${styles.notification} ${styles[type]} ${isClosing ? styles.closing : ""}`}
-            onClick={(e) => e.stopPropagation()}
+            onClick={onClose}
             role="alert"
             onAnimationEnd={() => {
                 if (isClosing && onExited) {

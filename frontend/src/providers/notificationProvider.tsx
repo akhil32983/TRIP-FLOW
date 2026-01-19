@@ -40,7 +40,10 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
         type: NotificationRendererType,
         options?: NotificationOptions
     ) => {
-        if (user && user.notificationsAllowed === false) return;
+        if (user && user.notificationsAllowed === false) {
+            setNotifications([]);
+            return;
+        }
 
         const defaultOptions = { autoClose: true, duration: 3000, title: "Notificación" };
         const finalOptions = { ...defaultOptions, ...options };
