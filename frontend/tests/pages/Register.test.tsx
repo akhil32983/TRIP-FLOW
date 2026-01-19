@@ -39,6 +39,7 @@ const mockUser = {
   createdAt: "2024-01-01T00:00:00Z",
   role: "USER" as const,
   plan: "FREE" as const,
+  notificationsAllowed: true,
 };
 
 describe("Register Page Validation", () => {
