@@ -59,6 +59,9 @@ public class User {
     private String location = "¿?";
 
     @Column(nullable = false)
+    private Boolean notificationsAllowed = true;
+
+    @Column(nullable = false)
     private UserType role;
 
     @Column(nullable = true)
@@ -195,6 +198,14 @@ public class User {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Boolean getNotificationsAllowed() {
+        return notificationsAllowed;
+    }
+
+    public void setNotificationsAllowed(Boolean notificationsAllowed) {
+        this.notificationsAllowed = notificationsAllowed;
     }
 
     public String getHashedPassword() {

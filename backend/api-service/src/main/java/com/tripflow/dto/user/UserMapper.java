@@ -21,6 +21,7 @@ public interface UserMapper {
     @Mapping(target = "avatar", ignore = true)
     @Mapping(target = "description", ignore = true)
     @Mapping(target = "location", ignore = true)
+    @Mapping(target = "notificationsAllowed", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "plan", ignore = true)
     @Mapping(target = "itineraries", ignore = true)

@@ -114,7 +114,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"CuB1\",\r\n    \"code\": \"909766\"\r\n}",
+							"raw": "{\r\n    \"username\": \"CuB1\",\r\n    \"code\": \"290963\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -525,6 +525,35 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"name\": \"CuB1 zz\",\r\n    \"description\": \"Life enjoyer\",\r\n    \"location\": \"Madrid, España\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE_URL}}/api/v1/users/CuB1",
+									"host": [
+										"{{BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"users",
+										"CuB1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update user notification",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"notificationsAllowed\": false\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"

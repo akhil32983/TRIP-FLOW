@@ -10,6 +10,7 @@ public record PublicUserDTO(
     String name,
     String description,
     String location,
+    Boolean notificationsAllowed,
     LocalDateTime createdAt,
     UserType role,
     PlanType plan

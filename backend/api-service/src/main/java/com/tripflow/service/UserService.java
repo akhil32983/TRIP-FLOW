@@ -359,5 +359,8 @@ public class UserService {
         if (request.location() != null) {
             user.setLocation(request.location());
         }
+        if (request.notificationsAllowed() != null) {
+            user.setNotificationsAllowed(request.notificationsAllowed());
+        }
     }
 }

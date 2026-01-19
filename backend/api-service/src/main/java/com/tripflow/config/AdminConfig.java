@@ -1,6 +1,7 @@
 package com.tripflow.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.tripflow.dto.user.RegisterUserRequest;
@@ -30,7 +31,7 @@ public class AdminConfig {
     public void createAdminUserIfNotExists() {
         try {
             this.userService.getUserByUsername(adminUsername);
-        } catch (Exception e) {
+        } catch (UsernameNotFoundException e) {
             this.userService.registerUser(
                 new RegisterUserRequest(adminEmail, adminUsername, adminPassword, adminPassword),
                 UserType.ADMIN
