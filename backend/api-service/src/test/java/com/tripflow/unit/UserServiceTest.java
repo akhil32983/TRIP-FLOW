@@ -271,7 +271,7 @@ public class UserServiceTest {
     @DisplayName("UserService should update user")
     public void testUpdateUser() {
         String username = "testuser";
-        UpdateUserRequest request = new UpdateUserRequest("New Name", "New Desc", "New Loc");
+        UpdateUserRequest request = new UpdateUserRequest("New Name", "New Desc", "New Loc", true);
         User user = new User();
         user.setUsername(username);
         

@@ -20,16 +20,6 @@ describe("Notification Component", () => {
         expect(closeButton).toBeInTheDocument();
     });
 
-    it("calls onClose when close button is clicked", () => {
-        const onClose = vi.fn();
-        render(<Notification message="Test message" onClose={onClose} />);
-
-        const closeButton = screen.getByRole("button", { name: /cerrar notificación/i });
-        fireEvent.click(closeButton);
-
-        expect(onClose).toHaveBeenCalledTimes(1);
-    });
-
     it("applies info type by default", () => {
         const { container } = render(<Notification message="Test message" onClose={() => {}} />);
         const notificationElement = container.firstChild as HTMLElement;

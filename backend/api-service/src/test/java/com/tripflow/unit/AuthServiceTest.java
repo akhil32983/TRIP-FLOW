@@ -75,7 +75,7 @@ public class AuthServiceTest {
         UserDetails userDetails = mock(UserDetails.class);
         PublicUserDTO publicUser = new PublicUserDTO(
             username, username, 
-            "", "Earth", null, UserType.USER, PlanType.FREE
+            "", "Earth", true, null, UserType.USER, PlanType.FREE
         );
         User user = mock(User.class);
         
@@ -141,7 +141,7 @@ public class AuthServiceTest {
         RegisterUserRequest request = new RegisterUserRequest(email, username, password, password);
         PublicUserDTO publicUser = new PublicUserDTO(
             username, username, 
-            "", "Earth", null, UserType.USER, PlanType.FREE
+            "", "Earth", true, null, UserType.USER, PlanType.FREE
         );
 
         when(this.userService.registerUser(request)).thenReturn(publicUser);
@@ -231,7 +231,7 @@ public class AuthServiceTest {
         
         PublicUserDTO publicUser = new PublicUserDTO(
             username, username,
-            "", "Earth", null, UserType.USER, PlanType.FREE
+            "", "Earth", true, null, UserType.USER, PlanType.FREE
         );
 
         when(this.jwtTokenProvider.validateToken(refreshToken)).thenReturn(claims);
