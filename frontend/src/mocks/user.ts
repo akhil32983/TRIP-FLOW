@@ -15,6 +15,7 @@ export const mockUser = {
                     username: "demoUser",
                     description: "This is a demo user.",
                     location: "Demo City",
+                    notificationsAllowed: true,
                     createdAt: date,
                     role: "USER",
                     plan: "FREE"
@@ -31,6 +32,7 @@ export const mockUser = {
                     username: "demoUser",
                     description: bodyData.description || "Updated description",
                     location: bodyData.location || "Updated location",
+                    notificationsAllowed: bodyData.notificationsAllowed ?? true,
                     createdAt: date,
                     role: "USER",
                     plan: "FREE"
@@ -55,6 +57,7 @@ export const mockUser = {
                 username: "demoUser",
                 description: "This is a demo user.",
                 location: "Demo City",
+                notificationsAllowed: true,
                 createdAt: date,
                 role: "USER",
                 plan: "FREE"
@@ -64,6 +67,7 @@ export const mockUser = {
                 username: "alice",
                 description: "Travel enthusiast",
                 location: "London, UK",
+                notificationsAllowed: true,
                 createdAt: date,
                 role: "USER",
                 plan: "PREMIUM"
@@ -73,6 +77,7 @@ export const mockUser = {
                 username: "bob_builder",
                 description: "Loves architecture",
                 location: "New York, USA",
+                notificationsAllowed: true,
                 createdAt: date,
                 role: "USER",
                 plan: "PREMIUM"
@@ -82,6 +87,7 @@ export const mockUser = {
                 username: "charlie",
                 description: "Sports enthusiast",
                 location: "San Francisco, USA",
+                notificationsAllowed: true,
                 createdAt: date,
                 role: "USER",
                 plan: "PRO"

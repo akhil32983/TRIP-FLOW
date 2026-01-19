@@ -8,6 +8,14 @@ vi.mock("@/components/buttons/LogoutButton", () => ({
     default: ({ children }: any) => <button>Logout Logic Wrapped ({children})</button>,
 }));
 
+vi.mock("@/providers/authProvider", () => ({
+    useAuth: () => ({
+        user: { name: "Test User", notificationsAllowed: true },
+        updateProfile: vi.fn(),
+    }),
+    AuthProvider: ({ children }: any) => <>{children}</>,
+}));
+
 describe("SettingsSection Component", () => {
     it("renders profile settings links", () => {
         render(<SettingsSection />);

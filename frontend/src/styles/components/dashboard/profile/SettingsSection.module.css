@@ -85,14 +85,14 @@
 
             .title {
                 text-align: left;
-                line-height: 1.4;
+                line-height: 1.6;
                 font-size: var(--font-size-sm);
                 font-weight: var(--font-weight-bold);
             }
 
             .description {
                 text-align: left;
-                line-height: 1.2;
+                line-height: 1.6;
                 font-size: var(--font-size-xs);
                 font-weight: var(--font-weight-normal);
                 color: var(--text-tertiary);
@@ -101,6 +101,10 @@
 
         .chevron {
             color: var(--text-tertiary);
+            margin-left: auto;
+        }
+
+        .toggleContainer {
             margin-left: auto;
         }
 

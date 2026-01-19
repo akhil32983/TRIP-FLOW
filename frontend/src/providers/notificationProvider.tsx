@@ -3,6 +3,7 @@ import styles from "@styles/components/shared/Notification.module.css";
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
 import { generateId } from "@/utils/generateId";
+import { useAuth } from "@/providers/authProvider";
 
 import NotificationRender, { type NotificationRendererType } from "@/components/shared/Notification";
 
@@ -32,12 +33,15 @@ export const useNotification = () => useContext(NotificationContext);
 
 export const NotificationProvider = ({ children }: { children: ReactNode }) => {
     const [notifications, setNotifications] = useState<InternalNotification[]>([]);
+    const { user } = useAuth();
 
     const notify = useCallback((
         message: string,
         type: NotificationRendererType,
         options?: NotificationOptions
     ) => {
+        if (user && user.notificationsAllowed === false) return;
+
         const defaultOptions = { autoClose: true, duration: 3000, title: "Notificación" };
         const finalOptions = { ...defaultOptions, ...options };
 
@@ -51,7 +55,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
                 removeNotification(newNotification.id);
             }, finalOptions.duration);
         }
-    }, []);
+    }, [user]);
 
     const removeNotification = useCallback((id: string) => {
         setNotifications((prev) =>

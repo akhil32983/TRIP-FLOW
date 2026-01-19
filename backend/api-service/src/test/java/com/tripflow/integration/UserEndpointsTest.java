@@ -70,7 +70,8 @@ public class UserEndpointsTest extends BaseIntegrationTest {
         UpdateUserRequest updateRequest = new UpdateUserRequest(
             "Updated Name",
             "Updated Description",
-            "Updated Location"
+            "Updated Location",
+            null
         );
 
         RestAssured
@@ -96,7 +97,8 @@ public class UserEndpointsTest extends BaseIntegrationTest {
         UpdateUserRequest updateRequest = new UpdateUserRequest(
             "Updated Name",
             "Updated Description",
-            "Updated Location"
+            "Updated Location",
+            null
         );
 
         RestAssured
@@ -118,7 +120,7 @@ public class UserEndpointsTest extends BaseIntegrationTest {
         String username2 = AuthTestUtils.generateUniqueValue("User");
         AuthTestUtils.authenticateUserAndGetToken(username2, false);
 
-        UpdateUserRequest updateRequest = new UpdateUserRequest("Name", "Desc", "Loc");
+        UpdateUserRequest updateRequest = new UpdateUserRequest("Name", "Desc", "Loc", null);
 
         RestAssured
             .given()

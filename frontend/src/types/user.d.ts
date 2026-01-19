@@ -6,6 +6,7 @@ export type PublicUser = {
   username: string;
   description: string;
   location: string;
+  notificationsAllowed: boolean;
   createdAt: string;
   role: UserRole;
   plan: UserPlan;
@@ -15,4 +16,5 @@ export type UpdateProfileRequest = {
     name?: string;
     description?: string;
     location?: string;
+    notificationsAllowed?: boolean;
 }
