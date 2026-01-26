@@ -20,51 +20,46 @@
 > User entity represents the application users, including their authentication details and profile information.
 > 
 > - id: Long (Primary key, auto-increment)
-> - username: String (Unique, not null)
+> - email: String (Unique, not null)
+> - verified: Boolean (Default: false)
+> - verificationCode: String (Nullable)
+> - verificationCodeExpiresAt: Instant (Nullable)
+> - username: String (Unique, not null, updatable = false)
 > - hashedPassword: String (Not null)
-> - role: UserType (Not null)
 > - name: String (Nullable)
-> - description: String (Nullable)
-> - location: String (Nullable)
-> - avatar: Blob (Nullable)
-> - createdAt: Timestamp (Not null, auto-generated)
+> - description: String (Default: "")
+> - location: String (Default: "¿?")
+> - notificationsAllowed: Boolean (Default: true)
+> - role: UserType (Not null)
+> - avatar: byte[] (Nullable)
+> - plan: PlanType (Default: FREE)
+> - createdAt: LocalDateTime (Not null, auto-generated)
+> - processingAI: boolean (Default: false)
 > 
 > *Relationships:*
 > - Itineraries: One-to-many relationship with Itinerary
-> - AI Log: One-to-many relationship with AILog
-> - Preferences: One-to-one relationship with UserPreferences
-
-> ---
-
-> **🛜User Preferences**
-> 
-> UserPreferences entity stores the preferences of users for AI-generated itineraries.
-> 
-> - id: Long (Primary key, auto-increment)
-> - style: StylePreference (enum)
-> - budget: BudgetPreference (enum)
-> - lodging: LodgingPreference (enum)
-> - transport: TransportPreference (enum)
-> - duration: DurationPreference (enum)
-> - interests: List<String> (default: empty)
-> 
-> *Relationships:*
-> - user: User (One-to-one relationship)
+> - AI Usage: One-to-many relationship with AIUsage
 
 > ---
 
 > **🤖 AILog**
 > 
-> AI log entity stores the history of AI-generated itineraries for users.
+> AI log entity stores the history of AI-generated itineraries for users. This entity belongs to the AI Service.
 > 
 > - id: Long (Primary key, auto-increment)
-> - place: String (Not null)
-> - days: int (Positive, default: 1)
-> - createdAt: Timestamp (Not null, auto-generated)
-> - user: User (Foreign key)
->
+> - username: String (Not null)
+> - destination: String (Nullable)
+> - style: String (Nullable)
+> - budget: Double (Nullable)
+> - lodging: String (Nullable)
+> - duration: String (Nullable)
+> - interests: List<String> (Nullable)
+> - response: String (Text, Nullable)
+> - success: Boolean (Default: false)
+> - createdAt: Instant (Not null, auto-generated)
+> 
 > *Relationships:*
-> - user: User (Many-to-one relationship)
+> - Linked to User via `username` (Loose coupling)
 
 > ---
 
@@ -73,16 +68,24 @@
 > Itinerary entity represents a travel itinerary, including its days and activities.
 >
 > - id: Long (Primary key, auto-increment)
-> - place: String (Not null)
+> - title: String (Nullable)
+> - place: String (Nullable)
+> - people: int (Default: 1)
+> - budget: double (Default: 0.0)
+> - date: String (Nullable)
+> - tags: List<String> (Default: empty)
 > - updatedCount: long (Default: 0)
 > - status: ItineraryStatus (Enum, default: DRAFT)
 > - createdAt: Timestamp (Not null, auto-generated)
+> - updatedAt: Timestamp (Not null)
 > - user: User (Foreign key)
+> - coverImage: ExternalImage (Foreign key, nullable)
 >
 > *Relationships:*
 > - user: User (Many-to-one relationship)
-> - itineraryDays: One-to-many relationship with ItineraryDay
- 
+> - coverImage: ExternalImage (Many-to-one relationship)
+> - days: One-to-many relationship with ItineraryDay
+
 > ---
 
 > **📅 ItineraryDay**
@@ -95,6 +98,7 @@
 >
 > *Relationships:*
 > - itinerary: Itinerary (Many-to-one relationship)
+> - activities: One-to-many relationship with Activity
 
 > ---
 
@@ -103,8 +107,8 @@
 > Activity entity represents an activity scheduled for a specific day in an itinerary.
 > 
 > - id: Long (Primary key, auto-increment)
-> - activity: String (Not null)
-> - details: String (Nullable)
+> - activity: String (Text, Nullable)
+> - details: String (Text, Nullable)
 > - time: String (Nullable)
 > - duration: String (Nullable)
 > - itineraryDay: ItineraryDay (Foreign key)
@@ -112,28 +116,41 @@
 >
 > *Relationships:*
 > - itineraryDay: ItineraryDay (Many-to-one relationship)
-> - location: Location (Many-to-one relationship)
+> - location: Location (One-to-one relationship)
 
 > ---
 
 > **📍 Location**
 >
-> Location entity represents a geographical location that can be associated with activities.
+> Location entity represents a named location with an address.
 > 
 > - id: Long (Primary key, auto-increment)
-> - name: String (Not null)
-> - latitude: double (Not null)
-> - longitude: double (Not null)
-> - address: String (Nullable)
+> - name: String (Nullable)
+> - address: String (Text, Nullable)
+> - coordinates: GeographicPoint (Foreign key)
 >
 > *Relationships:*
-> - activities: One-to-many relationship with Activity
->
+> - coordinates: GeographicPoint (Many-to-one relationship)
+> - activity: One-to-one relationship with Activity
+
 > ---
+
+> **🌍 GeographicPoint**
 >
+> GeographicPoint entity stores unique latitude and longitude coordinates to be reused across locations.
+> 
+> - id: Long (Primary key, auto-increment)
+> - latitude: Double (Not null)
+> - longitude: Double (Not null)
+>
+> *Relationships:*
+> - locations: One-to-many relationship with Location
+
+> ---
+
 > **🔔 Notification**
 >
-> Notification entity stores user alerts and messages for the notification center.
+> Notification entity stores user alerts and messages for the notification center. This entity belongs to the Notification Service.
 >
 > - id: Long (Primary key, auto-increment)
 > - username: String (Not null)
@@ -143,9 +160,9 @@
 >
 > *Relationships:*
 > - Linked to User via `username` (Loose coupling)
->
+
 > ---
->
+
 > **🖼️ ExternalImage**
 >
 > Stores metadata about images fetched from external APIs (Unsplash) to cache results and attribute authors.
@@ -156,9 +173,9 @@
 > - altDescription: String (Not null)
 > - authorUsername: String (Not null)
 > - createdAt: LocalDate (Not null, auto-generated)
->
+
 > ---
->
+
 > **🚦 AIUsage**
 >
 > Tracks the daily usage of AI generation per user for rate limiting purposes.
@@ -170,12 +187,13 @@
 >
 > *Relationships:*
 > - user: User (Many-to-one relationship)
-
 > ---
 
 > **🗺️ Database Diagram**
 >
 > ![Database Diagram](/docs/assets/db-diagram.svg)
+> 
+> *Note: The diagram above may not reflect the latest schema changes (e.g., removal of UserPreferences, addition of GeographicPoints). Please refer to the entities section above for the authoritative structure.*
 
 ---
 
@@ -205,6 +223,12 @@
 >
 > Users will have the ability to upload and manage their profile pictures.
 
+> ---
+
+> **🖼️ Itinerary Image**
+>
+> Itineraries will automatically fetch images from Unsplash based on the destination.
+
 ---
 
 ### 📶 Complementary Technologies
@@ -233,9 +257,9 @@
 >
 > ---
 >
-> **⏳ Rate Limiting (Token Bucket)**
+> **⏳ Rate Limiting (Daily Quota)**
 >
-> The AI Service implements a Token Bucket algorithm to control the rate of AI generation requests per user, ensuring fair usage and preventing abuse.
+> The AI Service implements a Daily Quota system to control the rate of AI generation requests per user, ensuring fair usage based on their subscription plan.
 
 ---
 

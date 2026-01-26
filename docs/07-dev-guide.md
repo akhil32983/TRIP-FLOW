@@ -36,8 +36,8 @@
 >
 > | Aspect              | Description                                                                                |
 > | ------------------- | ------------------------------------------------------------------------------------------ |
-> | Type                | Progressive Web App (PWA) with a client-server architecture.                               |
-> | Technologies        | React, React Router, TypeScript, Spring Boot, PostgreSQL, OpenRouter API.                  |
+> | Type                | Progressive Web App (PWA) with a client-server architecture (Microservices).               |
+> | Technologies        | React, React Router, TypeScript, Spring Boot, PostgreSQL, Apache Kafka.                    |
 > | Tools               | Visual Studio Code, Git, Docker, Postman.                                                  |
 > | Quality Assurance   | Unit testing (JUnit, Vitest), Integration testing (RestAssured), E2E testing (Playwright). |
 > | Deployment          | TBD                                                                                        |
@@ -84,12 +84,6 @@
 > Distributed event streaming platform used for asynchronous communication between microservices.
 >
 > [Apache Kafka](https://kafka.apache.org/)
->
-> _🤖 OpenRouter API_
->
-> AI service that provides free access to various AI models for itinerary generation and optimization.
->
-> [OpenRouter](https://openrouter.ai/)
 
 > ---
 
@@ -172,6 +166,14 @@
 ---
 
 ### 🏗️ Architecture
+
+> **🪐 System Architecture Overview**
+>
+> Here is a high-level overview of the main components and their relationships in the TripFlow application.
+>
+> ![System Architecture Diagram](/docs/diagrams/png/system-architecture.png)
+
+> ---
 
 > **💈 Domain Model Overview**
 > 
@@ -434,22 +436,23 @@
 >
 > - `tag` (required): Docker image tag to use
 > - `compose_file` (required): Path to docker-compose file
-> - `services` (required): JSON array of services to build (e.g., `["backend","frontend"]`)
+> - `services` (required): JSON array of services to build paths (e.g., `["backend/api-service", "frontend"]`)
 >
 > *Build and Publish Process:*
 >
 > - 🔐 Authenticates with DockerHub using secrets
 > - 🏗️ Matrix strategy builds multiple services in parallel
-> - 🐳 Builds Docker images for each service:
->   - Context: `./<service>` directory
->   - Dockerfile: `./<service>/Dockerfile`
->   - Tag: `docker.io/cub1z/tripflow-<service>:<tag>`
-> - 📦 Installs ORAS CLI (v1.3.0) for OCI artifact publishing
-> - 📤 Publishes docker-compose as OCI artifact:
->   - Compresses compose file to `.tar.gz`
+> - 🏷️ **Dynamic Naming:**
+>   - Computes image suffix from service path (e.g., `backend/api-service` → `api-service`)
+>   - Sanitizes names to lowercase and standard format
+> - 🐳 **Build & Push:**
+>   - Context: Auto-detected (`./frontend` or `./backend`)
+>   - Dockerfile: `./<service_path>/Dockerfile`
+>   - Tag: `docker.io/cub1z/tripflow-<suffix>:<tag>`
+> - 📤 **Publish Compose Artifact:**
+>   - Uses native `docker compose publish`
 >   - Pushes to: `docker.io/cub1z/tripflow-compose:<tag>`
->   - Artifact type: `application/vnd.docker.compose.manifest.v1+yaml`
->   - Only executed once (on first service in matrix)
+>   - Optimized: Only executed once per workflow run
 
 > ---
 
@@ -528,24 +531,27 @@
 >
 > _Docker Compose Files:_
 >
-> | File                         | Purpose                    | Image Tag |
-> | ---------------------------- | -------------------------- | --------- |
-> | `docker-compose.yaml`        | Production deployment      | `0.1`     |
-> | `docker-compose-dev.yaml`    | Development deployment     | `dev`     |
-> | `docker-compose.test.yaml`   | Local testing environment  | `build`   |
+> | File                         | Purpose                        | Image Source    |
+> | ---------------------------- | ------------------------------ | --------------- |
+> | `docker-compose.yaml`        | Production deployment          | `0.1` (Hub)     |
+> | `docker-compose.dev.yaml`    | Development deployment         | `dev` (Hub)     |
+> | `docker-compose.local.yaml`  | Local full stack dev           | `build` (Local) |
+> | `docker-compose.test.yaml`   | E2E Testing environment        | `build` (Local) |
+> | `docker-compose.infra.yaml`  | Infrastructure only (DB, Kafka)| Official Images |
 >
 > _DockerHub Repository Structure:_
 >
 > ```
-> cub1z/tripflow-backend
-> ├── 0.1.0 (release version)
-> ├── latest (points to latest release)
-> └── dev (development/unstable)
->
+> cub1z/tripflow-api-service
+> cub1z/tripflow-ai-service
+> cub1z/tripflow-notification-service
 > cub1z/tripflow-frontend
 > ├── 0.1.0 (release version)
 > ├── latest (points to latest release)
 > └── dev (development/unstable)
+>
+> cub1z/tripflow-compose (OCI Artifact)
+> └── contains docker-compose.yaml with service references
 > ```
 
 > ---
@@ -562,18 +568,21 @@
 >
 > _DockerHub:_
 >
-> - Backend image: `cub1z/tripflow-backend:0.1.0`
-> - Frontend image: `cub1z/tripflow-frontend:0.1.0`
-> - Docker compose OCI artifact: `cub1z/tripflow-compose:0.1`
+> - API Service image: `cub1z/tripflow-api-service:tag`
+> - AI Service image: `cub1z/tripflow-ai-service:tag`
+> - Notification Service image: `cub1z/tripflow-notification-service:tag`
+> - Frontend image: `cub1z/tripflow-frontend:tag`
+> - Docker compose OCI artifact: `cub1z/tripflow-compose:tag`
 > - Latest tags updated to point to the new release
 
 > ---
 
 > **📊 Release History**
 >
-> | Version | Release Date | Highlights                                    |
-> | ------- | ------------ | --------------------------------------------- |
-> | 0.1.0   | 15 nov 2025  | Initial MVP release with core functionality   |
+> | Version | Release Date | Highlights                                     |
+> | ------- | ------------ | ---------------------------------------------- |
+> | 0.1.0   | 15 nov 2025  | Initial MVP release with core functionality    |
+> | 0.2.0   |     TBD      | Advanced features such as AI and notifications |
 
 ---
 
