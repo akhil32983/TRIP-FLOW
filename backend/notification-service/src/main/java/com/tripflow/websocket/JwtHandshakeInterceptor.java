@@ -36,12 +36,13 @@ public class JwtHandshakeInterceptor implements HandshakeInterceptor {
                         if (jwtUtils.isTokenValid(token)) {
                             String username = jwtUtils.getUsername(token);
                             attributes.put("username", username);
+                            return true;
                         }
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 
     @Override

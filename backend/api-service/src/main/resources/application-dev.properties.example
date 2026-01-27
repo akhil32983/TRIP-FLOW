@@ -4,7 +4,7 @@
 # application-dev.properties is in .gitignore and won't be committed
 
 # CORS Configuration
-origins.frontend=http://localhost:5173
+origins.frontend=http://localhost
 
 # JWT Configuration
 jwt.secret=your-jwt-secret-here

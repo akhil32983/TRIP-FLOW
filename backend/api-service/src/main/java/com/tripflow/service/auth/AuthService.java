@@ -2,6 +2,9 @@ package com.tripflow.service.auth;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,7 +32,6 @@ import com.tripflow.service.KafkaService;
 import com.tripflow.service.UserService;
 
 import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Service
@@ -40,6 +42,15 @@ public class AuthService {
     private final UserService userService;
     private final AuthValidator authValidator;
     private final KafkaService kafkaService;
+
+    @Value("${cookie.domain}")
+    private String cookieDomain;
+
+    @Value("${cookie.secure}")
+    private boolean cookieSecure;
+
+    @Value("${cookie.same-site}")
+    private String cookieSameSite;
 
     public AuthService(
         AuthenticationManager authenticationManager, UserDetailsService userDetailsService,
@@ -261,8 +272,8 @@ public class AuthService {
     public AuthResponse logout(HttpServletResponse response) {
         SecurityContextHolder.clearContext();
 
-        response.addCookie(this.removeTokenFromCookie(TokenType.AUTH_TOKEN));
-        response.addCookie(this.removeTokenFromCookie(TokenType.REFRESH_TOKEN));
+        response.addHeader(HttpHeaders.SET_COOKIE, this.removeTokenFromCookie(TokenType.AUTH_TOKEN).toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, this.removeTokenFromCookie(TokenType.REFRESH_TOKEN).toString());
 
         return new AuthResponse(
             AuthStatus.SUCCESS,
@@ -289,7 +300,10 @@ public class AuthService {
             String newAuthToken = this.jwtTokenProvider.generateAuthToken(userDetails);
 
             // Add the new auth token to the response as a Read-Only Cookie
-            response.addCookie(this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken));
+            response.addHeader(
+                HttpHeaders.SET_COOKIE,
+                this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken).toString()
+            );
 
             // Retrieve public user information
             PublicUserDTO publicUser = this.userService.getPublicUserByUsername(username);
@@ -312,20 +326,34 @@ public class AuthService {
 
     // [Private Methods] ================================================================
 
-    private Cookie buildTokenCookie(TokenType type, String token) {
-        Cookie cookie = new Cookie(type.getCookieName(), token);
-        cookie.setMaxAge((int) type.getDuration().getSeconds());
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        return cookie;
+    private ResponseCookie buildTokenCookie(TokenType type, String token) {
+        ResponseCookie.ResponseCookieBuilder builder = ResponseCookie.from(type.getCookieName(), token)
+            .maxAge((int) type.getDuration().getSeconds())
+            .httpOnly(true)
+            .path("/")
+            .secure(this.cookieSecure)
+            .sameSite(this.cookieSameSite);
+
+        if (this.cookieDomain != null && !this.cookieDomain.isEmpty()) {
+            builder.domain(this.cookieDomain);
+        }
+
+        return builder.build();
     }
 
-    private Cookie removeTokenFromCookie(TokenType type) {
-        Cookie cookie = new Cookie(type.getCookieName(), "");
-        cookie.setMaxAge(0);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        return cookie;
+    private ResponseCookie removeTokenFromCookie(TokenType type) {
+        ResponseCookie.ResponseCookieBuilder builder = ResponseCookie.from(type.getCookieName(), "")
+            .maxAge(0)
+            .httpOnly(true)
+            .path("/")
+            .secure(this.cookieSecure)
+            .sameSite(this.cookieSameSite);
+
+        if (this.cookieDomain != null && !this.cookieDomain.isEmpty()) {
+            builder.domain(this.cookieDomain);
+        }
+
+        return builder.build();
     }
 
     private void sendVerificationEmail(String email) {
@@ -342,7 +370,10 @@ public class AuthService {
         String newAuthToken = this.jwtTokenProvider.generateAuthToken(userDetails);
         String newRefreshToken = this.jwtTokenProvider.generateRefreshToken(userDetails);
 
-        response.addCookie(this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken));
-        response.addCookie(this.buildTokenCookie(TokenType.REFRESH_TOKEN, newRefreshToken));
+        ResponseCookie authCookie = this.buildTokenCookie(TokenType.AUTH_TOKEN, newAuthToken);
+        ResponseCookie refreshCookie = this.buildTokenCookie(TokenType.REFRESH_TOKEN, newRefreshToken);
+
+        response.addHeader(HttpHeaders.SET_COOKIE, authCookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
     }
 }

@@ -20,7 +20,7 @@ public class StompAuthChannelInterceptor implements ChannelInterceptor {
             if (username != null) {
                 accessor.setUser(new UsernamePasswordAuthenticationToken(username, null, null));
             } else {
-                throw new IllegalArgumentException("No valid JWT found in cookie");
+                return null;
             }
         }
 

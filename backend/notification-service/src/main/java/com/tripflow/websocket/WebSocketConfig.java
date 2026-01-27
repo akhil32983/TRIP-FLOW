@@ -35,7 +35,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws/notifications")
-            .setAllowedOrigins("*")
+            .setAllowedOriginPatterns(
+                "https://tripflow.cub1z.es",
+                "https://*.cub1z.es",
+                "http://localhost:*"
+            )
             .addInterceptors(handshakeInterceptor);
     }
 
