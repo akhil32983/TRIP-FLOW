@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AIGenerationListener.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TripFlow API Service</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.consumer</a> &gt; <span class="el_source">AIGenerationListener.java</span></div><h1>AIGenerationListener.java</h1><pre class="source lang-java linenums">package com.tripflow.consumer;
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+import com.tripflow.dto.notification.NotificationTypeDTO;
+import com.tripflow.kafka.messages.AIGenerationMessage;
+import com.tripflow.kafka.messages.NotificationMessage;
+import com.tripflow.service.KafkaService;
+import com.tripflow.service.ai.AIService;
+import com.tripflow.service.itinerary.ItineraryService;
+
+@Component
+public class AIGenerationListener {
+    private final ItineraryService itineraryService;
+    private final AIService aiService;
+    private final KafkaService kafkaService;
+
+    public AIGenerationListener(
+        ItineraryService itineraryService,
+        AIService aiService, KafkaService kafkaService
+<span class="fc" id="L22">    ) {</span>
+<span class="fc" id="L23">        this.itineraryService = itineraryService;</span>
+<span class="fc" id="L24">        this.aiService = aiService;</span>
+<span class="fc" id="L25">        this.kafkaService = kafkaService;</span>
+<span class="fc" id="L26">    }</span>
+    
+    @KafkaListener(
+        topics = &quot;ai-generation&quot;,
+        groupId = &quot;api-service-group&quot;,
+        containerFactory = &quot;aiGenerationFactory&quot;
+    )
+    public void consume(AIGenerationMessage message) {
+<span class="nc" id="L34">        String username = message.username();</span>
+<span class="nc" id="L35">        boolean result = this.itineraryService.processGeneratedItinerary(message);</span>
+        
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (result) {</span>
+<span class="nc" id="L38">            this.kafkaService.sendNotificationMessage(</span>
+                new NotificationMessage(
+                    username,
+                    &quot;Your AI generated itinerary is ready!&quot;,
+                    NotificationTypeDTO.ITINERARY_GENERATED
+                )
+            );
+        } else {
+<span class="nc" id="L46">            this.kafkaService.sendNotificationMessage(</span>
+                new NotificationMessage(
+                    username,
+                    &quot;Failed to process your AI generated itinerary.&quot;,
+                    NotificationTypeDTO.ITINERARY_GENERATION_FAILED
+                )
+            );
+        }
+
+<span class="nc" id="L55">        this.aiService.setAIProcessing(username, false);</span>
+<span class="nc" id="L56">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

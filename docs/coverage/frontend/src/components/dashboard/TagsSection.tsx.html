@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>50/50</span>
+                <span class='fraction'>55/55</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/50</span>
+                <span class='fraction'>55/55</span>
             </div>
         
             
@@ -128,7 +128,13 @@
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
 <a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,6 +148,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -154,22 +162,6 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -187,6 +179,26 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
+<span class="cline-any cline-yes">43x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -205,9 +217,11 @@ import Button from "@components/shared/Button";
 interface TagsSectionProps {
     tags: string[];
     onTagsChange: (newTags: string[]) =&gt; void;
+    label?: string;
+    placeholder?: string;
 }
 &nbsp;
-export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
+export default function TagsSection({ tags, onTagsChange, label, placeholder }: TagsSectionProps) {
     const {
         newTag,
         setNewTag,
@@ -219,40 +233,44 @@ export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
     return (
         &lt;div className={styles.tagsSection}&gt;
             &lt;label className={styles.tagsLabel} htmlFor="newTagInput"&gt;
-                &lt;Tag size={18} /&gt;
-                Tags (encuentra fácilmente tu itinerario)
+                {label || "Tags"}
             &lt;/label&gt;
 &nbsp;
             &lt;div className={styles.content}&gt;
-                &lt;div className={styles.tagsContainer}&gt;
-                    {tags.map((tag) =&gt; (
-                        &lt;Badge style="semi_thin" title={`#${tag}`} key={tag} action={
-                            &lt;Button
-                                style={["tool", "danger", "wrap"]}
-                                onClick={<span class="fstat-no" title="function not covered" >() =&gt; handleRemoveTag(tag)}</span>
-                                type="button"
-                            &gt;
-                                &lt;X size={16} /&gt;
-                            &lt;/Button&gt;
-                        } /&gt;
-                    ))}
-                &lt;/div&gt;
-&nbsp;
                 &lt;div className={styles.addTagContainer}&gt;
-                    &lt;input
-                        id="newTagInput"
-                        name="newTagInput"
-                        type="text"
-                        value={newTag}
-                        onChange={<span class="fstat-no" title="function not covered" >(e) =&gt; setNewTag(e.target.value)}</span>
-                        placeholder="romántica, aventura, comida..."
-                        onKeyDown={handleTagKeyPress}
-                    /&gt;
+                    &lt;div className={styles.inputWrapper}&gt;
+                        &lt;input
+                            id="newTagInput"
+                            name="newTagInput"
+                            type="text"
+                            value={newTag}
+                            onChange={<span class="fstat-no" title="function not covered" >(e) =&gt; setNewTag(e.target.value)}</span>
+                            placeholder={placeholder || "romántica, aventura, comida..."}
+                            onKeyDown={handleTagKeyPress}
+                        /&gt;
+                        &lt;div className={styles.inputIcon}&gt;
+                            &lt;Tag size={18} /&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
                     &lt;Button
                         onClick={handleAddTag}
                         style={["tool_bordered"]}
                         type="button"
                     &gt;&lt;Plus size={16} /&gt;&lt;/Button&gt;
+                &lt;/div&gt;
+&nbsp;
+                &lt;div className={styles.tagsContainer}&gt;
+                    {tags.map((tag) =&gt; (
+                        &lt;Badge style="semi_thin" title={tag} key={tag} action={
+                            &lt;Button
+                                style={["tool", "danger", "wrap"]}
+                                onClick={<span class="fstat-no" title="function not covered" >() =&gt; handleRemoveTag(tag)}</span>
+                                type="button"
+                            &gt;
+                                &lt;X size={16} color="#FFFFFF"/&gt;
+                            &lt;/Button&gt;
+                        } /&gt;
+                    ))}
                 &lt;/div&gt;
             &lt;/div&gt;
         &lt;/div&gt;
@@ -265,7 +283,7 @@ export default function TagsSection({ tags, onTagsChange }: TagsSectionProps) {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-13T07:36:28.668Z
+                at 2026-01-27T10:13:05.693Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

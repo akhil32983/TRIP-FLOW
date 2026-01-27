@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AIUsageService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TripFlow API Service</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.service.ai</a> &gt; <span class="el_source">AIUsageService.java</span></div><h1>AIUsageService.java</h1><pre class="source lang-java linenums">package com.tripflow.service.ai;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import com.tripflow.dto.ai.AIUsageDTO;
+import com.tripflow.mappers.AIMapper;
+import com.tripflow.model.AIUsage;
+import com.tripflow.model.User;
+import com.tripflow.model.types.PlanType;
+import com.tripflow.repository.AIUsageRepository;
+
+@Service
+public class AIUsageService {
+    private final AIUsageRepository aiUsageRepository;
+    private final AIMapper aiMapper;
+
+<span class="fc" id="L20">    public AIUsageService(AIUsageRepository aiUsageRepository, AIMapper aiMapper) {</span>
+<span class="fc" id="L21">        this.aiUsageRepository = aiUsageRepository;</span>
+<span class="fc" id="L22">        this.aiMapper = aiMapper;</span>
+<span class="fc" id="L23">    }</span>
+
+    /**
+     * Records an AI usage for the given user for today.
+     * 
+     * If an entry for today exists, increments the usage count.
+     * Otherwise, creates a new entry with usage count set to 1.
+     * 
+     * @param user The user for whom to record the AI usage.
+     */
+    public AIUsageDTO recordUsage(User user) {
+<span class="fc" id="L34">        LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L35">        Optional&lt;AIUsage&gt; op = this.aiUsageRepository.findByUserAndDate(user, today);</span>
+
+        AIUsage usage;
+
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (op.isPresent()) {</span>
+<span class="nc" id="L40">            usage = op.get();</span>
+<span class="nc" id="L41">            usage.increment();</span>
+        } else {
+<span class="fc" id="L43">            usage = new AIUsage(user, today, 1);</span>
+        }
+
+<span class="fc" id="L46">        return this.aiMapper.toDTO(this.aiUsageRepository.save(usage));</span>
+    }
+
+    /**
+     * Checks if the user can use AI services based on their daily limit.
+     * 
+     * @param user The user to check.
+     * @return true if the user can use AI services, false otherwise.
+     */
+    public boolean canUseAI(User user) {
+<span class="pc bpc" id="L56" title="1 of 2 branches missed.">        if (user.getProcessingAI()) {</span>
+<span class="nc" id="L57">            return false;</span>
+        }
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        if (user.getPlan().equals(PlanType.PREMIUM)) {</span>
+<span class="nc" id="L61">            return true;</span>
+        }
+
+<span class="fc" id="L64">        LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L65">        Optional&lt;AIUsage&gt; op = this.aiUsageRepository.findByUserAndDate(user, today);</span>
+
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if (op.isPresent()) {</span>
+<span class="nc" id="L68">            AIUsage usage = op.get();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">            return usage.getUsage() &lt; this.getDailyLimit(user);</span>
+        } else {
+<span class="fc" id="L71">            return true;</span>
+        }
+    }
+
+    /**
+     * Retrieves the daily limit for the given user.
+     * 
+     * @param user The user to retrieve the daily limit for.
+     * @return the daily limit for the user
+     */
+    public int getDailyLimit(User user) {
+<span class="fc" id="L82">        return user.getPlan().getDailyLimit();</span>
+    }
+
+    /**
+     * Retrieves the remaining requests for the given user.
+     * 
+     * @param user The user to retrieve the remaining requests for.
+     * @return the remaining requests for the user
+     */
+    public int getRemainingRequests(User user) {
+<span class="fc" id="L92">        LocalDate today = LocalDate.now();</span>
+<span class="fc" id="L93">        Optional&lt;AIUsage&gt; op = this.aiUsageRepository.findByUserAndDate(user, today);</span>
+
+<span class="pc bpc" id="L95" title="1 of 2 branches missed.">        if (op.isPresent()) {</span>
+<span class="nc" id="L96">            AIUsage usage = op.get();</span>
+<span class="nc" id="L97">            return this.getDailyLimit(user) - usage.getUsage();</span>
+        } else {
+<span class="fc" id="L99">            return this.getDailyLimit(user);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

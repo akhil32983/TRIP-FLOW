@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestItineraryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.controller.v1</a> &gt; <span class="el_source">RestItineraryController.java</span></div><h1>RestItineraryController.java</h1><pre class="source lang-java linenums">package com.tripflow.controller.v1;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestItineraryController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TripFlow API Service</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.controller.v1</a> &gt; <span class="el_source">RestItineraryController.java</span></div><h1>RestItineraryController.java</h1><pre class="source lang-java linenums">package com.tripflow.controller.v1;
 
 import java.net.URI;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
@@ -22,78 +22,116 @@ import com.tripflow.dto.itinerary.ItineraryDTO;
 import com.tripflow.dto.shared.PaginatedDTO;
 import com.tripflow.service.itinerary.ItineraryService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(&quot;/api/v1/itineraries&quot;)
+@Tag(name = &quot;Itinerary Management&quot;, description = &quot;Endpoints for managing itineraries&quot;)
 public class RestItineraryController {
     private final ItineraryService itineraryService;
 
-<span class="fc" id="L30">    public RestItineraryController(ItineraryService itineraryService) {</span>
-<span class="fc" id="L31">        this.itineraryService = itineraryService;</span>
-<span class="fc" id="L32">    }</span>
+<span class="fc" id="L37">    public RestItineraryController(ItineraryService itineraryService) {</span>
+<span class="fc" id="L38">        this.itineraryService = itineraryService;</span>
+<span class="fc" id="L39">    }</span>
 
     @PostMapping({&quot;&quot;, &quot;/&quot;})
-    public ResponseEntity&lt;ExtendedItineraryDTO&gt; createItinerary(@RequestBody ExtendedItineraryDTO itineraryDTO) {
-        try {
-<span class="fc" id="L37">            ExtendedItineraryDTO createdItinerary = this.itineraryService.createItinerary(itineraryDTO);</span>
-<span class="fc" id="L38">            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(&quot;/{id}&quot;)</span>
-<span class="fc" id="L39">                .buildAndExpand(createdItinerary.id()).toUri();</span>
+    @Operation(
+        summary = &quot;Create Itinerary&quot;,
+        description = &quot;Creates a new itinerary for the authenticated user.&quot;,
+        security = @SecurityRequirement(name = &quot;auth_token&quot;)
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Itinerary created successfully&quot;),
+        @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid itinerary data provided&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized access&quot;)
+    })
+    public ResponseEntity&lt;ExtendedItineraryDTO&gt; createItinerary(@RequestBody ExtendedItineraryDTO itineraryDTO) throws Exception {
+<span class="fc" id="L53">        ExtendedItineraryDTO createdItinerary = this.itineraryService.createItinerary(itineraryDTO);</span>
+<span class="fc" id="L54">        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(&quot;/{id}&quot;)</span>
+<span class="fc" id="L55">            .buildAndExpand(createdItinerary.id()).toUri();</span>
 
-<span class="fc" id="L41">            return ResponseEntity.created(location).body(createdItinerary);</span>
-<span class="nc" id="L42">        } catch (Exception e) {</span>
-<span class="nc" id="L43">            return ResponseEntity.badRequest().build();</span>
-        }
+<span class="fc" id="L57">        return ResponseEntity.created(location).body(createdItinerary);</span>
     }
 
     @GetMapping({&quot;&quot;, &quot;/&quot;})
+    @Operation(
+        summary = &quot;Get All Itineraries&quot;,
+        description = &quot;Retrieves a paginated list of itineraries for the authenticated user.&quot;,
+        security = @SecurityRequirement(name = &quot;auth_token&quot;)
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Itineraries retrieved successfully&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized access&quot;),
+        @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+    })
     public ResponseEntity&lt;PaginatedDTO&lt;ItineraryDTO&gt;&gt; getAllItineraries(
         @PageableDefault(page = 0, size = 10) Pageable pageable,
         @RequestParam(required = false) String search
-    ) {
-        try {
-<span class="fc" id="L53">            PaginatedDTO&lt;ItineraryDTO&gt; itineraries = this.itineraryService.getAllItineraries(pageable, search);</span>
-<span class="fc" id="L54">            return ResponseEntity.ok(itineraries);</span>
-<span class="nc" id="L55">        } catch (Exception e) {</span>
-<span class="nc" id="L56">            return ResponseEntity.internalServerError().build();</span>
-        }
+    ) throws Exception {
+<span class="fc" id="L75">        PaginatedDTO&lt;ItineraryDTO&gt; itineraries = this.itineraryService.getAllItineraries(pageable, search);</span>
+<span class="fc" id="L76">        return ResponseEntity.ok(itineraries);</span>
     }
 
     @GetMapping(&quot;/{id}&quot;)
-    public ResponseEntity&lt;ExtendedItineraryDTO&gt; getItineraryById(@PathVariable Long id) {
-        try {
-<span class="fc" id="L63">            ExtendedItineraryDTO itinerary = this.itineraryService.getItineraryById(id);</span>
-<span class="fc" id="L64">            return ResponseEntity.ok(itinerary);</span>
-<span class="fc" id="L65">        } catch (ResponseStatusException e) {</span>
-<span class="fc" id="L66">            return ResponseEntity.status(e.getStatusCode()).body(null);</span>
-<span class="nc" id="L67">        } catch (Exception e) {</span>
-<span class="nc" id="L68">            return ResponseEntity.internalServerError().build();</span>
-        }
+    @Operation(
+        summary = &quot;Get Itinerary by ID&quot;,
+        description = &quot;Retrieves the details of a specific itinerary by its ID for the authenticated user.&quot;,
+        security = @SecurityRequirement(name = &quot;auth_token&quot;)
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Itinerary retrieved successfully&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized access&quot;),
+        @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Itinerary not found&quot;),
+        @ApiResponse(responseCode = &quot;403&quot;, description = &quot;Access to the itinerary is forbidden&quot;),
+        @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+    })
+    public ResponseEntity&lt;ExtendedItineraryDTO&gt; getItineraryById(@PathVariable Long id) throws Exception {
+<span class="fc" id="L93">        ExtendedItineraryDTO itinerary = this.itineraryService.getItineraryById(id);</span>
+<span class="fc" id="L94">        return ResponseEntity.ok(itinerary);</span>
     }
 
     @PutMapping(&quot;/{id}&quot;)
+    @Operation(
+        summary = &quot;Update Itinerary&quot;,
+        description = &quot;Updates an existing itinerary for the authenticated user.&quot;,
+        security = @SecurityRequirement(name = &quot;auth_token&quot;)
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Itinerary updated successfully&quot;),
+        @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Invalid itinerary data provided&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized access&quot;),
+        @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Itinerary not found&quot;),
+        @ApiResponse(responseCode = &quot;403&quot;, description = &quot;Access to the itinerary is forbidden&quot;),
+        @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+    })
     public ResponseEntity&lt;ExtendedItineraryDTO&gt; updateItinerary(
         @PathVariable Long id, @RequestBody ExtendedItineraryDTO itineraryDTO
-    ) {
-        try {
-<span class="fc" id="L77">            ExtendedItineraryDTO updatedItinerary = this.itineraryService.updateItinerary(id, itineraryDTO);</span>
+    ) throws Exception {
+<span class="fc" id="L114">        ExtendedItineraryDTO updatedItinerary = this.itineraryService.updateItinerary(id, itineraryDTO);</span>
 
-<span class="fc" id="L79">            return ResponseEntity.ok(updatedItinerary);</span>
-<span class="fc" id="L80">        } catch (ResponseStatusException e) {</span>
-<span class="fc" id="L81">            return ResponseEntity.status(e.getStatusCode()).body(null);</span>
-<span class="nc" id="L82">        } catch (Exception e) {</span>
-<span class="nc" id="L83">            return ResponseEntity.internalServerError().build();</span>
-        }
+<span class="fc" id="L116">        return ResponseEntity.ok(updatedItinerary);</span>
     }
 
     @DeleteMapping(&quot;/{id}&quot;)
-    public ResponseEntity&lt;Void&gt; deleteItinerary(@PathVariable Long id) {
-        try {
-<span class="fc" id="L90">            this.itineraryService.deleteItinerary(id);</span>
-<span class="fc" id="L91">            return ResponseEntity.noContent().build();</span>
-<span class="fc" id="L92">        } catch (ResponseStatusException e) {</span>
-<span class="fc" id="L93">            return ResponseEntity.status(e.getStatusCode()).build();</span>
-<span class="nc" id="L94">        } catch (Exception e) {</span>
-<span class="nc" id="L95">            return ResponseEntity.internalServerError().build();</span>
-        }
+    @Operation(
+        summary = &quot;Delete Itinerary&quot;,
+        description = &quot;Deletes an existing itinerary for the authenticated user.&quot;,
+        security = @SecurityRequirement(name = &quot;auth_token&quot;)
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;204&quot;, description = &quot;Itinerary deleted successfully&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorized access&quot;),
+        @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Itinerary not found&quot;),
+        @ApiResponse(responseCode = &quot;403&quot;, description = &quot;Access to the itinerary is forbidden&quot;),
+        @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error&quot;)
+    })
+    public ResponseEntity&lt;Void&gt; deleteItinerary(@PathVariable Long id) throws Exception {
+<span class="fc" id="L133">        this.itineraryService.deleteItinerary(id);</span>
+<span class="fc" id="L134">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

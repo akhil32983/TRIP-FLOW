@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>44/48</span>
+                <span class='fraction'>39/39</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88.88% </span>
+                <span class="strong">90% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>8/9</span>
+                <span class='fraction'>9/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>2/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>44/48</span>
+                <span class='fraction'>39/39</span>
             </div>
         
             
@@ -114,23 +114,11 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a>
-<a name='L61'></a><a href='#L61'>61</a>
-<a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -145,16 +133,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">9x</span>
@@ -174,49 +153,38 @@
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
-<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">17x</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState } from "react";
-import { Navigate, useNavigate, useParams } from "react-router";
+import { Navigate, useParams } from "react-router";
 &nbsp;
 import type { ExtendedItinerary as Itinerary } from "@/types/itinerary";
 &nbsp;
-import { useModal } from "@/hooks/useModal";
-import { deleteItinerary, getItineraryById } from "@/services/itineraryService";
+import { getItineraryById } from "@/services/itineraryService";
 &nbsp;
 import AppLayout from "@/layouts/AppLayout";
 import Loader from "@/components/shared/Loader";
-import Modal from "@/components/shared/Modal";
-import InnerTabHeader from "@components/dashboard/InnerTabHeader";
-import ExtendedItinerary from "@components/dashboard/ExtendedItinerary";
+import InnerTabHeader from "@components/dashboard/headers/InnerTabHeader";
+import ExtendedItinerary from "@/components/dashboard/itineraries/ExtendedItinerary";
+import Button from "@/components/shared/Button";
 &nbsp;
 export default function ItineraryDetailPage() {
     const [itinerary, setItinerary] = useState&lt;Itinerary | null&gt;(null);
     const [isLoading, setIsLoading] = useState(true);
 &nbsp;
-    const navigate = useNavigate();
-    const {isOpen, openModal, closeModal} = useModal();
-    
     const { id } = useParams&lt;{ id: string }&gt;();
     const itineraryId = Number(id);
     if (isNaN(itineraryId)) <span class="branch-0 cbranch-no" title="branch not covered" >return &lt;Navigate to="/itineraries" /&gt;;</span>
-&nbsp;
-    const handleDelete = <span class="fstat-no" title="function not covered" >async () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        await deleteItinerary(itineraryId);</span>
-<span class="cstat-no" title="statement not covered" >        closeModal();</span>
-<span class="cstat-no" title="statement not covered" >        navigate("/itineraries");</span>
-<span class="cstat-no" title="statement not covered" >    };</span>
 &nbsp;
     useEffect(() =&gt; {
         const fetchItinerary = async () =&gt; {
@@ -233,20 +201,19 @@ export default function ItineraryDetailPage() {
 &nbsp;
     return (
         &lt;AppLayout&gt;
-            &lt;InnerTabHeader title={itinerary?.place || "Cargando..."} backUrl="/itineraries" /&gt;
-            {isLoading &amp;&amp; &lt;Loader size={32} variant="dots" /&gt;}
-            {itinerary &amp;&amp; &lt;ExtendedItinerary itinerary={itinerary} onDelete={openModal} /&gt;}
-&nbsp;
-            &lt;Modal
-                isOpen={isOpen}
-                title="Eliminar Itinerario"
-                message="¿Estás seguro de que deseas eliminar este itinerario? Esta acción no se puede deshacer."
-                confirmText="Eliminar"
-                cancelText="Cancelar"
-                onConfirm={handleDelete}
-                onCancel={closeModal}
-                variant="danger"
+            &lt;InnerTabHeader
+                title={itinerary?.title || ""}
+                back={{ url: "/itineraries", label: "Volver" }}
+                right={
+                    &lt;Button
+                        style={["inline"]}
+                        to={`/itineraries/${itinerary?.id}/edit`}
+                        label="Editar"
+                    /&gt;
+                }
             /&gt;
+            {isLoading &amp;&amp; &lt;Loader size={32} variant="dots" /&gt;}
+            {itinerary &amp;&amp; &lt;ExtendedItinerary itinerary={itinerary} /&gt;}
         &lt;/AppLayout&gt;
     );
 }</pre></td></tr></table></pre>
@@ -256,7 +223,7 @@ export default function ItineraryDetailPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-13T07:36:28.668Z
+                at 2026-01-27T10:13:05.693Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

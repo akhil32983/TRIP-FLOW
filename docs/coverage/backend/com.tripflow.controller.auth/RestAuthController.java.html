@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestAuthController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">tripflow</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.controller.auth</a> &gt; <span class="el_source">RestAuthController.java</span></div><h1>RestAuthController.java</h1><pre class="source lang-java linenums">package com.tripflow.controller.auth;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestAuthController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TripFlow API Service</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.controller.auth</a> &gt; <span class="el_source">RestAuthController.java</span></div><h1>RestAuthController.java</h1><pre class="source lang-java linenums">package com.tripflow.controller.auth;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -11,62 +11,137 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tripflow.dto.auth.AuthResponse;
 import com.tripflow.dto.auth.AuthStatus;
 import com.tripflow.dto.auth.LoginRequest;
+import com.tripflow.dto.auth.ResendCodeRequest;
+import com.tripflow.dto.auth.VerifyAccountRequest;
 import com.tripflow.dto.user.RegisterUserRequest;
 import com.tripflow.service.auth.AuthService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(&quot;/api/auth&quot;)
+@Tag(name = &quot;Authentication&quot;, description = &quot;Endpoints for user authentication and authorization&quot;)
 public class RestAuthController {
     private static final String REFRESH_TOKEN_COOKIE_NAME = &quot;refresh_token&quot;;
     private final AuthService authService;
 
-<span class="fc" id="L25">    public RestAuthController(AuthService authService) {</span>
-<span class="fc" id="L26">        this.authService = authService;</span>
-<span class="fc" id="L27">    }</span>
+<span class="fc" id="L32">    public RestAuthController(AuthService authService) {</span>
+<span class="fc" id="L33">        this.authService = authService;</span>
+<span class="fc" id="L34">    }</span>
 
     @PostMapping(&quot;/register&quot;)
+    @Operation(
+        summary = &quot;User Registration Endpoint&quot;,
+        description = &quot;Registers a new user with the provided details.&quot;
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;201&quot;, description = &quot;User registered successfully&quot;),
+        @ApiResponse(responseCode = &quot;400&quot;, description = &quot;User registration failed&quot;)
+    })
     public ResponseEntity&lt;AuthResponse&gt; register(@RequestBody RegisterUserRequest request) {
-<span class="fc" id="L31">        AuthResponse response = authService.register(request);</span>
-<span class="fc bfc" id="L32" title="All 2 branches covered.">        HttpStatusCode status = response.status() == AuthStatus.FAILURE</span>
-<span class="fc" id="L33">            ? HttpStatusCode.valueOf(400)</span>
-<span class="fc" id="L34">            : HttpStatusCode.valueOf(201);</span>
+<span class="fc" id="L46">        AuthResponse response = authService.register(request);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        HttpStatusCode status = response.status() == AuthStatus.FAILURE</span>
+<span class="fc" id="L48">            ? HttpStatusCode.valueOf(400)</span>
+<span class="fc" id="L49">            : HttpStatusCode.valueOf(201);</span>
 
-<span class="fc" id="L36">        return ResponseEntity.status(status).body(response);</span>
+<span class="fc" id="L51">        return ResponseEntity.status(status).body(response);</span>
+    }
+
+    @PostMapping(&quot;/verify&quot;)
+    @Operation(
+        summary = &quot;Account Verification Endpoint&quot;,
+        description = &quot;Verifies a user account using the provided code.&quot;
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Account verified successfully&quot;),
+        @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Account verification failed&quot;)
+    })
+    public ResponseEntity&lt;AuthResponse&gt; verify(HttpServletResponse response, @RequestBody VerifyAccountRequest request) {
+<span class="nc" id="L64">        AuthResponse authResponse = authService.verify(response, request);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
+<span class="nc" id="L66">            ? HttpStatusCode.valueOf(400)</span>
+<span class="nc" id="L67">            : HttpStatusCode.valueOf(200);</span>
+
+<span class="nc" id="L69">        return ResponseEntity.status(status).body(authResponse);</span>
+    }
+
+    @PostMapping(&quot;/resend-code&quot;)
+    @Operation(
+        summary = &quot;Resend Verification Code&quot;,
+        description = &quot;Resends the verification code to the user's email.&quot;
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Verification code sent successfully&quot;),
+        @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Failed to resend verification code&quot;)
+    })
+    public ResponseEntity&lt;AuthResponse&gt; resendCode(@RequestBody ResendCodeRequest request) {
+<span class="nc" id="L82">        AuthResponse response = authService.resendVerificationCode(request.username());</span>
+<span class="nc bnc" id="L83" title="All 2 branches missed.">        HttpStatusCode status = response.status() == AuthStatus.FAILURE</span>
+<span class="nc" id="L84">            ? HttpStatusCode.valueOf(400)</span>
+<span class="nc" id="L85">            : HttpStatusCode.valueOf(200);</span>
+
+<span class="nc" id="L87">        return ResponseEntity.status(status).body(response);</span>
     }
 
     @PostMapping(&quot;/login&quot;)
+    @Operation(
+        summary = &quot;User Login Endpoint&quot;,
+        description = &quot;Authenticates a user and initiates a session.&quot;
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;User logged in successfully&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;User login failed&quot;)
+    })
     public ResponseEntity&lt;AuthResponse&gt; login(HttpServletResponse response, @RequestBody LoginRequest request) {
-<span class="fc" id="L41">        AuthResponse authResponse = authService.login(response, request);</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
-<span class="fc" id="L43">            ? HttpStatusCode.valueOf(401)</span>
-<span class="fc" id="L44">            : HttpStatusCode.valueOf(200);</span>
+<span class="fc" id="L100">        AuthResponse authResponse = authService.login(response, request);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
+<span class="fc" id="L102">            ? HttpStatusCode.valueOf(401)</span>
+<span class="fc" id="L103">            : HttpStatusCode.valueOf(200);</span>
         
-<span class="fc" id="L46">        return ResponseEntity.status(status).body(authResponse);</span>
+<span class="fc" id="L105">        return ResponseEntity.status(status).body(authResponse);</span>
     }
 
     @PostMapping(&quot;/logout&quot;)
+    @Operation(
+        summary = &quot;User Logout Endpoint&quot;,
+        description = &quot;Logs out the authenticated user and terminates the session.&quot;
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;User logged out successfully&quot;),
+        @ApiResponse(responseCode = &quot;400&quot;, description = &quot;User logout failed&quot;)
+    })
     public ResponseEntity&lt;AuthResponse&gt; logout(HttpServletResponse response) {
-<span class="fc" id="L51">        AuthResponse authResponse = authService.logout(response);</span>
-<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
-<span class="nc" id="L53">            ? HttpStatusCode.valueOf(400)</span>
-<span class="fc" id="L54">            : HttpStatusCode.valueOf(200);</span>
+<span class="fc" id="L118">        AuthResponse authResponse = authService.logout(response);</span>
+<span class="pc bpc" id="L119" title="1 of 2 branches missed.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
+<span class="nc" id="L120">            ? HttpStatusCode.valueOf(400)</span>
+<span class="fc" id="L121">            : HttpStatusCode.valueOf(200);</span>
         
-<span class="fc" id="L56">        return ResponseEntity.status(status).body(authResponse);</span>
+<span class="fc" id="L123">        return ResponseEntity.status(status).body(authResponse);</span>
     }
 
     @PostMapping(&quot;/refresh&quot;)
+    @Operation(
+        summary = &quot;Token Refresh Endpoint&quot;,
+        description = &quot;Refreshes the authentication token using a valid refresh token.&quot;
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Token refreshed successfully&quot;),
+        @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Token refresh failed&quot;)
+    })
     public ResponseEntity&lt;AuthResponse&gt; refresh(
         HttpServletResponse response,
         @CookieValue(name = REFRESH_TOKEN_COOKIE_NAME, required = true) String refreshToken
     ) {
-<span class="fc" id="L64">        AuthResponse authResponse = authService.refresh(response, refreshToken);</span>
-<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
-<span class="nc" id="L66">            ? HttpStatusCode.valueOf(401)</span>
-<span class="fc" id="L67">            : HttpStatusCode.valueOf(200);</span>
+<span class="fc" id="L139">        AuthResponse authResponse = authService.refresh(response, refreshToken);</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">        HttpStatusCode status = authResponse.status() == AuthStatus.FAILURE</span>
+<span class="nc" id="L141">            ? HttpStatusCode.valueOf(401)</span>
+<span class="fc" id="L142">            : HttpStatusCode.valueOf(200);</span>
         
-<span class="fc" id="L69">        return ResponseEntity.status(status).body(authResponse);</span>
+<span class="fc" id="L144">        return ResponseEntity.status(status).body(authResponse);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

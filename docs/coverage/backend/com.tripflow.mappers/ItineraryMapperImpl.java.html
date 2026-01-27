@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItineraryMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TripFlow API Service</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.mappers</a> &gt; <span class="el_source">ItineraryMapperImpl.java</span></div><h1>ItineraryMapperImpl.java</h1><pre class="source lang-java linenums">package com.tripflow.mappers;
+
+import com.tripflow.dto.externalImage.ExternalImageDTO;
+import com.tripflow.dto.itinerary.ActivityDTO;
+import com.tripflow.dto.itinerary.CoordinatesDTO;
+import com.tripflow.dto.itinerary.ExtendedItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDTO;
+import com.tripflow.dto.itinerary.ItineraryDayDTO;
+import com.tripflow.dto.itinerary.ItineraryStatusDTO;
+import com.tripflow.dto.itinerary.LocationDTO;
+import com.tripflow.model.ExternalImage;
+import com.tripflow.model.itinerary.Activity;
+import com.tripflow.model.itinerary.Itinerary;
+import com.tripflow.model.itinerary.ItineraryDay;
+import com.tripflow.model.itinerary.Location;
+import com.tripflow.model.types.ItineraryStatus;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2026-01-27T11:10:43+0100&quot;,
+    comments = &quot;version: 1.6.3, compiler: javac, environment: Java 21.0.7 (Oracle Corporation)&quot;
+)
+@Component
+<span class="fc" id="L28">public class ItineraryMapperImpl implements ItineraryMapper {</span>
+
+    @Override
+    public ItineraryDTO toDTO(Itinerary itinerary) {
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">        if ( itinerary == null ) {</span>
+<span class="nc" id="L33">            return null;</span>
+        }
+
+<span class="fc" id="L36">        ExternalImageDTO coverImage = null;</span>
+<span class="fc" id="L37">        Long id = null;</span>
+<span class="fc" id="L38">        String title = null;</span>
+<span class="fc" id="L39">        String place = null;</span>
+<span class="fc" id="L40">        int people = 0;</span>
+<span class="fc" id="L41">        double budget = 0.0d;</span>
+<span class="fc" id="L42">        String date = null;</span>
+<span class="fc" id="L43">        List&lt;String&gt; tags = null;</span>
+<span class="fc" id="L44">        Long updatedCount = null;</span>
+<span class="fc" id="L45">        ItineraryStatusDTO status = null;</span>
+
+<span class="fc" id="L47">        coverImage = externalImageToExternalImageDTO( itinerary.getCoverImage() );</span>
+<span class="fc" id="L48">        id = itinerary.getId();</span>
+<span class="fc" id="L49">        title = itinerary.getTitle();</span>
+<span class="fc" id="L50">        place = itinerary.getPlace();</span>
+<span class="fc" id="L51">        people = itinerary.getPeople();</span>
+<span class="fc" id="L52">        budget = itinerary.getBudget();</span>
+<span class="fc" id="L53">        date = itinerary.getDate();</span>
+<span class="fc" id="L54">        List&lt;String&gt; list = itinerary.getTags();</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">        if ( list != null ) {</span>
+<span class="fc" id="L56">            tags = new ArrayList&lt;String&gt;( list );</span>
+        }
+<span class="fc" id="L58">        updatedCount = itinerary.getUpdatedCount();</span>
+<span class="fc" id="L59">        status = itineraryStatusToItineraryStatusDTO( itinerary.getStatus() );</span>
+
+<span class="fc" id="L61">        int countDays = itinerary.getDays().size();</span>
+
+<span class="fc" id="L63">        ItineraryDTO itineraryDTO = new ItineraryDTO( id, title, place, people, budget, date, countDays, tags, updatedCount, status, coverImage );</span>
+
+<span class="fc" id="L65">        return itineraryDTO;</span>
+    }
+
+    @Override
+    public ExtendedItineraryDTO toExtendedDTO(Itinerary itinerary) {
+<span class="pc bpc" id="L70" title="1 of 2 branches missed.">        if ( itinerary == null ) {</span>
+<span class="nc" id="L71">            return null;</span>
+        }
+
+<span class="fc" id="L74">        ExternalImageDTO coverImage = null;</span>
+<span class="fc" id="L75">        Long id = null;</span>
+<span class="fc" id="L76">        String title = null;</span>
+<span class="fc" id="L77">        String place = null;</span>
+<span class="fc" id="L78">        int people = 0;</span>
+<span class="fc" id="L79">        double budget = 0.0d;</span>
+<span class="fc" id="L80">        String date = null;</span>
+<span class="fc" id="L81">        List&lt;String&gt; tags = null;</span>
+<span class="fc" id="L82">        Long updatedCount = null;</span>
+<span class="fc" id="L83">        ItineraryStatusDTO status = null;</span>
+<span class="fc" id="L84">        List&lt;ItineraryDayDTO&gt; days = null;</span>
+
+<span class="fc" id="L86">        coverImage = externalImageToExternalImageDTO( itinerary.getCoverImage() );</span>
+<span class="fc" id="L87">        id = itinerary.getId();</span>
+<span class="fc" id="L88">        title = itinerary.getTitle();</span>
+<span class="fc" id="L89">        place = itinerary.getPlace();</span>
+<span class="fc" id="L90">        people = itinerary.getPeople();</span>
+<span class="fc" id="L91">        budget = itinerary.getBudget();</span>
+<span class="fc" id="L92">        date = itinerary.getDate();</span>
+<span class="fc" id="L93">        List&lt;String&gt; list = itinerary.getTags();</span>
+<span class="pc bpc" id="L94" title="1 of 2 branches missed.">        if ( list != null ) {</span>
+<span class="fc" id="L95">            tags = new ArrayList&lt;String&gt;( list );</span>
+        }
+<span class="fc" id="L97">        updatedCount = itinerary.getUpdatedCount();</span>
+<span class="fc" id="L98">        status = itineraryStatusToItineraryStatusDTO( itinerary.getStatus() );</span>
+<span class="fc" id="L99">        days = toItineraryDayDTOs( itinerary.getDays() );</span>
+
+<span class="fc" id="L101">        int countDays = itinerary.getDays().size();</span>
+
+<span class="fc" id="L103">        ExtendedItineraryDTO extendedItineraryDTO = new ExtendedItineraryDTO( id, title, place, people, budget, date, tags, updatedCount, status, days, countDays, coverImage );</span>
+
+<span class="fc" id="L105">        return extendedItineraryDTO;</span>
+    }
+
+    @Override
+    public List&lt;ItineraryDTO&gt; toDTOs(List&lt;Itinerary&gt; itineraries) {
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">        if ( itineraries == null ) {</span>
+<span class="nc" id="L111">            return null;</span>
+        }
+
+<span class="fc" id="L114">        List&lt;ItineraryDTO&gt; list = new ArrayList&lt;ItineraryDTO&gt;( itineraries.size() );</span>
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        for ( Itinerary itinerary : itineraries ) {</span>
+<span class="fc" id="L116">            list.add( toDTO( itinerary ) );</span>
+<span class="fc" id="L117">        }</span>
+
+<span class="fc" id="L119">        return list;</span>
+    }
+
+    @Override
+    public ItineraryDayDTO toItineraryDayDTO(ItineraryDay day) {
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">        if ( day == null ) {</span>
+<span class="nc" id="L125">            return null;</span>
+        }
+
+<span class="fc" id="L128">        int day1 = 0;</span>
+<span class="fc" id="L129">        List&lt;ActivityDTO&gt; activities = null;</span>
+
+<span class="fc" id="L131">        day1 = day.getDay();</span>
+<span class="fc" id="L132">        activities = toActivityDTOs( day.getActivities() );</span>
+
+<span class="fc" id="L134">        ItineraryDayDTO itineraryDayDTO = new ItineraryDayDTO( day1, activities );</span>
+
+<span class="fc" id="L136">        return itineraryDayDTO;</span>
+    }
+
+    @Override
+    public List&lt;ItineraryDayDTO&gt; toItineraryDayDTOs(List&lt;ItineraryDay&gt; days) {
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if ( days == null ) {</span>
+<span class="nc" id="L142">            return null;</span>
+        }
+
+<span class="fc" id="L145">        List&lt;ItineraryDayDTO&gt; list = new ArrayList&lt;ItineraryDayDTO&gt;( days.size() );</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        for ( ItineraryDay itineraryDay : days ) {</span>
+<span class="fc" id="L147">            list.add( toItineraryDayDTO( itineraryDay ) );</span>
+<span class="fc" id="L148">        }</span>
+
+<span class="fc" id="L150">        return list;</span>
+    }
+
+    @Override
+    public ActivityDTO toActivityDTO(Activity activity) {
+<span class="pc bpc" id="L155" title="1 of 2 branches missed.">        if ( activity == null ) {</span>
+<span class="nc" id="L156">            return null;</span>
+        }
+
+<span class="fc" id="L159">        String activity1 = null;</span>
+<span class="fc" id="L160">        String details = null;</span>
+<span class="fc" id="L161">        LocationDTO location = null;</span>
+<span class="fc" id="L162">        String time = null;</span>
+<span class="fc" id="L163">        String duration = null;</span>
+
+<span class="fc" id="L165">        activity1 = activity.getActivity();</span>
+<span class="fc" id="L166">        details = activity.getDetails();</span>
+<span class="fc" id="L167">        location = toLocationDTO( activity.getLocation() );</span>
+<span class="fc" id="L168">        time = activity.getTime();</span>
+<span class="fc" id="L169">        duration = activity.getDuration();</span>
+
+<span class="fc" id="L171">        ActivityDTO activityDTO = new ActivityDTO( activity1, details, location, time, duration );</span>
+
+<span class="fc" id="L173">        return activityDTO;</span>
+    }
+
+    @Override
+    public List&lt;ActivityDTO&gt; toActivityDTOs(List&lt;Activity&gt; activities) {
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        if ( activities == null ) {</span>
+<span class="nc" id="L179">            return null;</span>
+        }
+
+<span class="fc" id="L182">        List&lt;ActivityDTO&gt; list = new ArrayList&lt;ActivityDTO&gt;( activities.size() );</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">        for ( Activity activity : activities ) {</span>
+<span class="fc" id="L184">            list.add( toActivityDTO( activity ) );</span>
+<span class="fc" id="L185">        }</span>
+
+<span class="fc" id="L187">        return list;</span>
+    }
+
+    @Override
+    public LocationDTO toLocationDTO(Location location) {
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if ( location == null ) {</span>
+<span class="nc" id="L193">            return null;</span>
+        }
+
+<span class="fc" id="L196">        CoordinatesDTO coordinates = null;</span>
+<span class="fc" id="L197">        String name = null;</span>
+<span class="fc" id="L198">        String address = null;</span>
+
+<span class="fc" id="L200">        coordinates = locationToCoordinatesDTO( location );</span>
+<span class="fc" id="L201">        name = location.getName();</span>
+<span class="fc" id="L202">        address = location.getAddress();</span>
+
+<span class="fc" id="L204">        LocationDTO locationDTO = new LocationDTO( name, address, coordinates );</span>
+
+<span class="fc" id="L206">        return locationDTO;</span>
+    }
+
+    @Override
+    public Location toLocation(LocationDTO locationDTO) {
+<span class="pc bpc" id="L211" title="1 of 2 branches missed.">        if ( locationDTO == null ) {</span>
+<span class="nc" id="L212">            return null;</span>
+        }
+
+<span class="fc" id="L215">        Location location = new Location();</span>
+
+<span class="fc" id="L217">        location.setName( locationDTO.name() );</span>
+<span class="fc" id="L218">        location.setAddress( locationDTO.address() );</span>
+
+<span class="fc" id="L220">        return location;</span>
+    }
+
+    @Override
+    public Activity toActivity(ActivityDTO activityDTO) {
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">        if ( activityDTO == null ) {</span>
+<span class="nc" id="L226">            return null;</span>
+        }
+
+<span class="fc" id="L229">        Activity activity = new Activity();</span>
+
+<span class="fc" id="L231">        activity.setActivity( activityDTO.activity() );</span>
+<span class="fc" id="L232">        activity.setDetails( activityDTO.details() );</span>
+<span class="fc" id="L233">        activity.setTime( activityDTO.time() );</span>
+<span class="fc" id="L234">        activity.setDuration( activityDTO.duration() );</span>
+
+<span class="fc" id="L236">        return activity;</span>
+    }
+
+    protected ExternalImageDTO externalImageToExternalImageDTO(ExternalImage externalImage) {
+<span class="pc bpc" id="L240" title="1 of 2 branches missed.">        if ( externalImage == null ) {</span>
+<span class="nc" id="L241">            return null;</span>
+        }
+
+<span class="fc" id="L244">        String imageUrl = null;</span>
+<span class="fc" id="L245">        String altDescription = null;</span>
+<span class="fc" id="L246">        String authorUsername = null;</span>
+
+<span class="fc" id="L248">        imageUrl = externalImage.getImageUrl();</span>
+<span class="fc" id="L249">        altDescription = externalImage.getAltDescription();</span>
+<span class="fc" id="L250">        authorUsername = externalImage.getAuthorUsername();</span>
+
+<span class="fc" id="L252">        ExternalImageDTO externalImageDTO = new ExternalImageDTO( imageUrl, altDescription, authorUsername );</span>
+
+<span class="fc" id="L254">        return externalImageDTO;</span>
+    }
+
+    protected ItineraryStatusDTO itineraryStatusToItineraryStatusDTO(ItineraryStatus itineraryStatus) {
+<span class="pc bpc" id="L258" title="1 of 2 branches missed.">        if ( itineraryStatus == null ) {</span>
+<span class="nc" id="L259">            return null;</span>
+        }
+
+        ItineraryStatusDTO itineraryStatusDTO;
+
+<span class="pc bpc" id="L264" title="4 of 5 branches missed.">        switch ( itineraryStatus ) {</span>
+<span class="fc" id="L265">            case DRAFT: itineraryStatusDTO = ItineraryStatusDTO.DRAFT;</span>
+<span class="fc" id="L266">            break;</span>
+<span class="nc" id="L267">            case PLANNED: itineraryStatusDTO = ItineraryStatusDTO.PLANNED;</span>
+<span class="nc" id="L268">            break;</span>
+<span class="nc" id="L269">            case ONGOING: itineraryStatusDTO = ItineraryStatusDTO.ONGOING;</span>
+<span class="nc" id="L270">            break;</span>
+<span class="nc" id="L271">            case COMPLETED: itineraryStatusDTO = ItineraryStatusDTO.COMPLETED;</span>
+<span class="nc" id="L272">            break;</span>
+<span class="nc" id="L273">            default: throw new IllegalArgumentException( &quot;Unexpected enum constant: &quot; + itineraryStatus );</span>
+        }
+
+<span class="fc" id="L276">        return itineraryStatusDTO;</span>
+    }
+
+    protected CoordinatesDTO locationToCoordinatesDTO(Location location) {
+<span class="pc bpc" id="L280" title="1 of 2 branches missed.">        if ( location == null ) {</span>
+<span class="nc" id="L281">            return null;</span>
+        }
+
+<span class="fc" id="L284">        Double latitude = null;</span>
+<span class="fc" id="L285">        Double longitude = null;</span>
+
+<span class="fc" id="L287">        latitude = location.getLatitude();</span>
+<span class="fc" id="L288">        longitude = location.getLongitude();</span>
+
+<span class="fc" id="L290">        CoordinatesDTO coordinatesDTO = new CoordinatesDTO( latitude, longitude );</span>
+
+<span class="fc" id="L292">        return coordinatesDTO;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
