@@ -130,8 +130,6 @@ services:
     image: cub1z/tripflow-frontend:0.2
     container_name: tripflow-frontend
     restart: unless-stopped
-    environment:
-      PUBLIC_API_BASE_URL: http://localhost:8080
     ports:
       - "80:80"
     depends_on:
