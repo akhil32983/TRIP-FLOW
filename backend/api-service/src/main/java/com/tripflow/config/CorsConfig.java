@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class CorsConfig {
 
-    @Value("${origins.frontend}")
+    @Value("${origins.frontend:http://localhost}")
     private String frontendOrigin;
 
     @Bean
