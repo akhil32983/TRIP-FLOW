@@ -40,7 +40,10 @@ import io.restassured.RestAssured;
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.jpa.show-sql=false",
     "spring.datasource.hikari.maximum-pool-size=3",
-    "origins.frontend=http://localhost"
+    "origins.frontend=http://localhost",
+    "cookie.domain=",
+    "cookie.secure=false",
+    "cookie.same-site=lax"
 })
 public abstract class BaseIntegrationTest {
 

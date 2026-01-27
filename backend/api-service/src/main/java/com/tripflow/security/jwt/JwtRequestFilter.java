@@ -39,7 +39,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
 
-        Claims claims = jwtTokenProvider.validateToken(token);
+        Claims claims;
+        try {
+            claims = jwtTokenProvider.validateToken(token);
+        } catch (Exception e) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         UserDetails userDetails;
 
         // If the token is invalid, continue the filter chain without authentication

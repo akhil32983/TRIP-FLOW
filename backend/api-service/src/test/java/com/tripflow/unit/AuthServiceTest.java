@@ -2,6 +2,7 @@ package com.tripflow.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.time.Instant;
@@ -36,7 +37,6 @@ import com.tripflow.service.auth.AuthValidator;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.impl.DefaultClaimsBuilder;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Tag("unit")
@@ -92,7 +92,7 @@ public class AuthServiceTest {
         assertEquals(AuthStatus.SUCCESS, result.status(), "Login should be successful");
         assertEquals(publicUser, result.user(), "User should be returned");
         assertEquals("Login successful", result.message());
-        verify(this.response, times(2)).addCookie(any(Cookie.class));
+        verify(this.response, times(2)).addHeader(anyString(), anyString());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class AuthServiceTest {
         assertEquals(AuthStatus.FAILURE, result.status(), "Login should fail due to invalid credentials");
         assertEquals(result.message(), "Invalid credentials");
         assertNull(result.user(), "User should not be returned on failure");
-        verify(this.response, never()).addCookie(any(Cookie.class));
+        verify(this.response, never()).addHeader(anyString(), anyString());
     }
 
     @Test
@@ -210,7 +210,7 @@ public class AuthServiceTest {
 
         assertEquals(AuthStatus.SUCCESS, result.status());
         assertEquals("Logout successful", result.message());
-        verify(this.response, times(2)).addCookie(any(Cookie.class));
+        verify(this.response, times(2)).addHeader(anyString(), anyString());
     }
 
     @Test
@@ -245,7 +245,7 @@ public class AuthServiceTest {
         assertEquals("Token refreshed successfully", result.message());
         assertEquals(publicUser, result.user());
 
-        verify(this.response, times(1)).addCookie(any(Cookie.class));
+        verify(this.response, times(1)).addHeader(anyString(), anyString());
         verify(this.jwtTokenProvider, times(1)).validateToken(refreshToken);
         verify(this.userDetailsService, times(1)).loadUserByUsername(username);
         verify(this.jwtTokenProvider, times(1)).generateAuthToken(userDetails);
@@ -266,7 +266,7 @@ public class AuthServiceTest {
         assertEquals("Invalid refresh token", result.message());
         assertNull(result.user());
 
-        verify(this.response, never()).addCookie(any(Cookie.class));
+        verify(this.response, never()).addHeader(anyString(), anyString());
         verify(this.jwtTokenProvider, times(1)).validateToken(refreshToken);
         verifyNoMoreInteractions(this.userDetailsService);
         verifyNoMoreInteractions(this.jwtTokenProvider);
