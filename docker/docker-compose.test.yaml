@@ -4,15 +4,15 @@ services:
     container_name: tripflow-postgres-api-test
     restart: unless-stopped
     environment:
-      POSTGRES_DB: tripflow_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - pgdata-api-test:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U tripflow_user -d tripflow_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -54,9 +54,9 @@ services:
     restart: unless-stopped
     environment:
       SPRING_PROFILES_ACTIVE: dev
-      POSTGRES_URL: jdbc:postgresql://postgres-api:5432/tripflow_db
-      POSTGRES_USER: tripflow_user
-      POSTGRES_PASSWORD: secure_password
+      POSTGRES_URL: jdbc:postgresql://postgres-api:5432/${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       JWT_SECRET: ${JWT_SECRET:-VGhpcyBpcyBhIHZlcnkgc2VjdXJlIGRldmVsb3BtZW50IHNlY3JldCEyMw==}
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       UNSPLASH_API_KEY: ${UNSPLASH_API_KEY:-your_unsplash_api_key_here}
@@ -138,12 +138,12 @@ services:
     environment:
       PUBLIC_API_BASE_URL: http://localhost:8080
     ports:
-      - "4173:4173"
+      - "80:80"
     depends_on:
       api-service:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:4173/ || exit 1"]
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
