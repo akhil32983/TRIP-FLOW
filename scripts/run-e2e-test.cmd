@@ -7,26 +7,21 @@ SET PROJECT_ROOT=%SCRIPT_DIR%..
 
 echo [+] Starting TripFlow E2E environment...
 
-REM Check if AI_API_KEY is provided as argument
-if not "%~1"=="" (
-    set AI_API_KEY=%~1
-    echo [+] Using AI_API_KEY from argument
+REM Select environment file
+if exist "docker\.env" (
+    set ENV_FILE=docker\.env
 ) else (
-    if defined AI_API_KEY (
-        echo [+] Using AI_API_KEY from environment
-    ) else (
-        echo [WARNING] AI_API_KEY not provided. AI features may not work.
-        echo [INFO] Usage: run-e2e-test.cmd [AI_API_KEY]
-    )
+    set ENV_FILE=docker\.env.example
 )
+echo [+] Using environment file: %ENV_FILE%
 
 set API_URL=http://localhost:8080
-set FRONTEND_URL=http://localhost:4173
+set FRONTEND_URL=http://localhost
 
 REM Wake up services with Docker Compose
 echo [+] Starting Docker Compose services...
 cd /d "%PROJECT_ROOT%"
-call docker compose -f docker\docker-compose.test.yaml up -d
+call docker compose --env-file %ENV_FILE% -f docker\docker-compose.test.yaml up -d
 
 REM Install E2E dependencies
 echo [+] Installing E2E dependencies...
@@ -48,7 +43,7 @@ call npx playwright test
 REM Stop and remove test containers
 echo [+] Stopping and removing test containers...
 cd /d "%PROJECT_ROOT%"
-call docker compose -f docker\docker-compose.test.yaml down
+call docker compose --env-file %ENV_FILE% -f docker\docker-compose.test.yaml down
 
 echo [+] E2E pipeline finished!
 

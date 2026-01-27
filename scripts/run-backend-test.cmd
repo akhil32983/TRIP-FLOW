@@ -21,11 +21,14 @@ if exist "%REPORT_DIR%\*" del /q /f "%REPORT_DIR%\*"
 REM Run tests and generate coverage report
 echo [+] Running backend tests and generating coverage...
 cd /d "%PROJECT_ROOT%\backend"
+
+call mvnw.cmd clean test -pl ai-service -am
+call mvnw.cmd clean test -pl notification-service -am
 call mvnw.cmd clean verify -pl api-service -am
 
 REM Move reports to the designated report directory
 echo [+] Moving reports to %REPORT_DIR%...
-xcopy /E /I /Y "target\site\jacoco\*" "%REPORT_DIR%\"
+xcopy /E /I /Y "api-service\target\site\jacoco\*" "%REPORT_DIR%\"
 
 echo [+] Backend coverage generated successfully!
 echo [+] Report location: %REPORT_DIR%\index.html

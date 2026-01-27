@@ -18,13 +18,21 @@ else
     echo "[INFO] Usage: ./run-e2e-test.sh [AI_API_KEY]"
 fi
 
+# Select environment file
+if [ -f "docker/.env" ]; then
+    ENV_FILE="docker/.env"
+else
+    ENV_FILE="docker/.env.example"
+fi
+echo "[+] Using environment file: $ENV_FILE"
+
 export API_URL="http://localhost:8080"
-export FRONTEND_URL="http://localhost:4173"
+export FRONTEND_URL="http://localhost"
 
 # Wake up services with Docker Compose
 echo "[+] Starting Docker Compose services..."
 cd "$PROJECT_ROOT"
-docker compose -f docker/docker-compose.test.yaml up -d
+docker compose --env-file "$ENV_FILE" -f docker/docker-compose.test.yaml up -d
 
 # Install E2E dependencies
 echo "[+] Installing E2E dependencies..."
@@ -51,7 +59,7 @@ npx playwright test
 # Stop and remove test containers
 echo "[+] Stopping and removing test containers..."
 cd "$PROJECT_ROOT"
-docker compose -f docker/docker-compose.test.yaml down
+docker compose --env-file "$ENV_FILE" -f docker/docker-compose.test.yaml down
 
 echo "[+] E2E pipeline finished!"
 

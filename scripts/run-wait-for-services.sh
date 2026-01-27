@@ -3,7 +3,7 @@ set -e
 
 # Config (can be overridden by env vars)
 API_URL="${API_URL:-http://localhost:8080}"
-FRONTEND_URL="${FRONTEND_URL:-http://localhost:4173}"
+FRONTEND_URL="${FRONTEND_URL:-http://localhost:80}"
 HEALTH_URL="${HEALTH_URL:-$API_URL/api/health}"
 RETRIES="${RETRIES:-15}"
 INTERVAL="${INTERVAL:-4}"
