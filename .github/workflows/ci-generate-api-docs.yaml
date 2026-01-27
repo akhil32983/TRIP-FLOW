@@ -23,16 +23,6 @@ jobs:
         with:
           version: latest
 
-      - name: Start services with Docker Compose
-        working-directory: ./docker
-        run: docker compose --env-file .env.example -f docker-compose.test.yaml up -d
-
-      - name: Wait for services to be healthy
-        working-directory: ./scripts
-        run: |
-          chmod +x run-wait-for-services.sh
-          ./run-wait-for-services.sh
-
       - name: Generate API Docs
         working-directory: ./scripts
         run: |

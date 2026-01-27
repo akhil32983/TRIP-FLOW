@@ -12,7 +12,7 @@ API_URL="http://localhost:8080"
 # Wake up services with Docker Compose
 echo "[+] Starting Docker Compose services..."
 cd "$PROJECT_ROOT"
-docker compose -f docker/docker-compose.test.yaml up -d
+docker compose --env-file docker/.env.example -f docker/docker-compose.test.yaml up -d
 
 # Wait for services to be healthy
 echo "[+] Waiting for services to be healthy..."
