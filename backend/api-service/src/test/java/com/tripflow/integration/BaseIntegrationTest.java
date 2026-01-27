@@ -39,7 +39,8 @@ import io.restassured.RestAssured;
     "admin.password=secure_password",
     "spring.jpa.hibernate.ddl-auto=create-drop",
     "spring.jpa.show-sql=false",
-    "spring.datasource.hikari.maximum-pool-size=3"
+    "spring.datasource.hikari.maximum-pool-size=3",
+    "origins.frontend=http://localhost"
 })
 public abstract class BaseIntegrationTest {
 
