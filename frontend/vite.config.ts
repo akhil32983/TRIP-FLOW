@@ -16,6 +16,7 @@ export default defineConfig({
       workbox: {
         navigateFallback: "/index.html",
         globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        cleanupOutdatedCaches: true
       },
       manifest: {
         name: "TripFlow",
