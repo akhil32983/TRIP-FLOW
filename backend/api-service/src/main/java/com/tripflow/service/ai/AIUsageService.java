@@ -47,6 +47,31 @@ public class AIUsageService {
     }
 
     /**
+     * Reduces the AI usage for the given user for today.
+     * 
+     * If an entry for today exists, decrements the usage count.
+     * If the usage count becomes negative, it is set to 0.
+     * Otherwise, creates a new entry with usage count set to 0.
+     * 
+     * @param user The user for whom to reduce the AI usage.
+     */
+    public AIUsageDTO reduceUsage(User user) {
+        LocalDate today = LocalDate.now();
+        Optional<AIUsage> op = this.aiUsageRepository.findByUserAndDate(user, today);
+
+        AIUsage usage;
+
+        if (op.isPresent()) {
+            usage = op.get();
+            usage.decrement();
+        } else {
+            usage = new AIUsage(user, today, 0);
+        }
+
+        return this.aiMapper.toDTO(this.aiUsageRepository.save(usage));
+    }
+
+    /**
      * Checks if the user can use AI services based on their daily limit.
      * 
      * @param user The user to check.

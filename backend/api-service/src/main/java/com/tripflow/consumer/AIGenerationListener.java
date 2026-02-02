@@ -18,7 +18,8 @@ public class AIGenerationListener {
 
     public AIGenerationListener(
         ItineraryService itineraryService,
-        AIService aiService, KafkaService kafkaService
+        AIService aiService,
+        KafkaService kafkaService
     ) {
         this.itineraryService = itineraryService;
         this.aiService = aiService;
@@ -43,6 +44,7 @@ public class AIGenerationListener {
                 )
             );
         } else {
+            this.aiService.processFailedAIGeneration(username);
             this.kafkaService.sendNotificationMessage(
                 new NotificationMessage(
                     username,

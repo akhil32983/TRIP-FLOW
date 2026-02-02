@@ -51,6 +51,10 @@ public class AIUsage {
         this.usage++;
     }
 
+    public void decrement() {
+        this.usage = Math.max(this.usage - 1, 0);
+    }
+
     // [Getters and Setters] ==========================================
 
     public Long getId() {

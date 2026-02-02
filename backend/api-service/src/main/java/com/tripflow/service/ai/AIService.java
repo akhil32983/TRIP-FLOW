@@ -76,4 +76,14 @@ public class AIService {
 
         return new AIResponse("AI request submitted successfully", aiUsage);
     }
+
+    /**
+     * Processes a failed AI generation by reducing the user's AI usage.
+     * 
+     * @param username The username of the user whose AI generation failed.
+     */
+    public void processFailedAIGeneration(String username) {
+        User user = this.userService.getUserByUsername(username);
+        this.aiUsageService.reduceUsage(user);
+    }
 }
