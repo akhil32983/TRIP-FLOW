@@ -24,7 +24,7 @@ jobs:
 
   trigger-dokploy:
     needs: release-latest
-    if: ${{ secrets.DOKPLOY_URL != '' && secrets.DOKPLOY_AUTH_TOKEN != '' && secrets.DOKPLOY_COMPOSE_ID != '' }}
+    if: secrets.DOKPLOY_URL != '' && secrets.DOKPLOY_AUTH_TOKEN != '' && secrets.DOKPLOY_COMPOSE_ID != ''
     runs-on: ubuntu-latest
     steps:
       - name: Dokploy Deployment
