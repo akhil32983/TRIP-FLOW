@@ -10,7 +10,7 @@ jobs:
     with:
       tag: ${{ github.event.release.tag_name }}
       compose_file: docker/docker-compose.yaml
-      services: '["backend","frontend"]'
+      services: '["backend/api-service","backend/ai-service","backend/notification-service","frontend"]'
     secrets: inherit
 
   release-latest:
@@ -21,3 +21,15 @@ jobs:
       compose_file: docker/docker-compose.yaml
       services: '["backend/api-service","backend/ai-service","backend/notification-service","frontend"]'
     secrets: inherit
+
+  trigger-dokploy:
+    needs: release-latest
+    if: ${{ secrets.DOKPLOY_URL != '' && secrets.DOKPLOY_AUTH_TOKEN != '' && secrets.DOKPLOY_COMPOSE_ID != '' }}
+    runs-on: ubuntu-latest
+      - name: Dokploy Deployment
+        uses: benbristow/dokploy-deploy-action@0.2.2
+        with:
+          api_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          application_id: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+          dokploy_url: ${{ secrets.DOKPLOY_URL }}
+          service_type: compose
