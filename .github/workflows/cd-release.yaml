@@ -26,6 +26,7 @@ jobs:
     needs: release-latest
     if: ${{ secrets.DOKPLOY_URL != '' && secrets.DOKPLOY_AUTH_TOKEN != '' && secrets.DOKPLOY_COMPOSE_ID != '' }}
     runs-on: ubuntu-latest
+    steps:
       - name: Dokploy Deployment
         uses: benbristow/dokploy-deploy-action@0.2.2
         with:
