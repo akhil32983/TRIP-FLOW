@@ -30,15 +30,15 @@ public class AIItineraryPrompt {
         El JSON debe tener la siguiente estructura:
         {
             "id": -1,
-            "title": "Título relacionado con {{place}} [AI]",
+            "title": "Título simple y corto relacionado con {{place}}",
             "place": "{{place}}",
-            "people": Un número entero que indica la cantidad de personas que viajan.
-            "budget": {{budget}}
+            "people": "Un número entero que indica la cantidad de personas que viajan.",
+            "budget": {{budget}},
             "date": "La fecha de inicio del viaje",
             "updatedCount": 0,
             "status": "DRAFT",
-            "tags": ["Tag1", "Tag2", "Tag3"],
-            "countDays": Un número entero que indica la cantidad de días del itinerario.,
+            "tags": ["Tag1", "Tag2", "Tag3"] (3 tags máximo),
+            "countDays": "Un número entero que indica la cantidad de días del itinerario.",
             "days": [
                 {
                     "day": 1 (1, 2, 3, ...),
