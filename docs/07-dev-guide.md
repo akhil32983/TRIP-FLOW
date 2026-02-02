@@ -246,8 +246,50 @@
 
 ### 📀 Deployment
 
-> TBD
-> The deployment section will be added in future iterations once the deployment process is executed and documented.
+> **🚀 Overview**
+>
+> The application uses **Dokploy**, a self-hosted implementation of a PaaS (Platform as a Service), running on a dedicated **VPS** (Virtual Private Server). This approach provides a robust, production-ready environment similar to Vercel or Netlify but with full control over the infrastructure and significantly lower costs.
+
+> ---
+
+> **🛠️ Infrastructure Stack**
+>
+> _🐳 Dokploy & Traefik_
+>
+> [Dokploy](https://dokploy.com/) simplifies the management of Docker containers and serves as a comprehensive dashboard for deployments. It utilizes **[Traefik](https://traefik.io/traefik)** under the hood as a powerful edge router and reverse proxy.
+>
+> **How it works:**
+> - Traefik listens on ports 80 and 443 of the VPS.
+> - It automatically discovers running Docker containers via the Docker socket.
+> - Using labels defined in `docker-compose.dokploy.yaml`, Traefik routes external traffic (e.g., `tripflow.cub1z.es`) to the specific container within the internal `dokploy-network`.
+> - This abstraction eliminates the need to expose ports like 8080 or 3000 to the public internet, enhancing security.
+>
+> _☁️ Cloudflare_
+>
+> **[Cloudflare](https://www.cloudflare.com/)** is used for DNS management and DDOS protection. It points the application domains to the VPS IP address. It serves as the first entry point for traffic, providing caching and an additional security layer.
+>
+> _🔒 SSL Certificates (Let's Encrypt)_
+>
+> Dokploy integrates natively with **[Let's Encrypt](https://letsencrypt.org/)**. It automatically handles the challenge/response process to generate and renew **SSL/TLS certificates** for all deployed domains. This ensures that all connections are secure (HTTPS) without manual certificate management.
+
+> ---
+
+> **📦 Deployment Configuration**
+>
+> The production deployment is defined in the `docker/docker-compose.dokploy.yaml` file. This file is specifically tailored for the Dokploy environment.
+>
+> _Key Configuration Files:_
+>
+> - **`docker/docker-compose.dokploy.yaml`**: Defines services, networks, and Traefik labels.
+> - **`.env`**: Located on the server in the deployment directory. Contains sensitive variables (DB passwords, API keys).
+> - **`.env.example`**: A reference template in the repository showing which variables are required.
+>
+> _Deployment Workflow:_
+>
+> 1.  **Build & Push**: The CI/CD pipeline (GitHub Actions) builds Docker images for all services and pushes them to DockerHub tagged as `:latest`.
+> 2.  **Trigger**: Upon successful build, the pipeline uses the `benbristow/dokploy-deploy-action` to notify the Dokploy server via a secure webhook (if secrets are configured).
+> 3.  **Pull & Deploy**: Dokploy receives the signal, pulls the latest images from DockerHub, and executes `docker compose up -d` using the `docker/docker-compose.dokploy.yaml` file.
+> 4.  **Routing**: Traefik detects the new containers and instantly routes traffic to them, ensuring zero-downtime deployments.
 
 ---
 
@@ -398,13 +440,16 @@
 >
 > *Release Build Pipeline:*
 >
-> - 🏷️ Two-stage deployment:
+> - 🏷️ **Three-stage deployment:**
 >   1. **Release Tag Job:** Builds with specific version tag (e.g., `0.1.0`)
 >   2. **Latest Tag Job:** Updates `latest` tag to point to new release
-> - 🔄 Both jobs reuse `cd-build.yaml` workflow
+>   3. **Dokploy Trigger Job:** Automatically deploys the new images to the Dokploy server
+> - 🔄 Build jobs reuse `cd-build.yaml` workflow
 > - 🐳 Pushes images to DockerHub with version and latest tags
 > - 📦 Uses `docker-compose.yaml` for production configuration
-> - 📦 Publishes two OCI artifacts: versioned and latest
+> - � **Automated & Conditional Deployment:**
+>   - The Dokploy trigger only runs if `DOKPLOY_URL`, `DOKPLOY_AUTH_TOKEN`, and `DOKPLOY_COMPOSE_ID` secrets are configured.
+>   - Uses `benbristow/dokploy-deploy-action` to notify the VPS to pull and restart the stack.
 >
 > **3. Manual Deployment Workflow (`cd-manual.yaml`):**
 >

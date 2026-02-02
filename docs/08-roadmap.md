@@ -176,54 +176,47 @@
 
 ### 🔧 Backend
 
-- [ ] {Feature} Preferences management for AI generation
-  - [ ] {Model} User Preferences entity
-  - [ ] {API} Preferences endpoint - `GET /api/v1/users/{id}/preferences`
-  - [ ] {API} Update Preferences endpoint - `PUT /api/v1/users/{id}/preferences`
-- [ ] {Feature} Route optimization algorithms
-  - [ ] {Algorithm} TSP optimization (?)
-  - [ ] {API} Route optimization endpoint - `POST /api/v1/route/optimize`
-- [ ] {Feature} Achievements and experience points system
-  - [ ] {Model} Achievement entity
-  - [ ] {API} Achievements endpoint - `GET /api/v1/achievements?status={ALL|USER}`
-  - [ ] {API} Headers based achievement tracking
+- [ ] {Feature} Collaborative Itineraries
+  - [ ] {Model} Collaboration entity (User-Itinerary-Role)
+  - [ ] {API} Invite user endpoint - `POST /api/v1/itineraries/{id}/invite`
+  - [ ] {Access} Permission logic (VIEWER, EDITOR, OWNER)
+  - [ ] {WebSocket} Real-time collaboration updates synchronization
+- [ ] {Feature} Basic Backend Support for Maps
+  - [ ] {Model} Extension of Location entity to support coordinates/GeoJSON
+- [ ] {Feature} Location Discovery
+  - [ ] {Concept} Exploration of nearby places / points of interest (Implementation TBD)
 
 ### ⚛️ Frontend
 
-- [ ] {Feature} Preferences UI for AI generation
-  - [ ] {UI} Preferences Component for managing user preferences - `settings`
-- [ ] {Feature} Route optimization UI
-  - [ ] {UI} Route optimization interface and controls
-  - [ ] {Component} Route optimization results display
-  - [ ] {Integration} Integration with route optimization API
-- [ ] {Feature} Achievements and gamification UI
-  - [ ] {Component} Achievement progress tracking and display
-  - [ ] {Component} Achievement notification system
-  - [ ] {UI} User experience points and level display
-- [ ] {PWA} Progressive Web App features
-  - [ ] {Feature} Available to install on mobile devices
+- [ ] {Feature} Interactive Maps Integration
+  - [ ] {UI} Map visualization component (Leaflet/Mapbox)
+  - [ ] {UI} Plotting daily itinerary routes
+- [ ] {Feature} Collaborative Itineraries UI
+  - [ ] {UI} Share Itinerary Modal & Link generation
+  - [ ] {UI} Role attribution interface
+- [ ] {PWA} Offline Access
+  - [ ] {Config} Service Worker configuration
+  - [ ] {Cache} Caching strategies for itinerary data
+  - [ ] {UI} Offline mode indicator and read-only access
+- [ ] {Feature} Client-Side PDF Export
+  - [ ] {Library} Integration with PDF library (e.g., react-pdf / jsPDF)
+  - [ ] {UI} Export button and layout generation
 
 ### ⚙️ Testing
 
-- [ ] {Unit-Backend} User Preferences service tests (CRUD operations)
-- [ ] {Unit-Backend} Route optimization algorithm tests (TSP implementation)
-- [ ] {Unit-Backend} Achievement service tests
-- [ ] {Unit-Frontend} Preferences component tests
-- [ ] {Unit-Frontend} Route optimization UI tests
-- [ ] {Unit-Frontend} Achievement components tests
-- [ ] {Integration-Backend} Preferences endpoints tests
-- [ ] {Integration-Backend} Achievement system tests
-- [ ] {Integration-Frontend} Preferences workflow tests
-- [ ] {E2E} Complete preferences management flow
-- [ ] {E2E} Complete route optimization flow (select → optimize → save)
+- [ ] {Unit-Backend} Permission service tests (Roles logic)
+- [ ] {Integration-Backend} Collaboration endpoints
+- [ ] {E2E} Offline mode behavior
+- [ ] {E2E} Collaborative flow
 
 ---
 
-## ⭐ Nice-to-Have Features (not prioritized)
+## ⭐ Future & Nice-to-Have
 
-- [ ] {Feature} PDF Export of itineraries
-- [ ] {Feature} Offline access to itineraries
-- [ ] {Feature} Nominatim integration for location search
+- [ ] {Feature} Route Optimization Algorithms (TSP)
+- [ ] {Feature} Travel Achievements & Gamification
+- [ ] {Feature} User Travel Preferences
+- [ ] {Feature} Advanced Location Discovery (Filters, Categories)
 
 ---
 
