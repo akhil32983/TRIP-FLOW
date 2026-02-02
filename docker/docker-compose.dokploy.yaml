@@ -1,4 +1,3 @@
-
 services:
   postgres-api:
     image: postgres:15-alpine
@@ -8,15 +7,14 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-    ports:
-      - "5432:5432"
     volumes:
-      - pgdata-api:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
     networks:
       - tripflow-network
 
@@ -35,8 +33,6 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
-    ports:
-      - "9092:9092"
     volumes:
       - kafkadata:/var/lib/kafka/data
     healthcheck:
@@ -44,6 +40,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+      start_period: 30s
     networks:
       - tripflow-network
 
@@ -66,21 +63,27 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_USERNAME: ${ADMIN_USERNAME}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-    ports:
-      - "8080:8080"
     depends_on:
       postgres-api:
         condition: service_healthy
       kafka:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
-      interval: 30s
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/health || wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
+      interval: 15s
       timeout: 10s
-      retries: 3
+      retries: 5
+      start_period: 60s
     networks:
       - tripflow-network
-  
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tripflow-api.rule=Host(`backend.tripflow.cub1z.es`)"
+      - "traefik.http.routers.tripflow-api.entrypoints=websecure"
+      - "traefik.http.routers.tripflow-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tripflow-api.loadbalancer.server.port=8080"
+
   ai-service:
     image: cub1z/tripflow-ai-service:latest
     container_name: tripflow-ai-service
@@ -92,19 +95,12 @@ services:
       AI_API_KEY: ${AI_API_KEY}
       AI_API_URL: ${AI_API_URL}
       AI_API_MODEL: ${AI_API_MODEL}
-    ports:
-      - "8081:8081"
     depends_on:
       kafka:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8081/api/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     networks:
       - tripflow-network
-  
+
   notification-service:
     image: cub1z/tripflow-notification-service:latest
     container_name: tripflow-notification-service
@@ -115,37 +111,44 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       EMAIL_SENDER: ${EMAIL_SENDER}
       EMAIL_BREVO_API_KEY: ${EMAIL_BREVO_API_KEY}
-    ports:
-      - "8082:8082"
     depends_on:
       kafka:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8082/api/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     networks:
       - tripflow-network
-
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tripflow-notify.rule=Host(`ws.tripflow.cub1z.es`)"
+      - "traefik.http.routers.tripflow-notify.entrypoints=websecure"
+      - "traefik.http.routers.tripflow-notify.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tripflow-notify.loadbalancer.server.port=8082"
 
   frontend:
     image: cub1z/tripflow-frontend:latest
     container_name: tripflow-frontend
     restart: unless-stopped
-    ports:
-      - "80:80"
     depends_on:
       api-service:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || wget -q --spider http://localhost:80/ || exit 1"]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 3
+      start_period: 15s
+    networks:
+      - tripflow-network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tripflow-front.rule=Host(`tripflow.cub1z.es`)"
+      - "traefik.http.routers.tripflow-front.entrypoints=websecure"
+      - "traefik.http.routers.tripflow-front.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tripflow-front.loadbalancer.server.port=80"
 
 volumes:
-  pgdata-api:
+  pgdata:
     driver: local
   kafkadata:
     driver: local
@@ -153,3 +156,5 @@ volumes:
 networks:
   tripflow-network:
     driver: bridge
+  dokploy-network:
+    external: true
