@@ -6,22 +6,44 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     padding-inline: var(--app-padding);
     z-index: 1000;
+    transition: all 0.3s ease-in-out;
+
+    @media (max-width: 768px) {
+        align-items: flex-end;
+        padding: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(8px);
+    }
 }
 
 .modal {
     width: 100%;
     max-width: 500px;
-    background: var(--bg-secondary);
-    border-radius: var(--border-radius-md);
+    background: var(--bg-primary);
+    border-radius: var(--border-radius-xl);
     border: 2px solid var(--border-secondary);
-    box-shadow: 0 0 12px var(--bg-overlay);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     animation: fadeIn 0.2s ease-out;
+
+    @media (max-width: 768px) {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        background-color: var(--bg-primary);
+        border-radius: var(--border-radius-xl) var(--border-radius-xl) 0 0;
+        border-bottom: none;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+        animation: slideUp 0.3s ease;
+        max-height: 35vh;
+        overflow-y: auto;
+    }
 }
 
 .header {
