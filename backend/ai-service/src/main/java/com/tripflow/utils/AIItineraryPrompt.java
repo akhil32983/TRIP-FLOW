@@ -24,6 +24,8 @@ public class AIItineraryPrompt {
 
         Propón varias actividades para cada día, al menos 3 o 4 actividades por día, con un sentido lógico y coherente.
         Evita caracteres especiales o emoticonos en el JSON.
+        NO utilices sintáxis de marcado / formato como markdown para rellenar los campos del JSON.
+        Utiliza formatos de hora válidos como 11:00, 12:30, etc.
 
         Responde ÚNICAMENTE con el JSON correspondiente al itinerario propuesto, sin ningún texto adicional, sin ejemplos, sin explicaciones y sin encabezados.
         Evita cualquier comentario o texto que no sea parte del JSON, incluyendo la palabra "JSON", "json", "```json", "```", etc.
@@ -54,7 +56,7 @@ public class AIItineraryPrompt {
                                     "longitude": 2.3522 (decimal)
                                 }
                             },
-                            "time": "Hora de inicio (11h, 12h, etc.)",
+                            "time": "Hora de inicio (11:00, 12:00, etc.)",
                             "duration": "2 horas / 3 horas / etc."
                         }
                     ]

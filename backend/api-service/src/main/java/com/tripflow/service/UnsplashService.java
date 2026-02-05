@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tripflow.dto.unsplash.UnsplashResponse;
 import com.tripflow.utils.UnsplashResponseMock;
 
-import java.text.Normalizer;
+import com.tripflow.utils.Normalizer;
 import java.util.List;
 import java.util.Map;
 
@@ -48,22 +48,23 @@ public class UnsplashService {
             return UnsplashResponseMock.getMock();
         }
 
-        query = Normalizer
-            .normalize(query, Normalizer.Form.NFD)
-            .replaceAll("\\p{M}", "");
+        query = Normalizer.normalize(query).trim();
         
-        String url = UriComponentsBuilder
-            .fromUriString(UNSPLASH_API_BASE_URL + SEARCH_PHOTOS_ENDPOINT)
-            .queryParam("query", query)
-            .queryParam("page", 1)
-            .queryParam("per_page", 1)
-            .queryParam("client_id", apiKey)
-            .toUriString();
-        
+        String url = this.buildUrl(query);
         UnsplashSearchResponse searchResponse = restTemplate.getForObject(url, UnsplashSearchResponse.class);
         
+        // Fallback strategy
         if (searchResponse == null || searchResponse.results == null || searchResponse.results.isEmpty()) {
-            throw new RuntimeException("No photos found for query: " + query);
+            if (query.contains(" ")) {
+                String firstWord = query.split(" ")[0];
+                url = this.buildUrl(firstWord);
+                searchResponse = restTemplate.getForObject(url, UnsplashSearchResponse.class);
+            }
+
+        }
+
+        if (searchResponse == null || searchResponse.results == null || searchResponse.results.isEmpty()) {
+            return UnsplashResponseMock.getMock();
         }
         
         UnsplashPhotoInternal photo = searchResponse.results.get(0);
@@ -74,6 +75,16 @@ public class UnsplashService {
             photo.urls.get("regular"),
             photo.user.username
         );
+    }
+
+    private String buildUrl(String query) {
+        return UriComponentsBuilder
+            .fromUriString(UNSPLASH_API_BASE_URL + SEARCH_PHOTOS_ENDPOINT)
+            .queryParam("query", query)
+            .queryParam("page", 1)
+            .queryParam("per_page", 1)
+            .queryParam("client_id", apiKey)
+            .toUriString();
     }
     
     // Internal record classes for deserialization
