@@ -38,7 +38,7 @@
 ## 📦 Releases
 
 - [v0.1.0 Release Notes](docs/releases/v0.1.0.md)
-
+- [v0.2.0 Release Notes](docs/releases/v0.2.0.md)
 
 ---
 
