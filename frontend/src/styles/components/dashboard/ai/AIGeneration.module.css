@@ -1,9 +1,12 @@
+@import url("../../../animations.css");
+
 .aiGenerationSection {
     width: 100%;
     padding-inline: var(--app-padding);
     display: flex;
     flex-direction: column;
     gap: var(--space-xxl);
+    animation: fadeIn 0.3s ease-in-out;
 
     @media (min-width: 1400px) {
         max-width: 1200px;

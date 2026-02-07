@@ -192,6 +192,10 @@
         .message {
             margin: 0;
             width: auto;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60vw;
         }
     }
 }
