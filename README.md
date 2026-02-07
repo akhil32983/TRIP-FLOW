@@ -14,7 +14,9 @@
 
 ---
 
-![TripFlow Showcase](docs/assets/showcase.png)
+![TripFlow Landing Showcase](docs/assets/showcase.png)
+
+![TripFlow Mobile Showcase](docs/assets/showcase_mobile.png)
 
 ---
 
@@ -36,7 +38,7 @@
 ## 📦 Releases
 
 - [v0.1.0 Release Notes](docs/releases/v0.1.0.md)
-
+- [v0.2.0 Release Notes](docs/releases/v0.2.0.md)
 
 ---
 

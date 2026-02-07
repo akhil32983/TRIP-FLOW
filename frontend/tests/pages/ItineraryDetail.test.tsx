@@ -4,7 +4,7 @@ import { render, screen, waitFor } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 import { getItineraryById } from "@/services/itineraryService";
-import type { ItineraryStatus } from "@/types/itinerary";
+import type { ExtendedItinerary, ItineraryStatus } from "@/types/itinerary";
 
 // Mock service
 vi.mock("@/services/itineraryService", () => ({
@@ -30,18 +30,17 @@ vi.mock("@/layouts/AppLayout", () => ({
     ),
 }));
 
-vi.mock("@components/dashboard/InnerTabHeader", () => ({
-    default: ({ title, backUrl }: { title: string; backUrl: string }) => (
-        <header data-testid="inner-tab-header" data-back-url={backUrl}>
-            {title}
+vi.mock("@/components/dashboard/headers/InnerTabHeader", () => ({
+    default: ({ title, back }: { title: string; back: { url: string } }) => (
+        <header data-testid="inner-tab-header" data-back-url={back?.url}>
+            <h1>{title}</h1>
         </header>
     ),
 }));
 
-vi.mock("@components/dashboard/ExtendedItinerary", () => ({
+vi.mock("@/components/dashboard/itineraries/ExtendedItinerary", () => ({
     default: ({ itinerary }: any) => (
         <div data-testid="extended-itinerary" data-itinerary-id={itinerary?.id}>
-            {itinerary?.title}
         </div>
     ),
 }));
@@ -54,9 +53,8 @@ vi.mock("@components/shared/Loader", () => ({
     ),
 }));
 
-const mockItinerary = {
+const mockItinerary: ExtendedItinerary = {
     id: 1,
-    icon: "🗾",
     title: "Japan Trip",
     place: "Tokyo",
     people: 2,
@@ -66,6 +64,11 @@ const mockItinerary = {
     countDays: 7,
     tags: ["culture", "gastronomy"],
     days: [],
+    coverImage: {
+        altDescription: "A beautiful view of Mount Fuji",
+        imageUrl: "https://example.com/mount-fuji.jpg",
+        authorUsername: "photographer123",
+    }
 };
 
 describe("ItineraryDetail Page", () => {
@@ -103,14 +106,12 @@ describe("ItineraryDetail Page", () => {
         });
     });
 
-    it("renders header with place name", async () => {
+    it("renders header with itinerary title", async () => {
         vi.mocked(getItineraryById).mockResolvedValue(mockItinerary);
 
         render(<ItineraryDetailPage />);
 
-        await waitFor(() => {
-            expect(screen.getByText("Tokyo")).toBeInTheDocument();
-        });
+        expect(await screen.findByText("Japan Trip")).toBeInTheDocument();
     });
 
     it("header has correct back url", async () => {
@@ -145,6 +146,7 @@ describe("ItineraryDetail Page", () => {
             expect(screen.queryByTestId("loader")).not.toBeInTheDocument();
         });
 
+        // The mock renders title
         expect(screen.getByText("Japan Trip")).toBeInTheDocument();
     });
 

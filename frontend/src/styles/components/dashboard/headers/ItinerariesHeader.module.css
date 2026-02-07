@@ -1,0 +1,14 @@
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding-inline: var(--app-padding);
+    width: 100%;
+    height: var(--header-mobile-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-secondary);
+}

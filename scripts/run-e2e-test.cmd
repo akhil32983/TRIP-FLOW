@@ -7,13 +7,21 @@ SET PROJECT_ROOT=%SCRIPT_DIR%..
 
 echo [+] Starting TripFlow E2E environment...
 
+REM Select environment file
+if exist "docker\.env" (
+    set ENV_FILE=docker\.env
+) else (
+    set ENV_FILE=docker\.env.example
+)
+echo [+] Using environment file: %ENV_FILE%
+
 set API_URL=http://localhost:8080
-set FRONTEND_URL=http://localhost:4173
+set FRONTEND_URL=http://localhost
 
 REM Wake up services with Docker Compose
 echo [+] Starting Docker Compose services...
 cd /d "%PROJECT_ROOT%"
-call docker compose -f docker\docker-compose.test.yaml up -d
+call docker compose --env-file %ENV_FILE% -f docker\docker-compose.test.yaml up -d
 
 REM Install E2E dependencies
 echo [+] Installing E2E dependencies...
@@ -35,7 +43,7 @@ call npx playwright test
 REM Stop and remove test containers
 echo [+] Stopping and removing test containers...
 cd /d "%PROJECT_ROOT%"
-call docker compose -f docker\docker-compose.test.yaml down
+call docker compose --env-file %ENV_FILE% -f docker\docker-compose.test.yaml down
 
 echo [+] E2E pipeline finished!
 

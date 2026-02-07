@@ -3,11 +3,12 @@ import styles from "@/styles/components/form/ActivityForm.module.css";
 import type { Activity } from "@/types/itinerary";
 import { useActivityFormFields } from "@/hooks/useActivityFormFields";
 
-import { Crosshair, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 
 import Button from "@components/shared/Button";
 import FormGroup from "@components/form/FormGroup";
 import LocationForm from "@components/form/LocationForm";
+import Divider from "@components/shared/Divider";
 
 interface ActivityFormProps {
     activity: Activity;
@@ -15,6 +16,9 @@ interface ActivityFormProps {
     onActivityUpdate: (field: keyof Activity, value: any) => void;
     onLocationUpdate: (field: keyof Activity['location'] | 'latitude' | 'longitude', value: any) => void;
     onRemoveActivity: () => void;
+    isExpanded: boolean;
+    onToggleExpand: () => void;
+    displayIndex?: number;
 }
 
 export default function ActivityForm({
@@ -22,7 +26,10 @@ export default function ActivityForm({
     activityIndex,
     onActivityUpdate,
     onLocationUpdate,
-    onRemoveActivity
+    onRemoveActivity,
+    isExpanded,
+    onToggleExpand,
+    displayIndex
 }: ActivityFormProps) {
     const { activityFields, detailsField, locationFields, getFieldHandler } = useActivityFormFields(
         activity,
@@ -30,44 +37,95 @@ export default function ActivityForm({
         onActivityUpdate
     );
 
+    const visualIndex = (displayIndex ?? activityIndex) + 1;
+
+    if (!isExpanded) {
+        return (
+            <div className={styles.activitySummary} onClick={onToggleExpand}>
+                <div className={styles.summaryContent}>
+                    {activity.time && (
+                        <span className={styles.summaryTime}>
+                            {activity.time}
+                        </span>
+                    )}
+                    <span className={styles.summaryTitle}>
+                        {activity.activity || `Actividad ${visualIndex}`}
+                    </span>
+                </div>
+                <div className={styles.summaryActions}>
+                    <Button
+                        onClick={(e) => {
+                            e?.stopPropagation();
+                            onRemoveActivity();
+                        }}
+                        style={["tool_bordered", "danger"]}
+                    >
+                        <Trash2 size={16} />
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.activityCard}>
-            <div className={styles.activityHeader}>
-                <div className={styles.activityTitle}>
-                    <Crosshair size={18} />
-                    <h4 className={styles.activityTitleText}>Actividad {activityIndex + 1}</h4>
+            <div className={styles.activityHeader} onClick={onToggleExpand}>
+                <div className={styles.summaryContent}>
+                    {activity.time && (
+                        <span className={styles.summaryTime}>
+                            {activity.time}
+                        </span>
+                    )}
+                    <span className={styles.summaryTitle}>
+                        {activity.activity || `Actividad ${visualIndex}`}
+                    </span>
                 </div>
-                <Button
-                    onClick={onRemoveActivity}
-                    style={["tool_bordered", "danger"]}
-                ><Trash2 size={16} /></Button>
+                <div className={styles.headerActions}>
+                    <Button
+                        onClick={(e) => {
+                            e?.stopPropagation();
+                            onRemoveActivity();
+                        }}
+                        style={["tool_bordered", "danger"]}
+                    >
+                        <Trash2 size={16} />
+                    </Button>
+                </div>
             </div>
 
+            <Divider />
+
             <div className={styles.activityForm}>
+                <FormGroup
+                    field={activityFields[0]}
+                    handleChange={getFieldHandler(activityFields[0].name)}
+                    fullWidth
+                />
+
                 <div className={styles.formRow}>
-                    {activityFields.map((field) => (
+                    {activityFields.slice(1).map((field) => (
                         <FormGroup
                             key={field.name}
                             field={field}
                             handleChange={getFieldHandler(field.name)}
+                            fullWidth
                         />
                     ))}
                 </div>
 
                 <FormGroup
-                    key={detailsField.name}
                     field={detailsField}
                     handleChange={getFieldHandler(detailsField.name)}
                     fullWidth
                 />
 
-                <div className={styles.locationForm}>
-                    <LocationForm
-                        fields={locationFields}
-                        onLocationUpdate={onLocationUpdate}
-                    />
-                </div>
             </div>
+            <Divider />
+
+            <LocationForm
+                fields={locationFields}
+                onLocationUpdate={onLocationUpdate}
+            />
         </div>
     );
 }

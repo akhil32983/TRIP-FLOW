@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--space-larger);
-  margin-bottom: calc(var(--space-largest) * 4);
+  margin-bottom: calc(var(--space-largest) * 2.5);
 
   .title {
     font-size: var(--font-size-larger);
@@ -14,7 +14,7 @@
   }
 }
 
-@media (max-width: 864px) {
+@media (max-width: 1024px) {
   .section {
     margin-bottom: calc(var(--space-largest) * 2);
 

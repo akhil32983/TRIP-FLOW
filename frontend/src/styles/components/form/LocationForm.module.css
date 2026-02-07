@@ -1,35 +1,37 @@
 .locationForm {
     width: 100%;
+    padding: var(--space-lg);
+    padding-top: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-md);
-    background: var(--bg-card);
-    padding: var(--space-md);
-    border-radius: var(--border-radius-md);
-    border: 1px solid var(--border-primary);
+    gap: var(--space-xl);
 
     .formHeader {
         width: 100%;
         display: flex;
         align-items: center;
         gap: var(--space-sm);
+        color: var(--primary);
 
         .formTitle {
             font-size: var(--font-size-md);
             font-weight: var(--font-weight-bold);
-            color: var(--text-primary);
         }
     }
 
     .formRow {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
         gap: var(--space-lg);
     }
 }
 
 @media (max-width: 768px) {
-    .formRow {
+    .locationForm .formRow {
         grid-template-columns: 1fr;
+    }
+
+    .locationForm .formRow:last-child {
+        grid-template-columns: repeat(2, 1fr);
     }
 }

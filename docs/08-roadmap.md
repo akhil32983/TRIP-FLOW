@@ -79,47 +79,96 @@
 
 ### 🔧 Backend
 
-- [ ] {Feature} AI-Powered Itinerary Generation (OpenRouter)
-  - [ ] {API} AI Generation endpoint - `POST /api/v1/ai/generate`
-  - [ ] {Model} AI Logs entity for tracking requests and usage
-  - [ ] {Pattern} AI response caching and rate limiting (Decorator)
-  - [ ] {API} AI logs endpoint - `GET /api/v1/ai/logs`
-- [ ] {Feature} User profile management
-  - [ ] {API} Avatar upload endpoint - `POST /api/v1/users/{id}/avatar`
-  - [ ] {API} Avatar retrieval endpoint - `GET /api/v1/users/{id}/avatar`
-  - [ ] {API} User profile endpoint - `GET /api/v1/users/{id}`
-  - [ ] {API} User profile update endpoint - `PUT /api/v1/users/{id}`
-  - [ ] {API} User account deletion endpoint - `DELETE /api/v1/users/{id}`
-- [ ] {Feature} User Statistics endpoint - `GET /api/v1/stats`
+- [x] {Feature} AI-Powered Itinerary Generation
+  - [x] {API} AI Generation endpoint - `POST /api/v1/ai`
+  - [x] {API} AI Status endpoint - `GET /api/v1/ai/status`
+  - [x] {Model} AI Logs entity for tracking requests and usage
+  - [x] {Pattern} AI response rate limiting (daily limit per user)
+- [x] {Feature} User profile management
+  - [x] {API} Avatar upload endpoint - `POST /api/v1/users/{username}/avatar`
+  - [x] {API} Avatar retrieval endpoint - `GET /api/v1/users/{username}/avatar`
+  - [x] {API} User profile endpoint - `GET /api/v1/users/{username}`
+  - [x] {API} User profile update endpoint - `PUT /api/v1/users/{username}`
+  - [x] {API} User account deletion endpoint - `DELETE /api/v1/users/{username}`
+- [x] {Feature} Admin Panel Backend
+  - [x] {API} Get all users - `GET /api/v1/users`
+  - [x] {API} Delete user - `DELETE /api/v1/users/{username}`
+  - [x] {Security} Role-based access control `ROLE_ADMIN`
+- [x] {Feature} Microservices Architecture (Kafka + WebSocket)
+  - [x] {Infra} Kafka setup in Docker Compose
+  - [x] {Service} API Service (main REST API)
+  - [x] {Service} AI Service (AI generation microservice)
+  - [x] {Service} Notification Service (WebSocket notifications)
+  - [x] {Module} Common module for shared DTOs and utilities
+  - [x] {Event} `AIRequestMessage` (API → AI Service)
+  - [x] {Event} `AIGenerationMessage` (AI Service → API Service)
+  - [x] {Event} `NotificationMessage` (API Service → Notification Service)
+  - [x] {Event} `EmailMessage` (API Service → Notification Service)
+  - [x] {Kafka} API Service: Produces `ai-request`, `notification`, `email`; Consumes `ai-generation`
+  - [x] {Kafka} AI Service: Consumes `ai-request`; Produces `ai-generation`
+  - [x] {Kafka} Notification Service: Consumes `notification`, `email`
+  - [x] {DB} H2 database for secondary microservices (AI Service, Notification Service)
+- [x] {Feature} Email System
+  - [x] {Service} Email service for sending emails
+- [x] {Feature} Real-time Notifications System
+  - [x] {Model} Notification entity (in Notification Service)
+  - [x] {WebSocket} STOMP WebSocket configuration
+  - [x] {WebSocket} JWT authentication for WebSocket connections
+  - [x] {WebSocket} User-specific notification queues
+  - [x] {Service} WebSocket notification push service
+  - [x] {Optimization} Configurable heartbeat intervals (1000ms for low latency)
+- [x] {Feature} Unsplash API Integration
+  - [x] {Service} Unsplash API client for destination images
+  - [x] {Cache} Results caching for image queries
+
 
 ### ⚛️ Frontend
 
-- [ ] {Feature} AI Itinerary Generation UI
-  - [ ] {UI} AI Screen for prompting and displaying logs - `/ai`
-  - [ ] {UI} AI Logs Component for displaying AI request history
-- [ ] {UI} Stats Component for displaying user statistics
-- [ ] {Feature} User Profile Component for displaying and editing user profile
-  - [ ] {UI} Avatar upload and display
-  - [ ] {UI} User profile details and edit form
+- [x] {Feature} AI Itinerary Generation UI
+  - [x] {UI} AI Generation form in dashboard - `/dashboard`
+  - [x] {UI} Advanced options (budget, pace, accommodation)
+  - [x] {UI} AI usage tracking and rate limit display
+  - [x] {UI} Loading states and error handling
+- [x] {Feature} User Profile Component
+  - [x] {UI} Avatar upload and display
+  - [x] {UI} User profile details and editable form
+  - [x] {UI} Account deletion UI
+- [x] {Feature} Real-time Notifications UI
+  - [x] {Provider} WebSocket provider with STOMP client
+  - [x] {Provider} Notification provider for UI notifications
+  - [x] {Hook} `useWebSocketNotifications` - Generic hook for WebSocket subscriptions
+  - [x] {Hook} `useNotifications` - Visual notification display
+  - [x] {UI} Toast notifications with customizable duration
+  - [x] {Feature} Auto-refresh on notifications
+    - [x] Itineraries list auto-refresh on `ITINERARY_GENERATED`
+    - [x] Recent itineraries auto-refresh on `ITINERARY_GENERATED`
+    - [x] User stats auto-refresh on `ITINERARY_GENERATED`
+- [x] {Feature} Verification Code UI
+  - [x] {UI} Verification code flow when registering new user and email verification
+- [x] {Feature} Admin Panel UI
+  - [x] {UI} Admin dashboard - `/admin`
+  - [x] {UI} Users table (delete, filter)
+  - [x] {Security} Admin-only route guards
+- [x] {Feature} Unsplash Integration UI
+  - [x] {UI} Replace itinerary icons with Unsplash images
+  - [x] {UI} Lazy loading + placeholders
+
 
 ### ⚙️ Testing
 
-- [ ] {Unit-Backend} AI Generation service tests (OpenRouter integration, caching)
-- [ ] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
-- [ ] {Unit-Backend} User statistics service tests (data calculation and aggregation)
-- [ ] {Unit-Backend} AI Logs service tests (request tracking and retrieval)
-- [ ] {Unit-Frontend} AI Generation UI tests (form validation, API integration)
-- [ ] {Unit-Frontend} User profile component tests (avatar upload, form handling)
-- [ ] {Unit-Frontend} Stats component tests (data display and formatting)
-- [ ] {Unit-Frontend} AI Logs component tests (history display and filtering)
-- [ ] {Integration-Backend} AI Generation endpoint tests (with mocked OpenRouter)
-- [ ] {Integration-Backend} User profile endpoints tests (file upload, data validation)
-- [ ] {Integration-Backend} Statistics endpoint tests (database queries and responses)
-- [ ] {Integration-Frontend} AI workflow tests (generate → display → save)
-- [ ] {Integration-Frontend} Profile management workflow tests (upload → update → delete)
-- [ ] {E2E} Complete AI itinerary generation flow
-- [ ] {E2E} Complete user profile management flow
-- [ ] {Security} Rate limiting tests for AI endpoint
+- [x] {Unit-Backend} AI Generation service tests (OpenRouter integration, rate limiting)
+- [x] {Unit-Backend} AI Logs service tests (request tracking and retrieval)
+- [x] {Unit-Backend} Kafka producer/consumer tests
+- [x] {Unit-Backend} Notifications service tests
+- [x] {Unit-Backend} User profile service tests (avatar upload, profile CRUD)
+- [x] {Integration-Backend} AI Generation endpoint tests
+- [x] {Integration-Backend} User profile endpoints tests (file upload, data validation)
+- [x] {Unit-Frontend} User profile component tests (avatar upload, form handling)
+- [x] {Unit-Frontend} Notifications component tests
+- [x] {Unit-Frontend} Admin panel component tests
+- [x] {E2E} Complete AI itinerary generation flow
+- [x] {E2E} Complete user profile management flow
+- [x] {E2E} Complete admin panel flow
 
 ---
 
@@ -127,54 +176,47 @@
 
 ### 🔧 Backend
 
-- [ ] {Feature} Preferences management for AI generation
-  - [ ] {Model} User Preferences entity
-  - [ ] {API} Preferences endpoint - `GET /api/v1/users/{id}/preferences`
-  - [ ] {API} Update Preferences endpoint - `PUT /api/v1/users/{id}/preferences`
-- [ ] {Feature} Route optimization algorithms
-  - [ ] {Algorithm} TSP optimization (?)
-  - [ ] {API} Route optimization endpoint - `POST /api/v1/route/optimize`
-- [ ] {Feature} Achievements and experience points system
-  - [ ] {Model} Achievement entity
-  - [ ] {API} Achievements endpoint - `GET /api/v1/achievements?status={ALL|USER}`
-  - [ ] {API} Headers based achievement tracking
+- [ ] {Feature} Collaborative Itineraries
+  - [ ] {Model} Collaboration entity (User-Itinerary-Role)
+  - [ ] {API} Invite user endpoint - `POST /api/v1/itineraries/{id}/invite`
+  - [ ] {Access} Permission logic (VIEWER, EDITOR, OWNER)
+  - [ ] {WebSocket} Real-time collaboration updates synchronization
+- [ ] {Feature} Basic Backend Support for Maps
+  - [ ] {Model} Extension of Location entity to support coordinates/GeoJSON
+- [ ] {Feature} Location Discovery
+  - [ ] {Concept} Exploration of nearby places / points of interest (Implementation TBD)
 
 ### ⚛️ Frontend
 
-- [ ] {Feature} Preferences UI for AI generation
-  - [ ] {UI} Preferences Component for managing user preferences - `settings`
-- [ ] {Feature} Route optimization UI
-  - [ ] {UI} Route optimization interface and controls
-  - [ ] {Component} Route optimization results display
-  - [ ] {Integration} Integration with route optimization API
-- [ ] {Feature} Achievements and gamification UI
-  - [ ] {Component} Achievement progress tracking and display
-  - [ ] {Component} Achievement notification system
-  - [ ] {UI} User experience points and level display
-- [ ] {PWA} Progressive Web App features
-  - [ ] {Feature} Available to install on mobile devices
+- [ ] {Feature} Interactive Maps Integration
+  - [ ] {UI} Map visualization component (Leaflet/Mapbox)
+  - [ ] {UI} Plotting daily itinerary routes
+- [ ] {Feature} Collaborative Itineraries UI
+  - [ ] {UI} Share Itinerary Modal & Link generation
+  - [ ] {UI} Role attribution interface
+- [ ] {PWA} Offline Access
+  - [ ] {Config} Service Worker configuration
+  - [ ] {Cache} Caching strategies for itinerary data
+  - [ ] {UI} Offline mode indicator and read-only access
+- [ ] {Feature} Client-Side PDF Export
+  - [ ] {Library} Integration with PDF library (e.g., react-pdf / jsPDF)
+  - [ ] {UI} Export button and layout generation
 
 ### ⚙️ Testing
 
-- [ ] {Unit-Backend} User Preferences service tests (CRUD operations)
-- [ ] {Unit-Backend} Route optimization algorithm tests (TSP implementation)
-- [ ] {Unit-Backend} Achievement service tests
-- [ ] {Unit-Frontend} Preferences component tests
-- [ ] {Unit-Frontend} Route optimization UI tests
-- [ ] {Unit-Frontend} Achievement components tests
-- [ ] {Integration-Backend} Preferences endpoints tests
-- [ ] {Integration-Backend} Achievement system tests
-- [ ] {Integration-Frontend} Preferences workflow tests
-- [ ] {E2E} Complete preferences management flow
-- [ ] {E2E} Complete route optimization flow (select → optimize → save)
+- [ ] {Unit-Backend} Permission service tests (Roles logic)
+- [ ] {Integration-Backend} Collaboration endpoints
+- [ ] {E2E} Offline mode behavior
+- [ ] {E2E} Collaborative flow
 
 ---
 
-## ⭐ Nice-to-Have Features (not prioritized)
+## ⭐ Future & Nice-to-Have
 
-- [ ] {Feature} PDF Export of itineraries
-- [ ] {Feature} Offline access to itineraries
-- [ ] {Feature} Nominatim integration for location search
+- [ ] {Feature} Route Optimization Algorithms (TSP)
+- [ ] {Feature} Travel Achievements & Gamification
+- [ ] {Feature} User Travel Preferences
+- [ ] {Feature} Advanced Location Discovery (Filters, Categories)
 
 ---
 

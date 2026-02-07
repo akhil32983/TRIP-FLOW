@@ -234,26 +234,6 @@ describe("FormGroup Component", () => {
         expect(fieldDiv.className).not.toMatch(/fullWidth/);
     });
 
-    it("applies custom CSS variable with index", () => {
-        const { container } = render(
-            <FormGroup field={mockField} handleChange={vi.fn()} index={5} />
-        );
-
-        const fieldDiv = container.firstChild as HTMLElement;
-        const style = fieldDiv.getAttribute("style");
-        expect(style).toContain("--index: 6");
-    });
-
-    it("uses default index 1 when no index provided", () => {
-        const { container } = render(
-            <FormGroup field={mockField} handleChange={vi.fn()} />
-        );
-
-        const fieldDiv = container.firstChild as HTMLElement;
-        const style = fieldDiv.getAttribute("style");
-        expect(style).toContain("--index: 1");
-    });
-
     it("handles empty placeholder", () => {
         const fieldWithoutPlaceholder = {
             ...mockField,

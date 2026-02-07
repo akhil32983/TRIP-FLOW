@@ -99,8 +99,8 @@ describe("Stats Component", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Actividades")).toBeInTheDocument();
-      expect(screen.getByText("Lugares Visitados")).toBeInTheDocument();
-      expect(screen.getByText("Días de Actividad")).toBeInTheDocument();
+      expect(screen.getByText("Lugares")).toBeInTheDocument();
+      expect(screen.getByText("Días")).toBeInTheDocument();
     });
   });
 });

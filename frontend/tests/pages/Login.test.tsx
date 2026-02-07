@@ -38,6 +38,8 @@ const mockUser = {
   location: "Test location",
   createdAt: "2024-01-01T00:00:00Z",
   role: "USER" as const,
+  plan: "FREE" as const,
+  notificationsAllowed: true,
 };
 
 describe("Login Page Validation", () => {
@@ -52,6 +54,8 @@ describe("Login Page Validation", () => {
       login: mockLogin,
       logout: vi.fn(),
       register: vi.fn(),
+      updateProfile: vi.fn(),
+      verify: vi.fn(),
     });
 
     vi.mocked(useNavigate).mockReturnValue(mockNavigate);
@@ -60,7 +64,7 @@ describe("Login Page Validation", () => {
   it("renders login form with correct fields", () => {
     render(<Login />);
 
-    expect(screen.getByLabelText("Usuario")).toBeInTheDocument();
+    expect(screen.getByLabelText("Usuario / Email")).toBeInTheDocument();
     expect(screen.getByLabelText("Contraseña")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Iniciar sesión" })
@@ -85,7 +89,7 @@ describe("Login Page Validation", () => {
   it("shows validation error for empty password", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
 
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
@@ -103,7 +107,7 @@ describe("Login Page Validation", () => {
   it("shows validation error for whitespace-only username", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     fireEvent.change(usernameInput, { target: { value: "   " } });
 
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
@@ -121,7 +125,7 @@ describe("Login Page Validation", () => {
   it("shows validation error for whitespace-only password", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -162,7 +166,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -182,9 +186,9 @@ describe("Login Page Validation", () => {
   it("navigates to dashboard on successful login", async () => {
     mockLogin.mockResolvedValue({ success: true });
 
-    render(<Login />);
+    const { rerender } = render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -194,6 +198,23 @@ describe("Login Page Validation", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
+        expect(mockLogin).toHaveBeenCalled();
+    });
+
+    // Simulate state update in provider which triggers re-render with user
+    vi.mocked(useAuth).mockReturnValue({
+        user: mockUser as any,
+        errors: null,
+        login: mockLogin,
+        logout: vi.fn(),
+        register: vi.fn(),
+        updateProfile: vi.fn(),
+        verify: vi.fn(),
+    });
+
+    rerender(<Login />);
+
+    await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
     });
   });
@@ -201,6 +222,7 @@ describe("Login Page Validation", () => {
   it("displays server errors on login failure", async () => {
     mockLogin.mockResolvedValue({
       success: false,
+      verified: true,
       errors: {
         global: "Credenciales inválidas",
       },
@@ -208,7 +230,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "testuser" } });
@@ -227,6 +249,7 @@ describe("Login Page Validation", () => {
   it("displays specific field errors from server", async () => {
     mockLogin.mockResolvedValue({
       success: false,
+      verified: true,
       errors: {
         username: "Usuario no encontrado",
         password: "Contraseña incorrecta",
@@ -235,7 +258,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "nonexistent" } });
@@ -254,6 +277,7 @@ describe("Login Page Validation", () => {
     // First submission with errors
     mockLogin.mockResolvedValueOnce({
       success: false,
+      verified: true,
       errors: {
         global: "Error del servidor",
       },
@@ -261,7 +285,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
     const submitButton = screen.getByRole("button", { name: "Iniciar sesión" });
 
@@ -286,17 +310,13 @@ describe("Login Page Validation", () => {
   it("renders signup alternative link", () => {
     render(<Login />);
 
-    expect(screen.getByText("¿No tienes una cuenta?")).toBeInTheDocument();
-
-    const signupLink = screen.getByRole("link", { name: "Regístrate aquí" });
-    expect(signupLink).toBeInTheDocument();
-    expect(signupLink).toHaveAttribute("href", "/signup");
+    expect(screen.getByText("Registrarse")).toBeInTheDocument();
   });
 
   it("handles login with special characters in username (edge case)", async () => {
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: "user@test" } });
@@ -319,7 +339,7 @@ describe("Login Page Validation", () => {
 
     render(<Login />);
 
-    const usernameInput = screen.getByLabelText("Usuario");
+    const usernameInput = screen.getByLabelText("Usuario / Email");
     const passwordInput = screen.getByLabelText("Contraseña");
 
     fireEvent.change(usernameInput, { target: { value: longUsername } });
@@ -345,6 +365,8 @@ describe("Login Page Validation", () => {
       login: mockLogin,
       logout: vi.fn(),
       register: vi.fn(),
+      updateProfile: vi.fn(),
+      verify: vi.fn(),
     });
 
     render(<Login />);

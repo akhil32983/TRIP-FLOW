@@ -1,8 +1,8 @@
-import { useCallback, createElement } from "react";
+import { useCallback, createElement, useMemo } from "react";
 
 import type { ExtendedItinerary } from "@/types/itinerary";
 
-import { Tag, MapPin, Users, Euro, Calendar, Plane, BatteryMedium } from "lucide-react";
+import { MapPin, Users, Euro, Calendar, Plane, BatteryMedium, CalendarDays } from "lucide-react";
 import type { Field } from "@/components/form/FormGroup";
 import { formatStatus } from "@/utils/formatUtils";
 
@@ -14,6 +14,16 @@ export function useBasicInfoFormFields(
     itinerary: ExtendedItinerary,
     onUpdateBasicInfo: (field: keyof ExtendedItinerary, value: any) => void
 ) {
+    // Determine the end date based on start date + days count
+    const endDate = useMemo(() => {
+        if (!itinerary.date || !itinerary.days.length) return "";
+        const start = new Date(itinerary.date);
+        // Duration is inclusive, so add days.length - 1
+        const end = new Date(start);
+        end.setDate(start.getDate() + itinerary.days.length - 1);
+        return end.toISOString().split('T')[0];
+    }, [itinerary.date, itinerary.days.length]);
+
     const handleFieldChange = useCallback((field: keyof ExtendedItinerary, type: 'string' | 'number' | 'float' = 'string') => (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
@@ -26,16 +36,42 @@ export function useBasicInfoFormFields(
         onUpdateBasicInfo(field, value);
     }, [onUpdateBasicInfo]);
 
+    const handleEndDateChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const newEndDateStr = e.target.value;
+        if (!newEndDateStr || !itinerary.date) return;
+
+        const start = new Date(itinerary.date);
+        const end = new Date(newEndDateStr);
+
+        // Calculate difference in days (inclusive)
+        const diffTime = end.getTime() - start.getTime();
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+
+        if (diffDays < 1) return;
+
+        const currentDays = itinerary.days;
+        let newDays = [...currentDays];
+
+        if (diffDays > currentDays.length) {
+            // Add days
+            const daysToAdd = diffDays - currentDays.length;
+            for (let i = 0; i < daysToAdd; i++) {
+                newDays.push({
+                    day: currentDays.length + i + 1,
+                    activities: []
+                });
+            }
+        } else if (diffDays < currentDays.length) {
+            // Remove days
+            newDays = newDays.slice(0, diffDays);
+        }
+
+        onUpdateBasicInfo('days', newDays);
+        onUpdateBasicInfo('countDays', diffDays);
+
+    }, [itinerary.date, itinerary.days, onUpdateBasicInfo]);
+
     const basicInfoFields: Field[] = [
-        {
-            name: "trip-icon",
-            label: "Icono del viaje",
-            type: "text",
-            value: itinerary.icon,
-            placeholder: "🗼 Elige un emoji",
-            icon: createElement(Tag, { size: 16 }),
-            max: 2
-        },
         {
             name: "trip-title",
             label: "Título del viaje",
@@ -56,7 +92,7 @@ export function useBasicInfoFormFields(
         },
         {
             name: "trip-people",
-            label: "Número de viajeros",
+            label: "Viajeros",
             type: "number",
             value: itinerary.people,
             placeholder: "¿Cuántas personas?",
@@ -66,7 +102,7 @@ export function useBasicInfoFormFields(
         },
         {
             name: "trip-budget",
-            label: "Presupuesto (€)",
+            label: "Presupuesto",
             type: "number",
             value: itinerary.budget,
             placeholder: "Presupuesto total",
@@ -79,6 +115,13 @@ export function useBasicInfoFormFields(
             type: "date",
             value: itinerary.date,
             icon: createElement(Calendar, { size: 16 })
+        },
+        {
+            name: "trip-end-date",
+            label: "Fecha de fin",
+            type: "date",
+            value: endDate,
+            icon: createElement(CalendarDays, { size: 16 })
         },
         {
             name: "trip-status",
@@ -97,8 +140,6 @@ export function useBasicInfoFormFields(
 
     const getFieldHandler = useCallback((fieldName: string) => {
         switch (fieldName) {
-            case 'trip-icon':
-                return handleFieldChange('icon');
             case 'trip-title':
                 return handleFieldChange('title');
             case 'trip-destination':
@@ -109,12 +150,14 @@ export function useBasicInfoFormFields(
                 return handleFieldChange('budget', 'float');
             case 'trip-date':
                 return handleFieldChange('date');
+            case 'trip-end-date':
+                return handleEndDateChange;
             case 'trip-status':
                 return handleFieldChange('status');
             default:
                 return handleFieldChange('title');
         }
-    }, [handleFieldChange]);
+    }, [handleFieldChange, handleEndDateChange]);
 
     return {
         basicInfoFields,

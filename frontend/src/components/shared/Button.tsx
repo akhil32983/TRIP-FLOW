@@ -2,7 +2,8 @@ import styles from "@styles/components/shared/Button.module.css";
 
 import { NavLink } from "react-router";
 
-type ButtonStyle = "primary" | "secondary" |"inline" | "tool" | "tool_bordered" | "logo" | "route" | "active" | "danger" | "info" | "wrap";
+type ButtonStyle = "primary" | "secondary" | "inline" | "tool" | "tool_bordered" | "logo"
+    | "route" | "active" | "danger" | "info" | "wrap" | "rounded" | "big" | "full" | "float";
 type Target = "_blank" | "_self" | "_parent" | "_top";
 type Rel = "noopener noreferrer" | "nofollow" | "noopener" | "noreferrer";
 
@@ -10,20 +11,21 @@ interface ButtonProps {
     style: ButtonStyle[];
     label?: string;
     type?: "button" | "submit" | "reset";
-    onClick?: () => void;
+    onClick?: (e?: React.MouseEvent) => void;
     to?: string;
     target?: Target;
     rel?: Rel;
     ariaLabel?: string;
     disabled?: boolean;
+    noGap?: boolean;
     children?: React.ReactNode;
 }
 
 /**
  * Button component for rendering unified styled buttons or links.
  */
-export default function Button({ label, onClick, style, type, to, target, rel, ariaLabel, disabled, children }: ButtonProps) {
-    let customStyles = `${styles.button}` + (children && label ? ` ${styles.withChildren}` : ``);
+export default function Button({ label, onClick, style, type, to, target, rel, ariaLabel, disabled, children, noGap }: ButtonProps) {
+    let customStyles = `${styles.button}` + (children && label && !noGap ? ` ${styles.withChildren}` : ``);
     style.map(s => customStyles += ` ${styles[s]}`);
 
     const body = (

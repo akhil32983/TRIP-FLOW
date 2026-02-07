@@ -1,6 +1,7 @@
 import { mockAuth } from "./auth";
 import { mockItineraries } from "./itineraries";
 import { mockStats } from "./stats";
+import { mockUser } from "./user";
 
 type MockHandler = (
   method: string,
@@ -12,6 +13,7 @@ const mockRegistry: Record<string, MockHandler> = {
   ...mockAuth,
   ...mockItineraries,
   ...mockStats,
+  ...mockUser
 };
 
 /**
@@ -34,9 +36,14 @@ export function getMock(url: string, method: string, body?: unknown): Promise<un
 
   // Dynamic parameter match search (:id)
   const dynamicRoute = Object.keys(mockRegistry).find((key) => {
-    if (!key.includes("/:")) return false;
-    const base = key.split("/:")[0];
-    return cleanUrl.startsWith(`${base}/`);
+    const keyParts = key.split("/");
+    const urlParts = cleanUrl.split("/");
+
+    if (keyParts.length !== urlParts.length) return false;
+
+    return keyParts.every((part, index) => {
+      return part.startsWith(":") || part === urlParts[index];
+    });
   });
 
   if (dynamicRoute) {

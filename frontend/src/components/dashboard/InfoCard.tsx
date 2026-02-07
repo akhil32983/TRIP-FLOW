@@ -11,8 +11,9 @@ interface InfoCardProps {
 export default function InfoCard({ icon, title, value }: InfoCardProps) {
     return (
         <div className={styles.infoCard}>
-            <h3 className={styles.title}>{icon} {title}</h3>
+            <span className={styles.icon}>{icon}</span>
             <p className={styles.value}>{value}</p>
+            <p className={styles.title}>{title}</p>
         </div>
     );
 }

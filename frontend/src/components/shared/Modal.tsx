@@ -65,10 +65,10 @@ export default function Modal({
                 </div>
 
                 <div className={styles.footer}>
-                    <Button style={["secondary"]} onClick={onCancel}>
+                    <Button type="button" style={["secondary"]} onClick={onCancel}>
                         {cancelText}
                     </Button>
-                    <Button style={["secondary", variant]} onClick={onConfirm}>
+                    <Button type="button" style={["primary", variant]} onClick={onConfirm}>
                         {confirmText}
                     </Button>
                 </div>

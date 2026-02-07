@@ -1,0 +1,99 @@
+.verificationContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xl);
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-md);
+
+    }
+    
+    .title {
+        font-size: var(--font-size-xxl);
+        font-weight: var(--font-weight-bold);
+        color: var(--text-primary);
+        text-align: center;
+    }
+
+    .description {
+        max-width: 400px;
+        font-size: var(--font-size-md);
+        color: var(--text-secondary);
+        text-align: center;
+    }
+
+
+    .form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-md);
+        margin-bottom: var(--space-lg);
+    }
+
+    .codeContainer {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-md);
+        margin: var(--space-lg) 0;
+
+        .codeInput {
+            width: 3rem;
+            height: 3.5rem;
+            font-size: var(--font-size-xl);
+            text-align: center;
+            border: 2px solid var(--border-secondary);
+            border-radius: var(--border-radius-md);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+
+            &:focus {
+                border-color: var(--primary);
+                box-shadow: 0 0 0 2px var(--primary-alpha);
+                outline: none;
+            }
+
+            /* Chrome, Safari, Edge, Opera */
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+                margin: 0;
+                -webkit-appearance: none;
+            }
+
+            /* Firefox */
+            &[type="number"] {
+                -moz-appearance: textfield;
+                appearance: textfield;
+            }
+        }
+    }
+
+    .error {
+        min-height: 1.5rem;
+        color: var(--error);
+        text-align: center;
+    }
+
+    .resendLink {
+        padding: 0;
+        border: none;
+        background: none;
+        color: var(--primary);
+        font-size: var(--font-size-sm);
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:disabled {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            cursor: not-allowed;
+        }
+    }
+}

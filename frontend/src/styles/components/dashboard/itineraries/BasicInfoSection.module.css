@@ -1,0 +1,27 @@
+.basicInfo {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xl);
+
+    .formGrid {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-xl);
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .basicInfo .formGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .basicInfo .formGrid>div:nth-child(1),
+    .basicInfo .formGrid>div:nth-child(2),
+    .basicInfo .formGrid>div:nth-child(7) {
+        grid-column: 1 / -1;
+    }
+}

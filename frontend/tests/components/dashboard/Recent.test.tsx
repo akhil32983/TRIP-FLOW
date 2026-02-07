@@ -2,7 +2,8 @@ import { render, screen, waitFor } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Recent from "@components/dashboard/Recent";
 import * as itineraryService from "@services/itineraryService";
-import type { ItineraryStatus } from "@/types/itinerary";
+import type { Itinerary, ItineraryStatus } from "@/types/itinerary";
+import type { PageResponse } from "@/types/shared";
 
 // Itinerary service mock
 vi.mock("@services/itineraryService");
@@ -20,21 +21,23 @@ vi.mock("@components/shared/Badge", () => ({
   ),
 }));
 
-vi.mock("@components/shared/ProgressBar", () => ({
-  default: ({ progress }: { progress: number }) => (
-    <div data-testid="progress-bar" data-progress={progress} />
-  ),
-}));
-
 vi.mock("@components/shared/Loader", () => ({
   default: () => <div data-testid="loader">Loading...</div>,
 }));
 
-const mockItineraries = {
+// Mock useNavigate
+vi.mock("react-router", async () => {
+    const actual = await vi.importActual("react-router");
+    return {
+        ...actual,
+        useNavigate: () => vi.fn(),
+    };
+});
+
+const mockItineraries: PageResponse<Itinerary> = {
   page: [
     {
       id: 1,
-      icon: "🗾",
       title: "Japan Trip",
       place: "Tokyo",
       people: 2,
@@ -43,10 +46,14 @@ const mockItineraries = {
       status: "ONGOING" as ItineraryStatus,
       countDays: 7,
       tags: ["culture", "gastronomy"],
+      coverImage: {
+        altDescription: "A beautiful view of Mount Fuji",
+        imageUrl: "https://example.com/mount-fuji.jpg",
+        authorUsername: "photographer123",
+      }
     },
     {
       id: 2,
-      icon: "🏔️",
       title: "Adventure in Peru",
       place: "Cusco",
       people: 4,
@@ -55,6 +62,11 @@ const mockItineraries = {
       status: "PLANNED" as ItineraryStatus,
       countDays: 10,
       tags: ["adventure", "nature"],
+      coverImage: {
+        altDescription: "A beautiful view of Machu Picchu",
+        imageUrl: "https://example.com/machu-picchu.jpg",
+        authorUsername: "photographer456",
+      }
     },
   ],
   currentPage: 0,
@@ -100,26 +112,8 @@ describe("Recent Component", () => {
     await waitFor(() => {
       expect(screen.getByText(/Tokyo/)).toBeInTheDocument();
     });
-
-    expect(screen.getByText(/culture/)).toBeInTheDocument();
-    expect(screen.getByText(/gastronomy/)).toBeInTheDocument();
-  });
-
-  it("renders progress bars with correct values", async () => {
-    render(<Recent />);
-
-    await waitFor(() => {
-      const progressBars = screen.getAllByTestId("progress-bar");
-      expect(progressBars[0]).toHaveAttribute("data-progress", "75");
-    });
-  });
-
-  it("renders 'Ver todos' button", async () => {
-    render(<Recent />);
-
-    await waitFor(() => {
-      expect(screen.getByText("Ver todos")).toBeInTheDocument();
-    });
+    
+    // Tags are not rendered in ItineraryCard anymore
   });
 
   it("handles empty itineraries", async () => {

@@ -1,0 +1,60 @@
+.aiCtaSection {
+    max-width: 600px;
+    width: 100%;
+    padding-inline: var(--app-padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
+
+    .aiCtaHeader {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: var(--space-md);
+
+        .aiCtaIcon {
+            color: var(--primary);
+        }
+
+        .aiCtaTitle {
+            color: var(--text-secondary);
+        }
+    }
+
+    .cta {
+        width: 100%;
+        padding: var(--space-xl);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: var(--space-md);
+        
+        background: var(--bg-secondary);
+        border-radius: var(--border-radius-lg);
+        border: 2px solid var(--border-secondary);
+
+        p {
+            color: var(--text-tertiary);
+            font-size: var(--font-size-md);
+            text-wrap: balance;
+            margin-bottom: var(--space-md);
+        }
+
+    }
+}
+
+@media (min-width: 768px) {
+    .aiCtaSection {
+        max-width: 100%;
+        
+        .cta {
+            padding: var(--space-xxl);
+
+            p {
+                margin-bottom: var(--space-xl);
+                font-size: var(--font-size-md);
+                max-width: 100%;
+            }
+        }
+    }
+}

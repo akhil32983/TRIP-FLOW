@@ -317,79 +317,79 @@ import type { Activity, ItineraryDay } from "@/types/itinerary";
  * Handles adding, removing, and updating activities
  */
 <span class="cstat-no" title="statement not covered" >export function useActivityManager(</span>
-<span class="cstat-no" title="statement not covered" >    days: ItineraryDay[], </span>
+<span class="cstat-no" title="statement not covered" >    days: ItineraryDay[],</span>
 <span class="cstat-no" title="statement not covered" >    onDaysChange: (newDays: ItineraryDay[]) =&gt; void</span>
 <span class="cstat-no" title="statement not covered" >) {</span>
 <span class="cstat-no" title="statement not covered" >    const createDefaultActivity = (): Activity =&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >        activity: "Nueva Actividad",</span>
-<span class="cstat-no" title="statement not covered" >        details: "Añadir descripción de la actividad aquí",</span>
+<span class="cstat-no" title="statement not covered" >        activity: "",</span>
+<span class="cstat-no" title="statement not covered" >        details: "",</span>
 <span class="cstat-no" title="statement not covered" >        location: {</span>
-<span class="cstat-no" title="statement not covered" >            name: "Nombre del Lugar",</span>
-<span class="cstat-no" title="statement not covered" >            address: "Dirección Completa",</span>
+<span class="cstat-no" title="statement not covered" >            name: "",</span>
+<span class="cstat-no" title="statement not covered" >            address: "",</span>
 <span class="cstat-no" title="statement not covered" >            coordinates: {</span>
 <span class="cstat-no" title="statement not covered" >                latitude: 0,</span>
 <span class="cstat-no" title="statement not covered" >                longitude: 0</span>
 <span class="cstat-no" title="statement not covered" >            }</span>
 <span class="cstat-no" title="statement not covered" >        },</span>
-<span class="cstat-no" title="statement not covered" >        time: "10:00",</span>
-<span class="cstat-no" title="statement not covered" >        duration: "1 hora"</span>
+<span class="cstat-no" title="statement not covered" >        time: "",</span>
+<span class="cstat-no" title="statement not covered" >        duration: ""</span>
 <span class="cstat-no" title="statement not covered" >    });</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    const handleAddActivity = useCallback((dayIndex: number) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        const newActivity = createDefaultActivity();</span>
-        
-<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt; </span>
-<span class="cstat-no" title="statement not covered" >            index === dayIndex </span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            index === dayIndex</span>
 <span class="cstat-no" title="statement not covered" >                ? { ...day, activities: [...day.activities, newActivity] }</span>
 <span class="cstat-no" title="statement not covered" >                : day</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        onDaysChange(newDays);</span>
 <span class="cstat-no" title="statement not covered" >    }, [days, onDaysChange]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    const handleRemoveActivity = useCallback((dayIndex: number, activityIndex: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt; </span>
-<span class="cstat-no" title="statement not covered" >            index === dayIndex </span>
-<span class="cstat-no" title="statement not covered" >                ? { </span>
-<span class="cstat-no" title="statement not covered" >                    ...day, </span>
-<span class="cstat-no" title="statement not covered" >                    activities: day.activities.filter((_, actIndex) =&gt; actIndex !== activityIndex) </span>
+<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            index === dayIndex</span>
+<span class="cstat-no" title="statement not covered" >                ? {</span>
+<span class="cstat-no" title="statement not covered" >                    ...day,</span>
+<span class="cstat-no" title="statement not covered" >                    activities: day.activities.filter((_, actIndex) =&gt; actIndex !== activityIndex)</span>
 <span class="cstat-no" title="statement not covered" >                }</span>
 <span class="cstat-no" title="statement not covered" >                : day</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        onDaysChange(newDays);</span>
 <span class="cstat-no" title="statement not covered" >    }, [days, onDaysChange]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    const handleUpdateActivity = useCallback((</span>
-<span class="cstat-no" title="statement not covered" >        dayIndex: number, </span>
-<span class="cstat-no" title="statement not covered" >        activityIndex: number, </span>
-<span class="cstat-no" title="statement not covered" >        field: keyof Activity, </span>
+<span class="cstat-no" title="statement not covered" >        dayIndex: number,</span>
+<span class="cstat-no" title="statement not covered" >        activityIndex: number,</span>
+<span class="cstat-no" title="statement not covered" >        field: keyof Activity,</span>
 <span class="cstat-no" title="statement not covered" >        value: any</span>
 <span class="cstat-no" title="statement not covered" >    ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt; </span>
-<span class="cstat-no" title="statement not covered" >            index === dayIndex </span>
+<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            index === dayIndex</span>
 <span class="cstat-no" title="statement not covered" >                ? {</span>
 <span class="cstat-no" title="statement not covered" >                    ...day,</span>
-<span class="cstat-no" title="statement not covered" >                    activities: day.activities.map((activity, actIndex) =&gt; </span>
-<span class="cstat-no" title="statement not covered" >                        actIndex === activityIndex </span>
+<span class="cstat-no" title="statement not covered" >                    activities: day.activities.map((activity, actIndex) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >                        actIndex === activityIndex</span>
 <span class="cstat-no" title="statement not covered" >                            ? { ...activity, [field]: value }</span>
 <span class="cstat-no" title="statement not covered" >                            : activity</span>
 <span class="cstat-no" title="statement not covered" >                    )</span>
 <span class="cstat-no" title="statement not covered" >                }</span>
 <span class="cstat-no" title="statement not covered" >                : day</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        onDaysChange(newDays);</span>
 <span class="cstat-no" title="statement not covered" >    }, [days, onDaysChange]);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >    const handleUpdateActivityLocation = useCallback((</span>
-<span class="cstat-no" title="statement not covered" >        dayIndex: number, </span>
-<span class="cstat-no" title="statement not covered" >        activityIndex: number, </span>
-<span class="cstat-no" title="statement not covered" >        field: keyof Activity['location'] | 'latitude' | 'longitude', </span>
+<span class="cstat-no" title="statement not covered" >        dayIndex: number,</span>
+<span class="cstat-no" title="statement not covered" >        activityIndex: number,</span>
+<span class="cstat-no" title="statement not covered" >        field: keyof Activity['location'] | 'latitude' | 'longitude',</span>
 <span class="cstat-no" title="statement not covered" >        value: any</span>
 <span class="cstat-no" title="statement not covered" >    ) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt; </span>
-<span class="cstat-no" title="statement not covered" >            index === dayIndex </span>
+<span class="cstat-no" title="statement not covered" >        const newDays = days.map((day, index) =&gt;</span>
+<span class="cstat-no" title="statement not covered" >            index === dayIndex</span>
 <span class="cstat-no" title="statement not covered" >                ? {</span>
 <span class="cstat-no" title="statement not covered" >                    ...day,</span>
 <span class="cstat-no" title="statement not covered" >                    activities: day.activities.map((activity, actIndex) =&gt; {</span>
@@ -421,7 +421,7 @@ import type { Activity, ItineraryDay } from "@/types/itinerary";
 <span class="cstat-no" title="statement not covered" >                }</span>
 <span class="cstat-no" title="statement not covered" >                : day</span>
 <span class="cstat-no" title="statement not covered" >        );</span>
-        
+&nbsp;
 <span class="cstat-no" title="statement not covered" >        onDaysChange(newDays);</span>
 <span class="cstat-no" title="statement not covered" >    }, [days, onDaysChange]);</span>
 &nbsp;
@@ -439,7 +439,7 @@ import type { Activity, ItineraryDay } from "@/types/itinerary";
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-13T07:36:28.668Z
+                at 2026-01-27T10:13:05.693Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

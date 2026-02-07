@@ -10,7 +10,7 @@ vi.mock("@/layouts/AppLayout", () => ({
   )
 }));
 
-vi.mock("@/components/dashboard/DashboardHeader", () => ({
+vi.mock("@/components/dashboard/headers/DashboardHeader", () => ({
   default: ({ title }: any) => (
     <header data-testid="dashboard-header">{title}</header>
   )
@@ -24,10 +24,6 @@ vi.mock("@/components/dashboard/Recent", () => ({
   default: () => <section data-testid="recent" />
 }));
 
-vi.mock("@/components/shared/Button", () => ({
-  default: () => <button data-testid="button" />
-}));
-
 describe("DashboardPage", () => {
   it("renders dashboard page", () => {
     render(<DashboardPage />);
@@ -39,12 +35,6 @@ describe("DashboardPage", () => {
     render(<DashboardPage />);
 
     expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
-  });
-
-  it("renders welcome message", () => {
-    render(<DashboardPage />);
-
-    expect(screen.getByText(/Bienvenido,/)).toBeInTheDocument();
   });
 
   it("renders Stats component", () => {

@@ -6,7 +6,7 @@ on:
       - main
       - develop
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - '.github/workflows/ci-generate-api-docs.yaml'
   
   workflow_dispatch:
@@ -22,16 +22,10 @@ jobs:
         uses: docker/setup-compose-action@v1
         with:
           version: latest
-
-      - name: Start services with Docker Compose
-        working-directory: ./docker
-        run: docker compose -f docker-compose.test.yaml up -d
-
-      - name: Wait for services to be healthy
+      
+      - name: Ensure helper scripts are executable
+        run: chmod +x run-wait-for-services.sh
         working-directory: ./scripts
-        run: |
-          chmod +x run-wait-for-services.sh
-          ./run-wait-for-services.sh
 
       - name: Generate API Docs
         working-directory: ./scripts

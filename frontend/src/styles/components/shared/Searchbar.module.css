@@ -1,16 +1,21 @@
 .searchbar {
-    --shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    --border-radius: var(--border-radius-lg);
+
+    height: 42px;
     width: 100%;
     display: flex;
     align-items: center;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--border-radius);
+    color: var(--text-tertiary);
     transition: all 0.2s ease;
 
     .input {
-        border: 1px solid var(--border-primary);
-        border-right: none;
-        background-color: var(--bg-overlay);
-        border-radius: var(--border-radius-md) 0 0 var(--border-radius-md);
+        height: 100%;
+        border: 2px solid var(--border-secondary);
+        border-left: none;
+        padding-left: 0;
+        background-color: var(--bg-secondary);
+        border-radius: 0 var(--border-radius) var(--border-radius) 0;
         transition: all 0.2s ease;
 
         &:focus {
@@ -20,29 +25,30 @@
     }
 
     .button {
-        color: var(--text-secondary);
-        border: 1px solid var(--border-primary);
-        border-left: none;
-        background-color: var(--bg-overlay);
+        color: var(--text-tertiary);
+        border: 2px solid var(--border-secondary);
+        border-right: none;
+        background-color: var(--bg-secondary);
         height: 100%;
         aspect-ratio: 1;
         padding: var(--space-sm);
-        border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+        border-radius: var(--border-radius) 0 0 var(--border-radius);
         cursor: pointer;
         transition: all 0.2s ease;
 
-        &:hover {
-            color: var(--text-primary);
+        @media (hover: hover) {
+            &:hover {
+                color: var(--primary);
+            }
         }
-        
+
         &:focus {
             outline: none;
         }
     }
 
     &:has(.input:focus) {
-        box-shadow: var(--shadow);
-        
+
         .input,
         .button {
             backdrop-filter: blur(24px);
@@ -50,11 +56,14 @@
         }
     }
 
-    &:hover {
-        .input,
-        .button {
-            backdrop-filter: blur(24px);
-            border-color: var(--primary);
+    @media (hover: hover) {
+        &:hover {
+
+            .input,
+            .button {
+                backdrop-filter: blur(24px);
+                border-color: var(--primary);
+            }
         }
     }
 }

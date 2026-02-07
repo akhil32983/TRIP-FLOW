@@ -6,13 +6,13 @@ on:
       - main
       - develop
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - '.github/workflows/ci-integration-tests.yaml'
   pull_request:
     branches:
       - main
     paths:
-      - 'backend/**'
+      - 'backend/api-service/**'
       - '.github/workflows/ci-integration-tests.yaml'
   
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./backend
+        working-directory: ./backend/
         
     steps:
       - name: Checkout code
@@ -42,8 +42,11 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Run integration tests
-        run: mvn test -Dgroups=integration
+        run: mvn test -pl ./api-service -am -Dgroups=integration
         env:
           CI: true
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          ADMIN_EMAIL: "admin@admin.com"
+          ADMIN_USERNAME: "admin"
+          ADMIN_PASSWORD: "secure_password"
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}

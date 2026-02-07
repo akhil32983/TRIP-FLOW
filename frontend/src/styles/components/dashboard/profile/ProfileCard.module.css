@@ -1,0 +1,72 @@
+.profileCard {
+    --space: var(--space-lg);
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--app-padding);
+    padding-top: var(--space-xxxl);
+    gap: var(--space-lg);
+    transition: all 0.2s ease-in-out;
+
+    .profileImage {
+        --size: 124px;
+        min-width: var(--size);
+        width: var(--size);
+        height: var(--size);
+        border-radius: var(--border-radius-full);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+
+    .profileInfo {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-xs);
+
+        .profileName {
+            font-size: var(--font-size-xxl);
+            font-weight: var(--font-weight-bold);
+            color: var(--text-primary);
+        }
+
+        .profileDescription {
+            margin-top: var(--space-sm);
+            font-size: var(--font-size-sm);
+            font-weight: var(--font-weight-normal);
+            color: var(--text-secondary);
+            text-align: center;
+            text-wrap: balance;
+            max-width: 400px;
+        }
+
+        .profileMetadataItem {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            color: var(--text-tertiary);
+            font-size: var(--font-size-sm);
+            width: 100%;
+        }
+    }
+
+    .icon {
+        width: 16px;
+        height: 16px;
+        color: var(--text-tertiary);
+    }
+
+    .profileAction {
+        position: absolute;
+        top: var(--space);
+        right: var(--space);
+    }
+}

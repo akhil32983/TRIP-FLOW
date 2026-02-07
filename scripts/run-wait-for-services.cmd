@@ -3,7 +3,7 @@ setlocal
 
 REM Configure URLs (can be overridden by environment variables)
 if "%API_URL%"=="" set "API_URL=http://localhost:8080"
-if "%FRONTEND_URL%"=="" set "FRONTEND_URL=http://localhost:4173"
+if "%FRONTEND_URL%"=="" set "FRONTEND_URL=http://localhost:80"
 set "HEALTH_URL=%API_URL%/api/health"
 
 REM Retries and interval (seconds)

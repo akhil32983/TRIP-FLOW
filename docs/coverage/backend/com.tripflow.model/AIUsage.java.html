@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AIUsage.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TripFlow API Service</a> &gt; <a href="index.source.html" class="el_package">com.tripflow.model</a> &gt; <span class="el_source">AIUsage.java</span></div><h1>AIUsage.java</h1><pre class="source lang-java linenums">package com.tripflow.model;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+
+@Entity
+@Table(
+    name = &quot;ai_usage&quot;,
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {&quot;user_id&quot;, &quot;date&quot;})
+    }
+)
+public class AIUsage {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = &quot;user_id&quot;, nullable = false)
+    private User user;
+
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @Column(nullable = false)
+    private int usage;
+
+    // [Constructors] =================================================
+
+<span class="fc" id="L40">    public AIUsage() {}</span>
+
+<span class="fc" id="L42">    public AIUsage(User user, LocalDate date, int usage) {</span>
+<span class="fc" id="L43">        this.user = user;</span>
+<span class="fc" id="L44">        this.date = date;</span>
+<span class="fc" id="L45">        this.usage = usage;</span>
+<span class="fc" id="L46">    }</span>
+
+    // [Methods] ======================================================
+
+    public void increment() {
+<span class="nc" id="L51">        this.usage++;</span>
+<span class="nc" id="L52">    }</span>
+
+    // [Getters and Setters] ==========================================
+
+    public Long getId() {
+<span class="nc" id="L57">        return id;</span>
+    }
+
+    public User getUser() {
+<span class="fc" id="L61">        return user;</span>
+    }
+
+    public LocalDate getDate() {
+<span class="fc" id="L65">        return date;</span>
+    }
+
+    public int getUsage() {
+<span class="fc" id="L69">        return usage;</span>
+    }
+
+    public void setUsage(int usage) {
+<span class="nc" id="L73">        this.usage = usage;</span>
+<span class="nc" id="L74">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

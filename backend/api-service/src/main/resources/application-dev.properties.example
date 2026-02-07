@@ -1,0 +1,18 @@
+# API Service - Development Configuration
+
+# This is a template file. Copy it to application-dev.properties and add your real secrets
+# application-dev.properties is in .gitignore and won't be committed
+
+# CORS Configuration
+origins.frontend=http://localhost
+
+# JWT Configuration
+jwt.secret=your-jwt-secret-here
+
+# Unsplash API Configuration
+unsplash.api.key=your-unsplash-api-key
+
+# Admin User Configuration
+admin.email=your-admin-email
+admin.username=your-admin-username
+admin.password=your-admin-password

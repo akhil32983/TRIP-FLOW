@@ -2,13 +2,22 @@ import type { ItineraryStatus } from "@/types/itinerary";
 
 interface FormatDateOptions {
     excludeDay?: boolean;
+    excludeMonth?: boolean;
+    excludeYear?: boolean;
+    shortMonth?: boolean;
+}
+
+export const getDate = (initialDate: string, offset: number) => {
+    const date = new Date(initialDate);
+    date.setDate(date.getDate() + offset);
+    return date.toISOString().split('T')[0];
 }
 
 export const formatDate = (dateString: string, options?: FormatDateOptions) => {
     return new Date(dateString).toLocaleDateString("es-ES", {
-        year: "numeric",
-        month: "long",
-        day: options?.excludeDay ? undefined : "numeric",
+        year: options?.excludeYear ? undefined : "numeric",
+        month: options?.excludeMonth ? undefined : options?.shortMonth ? "short" : "long",
+        day: options?.excludeDay ? undefined : "2-digit",
     });
 };
 
@@ -20,10 +29,19 @@ export const formatBudget = (budget: number) => {
     return `${formattedInteger}, ${decimalPart} €`;
 };
 
+export const formatPeople = (people: number) => {
+    if (people === 1) return "1 persona";
+    return `${people} personas`;
+};
+
 export const formatStatus = (status: ItineraryStatus) => {
     if (status === "DRAFT") return "Borrador";
     if (status === "PLANNED") return "Planeado";
     if (status === "ONGOING") return "En curso";
     if (status === "COMPLETED") return "Completado";
     return status;
+};
+
+export const formatImageAuthorUrl = (username: string) => {
+    return `https://unsplash.com/@${username}`;
 };

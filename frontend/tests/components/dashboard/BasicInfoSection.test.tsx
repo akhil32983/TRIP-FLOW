@@ -1,4 +1,4 @@
-import BasicInfoSection from "@components/dashboard/BasicInfoSection";
+import BasicInfoSection from "@/components/dashboard/itineraries/BasicInfoSection";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
 import { describe, it, expect, vi } from "vitest";
@@ -57,13 +57,8 @@ vi.mock("@components/form/FormGroup", () => ({
     ),
 }));
 
-vi.mock("lucide-react", () => ({
-    Plane: () => <span data-testid="plane-icon">Plane</span>,
-}));
-
 const mockItinerary: ExtendedItinerary = {
     id: 1,
-    icon: "✈️",
     title: "Viaje a París",
     place: "París, Francia",
     people: 2,
@@ -73,11 +68,15 @@ const mockItinerary: ExtendedItinerary = {
     countDays: 7,
     tags: ["romántica", "cultural"],
     days: [],
+    coverImage: {
+        altDescription: "Una hermosa vista de la Torre Eiffel",
+        imageUrl: "https://example.com/eiffel-tower.jpg",
+        authorUsername: "photographer789",
+    }
 };
 
 const mockEmptyItinerary: ExtendedItinerary = {
     id: 2,
-    icon: "",
     title: "",
     place: "",
     people: 0,
@@ -87,6 +86,11 @@ const mockEmptyItinerary: ExtendedItinerary = {
     countDays: 0,
     tags: [],
     days: [],
+    coverImage: {
+        altDescription: "",
+        imageUrl: "",
+        authorUsername: "",
+    }
 };
 
 describe("BasicInfoSection Component", () => {
@@ -100,30 +104,6 @@ describe("BasicInfoSection Component", () => {
         );
 
         expect(container.firstChild).toBeInTheDocument();
-    });
-
-    it("renders section header with title", () => {
-        render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        expect(screen.getByText("Planificación General")).toBeInTheDocument();
-    });
-
-    it("renders plane icon in header", () => {
-        render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        expect(screen.getByTestId("plane-icon")).toBeInTheDocument();
     });
 
     it("renders all form groups", () => {
@@ -244,20 +224,6 @@ describe("BasicInfoSection Component", () => {
         expect(section).toBeInTheDocument();
     });
 
-    it("renders header as h3", () => {
-        const { container } = render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        const h3 = container.querySelector("h3");
-        expect(h3).toBeInTheDocument();
-        expect(h3?.textContent).toBe("Planificación General");
-    });
-
     it("renders form grid container", () => {
         const { container } = render(
             <BasicInfoSection
@@ -269,21 +235,6 @@ describe("BasicInfoSection Component", () => {
 
         const formGrid = container.querySelector('[class*="formGrid"]');
         expect(formGrid).toBeInTheDocument();
-    });
-
-    it("renders section header container", () => {
-        const { container } = render(
-            <BasicInfoSection
-                itinerary={mockItinerary}
-                onUpdateBasicInfo={vi.fn()}
-                onTagsChange={vi.fn()}
-            />
-        );
-
-        const sectionHeader = container.querySelector(
-            '[class*="sectionHeader"]'
-        );
-        expect(sectionHeader).toBeInTheDocument();
     });
 
     it("renders with empty tags array", () => {

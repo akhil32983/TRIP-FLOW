@@ -1,0 +1,75 @@
+.container {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-largest);
+    padding: var(--app-padding) 0;
+
+    .section {
+        width: 100%;
+        margin-bottom: calc(var(--space-largest) * 2);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xxxl);
+
+        .sectionTitle {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+            font-size: var(--font-size-xxxl);
+            color: var(--text-primary);
+            padding-bottom: var(--space-lg);
+            border-bottom: 1px solid var(--border-subtle);
+            
+            .icon {
+                color: var(--primary);
+            }
+        }
+    }
+
+    .faqWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xxl);
+        width: 100%;
+
+        .categorySection {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-lg);
+
+            .categoryTitle {
+                font-size: var(--font-size-xxl);
+                color: var(--text-primary);
+                border-bottom: 1px solid var(--border-secondary);
+                padding-block: var(--space-md);
+                line-height: 1;
+            }
+
+            .categoryItems {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .contactCard {
+        width: 100%;
+        background-color: var(--bg-secondary);
+        border: 1px solid var(--border-secondary);
+        border-radius: var(--border-radius-xl);
+        padding: var(--space-xl);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-lg);
+        text-align: center;
+
+        .contactText {
+            font-size: var(--font-size-md);
+            color: var(--text-secondary);
+            max-width: 500px;
+        }
+    }
+}

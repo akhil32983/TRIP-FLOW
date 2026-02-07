@@ -1,4 +1,4 @@
-import type { AuthResponse, LoginRequest, RegisterRequest } from "@/types/auth";
+import type { AuthResponse, LoginRequest, RegisterRequest, VerifyAccountRequest } from "@/types/auth";
 import { http } from "@services/httpService";
 
 const BASE_PATH = "/api/auth";
@@ -39,4 +39,24 @@ export async function refresh(): Promise<AuthResponse> {
  */
 export async function register(request: RegisterRequest): Promise<AuthResponse> {
   return http<AuthResponse>(`${BASE_PATH}/register`, "POST", request);
+}
+
+/**
+ * Verifies a user account by sending a verification request to the authentication service.
+ *
+ * @param request - The verification request containing username and code.
+ * @returns A promise that resolves to an AuthResponse.
+ */
+export async function verify(request: VerifyAccountRequest): Promise<AuthResponse> {
+  return http<AuthResponse>(`${BASE_PATH}/verify`, "POST", request);
+}
+
+/**
+ * Resends the verification code to the user's email.
+ *
+ * @param username - The username of the user.
+ * @returns A promise that resolves to an AuthResponse.
+ */
+export async function resendCode(username: string): Promise<AuthResponse> {
+  return http<AuthResponse>(`${BASE_PATH}/resend-code`, "POST", { username });
 }

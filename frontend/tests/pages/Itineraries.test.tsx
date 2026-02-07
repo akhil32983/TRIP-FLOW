@@ -16,9 +16,13 @@ vi.mock("@/layouts/AppLayout", () => ({
     ),
 }));
 
-vi.mock("@/components/dashboard/DashboardHeader", () => ({
-    default: ({ title }: any) => (
-        <header data-testid="dashboard-header">{title}</header>
+// Fix: Mock ItinerariesHeader instead of DashboardHeader
+vi.mock("@/components/dashboard/headers/ItinerariesHeader", () => ({
+    default: ({ children }: any) => (
+        <header data-testid="itineraries-header">
+            <h1>Tus itinerarios</h1>
+            {children}
+        </header>
     ),
 }));
 
@@ -26,7 +30,7 @@ vi.mock("@/components/shared/Searchbar", () => ({
     default: () => <div data-testid="searchbar" />,
 }));
 
-vi.mock("@/components/dashboard/ItinerariesPreview", () => ({
+vi.mock("@/components/dashboard/itineraries/ItinerariesPreview", () => ({
     default: () => <section data-testid="itineraries-preview" />,
 }));
 
@@ -59,11 +63,11 @@ describe("Itineraries Page", () => {
         });
     });
 
-    it("renders dashboard header", async () => {
+    it("renders itineraries header", async () => {
         render(<Itineraries />);
 
         await waitFor(() => {
-            expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
+            expect(screen.getByTestId("itineraries-header")).toBeInTheDocument();
         });
     });
 
@@ -95,7 +99,7 @@ describe("Itineraries Page", () => {
         render(<Itineraries />);
 
         await waitFor(() => {
-            expect(screen.getByTestId("dashboard-header")).toBeInTheDocument();
+            expect(screen.getByTestId("itineraries-header")).toBeInTheDocument();
             expect(screen.getByTestId("searchbar")).toBeInTheDocument();
             expect(screen.getByTestId("itineraries-preview")).toBeInTheDocument();
         });

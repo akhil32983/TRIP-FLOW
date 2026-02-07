@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.55% </span>
+                <span class="strong">88.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>60/67</span>
+                <span class='fraction'>62/70</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/5</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.55% </span>
+                <span class="strong">88.57% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>60/67</span>
+                <span class='fraction'>62/70</span>
             </div>
         
             
@@ -146,16 +146,20 @@
 <a name='L81'></a><a href='#L81'>81</a>
 <a name='L82'></a><a href='#L82'>82</a>
 <a name='L83'></a><a href='#L83'>83</a>
-<a name='L84'></a><a href='#L84'>84</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -198,12 +202,23 @@
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">16x</span>
@@ -225,24 +240,19 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState } from "react";
+<span class="cline-any cline-yes">16x</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState, useCallback } from "react";
 &nbsp;
 import type { Itinerary } from "@/types/itinerary";
 import type { PageData } from "@/types/shared";
 &nbsp;
 import { getUserItineraries } from "@/services/itineraryService";
-&nbsp;
-import { PlusIcon } from "lucide-react";
+import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 &nbsp;
 import AppLayout from "@/layouts/AppLayout";
-import Button from "@components/shared/Button";
 import Searchbar from "@components/shared/Searchbar";
-import ItinerariesPreview from "@components/dashboard/ItinerariesPreview";
-import DashboardHeader from "@components/dashboard/DashboardHeader";
+import ItinerariesPreview from "@/components/dashboard/itineraries/ItinerariesPreview";
+import ItinerariesHeader from "@/components/dashboard/headers/ItinerariesHeader";
 &nbsp;
 const PAGE_SIZE = 10;
 &nbsp;
@@ -261,7 +271,7 @@ export default function ItinerariesPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 &nbsp;
-    const fetchItineraries = async (page: number, append: boolean = false) =&gt; {
+    const fetchItineraries = useCallback(async (page: number, append: boolean = false) =&gt; {
         if (append) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >            setIsLoadingMore(true);</span>
         } else {
@@ -281,11 +291,22 @@ export default function ItinerariesPage() {
         setPageData(pageMetadata);
         setIsLoading(false);
         setIsLoadingMore(false);
-    };
+    }, [searchQuery, itineraries]);
 &nbsp;
     const loadMore = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        fetchItineraries(pageData.currentPage + 1, true);</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
+&nbsp;
+    // Refresh itineraries when WebSocket notification arrives
+    const handleItineraryNotification = useCallback(() =&gt; {
+<span class="cstat-no" title="statement not covered" >        fetchItineraries(0);</span>
+    }, [fetchItineraries]);
+&nbsp;
+    // Listen only to itinerary-related notifications
+    useWebSocketNotifications({
+        types: ["ITINERARY_GENERATED"],
+        onNotification: handleItineraryNotification
+    });
 &nbsp;
     useEffect(() =&gt; {
         fetchItineraries(0);
@@ -293,16 +314,13 @@ export default function ItinerariesPage() {
 &nbsp;
     return (
         &lt;AppLayout&gt;
-            &lt;DashboardHeader
-                title="Tus itinerarios"
-                responsiveRender={&lt;Button to="/itineraries/new" style={["tool_bordered"]}&gt;&lt;PlusIcon size={18} /&gt;&lt;/Button&gt;}
-                defaultRender={&lt;Button to="/itineraries/new" style={["primary"]} label="Nuevo itinerario"&gt;&lt;PlusIcon size={18} /&gt;&lt;/Button&gt;}
-            /&gt;
-            &lt;Searchbar
-                placeHolder="Buscar itinerarios..."
-                onInputChange={setSearchQuery}
-                onSearch={<span class="fstat-no" title="function not covered" >() =&gt; fetchItineraries(0)}</span>
-            /&gt;
+            &lt;ItinerariesHeader&gt;
+                &lt;Searchbar
+                    placeHolder="Buscar itinerarios..."
+                    onInputChange={setSearchQuery}
+                    onSearch={<span class="fstat-no" title="function not covered" >() =&gt; fetchItineraries(0)}</span>
+                /&gt;
+            &lt;/ItinerariesHeader&gt;
             &lt;ItinerariesPreview
                 itineraries={itineraries}
                 loadMore={loadMore}
@@ -319,7 +337,7 @@ export default function ItinerariesPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-13T07:36:28.668Z
+                at 2026-01-27T10:13:05.693Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

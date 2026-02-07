@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>74/74</span>
+                <span class='fraction'>92/92</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>74/74</span>
+                <span class='fraction'>92/92</span>
             </div>
         
             
@@ -152,13 +152,36 @@
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -209,8 +232,23 @@
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
+<span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">37x</span>
 <span class="cline-any cline-yes">37x</span>
@@ -246,89 +284,108 @@ import { useNavigate } from "react-router";
 &nbsp;
 import { useAuth } from "@/providers/authProvider";
 import { validatePassword, validateUsername } from "@/utils/validationUtils";
+import { saveToLocalStorage } from "@/utils/localStorageUtils";
+import { STORAGE_KEYS } from "@/constants/storageKeys";
 &nbsp;
 import type { RegisterRequest } from "@/types/auth";
 &nbsp;
-import AuthForm from "@/components/form/AuthForm";
+import { LockIcon, MailIcon, UserIcon } from "lucide-react";
+&nbsp;
 import Layout from "@/layouts/Layout";
+import AuthForm from "@components/form/AuthForm";
 &nbsp;
 export default function RegisterPage() {
-  const { user, register } = useAuth();
-  const navigate = useNavigate();
-  const [errors, setErrors] = useState&lt;Record&lt;string, string&gt; | null&gt;(null);
+    const { user, register } = useAuth();
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState&lt;Record&lt;string, string&gt; | null&gt;(null);
 &nbsp;
-  // If user is already logged in, redirect to dashboard
-  useEffect(() =&gt; {
-    if (user) {
-      navigate("/dashboard");
-    }
-  }, [user, navigate]);
+    // If user is already logged in, redirect to dashboard
+    useEffect(() =&gt; {
+        if (user) {
+            navigate("/dashboard");
+        }
+    }, [user, navigate]);
 &nbsp;
-  // Handle registration form submission
-  const handleRegister = async (values: RegisterRequest) =&gt; {
-    let isValid = true;
-    setErrors(null);
+    // Handle registration form submission
+    const handleRegister = async (values: RegisterRequest) =&gt; {
+        let isValid = true;
+        setErrors(null);
 &nbsp;
-    const usernameValidation = validateUsername(values.username);
-    if (!usernameValidation.isValid) {
-      setErrors((prevErrors) =&gt; ({
-        ...prevErrors,
-        username: usernameValidation.error as string,
-      }));
-      isValid = false;
-    }
+        const usernameValidation = validateUsername(values.username);
+        if (!usernameValidation.isValid) {
+            setErrors((prevErrors) =&gt; ({
+                ...prevErrors,
+                username: usernameValidation.error as string,
+            }));
+            isValid = false;
+        }
 &nbsp;
-    const passwordValidation = validatePassword(
-      values.password,
-      values.confirmPassword
+        const passwordValidation = validatePassword(
+            values.password,
+            values.confirmPassword
+        );
+        if (!passwordValidation.isValid) {
+            setErrors((prevErrors) =&gt; ({
+                ...prevErrors,
+                password: passwordValidation.error as string,
+            }));
+            isValid = false;
+        }
+&nbsp;
+        if (!isValid) return;
+&nbsp;
+        const res = await register(values);
+        if (res.success) {
+            saveToLocalStorage(STORAGE_KEYS.VERIFICATION_USERNAME, values.username);
+            navigate("/verify");
+        } else {
+            setErrors(res.errors as Record&lt;string, string&gt;);
+        }
+    };
+&nbsp;
+    return (
+        &lt;Layout single&gt;
+            &lt;AuthForm
+                active="signup"
+                fields={[
+                    {
+                        name: "email",
+                        label: "Correo electrónico",
+                        type: "email",
+                        placeholder: "cub1z@example.com",
+                        required: true,
+                        icon: &lt;MailIcon size={16} /&gt;,
+                    },
+                    {
+                        name: "username",
+                        label: "Usuario",
+                        placeholder: "CuB1z",
+                        required: true,
+                        icon: &lt;UserIcon size={16} /&gt;,
+                    },
+                    {
+                        name: "password",
+                        label: "Contraseña",
+                        type: "password",
+                        placeholder: "********",
+                        required: true,
+                        icon: &lt;LockIcon size={16} /&gt;,
+                    },
+                    {
+                        name: "confirmPassword",
+                        label: "Confirmar contraseña",
+                        type: "password",
+                        placeholder: "********",
+                        required: true,
+                        icon: &lt;LockIcon size={16} /&gt;,
+                    },
+                ]}
+                buttonLabel="Registrarse"
+                onSubmit={(values: RegisterRequest) =&gt; handleRegister(values)}
+                errors={errors}
+            /&gt;
+        &lt;/Layout&gt;
     );
-    if (!passwordValidation.isValid) {
-      setErrors((prevErrors) =&gt; ({
-        ...prevErrors,
-        password: passwordValidation.error as string,
-      }));
-      isValid = false;
-    }
-&nbsp;
-    if (!isValid) return;
-&nbsp;
-    const res = await register(values);
-    if (res.success) {
-      navigate("/login");
-    } else {
-      setErrors(res.errors as Record&lt;string, string&gt;);
-    }
-  };
-&nbsp;
-  return (
-    &lt;Layout single&gt;
-      &lt;AuthForm
-        fields={[
-          { name: "username", label: "Usuario", placeholder: "CuB1z" },
-          {
-            name: "password",
-            label: "Contraseña",
-            type: "password",
-            placeholder: "********",
-          },
-          {
-            name: "confirmPassword",
-            label: "Confirmar contraseña",
-            type: "password",
-            placeholder: "********",
-          },
-        ]}
-        buttonLabel="Registrarse"
-        onSubmit={(values: RegisterRequest) =&gt; handleRegister(values)}
-        alternative={{
-          alternative: "¿Ya tienes una cuenta?",
-          alternativeLink: "/login",
-          alternativeLabel: "Inicia sesión aquí",
-        }}
-        errors={errors}
-      /&gt;
-    &lt;/Layout&gt;
-  );
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -337,7 +394,7 @@ export default function RegisterPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-13T07:36:28.668Z
+                at 2026-01-27T10:13:05.693Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

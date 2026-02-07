@@ -10,7 +10,7 @@ jobs:
     with:
       tag: ${{ github.event.release.tag_name }}
       compose_file: docker/docker-compose.yaml
-      services: '["backend","frontend"]'
+      services: '["backend/api-service","backend/ai-service","backend/notification-service","frontend"]'
     secrets: inherit
 
   release-latest:
@@ -19,5 +19,31 @@ jobs:
     with:
       tag: latest
       compose_file: docker/docker-compose.yaml
-      services: '["backend","frontend"]'
+      services: '["backend/api-service","backend/ai-service","backend/notification-service","frontend"]'
     secrets: inherit
+
+  trigger-dokploy:
+    needs: release-latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check secrets
+        id: check
+        env:
+          DOKPLOY_URL: ${{ secrets.DOKPLOY_URL }}
+          DOKPLOY_AUTH_TOKEN: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          DOKPLOY_COMPOSE_ID: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+        run: |
+          if [[ -n "$DOKPLOY_URL" && -n "$DOKPLOY_AUTH_TOKEN" && -n "$DOKPLOY_COMPOSE_ID" ]]; then
+            echo "configured=true" >> $GITHUB_OUTPUT
+          else
+            echo "configured=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Dokploy Deployment
+        if: steps.check.outputs.configured == 'true'
+        uses: benbristow/dokploy-deploy-action@0.2.2
+        with:
+          api_token: ${{ secrets.DOKPLOY_AUTH_TOKEN }}
+          application_id: ${{ secrets.DOKPLOY_COMPOSE_ID }}
+          dokploy_url: ${{ secrets.DOKPLOY_URL }}
+          service_type: compose

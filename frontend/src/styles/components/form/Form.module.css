@@ -9,12 +9,17 @@
   flex-direction: column;
   align-items: center;
   padding: calc(var(--space-xxl) * 2);
-  gap: calc(var(--space-xxl) * 2);
+  gap: var(--space-larger);
 
   border-radius: var(--border-radius-lg);
-  border: 1px solid var(--border-primary);
-  background-color: var(--bg-card);
+  border: 2px solid var(--border-secondary);
+  background-color: var(--bg-primary-alpha);
+  backdrop-filter: blur(1px);
   box-shadow: var(--aureola-blue);
+
+  &.center {
+    justify-content: center;
+  }
 }
 
 .form {
@@ -30,7 +35,7 @@
   max-width: 500px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-md);
   animation: fadeIn calc(0.3s * var(--index)) ease;
 
   &.fullWidth {
@@ -40,7 +45,7 @@
   .fieldLabel {
     display: flex;
     align-items: center;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
 
     .fieldLabelText {
       font-size: var(--font-size-md);
@@ -58,6 +63,47 @@
   .required {
     color: var(--error);
     margin-left: 2px;
+  }
+
+  .inputWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    &:focus-within {
+      .inputIcon {
+        color: var(--primary);
+      }
+    }
+  }
+
+  .inputIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    --size: 18px;
+    width: var(--size);
+    height: var(--size);
+    color: var(--text-tertiary);
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .inputWithIcon {
+    padding-left: 2.5rem;
+    padding-right: var(--space-sm);
   }
 }
 
@@ -89,4 +135,17 @@
   font-weight: var(--font-weight-bold);
   text-align: center;
   margin-top: var(--space-lg);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    max-width: 100%;
+    height: 100%;
+    padding: var(--space-xl);
+    margin-top: 0;
+    padding-top: var(--space-larger);
+    border-radius: 0;
+    border: none;
+    background-color: transparent;
+  }
 }

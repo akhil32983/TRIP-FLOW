@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">10.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/90</span>
+                <span class='fraction'>10/94</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">10.63% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/90</span>
+                <span class='fraction'>10/94</span>
             </div>
         
             
@@ -175,7 +175,13 @@
 <a name='L110'></a><a href='#L110'>110</a>
 <a name='L111'></a><a href='#L111'>111</a>
 <a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -222,7 +228,11 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -232,6 +242,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -288,8 +300,8 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { API_BASE_URL } from "@/config/environment";
+import { STORAGE_KEYS } from "@/constants/storageKeys";
 import { getMock } from "@/mocks";
-import { AUTH_LOCAL_STORAGE_KEY } from "@/providers/authProvider";
 import { DEMO_KEY } from "@/providers/demoProvider";
 import { removeFromLocalStorage, retrieveFromLocalStorage } from "@/utils/localStorageUtils";
 &nbsp;
@@ -331,20 +343,26 @@ const processQueue = <span class="fstat-no" title="function not covered" >(error
 <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >export async function http&lt;T&gt;(</span></span>
 <span class="cstat-no" title="statement not covered" >  path: string,</span>
 <span class="cstat-no" title="statement not covered" >  method: HttpMethod = "GET",</span>
-<span class="cstat-no" title="statement not covered" >  body?: unknown</span>
+<span class="cstat-no" title="statement not covered" >  body?: unknown,</span>
 <span class="cstat-no" title="statement not covered" >): Promise&lt;T&gt; {</span>
+<span class="cstat-no" title="statement not covered" >  const isFormData = body instanceof FormData;</span>
+  
+<span class="cstat-no" title="statement not covered" >  const headers: HeadersInit = {</span>
+<span class="cstat-no" title="statement not covered" >    ...(!isFormData &amp;&amp; { "Content-Type": "application/json" }),</span>
+<span class="cstat-no" title="statement not covered" >  };</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >  const options: RequestInit = {</span>
 <span class="cstat-no" title="statement not covered" >    method,</span>
-<span class="cstat-no" title="statement not covered" >    headers: {</span>
-<span class="cstat-no" title="statement not covered" >      "Content-Type": "application/json",</span>
-<span class="cstat-no" title="statement not covered" >    },</span>
+<span class="cstat-no" title="statement not covered" >    headers,</span>
 <span class="cstat-no" title="statement not covered" >    credentials: "include",</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  const isDemo = retrieveFromLocalStorage&lt;string&gt;(DEMO_KEY) === "true";</span>
 <span class="cstat-no" title="statement not covered" >  if (isDemo) return getMock(path, method, body) as Promise&lt;T&gt;;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >  if (body) options.body = JSON.stringify(body);</span>
+<span class="cstat-no" title="statement not covered" >  if (body) options.body = isFormData</span>
+<span class="cstat-no" title="statement not covered" >    ? (body as FormData)</span>
+<span class="cstat-no" title="statement not covered" >    : JSON.stringify(body);</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >  const url = `${API_BASE_URL}${path.startsWith("/") ? "" : "/"}${path}`;</span>
 &nbsp;
@@ -370,14 +388,14 @@ const processQueue = <span class="fstat-no" title="function not covered" >(error
 <span class="cstat-no" title="statement not covered" >      } else {</span>
 <span class="cstat-no" title="statement not covered" >        processQueue(new Error("Session expired"));</span>
 <span class="cstat-no" title="statement not covered" >        isRefreshing = false;</span>
-<span class="cstat-no" title="statement not covered" >        removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY);</span>
+<span class="cstat-no" title="statement not covered" >        removeFromLocalStorage(STORAGE_KEYS.AUTH);</span>
 <span class="cstat-no" title="statement not covered" >        window.location.href = "/login";</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error("Session expired");</span>
 <span class="cstat-no" title="statement not covered" >      }</span>
 <span class="cstat-no" title="statement not covered" >    } catch (error) {</span>
 <span class="cstat-no" title="statement not covered" >      processQueue(error as Error);</span>
 <span class="cstat-no" title="statement not covered" >      isRefreshing = false;</span>
-<span class="cstat-no" title="statement not covered" >      removeFromLocalStorage(AUTH_LOCAL_STORAGE_KEY);</span>
+<span class="cstat-no" title="statement not covered" >      removeFromLocalStorage(STORAGE_KEYS.AUTH);</span>
 <span class="cstat-no" title="statement not covered" >      window.location.href = "/login";</span>
 <span class="cstat-no" title="statement not covered" >      throw error;</span>
 <span class="cstat-no" title="statement not covered" >    }</span>
@@ -406,7 +424,7 @@ const processQueue = <span class="fstat-no" title="function not covered" >(error
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-11-13T07:36:28.668Z
+                at 2026-01-27T10:13:05.693Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

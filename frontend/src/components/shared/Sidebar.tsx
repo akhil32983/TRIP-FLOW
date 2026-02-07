@@ -3,23 +3,27 @@ import styles from "@styles/components/shared/Sidebar.module.css";
 import { useLocation } from "react-router";
 
 import {
-    CalendarIcon,
-    MapPinIcon,
-    UsersRoundIcon
+    HomeIcon,
+    MapIcon,
+    UserIcon,
 } from "lucide-react";
 
 import Button from "@components/shared/Button";
 import Logo from "@components/shared/Logo";
-import LogoutButton from "@components/buttons/LogoutButton";
 
 const ROUTES = [
-    { path: "/dashboard", label: "Dashboard", icon: <MapPinIcon /> },
-    { path: "/itineraries", label: "Itinerarios", icon: <CalendarIcon /> },
-    { path: "/profile", label: "Perfil", icon: <UsersRoundIcon /> },
+    { path: "/dashboard", label: "Dashboard", icon: <HomeIcon /> },
+    { path: "/itineraries", label: "Itinerarios", icon: <MapIcon /> },
+    { path: "/profile", label: "Perfil", icon: <UserIcon /> },
 ];
 
-export default function Sidebar() {
+const ADMIN_ROUTES = [
+    { path: "/admin", label: "Admin", icon: <UserIcon /> },
+];
+
+export default function Sidebar({ admin }: { admin?: boolean }) {
     const location = useLocation();
+    const routes = admin ? ADMIN_ROUTES : ROUTES;
 
     return (
         <aside className={styles.sidebar}>
@@ -29,7 +33,7 @@ export default function Sidebar() {
                 </Button>
             </div>
             <nav className={styles.nav}>
-                {ROUTES.map((route) => (
+                {routes.map((route) => (
                     <Button
                         key={route.path}
                         style={
@@ -44,9 +48,6 @@ export default function Sidebar() {
                     </Button>
                 ))}
             </nav>
-            <div className={styles.actions}>
-                <LogoutButton />
-            </div>
         </aside>
     );
 }

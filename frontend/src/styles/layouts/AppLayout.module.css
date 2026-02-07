@@ -1,9 +1,11 @@
+@import url("../animations.css");
+
 .layout {
     position: relative;
     width: 100%;
     min-height: 100dvh;
     display: grid;
-    grid-template-columns: auto;
+    grid-template-columns: minmax(0, 1fr);
 
     .main {
         width: 100%;
@@ -11,17 +13,19 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: var(--space-xxxl);
-        padding-left: calc(var(--sidebar-width) + var(--space-xxxl));
-        gap: var(--space-larger);
+        padding: 0;
+        padding-left: var(--sidebar-width);
+        padding-bottom: var(--space-xxxl);
+        gap: var(--space-xxxl);
+        animation: fadeIn 0.2s ease;
     }
 }
 
-@media (max-width: 864px) {
+@media (max-width: 1024px) {
     .layout {
         .main {
-            padding: var(--space-lg);
-            padding-bottom: calc(var(--space-largest) + var(--space-xxxl));
+            padding: 0;
+            padding-bottom: calc(var(--space-largest) + var(--space-lg));
         }
     }
 }

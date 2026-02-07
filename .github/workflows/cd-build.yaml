@@ -28,26 +28,28 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      
+      - name: Compute image name suffix
+        run: |
+          # basename: backend/**-service -> **-service
+          IMAGE_SUFFIX=$(basename "${{ matrix.service }}")
+          # sanitize: to lowercase, replace underscores/slashes with hyphens
+          IMAGE_SUFFIX=$(echo "$IMAGE_SUFFIX" | tr '[:upper:]' '[:lower:]' | tr '_/' '-')
+          echo "IMAGE_SUFFIX=$IMAGE_SUFFIX" >> $GITHUB_ENV
 
       - name: Build and push ${{ matrix.service }}
         uses: docker/build-push-action@v6
         with:
-          context: ./${{ matrix.service }}
+          context: ${{ startsWith(matrix.service, 'frontend') && './frontend' || './backend' }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ matrix.service }}:${{ inputs.tag }}
-
-      - name: Install ORAS CLI
-        run: |
-          curl -sSL https://github.com/oras-project/oras/releases/download/v1.3.0/oras_1.3.0_linux_amd64.tar.gz \
-            | tar -xz -C /usr/local/bin oras
-          oras version
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ env.IMAGE_SUFFIX }}:${{ inputs.tag }}
+          build-args: |
+            PUBLIC_API_BASE_URL=${{ secrets.PUBLIC_API_BASE_URL }}
+            PUBLIC_WS_BASE_URL=${{ secrets.PUBLIC_WS_BASE_URL }}
 
       - name: Publish docker-compose as OCI artifact
         if: ${{ matrix.service == fromJSON(inputs.services)[0] }}
         run: |
           cp ${{ inputs.compose_file }} docker-compose.yml
-    
-          oras push docker.io/cub1z/tripflow-compose:${{ inputs.tag }} \
-            --artifact-type application/vnd.docker.compose.v2+yaml \
-            docker-compose.yml:application/vnd.docker.compose.v2+yaml
+          docker compose publish -y ${{ secrets.DOCKERHUB_USERNAME }}/tripflow-compose:${{ inputs.tag }}

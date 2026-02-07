@@ -8,13 +8,14 @@ export const mockAuth = {
     message: "Login successful",
     errors: {},
     user: {
-      id: "-1",
       name: "Demo User",
       username: "demoUser",
       description: "This is a demo user.",
       location: "Demo City",
       createdAt: date,
       role: "USER",
+      plan: "FREE",
+      notificationsAllowed: true
     },
   }),
 
@@ -23,13 +24,14 @@ export const mockAuth = {
     message: "Registration successful",
     errors: {},
     user: {
-      id: "-1",
       name: "Demo User",
       username: "demoUser",
       description: "This is a demo user.",
       location: "Demo City",
       createdAt: new Date().toISOString(),
       role: "USER",
+      plan: "FREE",
+      notificationsAllowed: true,
     },
   }),
 
@@ -45,13 +47,14 @@ export const mockAuth = {
     message: "Token refreshed",
     errors: {},
     user: {
-      id: "-1",
       name: "Demo User",
       username: "demoUser",
       description: "This is a demo user.",
       location: "Demo City",
       createdAt: date,
       role: "USER",
+      plan: "FREE",
+      notificationsAllowed: true
     },
   }),
 };

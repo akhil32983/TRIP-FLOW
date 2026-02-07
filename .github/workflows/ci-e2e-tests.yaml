@@ -41,7 +41,7 @@ jobs:
 
       - name: Start services with Docker Compose
         working-directory: ./docker
-        run: docker compose -f docker-compose.test.yaml up -d
+        run: docker compose --env-file .env.example -f docker-compose.test.yaml up -d
 
       - name: Wait for services to be healthy
         working-directory: ./scripts

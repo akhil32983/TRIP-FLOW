@@ -1,17 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import type { Itinerary } from "@/types/itinerary";
 import type { PageData } from "@/types/shared";
 
 import { getUserItineraries } from "@/services/itineraryService";
-
-import { PlusIcon } from "lucide-react";
+import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 
 import AppLayout from "@/layouts/AppLayout";
-import Button from "@components/shared/Button";
 import Searchbar from "@components/shared/Searchbar";
-import ItinerariesPreview from "@components/dashboard/ItinerariesPreview";
-import DashboardHeader from "@components/dashboard/DashboardHeader";
+import ItinerariesPreview from "@/components/dashboard/itineraries/ItinerariesPreview";
+import ItinerariesHeader from "@/components/dashboard/headers/ItinerariesHeader";
 
 const PAGE_SIZE = 10;
 
@@ -30,7 +28,7 @@ export default function ItinerariesPage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
-    const fetchItineraries = async (page: number, append: boolean = false) => {
+    const fetchItineraries = useCallback(async (page: number, append: boolean = false) => {
         if (append) {
             setIsLoadingMore(true);
         } else {
@@ -50,11 +48,22 @@ export default function ItinerariesPage() {
         setPageData(pageMetadata);
         setIsLoading(false);
         setIsLoadingMore(false);
-    };
+    }, [searchQuery, itineraries]);
 
     const loadMore = () => {
         fetchItineraries(pageData.currentPage + 1, true);
     };
+
+    // Refresh itineraries when WebSocket notification arrives
+    const handleItineraryNotification = useCallback(() => {
+        fetchItineraries(0);
+    }, [fetchItineraries]);
+
+    // Listen only to itinerary-related notifications
+    useWebSocketNotifications({
+        types: ["ITINERARY_GENERATED"],
+        onNotification: handleItineraryNotification
+    });
 
     useEffect(() => {
         fetchItineraries(0);
@@ -62,16 +71,13 @@ export default function ItinerariesPage() {
 
     return (
         <AppLayout>
-            <DashboardHeader
-                title="Tus itinerarios"
-                responsiveRender={<Button to="/itineraries/new" style={["tool_bordered"]}><PlusIcon size={18} /></Button>}
-                defaultRender={<Button to="/itineraries/new" style={["primary"]} label="Nuevo itinerario"><PlusIcon size={18} /></Button>}
-            />
-            <Searchbar
-                placeHolder="Buscar itinerarios..."
-                onInputChange={setSearchQuery}
-                onSearch={() => fetchItineraries(0)}
-            />
+            <ItinerariesHeader>
+                <Searchbar
+                    placeHolder="Buscar itinerarios..."
+                    onInputChange={setSearchQuery}
+                    onSearch={() => fetchItineraries(0)}
+                />
+            </ItinerariesHeader>
             <ItinerariesPreview
                 itineraries={itineraries}
                 loadMore={loadMore}

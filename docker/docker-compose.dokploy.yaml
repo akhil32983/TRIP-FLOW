@@ -1,0 +1,160 @@
+services:
+  postgres-api:
+    image: postgres:15-alpine
+    container_name: tripflow-postgres-api
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - tripflow-network
+
+  kafka:
+    image: confluentinc/cp-kafka:8.1.0
+    container_name: kafka
+    restart: unless-stopped
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+      CLUSTER_ID: "0A33a0asf1dk3s-k9n-n"
+      KAFKA_NODE_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+    volumes:
+      - kafkadata:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    networks:
+      - tripflow-network
+
+  api-service:
+    image: cub1z/tripflow-api-service:latest
+    container_name: tripflow-api-service
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      POSTGRES_URL: jdbc:postgresql://postgres-api:5432/${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      ORIGINS_FRONTEND: ${ORIGINS_FRONTEND}
+      COOKIE_DOMAIN: ${COOKIE_DOMAIN}
+      COOKIE_SECURE: true
+      COOKIE_SAME_SITE: None
+      JWT_SECRET: ${JWT_SECRET}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      UNSPLASH_API_KEY: ${UNSPLASH_API_KEY}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    depends_on:
+      postgres-api:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/api/health || wget --no-verbose --tries=1 --spider http://localhost:8080/api/health || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - tripflow-network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tripflow-api.rule=Host(`backend.tripflow.cub1z.es`)"
+      - "traefik.http.routers.tripflow-api.entrypoints=websecure"
+      - "traefik.http.routers.tripflow-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tripflow-api.loadbalancer.server.port=8080"
+
+  ai-service:
+    image: cub1z/tripflow-ai-service:latest
+    container_name: tripflow-ai-service
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      JWT_SECRET: ${JWT_SECRET}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      AI_API_KEY: ${AI_API_KEY}
+      AI_API_URL: ${AI_API_URL}
+      AI_API_MODEL: ${AI_API_MODEL}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - tripflow-network
+
+  notification-service:
+    image: cub1z/tripflow-notification-service:latest
+    container_name: tripflow-notification-service
+    restart: unless-stopped
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      JWT_SECRET: ${JWT_SECRET}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      EMAIL_SENDER: ${EMAIL_SENDER}
+      EMAIL_BREVO_API_KEY: ${EMAIL_BREVO_API_KEY}
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - tripflow-network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tripflow-notify.rule=Host(`ws.tripflow.cub1z.es`)"
+      - "traefik.http.routers.tripflow-notify.entrypoints=websecure"
+      - "traefik.http.routers.tripflow-notify.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tripflow-notify.loadbalancer.server.port=8082"
+
+  frontend:
+    image: cub1z/tripflow-frontend:latest
+    container_name: tripflow-frontend
+    restart: unless-stopped
+    depends_on:
+      api-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/ || wget -q --spider http://localhost:80/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - tripflow-network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tripflow-front.rule=Host(`tripflow.cub1z.es`)"
+      - "traefik.http.routers.tripflow-front.entrypoints=websecure"
+      - "traefik.http.routers.tripflow-front.tls.certresolver=letsencrypt"
+      - "traefik.http.services.tripflow-front.loadbalancer.server.port=80"
+
+volumes:
+  pgdata:
+    driver: local
+  kafkadata:
+    driver: local
+
+networks:
+  tripflow-network:
+    driver: bridge
+  dokploy-network:
+    external: true

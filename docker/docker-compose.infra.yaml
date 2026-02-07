@@ -1,0 +1,58 @@
+
+services:
+  postgres-api:
+    image: postgres:15-alpine
+    container_name: tripflow-infra-postgres-api
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tripflow_db
+      POSTGRES_USER: tripflow_user
+      POSTGRES_PASSWORD: secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-infra-api-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tripflow_user -d tripflow_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tripflow-infra-network
+
+  kafka:
+    image: confluentinc/cp-kafka:8.1.0
+    container_name: tripflow-infra-kafka
+    restart: unless-stopped
+    environment:
+      KAFKA_KRAFT_MODE: "true"
+      CLUSTER_ID: "0A33a0asf1dk3s-k9n-n"
+      KAFKA_NODE_ID: 1
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LOG_DIRS: /tmp/kraft-combined-logs
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka-infra-data:/var/lib/kafka/data
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - tripflow-infra-network
+
+volumes:
+  postgres-infra-api-data:
+    driver: local
+  kafka-infra-data:
+    driver: local
+
+networks:
+  tripflow-infra-network:
+    driver: bridge

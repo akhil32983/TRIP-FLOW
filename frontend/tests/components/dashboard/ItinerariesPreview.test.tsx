@@ -1,4 +1,4 @@
-import ItinerariesPreview from "@components/dashboard/ItinerariesPreview";
+import ItinerariesPreview from "@/components/dashboard/itineraries/ItinerariesPreview";
 
 import { render, screen, fireEvent } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
@@ -38,6 +38,15 @@ vi.mock("@components/shared/Loader", () => ({
     default: () => <div data-testid="loader">Loading...</div>,
 }));
 
+// Mock ItineraryCard to avoid testing its internal details here
+vi.mock("./itineraries/ItineraryCard", () => ({
+    default: ({ itinerary }: any) => (
+        <div data-testid="itinerary-card">
+            {itinerary.title}
+        </div>
+    ),
+}));
+
 const mockItineraries = [
     {
         id: 1,
@@ -50,6 +59,11 @@ const mockItineraries = [
         status: "ONGOING" as ItineraryStatus,
         countDays: 7,
         tags: ["culture", "gastronomy"],
+        coverImage: {
+            altDescription: "Tokyo cityscape",
+            imageUrl: "https://example.com/tokyo.jpg",
+            authorUsername: "photographer1"
+        }
     },
     {
         id: 2,
@@ -62,6 +76,11 @@ const mockItineraries = [
         status: "PLANNED" as ItineraryStatus,
         countDays: 10,
         tags: ["adventure", "nature"],
+        coverImage: {
+            altDescription: "Cusco mountains",
+            imageUrl: "https://example.com/cusco.jpg",
+            authorUsername: "photographer2"
+        }
     },
 ];
 
@@ -115,56 +134,6 @@ describe("ItinerariesPreview Component", () => {
 
         const section = container.querySelector("section");
         expect(section).toBeInTheDocument();
-    });
-
-    it("renders itinerary links with correct href", () => {
-        render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        const links = screen.getAllByRole("link");
-        expect(links.length).toBe(2);
-        expect(links[0]).toHaveAttribute("href", "/itineraries/1");
-        expect(links[1]).toHaveAttribute("href", "/itineraries/2");
-    });
-
-    it("renders badges for status and tags", () => {
-        render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        const badges = screen.getAllByTestId("badge");
-        expect(badges.length).toBeGreaterThan(0);
-    });
-
-    it("renders itinerary details correctly", () => {
-        render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        expect(screen.getByText("Tokyo")).toBeInTheDocument();
-        expect(screen.getByText("15 de junio de 2024")).toBeInTheDocument();
-        expect(screen.getByText(/7\s+días/)).toBeInTheDocument();
-        expect(screen.getByText(/2\s+personas/)).toBeInTheDocument();
-        expect(screen.getByText(/3.000, 00\s+€/)).toBeInTheDocument();
     });
 
     it("renders load more button when not last page", () => {
@@ -256,112 +225,5 @@ describe("ItinerariesPreview Component", () => {
             screen.getByText("No tienes itinerarios todavía.")
         ).toBeInTheDocument();
         expect(screen.getByText("Crear itinerario")).toBeInTheDocument();
-    });
-
-    it("handles singular person count correctly", () => {
-        const singlePersonItinerary = [
-            {
-                ...mockItineraries[1],
-                people: 1,
-            },
-        ];
-
-        render(
-            <ItinerariesPreview
-                itineraries={singlePersonItinerary}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        expect(screen.getByText(/1\s+persona/)).toBeInTheDocument();
-    });
-
-    it("handles singular day count correctly", () => {
-        const singleDayItinerary = [
-            {
-                ...mockItineraries[0],
-                countDays: 1,
-            },
-        ];
-
-        render(
-            <ItinerariesPreview
-                itineraries={singleDayItinerary}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        expect(screen.getByText(/1\s+día/)).toBeInTheDocument();
-    });
-
-    it("renders itinerary icons correctly", () => {
-        render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        expect(screen.getByText("🗾")).toBeInTheDocument();
-        expect(screen.getByText("🏔️")).toBeInTheDocument();
-    });
-
-    it("renders all stat labels", () => {
-        render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        expect(screen.getAllByText("Fecha").length).toBeGreaterThan(0);
-        expect(screen.getAllByText("Duración").length).toBeGreaterThan(0);
-        expect(screen.getAllByText("Integrantes").length).toBeGreaterThan(0);
-        expect(screen.getAllByText("Presupuesto").length).toBeGreaterThan(0);
-    });
-
-    it("renders correct number of tags", () => {
-        render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        expect(screen.getByText(/culture/)).toBeInTheDocument();
-        expect(screen.getByText(/gastronomy/)).toBeInTheDocument();
-        expect(screen.getByText(/adventure/)).toBeInTheDocument();
-        expect(screen.getByText(/nature/)).toBeInTheDocument();
-    });
-
-    it("applies correct CSS animation index", () => {
-        const { container } = render(
-            <ItinerariesPreview
-                itineraries={mockItineraries}
-                loadMore={mockLoadMore}
-                isLoading={false}
-                isLoadingMore={false}
-                isLastPage={true}
-            />
-        );
-
-        const links = container.querySelectorAll("a");
-        expect(links[0]).toHaveStyle({ "--index": "1" });
-        expect(links[1]).toHaveStyle({ "--index": "2" });
     });
 });

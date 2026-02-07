@@ -1,5 +1,6 @@
 HELP.md
 target/
+data/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -34,3 +35,4 @@ build/
 
 ### Environment Variables ###
 .env
+application-dev.properties

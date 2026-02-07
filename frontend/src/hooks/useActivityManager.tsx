@@ -6,79 +6,79 @@ import type { Activity, ItineraryDay } from "@/types/itinerary";
  * Handles adding, removing, and updating activities
  */
 export function useActivityManager(
-    days: ItineraryDay[], 
+    days: ItineraryDay[],
     onDaysChange: (newDays: ItineraryDay[]) => void
 ) {
     const createDefaultActivity = (): Activity => ({
-        activity: "Nueva Actividad",
-        details: "Añadir descripción de la actividad aquí",
+        activity: "",
+        details: "",
         location: {
-            name: "Nombre del Lugar",
-            address: "Dirección Completa",
+            name: "",
+            address: "",
             coordinates: {
                 latitude: 0,
                 longitude: 0
             }
         },
-        time: "10:00",
-        duration: "1 hora"
+        time: "",
+        duration: ""
     });
 
     const handleAddActivity = useCallback((dayIndex: number) => {
         const newActivity = createDefaultActivity();
-        
-        const newDays = days.map((day, index) => 
-            index === dayIndex 
+
+        const newDays = days.map((day, index) =>
+            index === dayIndex
                 ? { ...day, activities: [...day.activities, newActivity] }
                 : day
         );
-        
+
         onDaysChange(newDays);
     }, [days, onDaysChange]);
 
     const handleRemoveActivity = useCallback((dayIndex: number, activityIndex: number) => {
-        const newDays = days.map((day, index) => 
-            index === dayIndex 
-                ? { 
-                    ...day, 
-                    activities: day.activities.filter((_, actIndex) => actIndex !== activityIndex) 
+        const newDays = days.map((day, index) =>
+            index === dayIndex
+                ? {
+                    ...day,
+                    activities: day.activities.filter((_, actIndex) => actIndex !== activityIndex)
                 }
                 : day
         );
-        
+
         onDaysChange(newDays);
     }, [days, onDaysChange]);
 
     const handleUpdateActivity = useCallback((
-        dayIndex: number, 
-        activityIndex: number, 
-        field: keyof Activity, 
+        dayIndex: number,
+        activityIndex: number,
+        field: keyof Activity,
         value: any
     ) => {
-        const newDays = days.map((day, index) => 
-            index === dayIndex 
+        const newDays = days.map((day, index) =>
+            index === dayIndex
                 ? {
                     ...day,
-                    activities: day.activities.map((activity, actIndex) => 
-                        actIndex === activityIndex 
+                    activities: day.activities.map((activity, actIndex) =>
+                        actIndex === activityIndex
                             ? { ...activity, [field]: value }
                             : activity
                     )
                 }
                 : day
         );
-        
+
         onDaysChange(newDays);
     }, [days, onDaysChange]);
 
     const handleUpdateActivityLocation = useCallback((
-        dayIndex: number, 
-        activityIndex: number, 
-        field: keyof Activity['location'] | 'latitude' | 'longitude', 
+        dayIndex: number,
+        activityIndex: number,
+        field: keyof Activity['location'] | 'latitude' | 'longitude',
         value: any
     ) => {
-        const newDays = days.map((day, index) => 
-            index === dayIndex 
+        const newDays = days.map((day, index) =>
+            index === dayIndex
                 ? {
                     ...day,
                     activities: day.activities.map((activity, actIndex) => {
@@ -110,7 +110,7 @@ export function useActivityManager(
                 }
                 : day
         );
-        
+
         onDaysChange(newDays);
     }, [days, onDaysChange]);
 

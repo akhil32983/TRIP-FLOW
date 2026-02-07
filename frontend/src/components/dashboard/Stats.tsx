@@ -1,11 +1,12 @@
 import styles from "@styles/components/dashboard/Stats.module.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import type { UserStat, UserStatKey } from "@/types/stats";
 import { getUserStats } from "@/services/statsService";
+import { useWebSocketNotifications } from "@/hooks/notifications/useWebSocketNotifications";
 
-import { CalendarRangeIcon, CircleCheckBigIcon, GlobeIcon } from "lucide-react";
+import { CalendarIcon, GlobeIcon, ZapIcon } from "lucide-react";
 import Loader from "@components/shared/Loader";
 import InfoCard from "@components/dashboard/InfoCard";
 
@@ -21,15 +22,15 @@ const ICON_SIZE = 20;
 const statsRender = {
     activities: {
         label: "Actividades",
-        icon: <CircleCheckBigIcon size={ICON_SIZE} />
+        icon: <ZapIcon size={ICON_SIZE} />
     },
     places_visited: {
-        label: "Lugares Visitados",
+        label: "Lugares",
         icon: <GlobeIcon size={ICON_SIZE} />
     },
     total_days: {
-        label: "Días de Actividad",
-        icon: <CalendarRangeIcon size={ICON_SIZE} />
+        label: "Días",
+        icon: <CalendarIcon size={ICON_SIZE} />
     },
 }
 
@@ -49,17 +50,22 @@ function mapUserStatsToStats(userStats: UserStat[]): Stat[] {
 export default function Stats() {
     const [stats, setStats] = useState<Stat[] | null>(null);
 
-    useEffect(() => {
-        const fetchStats = async () => {
-            const userStats = await getUserStats();
-            if (!userStats) return;
+    const fetchStats = useCallback(async () => {
+        const userStats = await getUserStats();
+        if (!userStats) return;
 
-            const mappedStats = mapUserStatsToStats(userStats.stats);
-            setStats(mappedStats);
-        }
-
-        fetchStats();
+        const mappedStats = mapUserStatsToStats(userStats.stats);
+        setStats(mappedStats);
     }, []);
+
+    useWebSocketNotifications({
+        types: ["ITINERARY_GENERATED"],
+        onNotification: fetchStats
+    });
+
+    useEffect(() => {
+        fetchStats();
+    }, [fetchStats]);
 
     if (!stats) return <Loader size={24} variant="dots" />;
     return (

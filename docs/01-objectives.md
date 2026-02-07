@@ -21,7 +21,8 @@
 > The technical objectives focus on the implementation of a full-stack application using modern technologies and best practices in software development. It will follow a client-server architecture with a RESTful API, it will integrate AI services and an optimization service for route planning enhancement.
 > 
 > - Client-side application developed using React-Router + Vite + TypeScript.
-> - Server-side application developed using Spring Boot exposing a RESTful API.
+> - Server-side infrastructure based on a **Microservices Architecture** using Spring Boot (API, AI, Notification services).
+> - Event-driven communication implemented with **Apache Kafka**.
 > - Testing coverage for both frontend and backend using JUnit, TestingContainers, Vitest, and Puppeteer.
 > - Database management using PostgreSQL with JPA Repository from SpringBoot.
 > - Integration with OpenRouter API for AI itinerary generation.

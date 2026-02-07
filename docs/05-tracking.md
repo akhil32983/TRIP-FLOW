@@ -1,8 +1,10 @@
 ## 🗾 Tracking
 
-> **🗞️ Medium Blog**
+> **🗞️ Blog**
 > 
 > You can check my [Medium Blog](https://medium.com/@cub1z) for more information about the project development and updates.
+>
+> You can also read my [Personal Blog](https://cub1z.es/blog) for more information about this project and my other projects.
 
 > ---
 

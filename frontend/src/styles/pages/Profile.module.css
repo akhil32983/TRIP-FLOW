@@ -1,6 +1,4 @@
-.content {
+.statsContainer {
     width: 100%;
-    display: grid;
-    gap: var(--space-xxxl);
-    grid-template-columns: 1fr;
+    max-width: 1200px;
 }

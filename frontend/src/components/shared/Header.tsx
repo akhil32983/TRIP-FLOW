@@ -18,7 +18,7 @@ export default function Header() {
         {!user ? (
           <Button style={["primary"]} label="Acceder" to="/login" />
         ) : (
-          <Avatar to="/dashboard" />
+          <Avatar to={user.role === "USER" ? "/dashboard" : "/admin"} />
         )}
       </div>
     </header>

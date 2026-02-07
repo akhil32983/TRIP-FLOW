@@ -34,7 +34,7 @@ export default function DemoButton({ style = "secondary" }: DemoButtonProps) {
 
     return (
         <Button
-            style={[style]}
+            style={[style, "big"]}
             label={demo ? "Abandonar demo" : "Probar demo"}
             onClick={handleClick}
         />

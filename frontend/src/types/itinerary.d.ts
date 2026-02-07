@@ -1,4 +1,10 @@
-export type ItineraryStatus = "DRAFT" | "PLANNED" | "ONGOING" | "COMPLETED";
+export type ItineraryStatus = "DRAFT" | "PLANNED" | "ONGOING" | "COMPLETED" | "CANCELLED";
+
+export interface ItineraryCoverImage {
+    altDescription: string;
+    imageUrl: string;
+    authorUsername: string;
+}
 
 export interface Activity {
     activity: string;
@@ -22,7 +28,6 @@ export interface ItineraryDay {
 
 export interface Itinerary {
     id: number;
-    icon: string;
     title: string;
     place: string;
     people: number;
@@ -31,6 +36,7 @@ export interface Itinerary {
     status: ItineraryStatus;
     countDays: number;
     tags: string[];
+    coverImage: ItineraryCoverImage;
 }
 
 export interface ExtendedItinerary extends Itinerary {

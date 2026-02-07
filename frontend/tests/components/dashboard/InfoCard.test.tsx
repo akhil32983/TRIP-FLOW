@@ -14,8 +14,7 @@ describe("InfoCard Component", () => {
   it("renders icon as string", () => {
     render(<InfoCard icon="🎯" title="Target" value={50} />);
 
-    const title = screen.getByText(/Target/);
-    expect(title.textContent).toContain("🎯");
+    expect(screen.getByText("🎯")).toBeInTheDocument();
   });
 
   it("renders icon as JSX element", () => {
@@ -30,7 +29,7 @@ describe("InfoCard Component", () => {
 
     const title = screen.getByText(/Statistics/);
     expect(title).toBeInTheDocument();
-    expect(title.tagName).toBe("H3");
+    expect(title.tagName).toBe("P");
   });
 
   it("renders value as number", () => {
@@ -105,19 +104,13 @@ describe("InfoCard Component", () => {
   });
 
   it("handles empty string value", () => {
-  const { container } = render(<InfoCard icon="📄" title="Empty" value="" />);
+    const { container } = render(<InfoCard icon="📄" title="Empty" value="" />);
 
-  const valueElement = container.querySelector("p");
-  expect(valueElement).toBeInTheDocument();
-  expect(valueElement?.textContent).toBe("");
-});
-
-  it("renders icon and title together in h3", () => {
-    render(<InfoCard icon="🔥" title="Hot" value={100} />);
-
-    const title = screen.getByText(/Hot/);
-    expect(title.textContent).toContain("🔥");
-    expect(title.textContent).toContain("Hot");
+    const valueElement = container.querySelector("p");
+    expect(valueElement).toBeInTheDocument();
+    // Use textContent check instead of strict equality if there are multiple p tags
+    const values = screen.getAllByText("", { selector: "p" });
+    expect(values.length).toBeGreaterThan(0);
   });
 
   it("handles long title text", () => {
@@ -143,18 +136,11 @@ describe("InfoCard Component", () => {
     const { container } = render(<InfoCard icon="🎨" title="Art" value={20} />);
 
     const card = container.querySelector("div");
-    const h3 = card?.querySelector("h3");
-    const p = card?.querySelector("p");
+    const paragraphs = card?.querySelectorAll("p");
+    const span = card?.querySelector("span");
 
     expect(card).toBeInTheDocument();
-    expect(h3).toBeInTheDocument();
-    expect(p).toBeInTheDocument();
-  });
-
-  it("icon and title are in same element", () => {
-    render(<InfoCard icon="🌈" title="Colors" value={7} />);
-
-    const titleElement = screen.getByText(/Colors/);
-    expect(titleElement.textContent).toMatch(/🌈\s*Colors/);
+    expect(paragraphs).toHaveLength(2); // value and title
+    expect(span).toBeInTheDocument(); // icon
   });
 });

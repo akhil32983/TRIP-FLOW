@@ -9,8 +9,12 @@ servers:
 security:
 - auth_token: []
 tags:
+- name: AI Generation
+  description: AI generation and processing
 - name: Statistics
   description: Endpoints for retrieving statistics
+- name: Users Management
+  description: User management and operations
 - name: Health Check
   description: Endpoint for checking the health status of the application
 - name: Authentication
@@ -18,6 +22,98 @@ tags:
 - name: Itinerary Management
   description: Endpoints for managing itineraries
 paths:
+  /api/v1/users/{username}:
+    get:
+      tags:
+      - Users Management
+      summary: Get user by username
+      description: Retrieves a user by their username.
+      operationId: getUserByUsername
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: User retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+    put:
+      tags:
+      - Users Management
+      summary: Update user by username
+      description: Updates a user by their username.
+      operationId: updateUser
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+        required: true
+      responses:
+        "200":
+          description: User updated successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+      security:
+      - auth_token: []
+    delete:
+      tags:
+      - Users Management
+      summary: Delete user by username
+      description: Deletes a user by their username.
+      operationId: deleteUser
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: User deleted successfully
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal server error
+      security:
+      - auth_token: []
   /api/v1/itineraries/{id}:
     get:
       tags:
@@ -148,6 +244,86 @@ paths:
           description: Access to the itinerary is forbidden
         "500":
           description: Internal server error
+      security:
+      - auth_token: []
+  /api/v1/users/{username}/avatar:
+    get:
+      tags:
+      - Users Management
+      summary: Get avatar for user by username
+      description: Retrieves an avatar for a user by their username.
+      operationId: getAvatar
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Avatar retrieved successfully
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: User not found
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+      security:
+      - auth_token: []
+    post:
+      tags:
+      - Users Management
+      summary: Upload avatar for user by username
+      description: Uploads an avatar for a user by their username.
+      operationId: uploadAvatar
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+              required:
+              - avatar
+      responses:
+        "200":
+          description: Avatar uploaded successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "403":
+          description: Forbidden
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "415":
+          description: Unsupported media type
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PublicUserDTO"
       security:
       - auth_token: []
   /api/v1/itineraries:
@@ -296,6 +472,98 @@ paths:
                 $ref: "#/components/schemas/ExtendedItineraryDTO"
       security:
       - auth_token: []
+  /api/v1/ai:
+    post:
+      tags:
+      - AI Generation
+      summary: Submit AI Processing Request
+      description: Submits a request for AI processing based on user preferences.
+      operationId: handleAIRequest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AIGenerationRequest"
+        required: true
+      responses:
+        "200":
+          description: AI request submitted successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIResponse"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIResponse"
+        "429":
+          description: Too many requests - daily AI usage limit exceeded
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIResponse"
+      security:
+      - auth_token: []
+  /api/auth/verify:
+    post:
+      tags:
+      - Authentication
+      summary: Account Verification Endpoint
+      description: Verifies a user account using the provided code.
+      operationId: verify
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyAccountRequest"
+        required: true
+      responses:
+        "200":
+          description: Account verified successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Account verification failed
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+  /api/auth/resend-code:
+    post:
+      tags:
+      - Authentication
+      summary: Resend Verification Code
+      description: Resends the verification code to the user's email.
+      operationId: resendCode
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResendCodeRequest"
+        required: true
+      responses:
+        "200":
+          description: Verification code sent successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          description: Failed to resend verification code
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
   /api/auth/register:
     post:
       tags:
@@ -394,6 +662,37 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/AuthResponse"
+  /api/v1/users:
+    get:
+      tags:
+      - Users Management
+      summary: Get all users
+      description: Retrieves a list of all users.
+      operationId: getAllUsers
+      parameters:
+      - name: pageable
+        in: query
+        required: true
+        schema:
+          $ref: "#/components/schemas/Pageable"
+      - name: search
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Users retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOPublicUserDTO"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PaginatedDTOPublicUserDTO"
   /api/v1/stats/user:
     get:
       tags:
@@ -420,6 +719,34 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/UserStatsDTO"
+      security:
+      - auth_token: []
+  /api/v1/ai/status:
+    get:
+      tags:
+      - AI Generation
+      summary: Get AI Status
+      description: Retrieves the AI status for the authenticated user.
+      operationId: getAIStatus
+      responses:
+        "200":
+          description: AI status retrieved successfully
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIStatus"
+        "401":
+          description: Unauthorized access
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIStatus"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/AIStatus"
       security:
       - auth_token: []
   /api/health/:
@@ -456,6 +783,44 @@ paths:
                   type: string
 components:
   schemas:
+    UpdateUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        notificationsAllowed:
+          type: boolean
+    PublicUserDTO:
+      type: object
+      properties:
+        username:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        location:
+          type: string
+        notificationsAllowed:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        role:
+          type: string
+          enum:
+          - USER
+          - ADMIN
+        plan:
+          type: string
+          enum:
+          - FREE
+          - PRO
+          - PREMIUM
     ActivityDTO:
       type: object
       properties:
@@ -488,8 +853,6 @@ components:
           type: string
         place:
           type: string
-        icon:
-          type: string
         people:
           type: integer
           format: int32
@@ -519,6 +882,17 @@ components:
         countDays:
           type: integer
           format: int32
+        coverImage:
+          $ref: "#/components/schemas/ExternalImageDTO"
+    ExternalImageDTO:
+      type: object
+      properties:
+        imageUrl:
+          type: string
+        altDescription:
+          type: string
+        authorUsername:
+          type: string
     ItineraryDayDTO:
       type: object
       properties:
@@ -538,14 +912,54 @@ components:
           type: string
         coordinates:
           $ref: "#/components/schemas/CoordinatesDTO"
-    RegisterUserRequest:
+    AIGenerationRequest:
+      type: object
+      properties:
+        aiPrompt:
+          type: string
+        destination:
+          type: string
+        style:
+          type: string
+        budget:
+          type: number
+          format: double
+        lodging:
+          type: string
+        duration:
+          type: string
+        interests:
+          type: array
+          items:
+            type: string
+    AIResponse:
+      type: object
+      properties:
+        message:
+          type: string
+        aiUsage:
+          $ref: "#/components/schemas/AIUsageDTO"
+    AIUsageDTO:
+      type: object
+      properties:
+        usedQuota:
+          type: integer
+          format: int64
+        remainingQuota:
+          type: integer
+          format: int64
+        limit:
+          type: integer
+          format: int64
+        resetDate:
+          type: string
+          format: date
+    VerifyAccountRequest:
       type: object
       properties:
         username:
           type: string
-        password:
-          type: string
-        confirmPassword:
+        code:
           type: string
     AuthResponse:
       type: object
@@ -563,27 +977,22 @@ components:
             type: string
         user:
           $ref: "#/components/schemas/PublicUserDTO"
-    PublicUserDTO:
+    ResendCodeRequest:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
         username:
           type: string
-        name:
+    RegisterUserRequest:
+      type: object
+      properties:
+        email:
           type: string
-        description:
+        username:
           type: string
-        location:
+        password:
           type: string
-        createdAt:
+        confirmPassword:
           type: string
-          format: date-time
-        role:
-          type: string
-          enum:
-          - USER
     LoginRequest:
       type: object
       properties:
@@ -591,21 +1000,6 @@ components:
           type: string
         password:
           type: string
-    StatDTO:
-      type: object
-      properties:
-        key:
-          type: string
-        value:
-          type: integer
-          format: int64
-    UserStatsDTO:
-      type: object
-      properties:
-        stats:
-          type: array
-          items:
-            $ref: "#/components/schemas/StatDTO"
     Pageable:
       type: object
       properties:
@@ -621,6 +1015,42 @@ components:
           type: array
           items:
             type: string
+    PaginatedDTOPublicUserDTO:
+      type: object
+      properties:
+        page:
+          type: array
+          items:
+            $ref: "#/components/schemas/PublicUserDTO"
+        currentPage:
+          type: integer
+          format: int64
+        totalPages:
+          type: integer
+          format: int64
+        totalItems:
+          type: integer
+          format: int64
+        itemsPerPage:
+          type: integer
+          format: int64
+        isLastPage:
+          type: boolean
+    StatDTO:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: integer
+          format: int64
+    UserStatsDTO:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: "#/components/schemas/StatDTO"
     ItineraryDTO:
       type: object
       properties:
@@ -630,8 +1060,6 @@ components:
         title:
           type: string
         place:
-          type: string
-        icon:
           type: string
         people:
           type: integer
@@ -658,6 +1086,8 @@ components:
           - PLANNED
           - ONGOING
           - COMPLETED
+        coverImage:
+          $ref: "#/components/schemas/ExternalImageDTO"
     PaginatedDTOItineraryDTO:
       type: object
       properties:
@@ -679,6 +1109,19 @@ components:
           format: int64
         isLastPage:
           type: boolean
+    AIStatus:
+      type: object
+      properties:
+        isProcessing:
+          type: boolean
+        canUseAI:
+          type: boolean
+        dailyLimit:
+          type: integer
+          format: int32
+        remainingRequests:
+          type: integer
+          format: int32
   securitySchemes:
     auth_token:
       type: apiKey

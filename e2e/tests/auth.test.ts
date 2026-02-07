@@ -12,17 +12,16 @@ test.describe("Authentication Flow", () => {
         });
 
         test("should render signup form", async ({ page }) => {
+            await expect(page.getByLabel(/correo electrónico/i)).toBeVisible();
             await expect(page.getByLabel(/usuario/i)).toBeVisible();
-            await expect(page.getByLabel(/^contraseña$/i)).toBeVisible();
+            await expect(page.getByLabel(/^contraseña/i)).toBeVisible();
             await expect(page.getByLabel(/confirmar contraseña/i)).toBeVisible();
             await expect(page.getByRole("button", { name: /registrarse/i })).toBeVisible();
-            
-            await expect(page.getByText(/¿ya tienes una cuenta\?/i)).toBeVisible();
-            await expect(page.getByRole("link", { name: /inicia sesión aquí/i })).toBeVisible();
+            await expect(page.getByRole("tab", { name: /iniciar sesión/i })).toBeVisible();
         });
 
         test("should navigate to login page", async ({ page }) => {
-            await page.getByRole("link", { name: /inicia sesión aquí/i }).click();
+            await page.getByRole("tab", { name: /iniciar sesión/i }).click();
             await expect(page).toHaveURL(/\/login/);
         });
 
@@ -34,11 +33,13 @@ test.describe("Authentication Flow", () => {
         });
 
         test("should show error for invalid username length", async ({ page }) => {
-            const passwordField = page.getByLabel(/^contraseña$/i);
+            const emailField = page.getByLabel(/correo electrónico/i);
+            const passwordField = page.getByLabel(/^contraseña/i);
             const confirmPasswordField = page.getByLabel(/confirmar contraseña/i);
             const registerButton = page.getByRole("button", { name: /registrarse/i });
 
             // 1. Username too short (less than 3 characters)
+            await emailField.fill("test@test.com");
             await page.getByLabel(/usuario/i).fill("ab");
             await passwordField.fill(validPassword);
             await confirmPasswordField.fill(validPassword);
@@ -57,9 +58,10 @@ test.describe("Authentication Flow", () => {
 
         test("should show error for password validation", async ({ page }) => {
             const uniqueUsername = generateUsername("test");
+            await page.getByLabel(/correo electrónico/i).fill(`${uniqueUsername}@test.com`);
             await page.getByLabel(/usuario/i).fill(uniqueUsername);
 
-            const passwordField = page.getByLabel(/^contraseña$/i);
+            const passwordField = page.getByLabel(/^contraseña/i);
             const confirmPasswordField = page.getByLabel(/confirmar contraseña/i);
             const registerButton = page.getByRole("button", { name: /registrarse/i });
 
@@ -81,29 +83,34 @@ test.describe("Authentication Flow", () => {
         test("should successfully register a new user", async ({ page }) => {
             const uniqueUsername = generateUsername("user");
             
+            await page.getByLabel(/correo electrónico/i).fill(`${uniqueUsername}@example.com`);
             await page.getByLabel(/usuario/i).fill(uniqueUsername);
-            await page.getByLabel(/^contraseña$/i).fill(validPassword);
+            await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByLabel(/confirmar contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /registrarse/i }).click();
             
-            await expect(page).toHaveURL(/\/login/, { timeout: 10000 });
+            // Expected to go to verify page, but we manually go to login since backend auto-verifies in test mode
+            await expect(page).toHaveURL(/\/verify/, { timeout: 10000 });
+            await page.goto(`${FRONTEND_URL}/login`);
         });
 
         test("should show error for duplicate username", async ({ page }) => {
             const duplicateUsername = generateUsername("dup");
             
             // First registration
+            await page.getByLabel(/correo electrónico/i).fill(`${duplicateUsername}@example.com`);
             await page.getByLabel(/usuario/i).fill(duplicateUsername);
-            await page.getByLabel(/^contraseña$/i).fill(validPassword);
+            await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByLabel(/confirmar contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /registrarse/i }).click();
             
-            await expect(page).toHaveURL(/\/login/, { timeout: 10000 });
+            await expect(page).toHaveURL(/\/verify/, { timeout: 10000 });
             
             // Second registration with the same username
             await page.goto(`${FRONTEND_URL}/signup`);
+            await page.getByLabel(/correo electrónico/i).fill(`other_${duplicateUsername}@example.com`);
             await page.getByLabel(/usuario/i).fill(duplicateUsername);
-            await page.getByLabel(/^contraseña$/i).fill(validPassword);
+            await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByLabel(/confirmar contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /registrarse/i }).click();
             
@@ -121,12 +128,13 @@ test.describe("Authentication Flow", () => {
             const page = await context.newPage();
             
             await page.goto(`${FRONTEND_URL}/signup`);
+            await page.getByLabel(/correo electrónico/i).fill(`${sharedUsername}@example.com`);
             await page.getByLabel(/usuario/i).fill(sharedUsername);
-            await page.getByLabel(/^contraseña$/i).fill(validPassword);
+            await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByLabel(/confirmar contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /registrarse/i }).click();
             
-            await page.waitForURL(/\/login/, { timeout: 10000 });
+            await page.waitForURL(/\/verify/, { timeout: 10000 });
             await context.close();
         });
 
@@ -135,16 +143,14 @@ test.describe("Authentication Flow", () => {
         });
 
         test("should render login form", async ({ page }) => {
-            await expect(page.getByLabel(/usuario/i)).toBeVisible();
+            await expect(page.getByLabel(/usuario \/ email/i)).toBeVisible();
             await expect(page.getByLabel(/contraseña/i)).toBeVisible();
             await expect(page.getByRole("button", { name: /iniciar sesión/i })).toBeVisible();
-            
-            await expect(page.getByText(/¿no tienes una cuenta\?/i)).toBeVisible();
-            await expect(page.getByRole("link", { name: /regístrate aquí/i })).toBeVisible();
+            await expect(page.getByRole("tab", { name: /registrarse/i })).toBeVisible();
         });
 
         test("should navigate to signup page", async ({ page }) => {
-            await page.getByRole("link", { name: /regístrate aquí/i }).click();
+            await page.getByRole("tab", { name: /registrarse/i }).click();
             await expect(page).toHaveURL(/\/signup/);
         });
 
@@ -156,7 +162,7 @@ test.describe("Authentication Flow", () => {
         });
 
         test("should show error for invalid credentials", async ({ page }) => {
-            await page.getByLabel(/usuario/i).fill("nonexist123");
+            await page.getByLabel(/usuario \/ email/i).fill("nonexist123");
             await page.getByLabel(/contraseña/i).fill("wrongpass123");
             await page.getByRole("button", { name: /iniciar sesión/i }).click();
             
@@ -164,7 +170,7 @@ test.describe("Authentication Flow", () => {
         });
 
         test("should successfully login with registered user", async ({ page }) => {
-            await page.getByLabel(/usuario/i).fill(sharedUsername);
+            await page.getByLabel(/usuario \/ email/i).fill(sharedUsername);
             await page.getByLabel(/contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /iniciar sesión/i }).click();
             
@@ -181,26 +187,30 @@ test.describe("Authentication Flow", () => {
 
             // 1. Signup
             await page.goto(`${FRONTEND_URL}/signup`);
+            await page.getByLabel(/correo electrónico/i).fill(`${newUsername}@example.com`);
             await page.getByLabel(/usuario/i).fill(newUsername);
             await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByLabel(/confirmar contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /registrarse/i }).click();
             
-            await expect(page).toHaveURL(/\/login/, { timeout: 10000 });
+            await expect(page).toHaveURL(/\/verify/, { timeout: 10000 });
+            await page.goto(`${FRONTEND_URL}/login`);
 
             // 2. Login
-            await page.getByLabel(/usuario/i).fill(newUsername);
+            await page.getByLabel(/usuario \/ email/i).fill(newUsername);
             await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /iniciar sesión/i }).click();
             
             await expect(page).toHaveURL(/\/dashboard/, { timeout: 10000 });
+
+            await page.goto(`${FRONTEND_URL}/profile`);
 
             // 3. Logout
             await page.getByRole("button", { name: /cerrar sesión/i }).click();
             await expect(page).toHaveURL(/\/login/, { timeout: 5000 });
 
             // 4. Login again
-            await page.getByLabel(/usuario/i).fill(newUsername);
+            await page.getByLabel(/usuario \/ email/i).fill(newUsername);
             await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /iniciar sesión/i }).click();
 
@@ -217,12 +227,14 @@ test.describe("Authentication Flow", () => {
             
             // 1. Registro
             await page.goto(`${FRONTEND_URL}/signup`);
+            await page.getByLabel(/correo electrónico/i).fill(`${uniqueUsername}@example.com`);
             await page.getByLabel(/usuario/i).fill(uniqueUsername);
-            await page.getByLabel(/^contraseña$/i).fill(validPassword);
+            await page.getByLabel(/^contraseña/i).fill(validPassword);
             await page.getByLabel(/confirmar contraseña/i).fill(validPassword);
             await page.getByRole("button", { name: /registrarse/i }).click();
             
-            await expect(page).toHaveURL(/\/login/, { timeout: 10000 });
+            await expect(page).toHaveURL(/\/verify/, { timeout: 10000 });
+            await page.goto(`${FRONTEND_URL}/login`);
             
             // 2. Login
             await page.getByLabel(/usuario/i).fill(uniqueUsername);

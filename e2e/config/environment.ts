@@ -1,1 +1,1 @@
-export const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:4173";
+export const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost";

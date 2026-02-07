@@ -1,0 +1,112 @@
+.settings {
+    width: 100%;
+    max-width: 1200px;
+    padding-inline: var(--app-padding);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+
+    .action {
+        width: 100%;
+        padding: var(--space-lg);
+        display: flex;
+        align-items: center;
+        gap: var(--space-lg);
+        color: var(--text-primary);
+        border: 2px solid var(--border-secondary);
+        border-radius: var(--border-radius-lg);
+        background-color: var(--bg-secondary);
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+        @media (hover: hover) {
+            &:hover {
+                transform: translateY(-2px);
+                border-color: var(--border-primary);
+            }
+        }
+
+        &.info {
+            .iconContainer {
+                background-color: var(--info-bg);
+                color: var(--info);
+            }
+        }
+
+        &.active {
+            .iconContainer {
+                background-color: var(--active-bg);
+                color: var(--active);
+            }
+        }
+
+        &.done {
+            .iconContainer {
+                background-color: var(--done-bg);
+                color: var(--done);
+            }
+        }
+
+        &.danger {
+            @media (hover: hover) {
+                &:hover {
+                    border-color: var(--error);
+                }
+            }
+
+            .iconContainer {
+                background-color: var(--error-bg);
+                color: var(--error);
+            }
+
+            .labelContainer {
+                .title {
+                    color: var(--error);
+                }
+            }
+        }
+
+        .iconContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-inline: var(--space-md);
+            padding-block: var(--space-md);
+            border-radius: var(--border-radius-lg);
+            background-color: var(--info-bg);
+        }
+
+        .labelContainer {
+            display: flex;
+            flex-direction: column;
+
+            .title {
+                text-align: left;
+                line-height: 1.6;
+                font-size: var(--font-size-sm);
+                font-weight: var(--font-weight-bold);
+            }
+
+            .description {
+                text-align: left;
+                line-height: 1.6;
+                font-size: var(--font-size-xs);
+                font-weight: var(--font-weight-normal);
+                color: var(--text-tertiary);
+            }
+        }
+
+        .chevron {
+            color: var(--text-tertiary);
+            margin-left: auto;
+        }
+
+        .toggleContainer {
+            margin-left: auto;
+        }
+
+        &.last {
+            margin-top: var(--space-lg);
+        }
+    }
+}

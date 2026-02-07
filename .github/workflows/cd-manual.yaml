@@ -33,5 +33,5 @@ jobs:
     with:
       tag: ${{ needs.prepare.outputs.final-tag }}
       compose_file: docker/docker-compose.dev.yaml
-      services: '["backend","frontend"]'
+      services: '["backend/api-service","backend/ai-service","backend/notification-service","frontend"]'
     secrets: inherit

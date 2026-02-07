@@ -1,21 +1,28 @@
-FROM node:20-alpine
+# Build stage
+FROM node:24-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 
 RUN npm install
 
 COPY . .
 
+ARG PUBLIC_API_BASE_URL
+ARG PUBLIC_WS_BASE_URL
+
+ENV PUBLIC_API_BASE_URL=$PUBLIC_API_BASE_URL
+ENV PUBLIC_WS_BASE_URL=$PUBLIC_WS_BASE_URL
+
 RUN npm run build
 
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+# Production stage
+FROM nginx:alpine
 
-RUN chown -R appuser:appgroup /app
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY --from=builder /app/dist /usr/share/nginx/html
 
-USER appuser
+EXPOSE 80
 
-EXPOSE 4173
-
-CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0"]
+CMD ["nginx", "-g", "daemon off;"]

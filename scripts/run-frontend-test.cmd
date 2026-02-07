@@ -5,7 +5,7 @@ REM Get the script directory and project root
 SET SCRIPT_DIR=%~dp0
 SET PROJECT_ROOT=%SCRIPT_DIR%..
 
-echo [+] Generating frontend coverage with Playwright...
+echo [+] Generating frontend coverage with Vitest...
 
 REM Define frontend report directory
 SET "REPORT_DIR=%PROJECT_ROOT%\docs\coverage\frontend"

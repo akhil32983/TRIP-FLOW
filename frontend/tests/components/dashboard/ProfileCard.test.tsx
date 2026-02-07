@@ -1,4 +1,4 @@
-import ProfileCard from "@components/dashboard/ProfileCard";
+import ProfileCard from "@components/dashboard/profile/ProfileCard";
 
 import { render, screen } from "@tests/utils/testUtils";
 import { describe, it, expect, vi, beforeEach } from "vitest";
@@ -37,6 +37,7 @@ import { useAuth } from "@/providers/authProvider";
 
 const mockUser = {
     id: 1,
+    name: "John Doe",
     username: "johndoe",
     email: "john@example.com",
     location: "Madrid, España",
@@ -46,6 +47,7 @@ const mockUser = {
 
 const mockUserMinimal = {
     id: 2,
+    name: "Jane Doe",
     username: "janedoe",
     email: "jane@example.com",
     location: "¿?",
@@ -53,14 +55,7 @@ const mockUserMinimal = {
     createdAt: "2024-06-20T14:30:00Z",
 };
 
-const mockUserNoData = {
-    id: 3,
-    username: "testuser",
-    email: "test@example.com",
-    location: undefined,
-    description: undefined,
-    createdAt: undefined,
-};
+
 
 describe("ProfileCard Component", () => {
     beforeEach(() => {
@@ -89,7 +84,6 @@ describe("ProfileCard Component", () => {
         render(<ProfileCard />);
 
         const avatar = screen.getByTestId("avatar");
-        expect(avatar).toHaveAttribute("data-to", "/profile");
         expect(avatar).toHaveAttribute("data-size", "full");
     });
 
@@ -98,16 +92,9 @@ describe("ProfileCard Component", () => {
 
         render(<ProfileCard />);
 
-        const heading = screen.getByRole("heading", { name: "johndoe" });
+        // The component renders name in h2, not username
+        const heading = screen.getByRole("heading", { name: "John Doe" });
         expect(heading).toBeInTheDocument();
-    });
-
-    it("renders username with @ symbol", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText("@johndoe")).toBeInTheDocument();
     });
 
     it("renders user description", () => {
@@ -146,44 +133,12 @@ describe("ProfileCard Component", () => {
         expect(screen.getByText("Alguna parte del mundo")).toBeInTheDocument();
     });
 
-    it("renders joined date", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText(/Miembro desde/)).toBeInTheDocument();
-    });
-
-    it("formats joined date correctly", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText(/enero/)).toBeInTheDocument();
-    });
-
-    it("renders default date when createdAt is missing", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUserNoData } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByText(/Miembro desde ¿\?/)).toBeInTheDocument();
-    });
-
     it("renders MapPin icon", () => {
         vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
 
         render(<ProfileCard />);
 
         expect(screen.getByTestId("map-pin-icon")).toBeInTheDocument();
-    });
-
-    it("renders Calendar icon", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        render(<ProfileCard />);
-
-        expect(screen.getByTestId("calendar-icon")).toBeInTheDocument();
     });
 
     it("renders profile section", () => {
@@ -213,16 +168,7 @@ describe("ProfileCard Component", () => {
         expect(profileInfo).toBeInTheDocument();
     });
 
-    it("renders profile metadata container", () => {
-        vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
-
-        const { container } = render(<ProfileCard />);
-
-        const metadata = container.querySelector('[class*="profileMetadata"]');
-        expect(metadata).toBeInTheDocument();
-    });
-
-    it("renders two metadata items", () => {
+    it("renders one metadata item", () => {
         vi.mocked(useAuth).mockReturnValue({ user: mockUser } as any);
 
         const { container } = render(<ProfileCard />);
@@ -230,7 +176,7 @@ describe("ProfileCard Component", () => {
         const metadataItems = container.querySelectorAll(
             '[class*="profileMetadataItem"]'
         );
-        expect(metadataItems).toHaveLength(2);
+        expect(metadataItems).toHaveLength(1);
     });
 
     it("renders heading as h2", () => {
@@ -240,6 +186,6 @@ describe("ProfileCard Component", () => {
 
         const h2 = container.querySelector("h2");
         expect(h2).toBeInTheDocument();
-        expect(h2?.textContent).toBe("johndoe");
+        expect(h2?.textContent).toBe("John Doe");
     });
 });
