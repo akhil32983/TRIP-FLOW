@@ -14,7 +14,9 @@
 
 ---
 
-![TripFlow Showcase](docs/assets/showcase.png)
+![TripFlow Landing Showcase](docs/assets/showcase_landing.png)
+
+![TripFlow Mobile Showcase](docs/assets/showcase_mobile.png)
 
 ---
 
