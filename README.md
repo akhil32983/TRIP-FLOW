@@ -1,6 +1,4 @@
-<div align="center">
-  <img src="docs/assets/banner.svg" alt="TripFlow Banner" />
-</div>
+![TripFlow Showcase](docs/assets/showcase.png)
 
 ---
 
@@ -13,8 +11,6 @@
 > This project is developed as part of the Final Degree Project (TFG) for the **Bachelor’s Degree in Software Engineering** at **ETSII - Universidad Rey Juan Carlos**.
 
 ---
-
-![TripFlow Landing Showcase](docs/assets/showcase.png)
 
 ![TripFlow Mobile Showcase](docs/assets/showcase_mobile.png)
 
@@ -57,3 +53,7 @@
 > limitations under the License.
 
 ---
+
+<div align="center">
+  <img src="docs/assets/banner.svg" alt="TripFlow Banner" />
+</div>
