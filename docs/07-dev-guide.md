@@ -627,7 +627,8 @@
 > | Version | Release Date | Highlights                                     |
 > | ------- | ------------ | ---------------------------------------------- |
 > | 0.1.0   | 15 nov 2025  | Initial MVP release with core functionality    |
-> | 0.2.0   |     TBD      | Advanced features such as AI and notifications |
+> | 0.2.0   | 08 feb 2026  | Advanced features such as AI and notifications |
+> | 1.0.0   |     TBD      | Production release with all features           |
 
 ---
 
