@@ -55,8 +55,8 @@ export default function AuthForm<T extends Record<string, any>>({
       </Button>
       <Tabs
         tabs={[
-          { id: "login", label: "Iniciar Sesión" },
-          { id: "signup", label: "Registrarse" },
+          { id: "login", label: "Sign In" },
+          { id: "signup", label: "Sign Up" },
         ]}
         activeTab={active}
         onChange={(id) => navigate(`/${id}`)}
@@ -79,8 +79,7 @@ export default function AuthForm<T extends Record<string, any>>({
       {!navigator.onLine && (
         <div className={styles.offlineWarning}>
           <p>
-            Estás desconectado. Para autenticarte, por favor conéctate a
-            Internet.
+            You are logged out. To authenticate, please connect to the Internet.
           </p>
         </div>
       )}

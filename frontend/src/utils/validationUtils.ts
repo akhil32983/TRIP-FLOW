@@ -22,7 +22,7 @@ export function validateUsername(
   simple?: boolean
 ): ValidationResult {
   if (!username || username.trim() === "") {
-    return { isValid: false, error: "El nombre de usuario es obligatorio." };
+    return { isValid: false, error: "Username is required." };
   }
 
   if (simple) return { isValid: true, error: null };
@@ -33,7 +33,7 @@ export function validateUsername(
   ) {
     return {
       isValid: false,
-      error: `El nombre de usuario debe tener entre ${MIN_USERNAME_LENGTH} y ${MAX_USERNAME_LENGTH} caracteres.`,
+      error: `Username must be between ${MIN_USERNAME_LENGTH} and ${MAX_USERNAME_LENGTH} characters long.`,
     };
   }
 
@@ -41,7 +41,7 @@ export function validateUsername(
     return {
       isValid: false,
       error:
-        "El nombre de usuario solo puede contener letras, números y guiones bajos.",
+        "Username can only contain letters, numbers, and underscores.",
     };
   }
 
@@ -62,7 +62,7 @@ export function validatePassword(
   simple?: boolean
 ): ValidationResult {
   if (!password || password.trim() === "") {
-    return { isValid: false, error: "La contraseña es obligatoria." };
+    return { isValid: false, error: "Password is required." };
   }
 
   if (simple) return { isValid: true, error: null };
@@ -70,7 +70,7 @@ export function validatePassword(
   if (password.length < MIN_PASSWORD_LENGTH) {
     return {
       isValid: false,
-      error: `La contraseña debe tener al menos ${MIN_PASSWORD_LENGTH} caracteres.`,
+      error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`,
     };
   }
 
@@ -78,12 +78,12 @@ export function validatePassword(
     return {
       isValid: false,
       error:
-        "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.",
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number.",
     };
   }
 
   if (password !== confirmPassword) {
-    return { isValid: false, error: "Las contraseñas no coinciden." };
+    return { isValid: false, error: "Passwords do not match." };
   }
 
   return { isValid: true, error: null };

@@ -41,7 +41,7 @@ export default function DayCard({
     return (
         <div className={styles.dayCard}>
             <h3 className={styles.dayTitle}>
-                Día {`${day.day} - ${formatDate(date, { excludeYear: true })}`}
+                Day {`${day.day} - ${formatDate(date, { excludeYear: true })}`}
             </h3>
 
             <div className={styles.activitiesContainer}>
@@ -64,7 +64,7 @@ export default function DayCard({
                     onClick={onAddActivity}
                 >
                     <Plus size={16} />
-                    <span>Añadir actividad</span>
+                    <span>Add Activity</span>
                 </button>
             </div>
         </div>

@@ -11,9 +11,9 @@ export default function AdminHeader({ children }: AdminHeaderProps) {
     return (
         <header className={styles.header}>
             <div className={styles.content}>
-                <h3 className={styles.title}>Administración</h3>
+                <h3 className={styles.title}>Administration</h3>
                 <LogoutButton to="/" integrated>
-                    <span>Cerrar Sesión</span>
+                    <span>Sign Out</span>
                 </LogoutButton>
             </div>
             <div className={styles.children}>

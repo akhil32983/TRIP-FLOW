@@ -19,7 +19,7 @@ public class EmailUtils {
     public static String getEmailSubject(EmailType type) {
         switch (type) {
             case VERIFICATION:
-                return "Verificación de Cuenta TripFlow";
+                return "TripFlow Account Verification";
             default:
                 throw new IllegalArgumentException("Unsupported email type: " + type);
         }

@@ -13,8 +13,8 @@ import Logo from "@components/shared/Logo";
 
 const ROUTES = [
     { path: "/dashboard", label: "Dashboard", icon: <HomeIcon /> },
-    { path: "/itineraries", label: "Itinerarios", icon: <MapIcon /> },
-    { path: "/profile", label: "Perfil", icon: <UserIcon /> },
+    { path: "/itineraries", label: "Itineraries", icon: <MapIcon /> },
+    { path: "/profile", label: "Profile", icon: <UserIcon /> },
 ];
 
 const ADMIN_ROUTES = [

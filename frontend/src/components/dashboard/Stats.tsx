@@ -21,15 +21,15 @@ const ICON_SIZE = 20;
 
 const statsRender = {
     activities: {
-        label: "Actividades",
+        label: "Activities",
         icon: <ZapIcon size={ICON_SIZE} />
     },
     places_visited: {
-        label: "Lugares",
+        label: "Locations",
         icon: <GlobeIcon size={ICON_SIZE} />
     },
     total_days: {
-        label: "Días",
+        label: "Days",
         icon: <CalendarIcon size={ICON_SIZE} />
     },
 }

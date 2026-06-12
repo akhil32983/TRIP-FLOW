@@ -5,13 +5,13 @@ import DemoButton from "@components/buttons/DemoButton";
 
 export default function Cta() {
   return (
-    <Section title={<>¿Aún no te hemos convencido?</>}>
+    <Section title={<>Still not convinced?</>}>
       <div className={styles.ctaContent}>
         <p className={styles.ctaText}>
-          Prueba nuestra demo y descubre si somos la solución que necesitas.
+          Try our demo and discover if we are the solution you need.
         </p>
         <p className={styles.ctaText}>
-          Si tienes alguna duda, no dudes en contactarnos.
+          If you have any questions, don't hesitate to contact us.
         </p>
         <div className={styles.actions}>
           <DemoButton style="primary" />

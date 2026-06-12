@@ -69,7 +69,7 @@ export default function RegisterPage() {
                 fields={[
                     {
                         name: "email",
-                        label: "Correo electrónico",
+                        label: "Email",
                         type: "email",
                         placeholder: "cub1z@example.com",
                         required: true,
@@ -77,14 +77,14 @@ export default function RegisterPage() {
                     },
                     {
                         name: "username",
-                        label: "Usuario",
+                        label: "Username",
                         placeholder: "CuB1z",
                         required: true,
                         icon: <UserIcon size={16} />,
                     },
                     {
                         name: "password",
-                        label: "Contraseña",
+                        label: "Password",
                         type: "password",
                         placeholder: "********",
                         required: true,
@@ -92,14 +92,14 @@ export default function RegisterPage() {
                     },
                     {
                         name: "confirmPassword",
-                        label: "Confirmar contraseña",
+                        label: "Confirm Password",
                         type: "password",
                         placeholder: "********",
                         required: true,
                         icon: <LockIcon size={16} />,
                     },
                 ]}
-                buttonLabel="Registrarse"
+                buttonLabel="Register"
                 onSubmit={(values: RegisterRequest) => handleRegister(values)}
                 errors={errors}
             />

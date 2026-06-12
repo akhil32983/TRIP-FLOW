@@ -69,10 +69,10 @@ export default function AdminPage() {
 
             <Modal
                 isOpen={deleteModalOpen}
-                title="Eliminar Usuario"
-                message={`¿Estás seguro de que quieres eliminar al usuario @${userToDelete}? Esta acción no se puede deshacer.`}
-                confirmText="Eliminar"
-                cancelText="Cancelar"
+                title="Delete User"
+                message={`Are you sure you want to delete user @${userToDelete}? This action cannot be undone.`}
+                confirmText="Delete"
+                cancelText="Cancel"
                 onConfirm={confirmDelete}
                 onCancel={() => setDeleteModalOpen(false)}
                 variant="danger"

@@ -4,60 +4,60 @@ import com.tripflow.dto.ai.AIGenerationRequest;
 
 public class AIItineraryPrompt {
     private static final String CONTEXT_PROMPT = """
-        Eres un asistente útil. Conocedor de lugares turísticos y actividades para visitar.
-        Tienes un conocimiento profundo de la ciudad de {{place}}.
-        Recibirás un contexto con información sobre la ciudad de {{place}}.
+        You are a helpful assistant knowledgeable about tourist attractions and activities.
+        You have deep knowledge of the city {{place}}.
+        You will receive context information about the city {{place}}.
 
-        Contexto:
-        - Ciudad de destino: {{place}}
-        - Estilo del itinerario: {{style}}
-        - Presupuesto: {{budget}}
-        - Tipo de alojamiento: {{lodging}}
-        - Duración: {{duration}}
-        - Intereses: {{interests}}
+        Context:
+        - Destination city: {{place}}
+        - Itinerary style: {{style}}
+        - Budget: {{budget}}
+        - Lodging type: {{lodging}}
+        - Duration: {{duration}}
+        - Interests: {{interests}}
 
-        La petición del usuario es: {{aiPrompt}}
+        The user request is: {{aiPrompt}}
 
-        Dale más importancia a la petición del usuario que a los parámetros del contexto.
+        Give greater importance to the user request than to the context parameters.
 
-        Si necesitas ampliar un poco el presupuesto por las necesidades descritas en la petición del usuario, puedes hacerlo.
+        If you need to slightly increase the budget to meet the user request, you may do so.
 
-        Propón varias actividades para cada día, al menos 3 o 4 actividades por día, con un sentido lógico y coherente.
-        Evita caracteres especiales o emoticonos en el JSON.
-        NO utilices sintáxis de marcado / formato como markdown para rellenar los campos del JSON.
-        Utiliza formatos de hora válidos como 06:30, 09:25, 11:00, 12:30, etc. Siempre con el formato HH:MM.
+        Propose multiple activities for each day, at least 3 or 4 activities per day, with a logical and coherent flow.
+        Avoid special characters or emojis in the JSON.
+        DO NOT use markup/format syntax like markdown to fill the JSON fields.
+        Use valid time formats such as 06:30, 09:25, 11:00, 12:30, etc. Always use HH:MM format.
 
-        Responde ÚNICAMENTE con el JSON correspondiente al itinerario propuesto, sin ningún texto adicional, sin ejemplos, sin explicaciones y sin encabezados.
-        Evita cualquier comentario o texto que no sea parte del JSON, incluyendo la palabra "JSON", "json", "```json", "```", etc.
-        El JSON debe tener la siguiente estructura:
+        Respond ONLY with the JSON corresponding to the proposed itinerary, without any additional text, examples, explanations, or headings.
+        Avoid any comments or text that are not part of the JSON, including the words "JSON", "json", "```json", "```", etc.
+        The JSON must have the following structure:
         {
             "id": -1,
-            "title": "Título simple y corto relacionado con {{place}}",
+            "title": "Simple short title related to {{place}}",
             "place": "{{place}}",
-            "people": "Un número entero que indica la cantidad de personas que viajan.",
+            "people": "An integer representing the number of people traveling.",
             "budget": {{budget}},
-            "date": "La fecha de inicio del viaje",
+            "date": "The trip start date",
             "updatedCount": 0,
             "status": "DRAFT",
-            "tags": ["Tag1", "Tag2", "Tag3"] (3 tags máximo),
-            "countDays": "Un número entero que indica la cantidad de días del itinerario.",
+            "tags": ["Tag1", "Tag2", "Tag3"] (maximum 3 tags),
+            "countDays": "An integer representing the number of days in the itinerary.",
             "days": [
                 {
                     "day": 1 (1, 2, 3, ...),
                     "activities": [
                         {
-                            "activity": "Visitar ... atracción",
-                            "details": "Detalle sobre la actividad a tener en cuenta",
+                            "activity": "Visit ... attraction",
+                            "details": "Detail about the activity to consider",
                             "location": {
-                                "name": "Nombre del lugar",
-                                "address": "Dirección del lugar",
+                                "name": "Place name",
+                                "address": "Place address",
                                 "coordinates": {
                                     "latitude": 48.8566 (decimal),
                                     "longitude": 2.3522 (decimal)
                                 }
                             },
-                            "time": "Hora de inicio (06:30, 09:25, 11:00, 12:00, etc.)",
-                            "duration": "2 horas / 3 horas / etc."
+                            "time": "Start time (06:30, 09:25, 11:00, 12:00, etc.)",
+                            "duration": "2 hours / 3 hours / etc."
                         }
                     ]
                 }

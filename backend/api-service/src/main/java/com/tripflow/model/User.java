@@ -56,7 +56,7 @@ public class User {
     private String description = "";
 
     @Column(nullable = false, unique = false)
-    private String location = "¿?";
+    private String location = "?";
 
     @Column(nullable = false)
     private Boolean notificationsAllowed = true;

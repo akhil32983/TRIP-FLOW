@@ -32,7 +32,7 @@ export default function ItinerariesPreview(
                 <div className={styles.loadMore}>
                     <Button
                         style={["secondary"]} 
-                        label={isLoadingMore ? "Cargando..." : "Cargar más"}
+                        label={isLoadingMore ? "Loading..." : "Load More"}
                         onClick={loadMore}
                         disabled={isLoadingMore}
                     />
@@ -41,8 +41,8 @@ export default function ItinerariesPreview(
 
             {itineraries.length === 0 && (
                 <div className={styles.empty}>
-                    <p>No tienes itinerarios todavía.</p>
-                    <Button style={["primary"]} label="Crear itinerario" to="/itineraries/new" />
+                    <p>You don't have any itineraries yet.</p>
+                    <Button style={["primary"]} label="Create Itinerary" to="/itineraries/new" />
                 </div>
             )}
         </section>

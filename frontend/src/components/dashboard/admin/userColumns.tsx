@@ -37,12 +37,12 @@ export const getUserColumns = (onDelete: (username: string) => void): Column<Pub
         )
     },
     {
-        header: "Ubicación",
+        header: "Location",
         accessor: "location",
         render: (user) => user.location || "-"
     },
     {
-        header: "Fecha Registro",
+        header: "Registration Date",
         render: (user) => formatDate(user.createdAt, { shortMonth: true })
     },
     {

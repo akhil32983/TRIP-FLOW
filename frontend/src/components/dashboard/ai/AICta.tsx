@@ -8,13 +8,13 @@ export default function AICta() {
         <section className={styles.aiCtaSection}>
             <div className={styles.aiCtaHeader}>
                 <Sparkles size={24} className={styles.aiCtaIcon} />
-                <h2 className={styles.aiCtaTitle}>Asistente con IA</h2>
+                <h2 className={styles.aiCtaTitle}>AI Assistant</h2>
             </div>
             <div className={styles.cta}>
-                <p>Estás preparado para planear tu próximo viaje? Descubre el poder de nuestra IA para ayudarte a planificar tus viajes en cuestión de segundos.</p>
+                <p>Are you ready to plan your next trip? Discover the power of our AI to help you plan your travels in a matter of seconds.</p>
                 <Button
                     style={["primary", "big", "full"]}
-                    label="Comenzar"
+                    label="Get Started"
                     to="/itineraries/new?editorType=ai"
                 />
             </div>

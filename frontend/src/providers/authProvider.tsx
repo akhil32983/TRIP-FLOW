@@ -69,8 +69,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Transform error messages to a more user-friendly format
       const error: Record<string, string> =
         res.message === "Invalid credentials"
-          ? { password: "Contraseña incorrecta" }
-          : { global: res.message ?? "Ha ocurrido un error desconocido" };
+          ? { password: "Incorrect password" }
+          : { global: res.message ?? "An unknown error occurred" };
       setErrors(error);
 
       removeFromLocalStorage(STORAGE_KEYS.AUTH);
@@ -118,11 +118,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } else {
       const error: Record<string, string> = {};
       if (res.errors.email === "User already exists with email") {
-        error.email = "El correo electrónico ya está en uso.";
+        error.email = "The email is already in use.";
       } else if (res.errors.username === "User already exists with username") {
-        error.username = "El nombre de usuario ya está en uso.";
+        error.username = "The username is already in use.";
       } else {
-        error.global = "Ha ocurrido un error desconocido.";
+        error.global = "An unknown error occurred.";
       }
 
       setErrors(error);
@@ -147,7 +147,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: true, verified: true };
     } else {
         const error: Record<string, string> = {};
-        error.global = "Error de verificación.";
+        error.global = "Verification error.";
         setErrors(error);
         return { success: false, errors: error };
     }

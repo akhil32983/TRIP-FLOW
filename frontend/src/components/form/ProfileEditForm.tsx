@@ -33,17 +33,17 @@ export default function ProfileEditForm() {
 
     const fields: Field[] = [
         {
-            name: "name", label: "Nombre",
+            name: "name", label: "Name",
             type: "text", value: values.name,
             icon: <UserIcon size={ICON_SIZE} />
         },
         {
-            name: "location", label: "Ubicación",
+            name: "location", label: "Location",
             type: "text", value: values.location,
             icon: <MapPinIcon size={ICON_SIZE} />
         },
         {
-            name: "description", label: "Sobre mí",
+            name: "description", label: "About Me",
             type: "textarea", value: values.description,
         }
     ];
@@ -58,13 +58,13 @@ export default function ProfileEditForm() {
         setIsLoading(true);
         try {
             await updateProfile(values);
-            notify("Perfil actualizado correctamente", "success", {
-                title: "Éxito",
+            notify("Profile updated successfully", "success", {
+                title: "Success",
                 duration: 3000
             });
             navigate("/profile");
         } catch (error) {
-            notify("Error al actualizar el perfil", "error", {
+            notify("Error updating profile", "error", {
                 title: "Error",
                 duration: 4000
             });
@@ -92,7 +92,7 @@ export default function ProfileEditForm() {
 
 
             <form className={styles.form} onSubmit={handleSubmit}>
-            <h3>Información Personal</h3>
+            <h3>Personal Information</h3>
                 <div className={styles.group}>
                     {fields.map((field) => (
                         <FormGroup
@@ -108,7 +108,7 @@ export default function ProfileEditForm() {
                     <DeleteAccountButton />
                     <Button
                         style={["primary"]}
-                        label={isLoading ? "Guardando..." : "Guardar"}
+                        label={isLoading ? "Saving..." : "Save"}
                         type="submit"
                         disabled={isLoading}
                     />

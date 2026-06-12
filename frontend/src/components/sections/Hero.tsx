@@ -21,14 +21,14 @@ export default function Hero() {
           </>
         </Badge>
         <h1 className={styles.title}>
-          Planifica tus <strong>viajes del futuro</strong>
+          Plan your <strong>Future Trips</strong>
         </h1>
         <p className={styles.description}>
-          Optimización de rutas, itinerarios personalizados y acceso offline con
-          tecnología IA.
+          Route optimization, personalized itineraries and offline access with
+          AI.
         </p>
         <div className={styles.actions}>
-          <Button style={["primary", "big"]} label="Comenzar ahora" to={user ? "/dashboard" : "/signup"} />
+          <Button style={["primary", "big"]} label="Get Started" to={user ? "/dashboard" : "/signup"} />
           <DemoButton style="secondary" />
         </div>
       </div>

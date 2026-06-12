@@ -13,9 +13,9 @@
       "@services/*": ["src/services/*"],
       "@pages/*": ["src/pages/*"],
       "@styles/*": ["src/styles/*"],
-      "@tests/*": ["tests/*"]
+      "@tests/*": ["e2e/tests/*"] 
     },
-    "types": ["vitest/globals", "vite/client"],
+    "types": ["vitest/globals", "vite/client", "node"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -33,5 +33,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "tests"]
+  "include": ["src", "e2e"] 
 }

@@ -41,7 +41,7 @@ export default function Notification({
                 }
             }}
         >
-            <button onClick={onClose} aria-label="Cerrar notificación" className={styles.closeButton}>
+            <button onClick={onClose} aria-label="Close notification" className={styles.closeButton}>
                 <XIcon size={18} />
             </button>
 

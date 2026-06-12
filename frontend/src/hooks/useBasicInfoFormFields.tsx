@@ -74,58 +74,58 @@ export function useBasicInfoFormFields(
     const basicInfoFields: Field[] = [
         {
             name: "trip-title",
-            label: "Título del viaje",
+            label: "Trip title",
             type: "text",
             value: itinerary.title,
-            placeholder: "Mi increíble viaje a...",
+            placeholder: "My amazing trip to...",
             icon: createElement(Plane, { size: 16 }),
             required: true
         },
         {
             name: "trip-destination",
-            label: "Destino",
+            label: "Destination",
             type: "text",
             value: itinerary.place,
-            placeholder: "Ciudad, País",
+            placeholder: "City, Country",
             icon: createElement(MapPin, { size: 16 }),
             required: true
         },
         {
             name: "trip-people",
-            label: "Viajeros",
+            label: "Travelers",
             type: "number",
             value: itinerary.people,
-            placeholder: "¿Cuántas personas?",
+            placeholder: "How many people?",
             icon: createElement(Users, { size: 16 }),
             min: 1,
             max: 50
         },
         {
             name: "trip-budget",
-            label: "Presupuesto",
+            label: "Budget",
             type: "number",
             value: itinerary.budget,
-            placeholder: "Presupuesto total",
+            placeholder: "Total budget",
             icon: createElement(Euro, { size: 16 }),
             step: "any"
         },
         {
             name: "trip-date",
-            label: "Fecha de inicio",
+            label: "Start date",
             type: "date",
             value: itinerary.date,
             icon: createElement(Calendar, { size: 16 })
         },
         {
             name: "trip-end-date",
-            label: "Fecha de fin",
+            label: "End date",
             type: "date",
             value: endDate,
             icon: createElement(CalendarDays, { size: 16 })
         },
         {
             name: "trip-status",
-            label: "Estado",
+            label: "Status",
             type: "select",
             value: itinerary.status,
             options: [

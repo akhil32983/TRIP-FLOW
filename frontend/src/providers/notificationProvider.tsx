@@ -45,7 +45,7 @@ export const NotificationProvider = ({ children }: { children: ReactNode }) => {
             return;
         }
 
-        const defaultOptions = { autoClose: true, duration: 3000, title: "Notificación" };
+        const defaultOptions = { autoClose: true, duration: 3000, title: "Notification" };
         const finalOptions = { ...defaultOptions, ...options };
 
         const id = generateId();

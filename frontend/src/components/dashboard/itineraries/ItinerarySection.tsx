@@ -50,8 +50,8 @@ export default function ItinerarySection({
 
             {days.length === 0 && (
                 <div className={styles.emptyActivities}>
-                    <p>No hay días planeados aún</p>
-                    <Button onClick={onAddNewDay} style={["primary"]} label="Añadir Primer Día">
+                    <p>No days planned yet</p>
+                    <Button onClick={onAddNewDay} style={["primary"]} label="Add First Day">
                         <Plus size={16} />
                     </Button>
                 </div>

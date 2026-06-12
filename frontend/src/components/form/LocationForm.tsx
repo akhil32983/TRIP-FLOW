@@ -34,7 +34,7 @@ export default function LocationForm({ fields, onLocationUpdate }: LocationFormP
         <div className={styles.locationForm}>
             <div className={styles.formHeader}>
                 <MapPin size={16} />
-                <h6 className={styles.formTitle}>¿Dónde exactamente?</h6>
+                <h6 className={styles.formTitle}>Where exactly?</h6>
             </div>
 
             <div className={styles.formRow}>

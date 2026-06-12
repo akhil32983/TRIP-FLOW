@@ -21,7 +21,7 @@ export default function ActivityCard({ activity }: ActivityCardProps) {
       <p className={styles.details}>{activity.details}</p>
       <div className={styles.duration}>
         <ClockIcon size={14} />
-        <p>Duración: {activity.duration}</p>
+        <p>Duration: {activity.duration}</p>
       </div>
     </div>
   );

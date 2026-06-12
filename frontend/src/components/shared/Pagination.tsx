@@ -30,17 +30,17 @@ export default function Pagination({ pageData, onPageChange }: PaginationProps) 
                 style={["tool_bordered", "rounded"]}
                 onClick={handlePreviousPage}
                 disabled={currentPage === 0}
-                ariaLabel="Página anterior"
+                ariaLabel="Previous page"
             ><ChevronLeft size={20} /></Button>
             <Button
                 style={["tool_bordered", "rounded", "active"]}
                 onClick={handleNextPage}
-                ariaLabel="Página actual"
+                ariaLabel="Current page"
             >{currentPage + 1}</Button>
             <Button
                 style={["tool_bordered", "rounded"]}
                 onClick={handleNextPage}
-                ariaLabel="Página siguiente"
+                ariaLabel="Next page"
                 disabled={isLastPage}
             ><ChevronRight size={20} /></Button>
         </div>

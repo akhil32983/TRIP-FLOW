@@ -3,54 +3,54 @@ export const FAQ_CATEGORIES = [
         title: "General",
         items: [
             {
-                question: "¿Es gratuito TripFlow?",
-                answer: "Sí, TripFlow es completamente gratuito para uso personal. Puedes crear itinerarios ilimitados y utilizar nuestra IA sin coste."
+                question: "Is TripFlow Free?",
+                answer: "Yes, TripFlow is completely free for personal use. You can create unlimited itineraries and use our AI at no cost."
             },
             {
-                question: "¿Necesito conexión a internet?",
-                answer: "Sí, actualmente necesitas conexión a internet para generar itinerarios y acceder a todas las funcionalidades de la plataforma."
+                question: "Do I Need an Internet Connection?",
+                answer: "Yes, currently you need an internet connection to generate itineraries and access all platform features."
             },
             {
-                question: "¿TripFlow funciona en cualquier país?",
-                answer: "Sí, TripFlow es compatible con destinos de todo el mundo y adapta sus recomendaciones según el lugar y la cultura local."
+                question: "Does TripFlow Support Worldwide Destinations?",
+                answer: "Yes, TripFlow supports destinations all around the world and adapts its recommendations based on the location and local culture."
             },
             {
-                question: "¿Puedo usarlo en el móvil?",
-                answer: "Sí, nuestra plataforma está totalmente optimizada para dispositivos móviles, facilitando la consulta de tu viaje mientras te desplazas."
+                question: "Can I Use It on My Mobile Device?",
+                answer: "Yes, our platform is fully optimized for mobile devices, making it easy to access your travel plans while on the go."
             },
             {
-                question: "¿Necesito registrarme para usarlo?",
-                answer: "Para guardar tus itinerarios y acceder a ellos más tarde, necesitas crear una cuenta gratuita. El proceso es muy rápido y sencillo."
+                question: "Do I Need to Register to Use It?",
+                answer: "To save your itineraries and access them later, you need to create a free account. The process is quick and simple."
             }
         ]
     },
     {
-        title: "Itinerarios e IA",
+        title: "Itineraries & AI",
         items: [
             {
-                question: "¿Cómo funciona la generación por IA?",
-                answer: "Nuestra IA analiza tus preferencias de destino, presupuesto y ritmo de viaje para crear un itinerario personalizado en segundos."
+                question: "How Does AI Itinerary Generation Work?",
+                answer: "Our AI analyzes your destination preferences, budget, and travel pace to create a personalized itinerary in seconds."
             },
             {
-                question: "¿Puedo personalizar mi itinerario?",
-                answer: "Por supuesto. La IA te da una base sólida, pero tú tienes el control total para añadir, eliminar o mover actividades y modificar horarios según tus necesidades."
+                question: "Can I Customize My Itinerary?",
+                answer: "Absolutely. The AI provides a solid starting point, but you have full control to add, remove, or rearrange activities and adjust schedules according to your needs."
             },
             {
-                question: "¿De dónde provienen las imágenes?",
-                answer: "Utilizamos la integración con Unsplash para mostrarte imágenes de alta calidad inspiradoras de los destinos que visitas."
+                question: "Where Do the Images Come From?",
+                answer: "We use Unsplash integration to provide high-quality, inspiring images of the destinations you visit."
             }
         ]
     },
     {
-        title: "Cuenta y Privacidad",
+        title: "Account & Privacy",
         items: [
             {
-                question: "¿Cómo puedo personalizar mi perfil?",
-                answer: "Puedes subir una foto de avatar personalizada y actualizar tus datos básicos desde la sección de 'Mi Perfil'."
+                question: "How Can I Customize My Profile?",
+                answer: "You can upload a custom avatar and update your basic information from the 'My Profile' section."
             },
             {
-                question: "¿Cómo puedo eliminar mi cuenta?",
-                answer: "Puedes gestionar la eliminación de tu cuenta y todos tus datos personales de forma permanente directamente desde la configuración de tu perfil."
+                question: "How Can I Delete My Account?",
+                answer: "You can permanently delete your account and all associated personal data directly from your profile settings."
             }
         ]
     }

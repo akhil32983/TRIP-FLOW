@@ -81,19 +81,19 @@ describe("Verify Page", () => {
     it("renders verification form when username is present", () => {
         render(<VerifyPage />);
         
-        expect(screen.getByText(/Verificación Segura/i)).toBeInTheDocument();
+        expect(screen.getByText(/Secure Verification/i)).toBeInTheDocument();
         expect(screen.getByText(/testuser/i)).toBeInTheDocument();
         expect(screen.getAllByRole("textbox")).toHaveLength(6);
-        expect(screen.getByRole("button", { name: "Verificar Cuenta" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "Verify Account" })).toBeInTheDocument();
     });
 
     it("renders 'no user info' message when username is missing", () => {
         vi.mocked(retrieveFromLocalStorage).mockReturnValue(null);
         render(<VerifyPage />);
         
-        expect(screen.getByText(/No se ha encontrado la información del usuario/i)).toBeInTheDocument();
+        expect(screen.getByText(/User information to verify was not found/i)).toBeInTheDocument();
         expect(screen.queryByRole("textbox")).not.toBeInTheDocument();
-        expect(screen.getByRole("link", { name: "Registrarse" })).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: "Sign up" })).toBeInTheDocument();
     });
 
     it("handles input changes correctly", async () => {
@@ -112,14 +112,14 @@ describe("Verify Page", () => {
 
     it("shows error for incomplete code submission", async () => {
         render(<VerifyPage />);
-        const submitButton = screen.getByRole("button", { name: "Verificar Cuenta" });
+        const submitButton = screen.getByRole("button", { name: "Verify Account" });
         
         const inputs = screen.getAllByRole("textbox");
         fireEvent.change(inputs[0], { target: { value: "1" } }); // Only 1 digit
         
         fireEvent.click(submitButton);
         
-        expect(screen.getByText("El código debe tener 6 dígitos.")).toBeInTheDocument();
+        expect(screen.getByText("The code must be 6 digits.")).toBeInTheDocument();
         expect(mockVerify).not.toHaveBeenCalled();
     });
 
@@ -128,7 +128,7 @@ describe("Verify Page", () => {
         
         render(<VerifyPage />);
         const inputs = screen.getAllByRole("textbox");
-        const submitButton = screen.getByRole("button", { name: "Verificar Cuenta" });
+        const submitButton = screen.getByRole("button", { name: "Verify Account" });
         
         inputs.forEach((input, index) => {
             fireEvent.change(input, { target: { value: String(index) } });
@@ -144,7 +144,7 @@ describe("Verify Page", () => {
         });
         
         expect(removeFromLocalStorage).toHaveBeenCalledWith(STORAGE_KEYS.VERIFICATION_USERNAME);
-        expect(mockNotify).toHaveBeenCalledWith("Cuenta verificada exitosamente", "success");
+        expect(mockNotify).toHaveBeenCalledWith("Account verified successfully", "success");
         expect(mockNavigate).toHaveBeenCalledWith("/dashboard");
     });
 
@@ -161,10 +161,10 @@ describe("Verify Page", () => {
             fireEvent.change(input, { target: { value: "1" } });
         });
         
-        fireEvent.click(screen.getByRole("button", { name: "Verificar Cuenta" }));
+        fireEvent.click(screen.getByRole("button", { name: "Verify Account" }));
         
         await waitFor(() => {
-            expect(screen.getByText("Código inválido.")).toBeInTheDocument();
+            expect(screen.getByText("Invalid code.")).toBeInTheDocument();
         });
         
         expect(mockNavigate).not.toHaveBeenCalled();
@@ -180,7 +180,7 @@ describe("Verify Page", () => {
         const inputs = screen.getAllByRole("textbox");
         inputs.forEach(input => fireEvent.change(input, { target: { value: "1" } }));
         
-        fireEvent.click(screen.getByRole("button", { name: "Verificar Cuenta" }));
+        fireEvent.click(screen.getByRole("button", { name: "Verify Account" }));
         
         await waitFor(() => {
             expect(mockNavigate).toHaveBeenCalledWith("/login");
@@ -191,13 +191,13 @@ describe("Verify Page", () => {
         vi.mocked(resendCode).mockResolvedValue({ status: "SUCCESS" } as any);
         
         render(<VerifyPage />);
-        const resendButton = screen.getByText("Reenviar código");
+        const resendButton = screen.getByText("Resend code");
         
         fireEvent.click(resendButton);
         
         await waitFor(() => {
             expect(resendCode).toHaveBeenCalledWith("testuser");
-            expect(mockNotify).toHaveBeenCalledWith("Código reenviado exitosamente", "success");
+            expect(mockNotify).toHaveBeenCalledWith("Code resent successfully", "success");
         });
     });
 
@@ -206,10 +206,10 @@ describe("Verify Page", () => {
         
         render(<VerifyPage />);
         
-        fireEvent.click(screen.getByText("Reenviar código"));
+        fireEvent.click(screen.getByText("Resend code"));
         
         await waitFor(() => {
-            expect(mockNotify).toHaveBeenCalledWith("Error al reenviar el código", "error");
+            expect(mockNotify).toHaveBeenCalledWith("Error resending code", "error");
         });
     });
 

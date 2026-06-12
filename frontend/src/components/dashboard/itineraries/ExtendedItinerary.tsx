@@ -83,7 +83,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                         <Button 
                             style={["tool_bordered"]}
                             onClick={() => setIsFocusMode(true)}
-                            ariaLabel="Ver itinerario día a día"
+                            ariaLabel="View itinerary day by day"
                         >
                             <Maximize2Icon size={20} />
                         </Button>
@@ -112,7 +112,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                     {itinerary.days.map((day, index) => (
                         <div key={day.day} className={styles.dayCard}>
                             <h3 className={styles.dayTitle}>
-                                Día {`${day.day} - ${formatDate(
+                                Day {`${day.day} - ${formatDate(
                                     getDate(itinerary.date, index),
                                     { excludeYear: true }
                                 )}`}
@@ -136,7 +136,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                                 onClick={handlePrev} 
                                 disabled={currentDayIndex === 0} 
                                 style={["tool_bordered", "rounded"]}
-                                ariaLabel="Día anterior"
+                                ariaLabel="Previous day"
                             >
                                 <ChevronLeft size={24} />
                             </Button>
@@ -145,7 +145,7 @@ export default function ExtendedItinerary({ itinerary }: ExtendedItineraryProps)
                                 onClick={handleNext} 
                                 disabled={currentDayIndex === itinerary.days.length - 1} 
                                 style={["tool_bordered", "rounded"]}
-                                ariaLabel="Día siguiente"
+                                ariaLabel="Next day"
                             >
                                 <ChevronRight size={24} />
                             </Button>

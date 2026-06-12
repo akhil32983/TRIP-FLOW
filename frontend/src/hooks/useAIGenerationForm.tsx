@@ -34,7 +34,7 @@ export const useAIGenerationForm = () => {
     const lodgingOptions = [
         { value: "hostel", label: "Hostel" },
         { value: "hotel", label: "Hotel" },
-        { value: "apartment", label: "Apartamento" },
+        { value: "apartment", label: "Apartment" },
         { value: "resort", label: "Resort" },
         { value: "camping", label: "Camping" }
     ];
@@ -43,31 +43,31 @@ export const useAIGenerationForm = () => {
         {
             type: "text",
             name: "destination",
-            label: "Destino",
+            label: "Destination",
             value: form.destination,
-            placeholder: "Ej: París, Francia",
+            placeholder: "Ex: Paris, France",
             icon: <MapPin size={18} />
         },
         {
             type: "text",
             name: "duration",
-            label: "Duración",
+            label: "Duration",
             value: form.duration,
-            placeholder: "Ej: 3 días, 1 semana",
+            placeholder: "Ex: 3 days, 1 week",
             icon: <Calendar size={18} />
         },
         {
             type: "text",
             name: "style",
-            label: "Estilo de Viaje",
+            label: "Travel style",
             value: form.style,
-            placeholder: "Ej: Romántico, Aventura...",
+            placeholder: "Ex: Romantic, Adventure...",
             icon: <Palette size={18} />
         },
         {
             type: "number",
             name: "budget",
-            label: "Presupuesto",
+            label: "Budget",
             value: form.budget,
             placeholder: "500",
             icon: <Euro size={18} />
@@ -75,7 +75,7 @@ export const useAIGenerationForm = () => {
         {
             type: "select",
             name: "lodging",
-            label: "Alojamiento",
+            label: "Lodging",
             options: lodgingOptions,
             value: form.lodging,
             icon: <Home size={18} />

@@ -37,7 +37,7 @@ public class EmailHandlerServiceTest {
         com.tripflow.kafka.messages.EmailMessage kafkaMessage = 
             new com.tripflow.kafka.messages.EmailMessage(to, type, variables);
 
-        String expectedSubject = "Verificación de Cuenta TripFlow";
+        String expectedSubject = "TripFlow Account Verification";
         String expectedBody = "<html>Body</html>";
 
         // We mock static methods of EmailUtils to avoid file reading issues and isolate logic

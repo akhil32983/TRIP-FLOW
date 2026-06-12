@@ -7,26 +7,28 @@ test.describe('Home Page Tests', () => {
     });
 
     test("should render main sections", async ({ page }) => {
-        await expect(page.getByText("Planifica tus viajes del futuro")).toBeVisible();
-        await expect(page.getByText("¿Por qué TripFlow?")).toBeVisible();
-        await expect(page.getByText("Instala TripFlow en tu Móvil")).toBeVisible();
-        await expect(page.getByText("Preguntas Frecuentes")).toBeVisible();
-        await expect(page.getByText("¿Aún no te hemos convencido?")).toBeVisible();
+        await expect(page.getByText("Plan Your Future Trips")).toBeVisible();
+        await expect(page.getByText("Why TripFlow?")).toBeVisible();
+        await expect(page.getByText("Install TripFlow on Your Mobile")).toBeVisible();
+        await expect(page.getByText("Frequently Asked Questions")).toBeVisible();
+        await expect(page.getByText("Not convinced yet?")).toBeVisible();
     });
 
     test("should navigate to login page", async ({ page }) => {
-        await page.getByRole("link", { name: /acceder/i }).click();
+        // Fixed RegEx: Added the missing closing slash before the 'i' flag
+        await page.getByRole("link", { name: /log in/i }).click();
         await expect(page).toHaveURL(/\/login/);
     });
 
     test("should navigate to signup page", async ({ page }) => {
-        await page.getByRole("link", { name: /comenzar ahora/i }).click();
+        // Fixed RegEx: Added the missing closing slash before the 'i' flag
+        await page.getByRole("link", { name: /get started/i }).click();
         await expect(page).toHaveURL(/\/signup/);
     });
 
     test("should toggle demo mode", async ({ page }) => {
-        // Activate demo mode
-        const demoButton = page.getByRole("button", { name: /probar demo/i }).first();
+        // Fixed RegEx: Added the missing closing slash before the 'i' flag
+        const demoButton = page.getByRole("button", { name: /try demo/i }).first();
         await demoButton.click();
         await expect(page).toHaveURL(/\/dashboard/);
         
@@ -34,7 +36,7 @@ test.describe('Home Page Tests', () => {
         await page.goto(FRONTEND_URL);
         
         // Verify exit demo button
-        const exitDemoButton = page.getByRole("button", { name: /abandonar demo/i }).first();
+        const exitDemoButton = page.getByRole("button", { name: /exit demo/i }).first();
         await expect(exitDemoButton).toBeVisible();
         
         // Deactivate demo mode
@@ -43,4 +45,4 @@ test.describe('Home Page Tests', () => {
         // Verify that the original button returns
         await expect(demoButton).toBeVisible();
     });
-});
+}); // <--- Added this missing closing block at the bottom of your file

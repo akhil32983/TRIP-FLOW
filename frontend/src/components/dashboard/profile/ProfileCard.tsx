@@ -8,9 +8,8 @@ import Avatar from "@components/shared/Avatar";
 export default function ProfileCard() {
     const { user } = useAuth();
 
-    const location = user?.location === "¿?" ? "Alguna parte del mundo" : user?.location;
-    const description = user?.description || "Sin descripción.";
-
+    const location = user?.location === "?" ? "Somewhere in the world" : user?.location;
+    const description = user?.description || "No description.";
     return (
         <section className={styles.profileCard}>
             <div className={styles.profileImage}>

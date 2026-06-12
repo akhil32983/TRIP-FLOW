@@ -3,22 +3,22 @@ import { RadioTowerIcon, UtensilsIcon, MountainIcon, Building2Icon } from "lucid
 export const suggestions = [
   {
     icon: <RadioTowerIcon size={16} />,
-    label: "Semana en Japón",
-    text: "Un viaje de 10 días recorriendo las principales ciudades de Japón (Tokyo, Kyoto, Osaka) mezclando cultura tradicional y moderna."
+    label: "Week in Japan",
+    text: "A 10-day trip covering Japan's major cities (Tokyo, Kyoto, Osaka) mixing traditional and modern culture."
   },
   {
     icon: <UtensilsIcon size={16} />,
-    label: "Gastronomía Italiana",
-    text: "Una ruta gastronómica de 3 días por Italia, visitando mercados locales y restaurantes auténticos en la Toscana."
+    label: "Italian Gastronomy",
+    text: "A 3-day culinary route through Italy, visiting local markets and authentic restaurants in Tuscany."
   },
   {
     icon: <MountainIcon size={16} />,
-    label: "Senderismo en Dolomitas",
-    text: "Una aventura de senderismo de 4 días en los Dolomitas, durmiendo en refugios de montaña con vistas espectaculares."
+    label: "Hiking in Dolomites",
+    text: "A 4-day hiking adventure in the Dolomites, sleeping in mountain huts with spectacular views."
   },
   {
     icon: <Building2Icon size={16} />,
-    label: "Nueva York",
-    text: "Un viaje mágico de 5 días a Nueva York en época navideña, visitando el árbol del Rockefeller Center y patinando en Central Park."
+    label: "New York",
+    text: "A magical 5-day trip to New York during the holiday season, visiting the Rockefeller Center tree and ice skating in Central Park."
   }
 ];

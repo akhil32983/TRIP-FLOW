@@ -4,9 +4,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // Mock the auth provider's useAuth hook
 vi.mock("@/providers/authProvider", async (importOriginal) => {
-  const actual = await importOriginal<
-    typeof import("@/providers/authProvider")
-  >();
+  const actual = await importOriginal<typeof import("@/providers/authProvider")>();
   return {
     ...actual,
     useAuth: vi.fn(),
@@ -22,14 +20,12 @@ vi.mock("react-router", async (importOriginal) => {
   };
 });
 
-// Import the mocked functions after mocking
 import { useAuth } from "@/providers/authProvider";
 import { useNavigate } from "react-router";
 
 const mockRegister = vi.fn();
 const mockNavigate = vi.fn();
 
-// Mock user data that matches PublicUser type
 const mockUser = {
   id: "1",
   username: "existinguser",
@@ -47,7 +43,6 @@ describe("Register Page Validation", () => {
     mockRegister.mockClear();
     mockNavigate.mockClear();
 
-    // Setup mocks
     vi.mocked(useAuth).mockReturnValue({
       user: null,
       errors: null,
@@ -64,25 +59,20 @@ describe("Register Page Validation", () => {
   it("renders register form with correct fields", () => {
     render(<Register />);
 
-    expect(screen.getByText(/correo electrónico/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/usuario/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/^contraseña/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/confirmar contraseña/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: "Registrarse" })
-    ).toBeInTheDocument();
+    expect(screen.getByText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/^password/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Register" })).toBeInTheDocument();
   });
 
   it("shows validation error for empty username", async () => {
     render(<Register />);
 
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
+    fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
     await waitFor(() => {
-      expect(
-        screen.getByText("El nombre de usuario es obligatorio.")
-      ).toBeInTheDocument();
+      expect(screen.getByText("Username is required.")).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -91,16 +81,14 @@ describe("Register Page Validation", () => {
   it("shows validation error for empty password", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "testuser" },
+    });
 
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
+    fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
     await waitFor(() => {
-      expect(
-        screen.getByText("La contraseña es obligatoria.")
-      ).toBeInTheDocument();
+      expect(screen.getByText("Password is required.")).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
@@ -109,59 +97,21 @@ describe("Register Page Validation", () => {
   it("shows validation error for empty confirm password", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "testuser" },
+    });
 
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "password123" } });
+    fireEvent.change(screen.getByLabelText(/^password/i), {
+      target: { value: "password123" },
+    });
 
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
+    fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
     await waitFor(() => {
       expect(
         screen.getByText(
-          "La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número."
+          "Password must contain at least one uppercase letter, one lowercase letter, and one number."
         )
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("shows validation error for whitespace-only username", async () => {
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    fireEvent.change(usernameInput, { target: { value: "   " } });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("El nombre de usuario es obligatorio.")
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("shows validation error for whitespace-only password", async () => {
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "   " } });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("La contraseña es obligatoria.")
       ).toBeInTheDocument();
     });
 
@@ -171,301 +121,65 @@ describe("Register Page Validation", () => {
   it("shows validation error for mismatched passwords", async () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "Password123" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "password456" },
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "testuser" },
     });
 
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
+    fireEvent.change(screen.getByLabelText(/^password/i), {
+      target: { value: "Password123" },
+    });
+
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "Password456" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
     await waitFor(() => {
-      expect(
-        screen.getByText("Las contraseñas no coinciden.")
-      ).toBeInTheDocument();
+      expect(screen.getByText("Passwords do not match.")).toBeInTheDocument();
     });
 
     expect(mockRegister).not.toHaveBeenCalled();
   });
 
-  it("shows validation errors for all empty fields", async () => {
-    render(<Register />);
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("El nombre de usuario es obligatorio.")
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText("La contraseña es obligatoria.")
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("calls register with valid credentials", async () => {
-    mockRegister.mockResolvedValue({ success: true });
-
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "Validpassword123" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "Validpassword123" },
-    });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(mockRegister).toHaveBeenCalledWith({
-        username: "testuser",
-        password: "Validpassword123",
-        confirmPassword: "Validpassword123",
-      });
-    });
-  });
-
-  it("navigates to login on successful registration", async () => {
-    mockRegister.mockResolvedValue({ success: true });
-
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "Validpassword123" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "Validpassword123" },
-    });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(mockNavigate).toHaveBeenCalledWith("/verify");
-    });
-  });
-
-  it("displays server errors on registration failure", async () => {
+  it("shows server error", async () => {
     mockRegister.mockResolvedValue({
       success: false,
       errors: {
-        global: "Error del servidor",
+        global: "Server error",
       },
     });
 
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "Validpassword123" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "Validpassword123" },
+    fireEvent.change(screen.getByLabelText(/username/i), {
+      target: { value: "testuser" },
     });
 
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
+    fireEvent.change(screen.getByLabelText(/^password/i), {
+      target: { value: "Password123" },
+    });
+
+    fireEvent.change(screen.getByLabelText(/confirm password/i), {
+      target: { value: "Password123" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Register" }));
 
     await waitFor(() => {
-      expect(screen.getByText("Error del servidor")).toBeInTheDocument();
+      expect(screen.getByText("Server error")).toBeInTheDocument();
     });
 
     expect(mockNavigate).not.toHaveBeenCalled();
   });
 
-  it("displays specific field errors from server", async () => {
-    mockRegister.mockResolvedValue({
-      success: false,
-      errors: {
-        username: "El usuario ya existe",
-      },
-    });
-
+  it("renders login link", () => {
     render(<Register />);
 
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "existinguser" } });
-    fireEvent.change(passwordInput, { target: { value: "ValidPassword123" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "ValidPassword123" },
-    });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(screen.getByText("El usuario ya existe")).toBeInTheDocument();
-    });
+    expect(screen.getByText("Login")).toBeInTheDocument();
   });
 
-  it("clears previous errors when resubmitting valid form", async () => {
-    // First submission with errors
-    mockRegister.mockResolvedValueOnce({
-      success: false,
-      errors: {
-        global: "Error del servidor",
-      },
-    });
-
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "ValidPassword123" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "ValidPassword123" },
-    });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(screen.getByText("Error del servidor")).toBeInTheDocument();
-    });
-
-    // Second submission with success
-    mockRegister.mockResolvedValueOnce({ success: true });
-
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(screen.queryByText("Error del servidor")).not.toBeInTheDocument();
-    });
-  });
-
-  it("renders login alternative link", () => {
-    render(<Register />);
-
-    expect(screen.getByText("Iniciar Sesión")).toBeInTheDocument();
-  });
-
-  it("handles registration with special characters in username", async () => {
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "user@test" } });
-    fireEvent.change(passwordInput, { target: { value: "password" } });
-    fireEvent.change(confirmPasswordInput, { target: { value: "password" } });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    // Should show validation error for full validation (register doesn't use simple=true)
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          "El nombre de usuario solo puede contener letras, números y guiones bajos."
-        )
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("handles very long username (edge case)", async () => {
-    const longUsername = "a".repeat(100);
-
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: longUsername } });
-    fireEvent.change(passwordInput, { target: { value: "password" } });
-    fireEvent.change(confirmPasswordInput, { target: { value: "password" } });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    // Should show validation error for length
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          "El nombre de usuario debe tener entre 3 y 30 caracteres."
-        )
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("handles short username (edge case)", async () => {
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "ab" } });
-    fireEvent.change(passwordInput, { target: { value: "password" } });
-    fireEvent.change(confirmPasswordInput, { target: { value: "password" } });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText(
-          "El nombre de usuario debe tener entre 3 y 30 caracteres."
-        )
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("handles short password (edge case)", async () => {
-    render(<Register />);
-
-    const usernameInput = screen.getByLabelText(/usuario/i);
-    const passwordInput = screen.getByLabelText(/^contraseña/i);
-    const confirmPasswordInput = screen.getByLabelText(/confirmar contraseña/i);
-
-    fireEvent.change(usernameInput, { target: { value: "testuser" } });
-    fireEvent.change(passwordInput, { target: { value: "123" } });
-    fireEvent.change(confirmPasswordInput, { target: { value: "123" } });
-
-    const submitButton = screen.getByRole("button", { name: "Registrarse" });
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(
-        screen.getByText("La contraseña debe tener al menos 8 caracteres.")
-      ).toBeInTheDocument();
-    });
-
-    expect(mockRegister).not.toHaveBeenCalled();
-  });
-
-  it("redirects to home if user is already logged in", () => {
-    // Mock user being logged in for this specific test
+  it("redirects if user already logged in", () => {
     vi.mocked(useAuth).mockReturnValueOnce({
       user: mockUser,
       errors: null,

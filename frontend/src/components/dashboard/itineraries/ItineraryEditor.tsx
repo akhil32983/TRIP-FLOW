@@ -126,15 +126,15 @@ export default function ItineraryEditor({
             {type === "edit" && (
                 <Modal
                     isOpen={isOpen}
-                    title="Eliminar Itinerario"
-                    message="¿Estás seguro de que deseas eliminar este itinerario? Esta acción no se puede deshacer."
-                    confirmText="Eliminar"
-                    cancelText="Cancelar"
+                    title="Delete Itinerary"
+                    message="Are you sure you want to delete this itinerary? This action cannot be undone."
+                    confirmText="Delete"
+                    cancelText="Cancel"
                     onConfirm={handleDelete}
                     onCancel={closeModal}
                     variant="danger"
                 />
-            )}
+            )}}
         </>
     );
 }

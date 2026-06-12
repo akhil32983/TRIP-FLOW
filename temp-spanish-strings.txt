@@ -1,0 +1,86 @@
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\buttons\DeleteAccountButton.tsx:31:title: "Éxito",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\buttons\DeleteAccountButton.tsx:60:message="¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer."
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\admin\userColumns.tsx:40:header: "Ubicación",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\ai\AIGeneration.tsx:115:placeholder: "Escribe tu solicitud aquí..."
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\ai\AIGeneration.tsx:46:resetDate: "Mañana"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\ai\AIGeneration.tsx:76:notify("Has alcanzado el límite diario de generaciones.", "error", {
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\ai\AIGeneration.tsx:77:title: "Límite diario alcanzado"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\ai\AIGeneration.tsx:82:notify("Tu solicitud se está procesando.", "success", {
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\itineraries\ExtendedItinerary.tsx:139:ariaLabel="Día anterior"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\itineraries\ExtendedItinerary.tsx:148:ariaLabel="Día siguiente"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\itineraries\ExtendedItinerary.tsx:86:ariaLabel="Ver itinerario día a día"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\itineraries\ItinerariesPreview.tsx:35:label={isLoadingMore ? "Cargando..." : "Cargar más"}
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\itineraries\ItineraryEditor.tsx:130:message="¿Estás seguro de que deseas eliminar este itinerario? Esta acción no se puede deshacer."
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\itineraries\ItinerarySection.tsx:54:<Button onClick={onAddNewDay} style={["primary"]} label="Añadir Primer Día">
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\profile\ProfileCard.tsx:11:const location = user?.location === "¿?" ? "Alguna parte del mundo" : user?.location;
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\profile\ProfileCard.tsx:12:const description = user?.description || "Sin descripción.";
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\Stats.tsx:32:label: "Días",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\dashboard\TagsSection.tsx:41:placeholder={placeholder || "romántica, aventura, comida..."}
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\form\AuthForm.tsx:58:{ id: "login", label: "Iniciar Sesión" },
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\form\ProfileEditForm.tsx:41:name: "location", label: "Ubicación",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\form\ProfileEditForm.tsx:46:name: "description", label: "Sobre mí",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\form\ProfileEditForm.tsx:62:title: "Éxito",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\sections\Faq.tsx:38:label="Quiero saber más"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\shared\Notification.tsx:44:<button onClick={onClose} aria-label="Cerrar notificación" className={styles.closeButton}>
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\shared\Pagination.tsx:33:ariaLabel="Página anterior"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\shared\Pagination.tsx:38:ariaLabel="Página actual"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\components\shared\Pagination.tsx:43:ariaLabel="Página siguiente"
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useActivityFormFields.tsx:46:label: "Duración",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useActivityFormFields.tsx:56:label: "Descripción",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useActivityFormFields.tsx:59:placeholder: "¿Qué hace especial a esta actividad? ¿Algún consejo o nota para tu yo futuro...",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useActivityFormFields.tsx:73:label: "Dirección",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useAIGenerationForm.tsx:48:placeholder: "Ej: París, Francia",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useAIGenerationForm.tsx:54:label: "Duración",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useAIGenerationForm.tsx:56:placeholder: "Ej: 3 días, 1 semana",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useAIGenerationForm.tsx:64:placeholder: "Ej: Romántico, Aventura...",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useBasicInfoFormFields.tsx:77:label: "Título del viaje",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useBasicInfoFormFields.tsx:80:placeholder: "Mi increíble viaje a...",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useBasicInfoFormFields.tsx:89:placeholder: "Ciudad, País",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useBasicInfoFormFields.tsx:98:placeholder: "¿Cuántas personas?",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useItineraryForm.tsx:26:return { isValid: false, error: "Por favor, añade un título para tu itinerario." };
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useItineraryForm.tsx:30:return { isValid: false, error: "Por favor, añade un destino para tu viaje." };
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\hooks\useItineraryForm.tsx:34:return { isValid: false, error: "Por favor, añade al menos un día a tu itinerario." };
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:109:details: "Sube a la Torre Eiffel para ver vistas panorámicas de París. Explora los diferentes niveles y admira la ciudad desde arriba.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:136:details: "Explora la vasta colección de arte del Louvre. Ve obras maestras como la Mona Lisa y la Venus de Milo.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:14:place: "Tokio, Japón",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:170:details: "Camina por los senderos escénicos de Central Park. Disfruta de un café cerca de Bethesda Terrace y respira aire fresco.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:181:details: "Visita el Met para ver arte de 5,000 años. No te pierdas el Templo de Dendur y las pinturas europeas.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:197:details: "Experimenta las luces brillantes y la energía de Times Square. Ve los carteles icónicos y la multitud animada.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:207:activity: "Espectáculo de Broadway",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:208:details: "Mira un musical o una obra de clase mundial en Broadway. Disfruta de la narración en vivo en un teatro histórico.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:223:title: "Tour Histórico de Roma",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:242:details: "Recorre el Coliseo, el antiguo anfiteatro más grande. Camina por la arena y aprende sobre la historia de los gladiadores.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:258:details: "Admira la vasta colección de los Museos Vaticanos. Ve el techo de la Capilla Sixtina y la Basílica de San Pedro.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:291:activity: "Torre de Belém",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:292:details: "Visita la Torre de Belém en el río Tajo. Admira la arquitectura manuelina de esta fortaleza histórica.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:294:name: "Belém Tower",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:295:address: "Av. Brasília, 1400-038 Lisboa",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:302:activity: "Pastéis de Belém",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:303:details: "Prueba los famosos Pastéis de Nata en la Antiga Confeitaria de Belém. Disfruta estas tartas calientes con canela.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:305:name: "Pastéis de Belém",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:306:address: "R. de Belém 84 92, 1300-085 Lisboa",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:32:details: "Regístrate en tu hotel en Shinjuku y descansa del viaje. Tómate un tiempo para desempacar y acomodarte.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:59:details: "Visita Senso-ji, el templo más antiguo de Tokio. Camina por la Puerta del Trueno y explora las tiendas tradicionales en la calle Nakamise.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:75:details: "Pasea por el tranquilo bosque hasta el Santuario Meiji Jingu. Admira la arquitectura tradicional y la atmósfera serena.",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:91:place: "París, Francia",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\mocks\itineraries.ts:97:tags: ["museos", "romántico", "gastronomía"],
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\itineraries\ItineraryEdit.tsx:39:title: "Éxito",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\itineraries\ItineraryNew.tsx:39:title: "Éxito",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Register.tsx:72:label: "Correo electrónico",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Register.tsx:87:label: "Contraseña",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Register.tsx:95:label: "Confirmar contraseña",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Verify.tsx:102:setError("Código inválido.");
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Verify.tsx:77:notify("Código reenviado exitosamente", "success");
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Verify.tsx:79:notify("Error al reenviar el código", "error");
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\pages\Verify.tsx:88:setError("El código debe tener 6 dígitos.");
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\providers\authProvider.tsx:121:error.email = "El correo electrónico ya está en uso.";
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\providers\authProvider.tsx:123:error.username = "El nombre de usuario ya está en uso.";
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\providers\authProvider.tsx:150:error.global = "Error de verificación.";
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\providers\authProvider.tsx:72:? { password: "Contraseña incorrecta" }
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\providers\notificationProvider.tsx:48:const defaultOptions = { autoClose: true, duration: 3000, title: "Notificación" };
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\utils\aiSuggestions.tsx:11:label: "Gastronomía Italiana",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\utils\aiSuggestions.tsx:12:text: "Una ruta gastronómica de 3 días por Italia, visitando mercados locales y restaurantes auténticos en la Toscana."
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\utils\aiSuggestions.tsx:17:text: "Una aventura de senderismo de 4 días en los Dolomitas, durmiendo en refugios de montaña con vistas espectaculares."
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\utils\aiSuggestions.tsx:22:text: "Un viaje mágico de 5 días a Nueva York en época navideña, visitando el árbol del Rockefeller Center y patinando en Central Park."
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\utils\aiSuggestions.tsx:6:label: "Semana en Japón",
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\frontend\src\utils\aiSuggestions.tsx:7:text: "Un viaje de 10 días recorriendo las principales ciudades de Japón (Tokyo, Kyoto, Osaka) mezclando cultura tradicional y moderna."

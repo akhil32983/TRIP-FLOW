@@ -7,37 +7,43 @@ export default function Guide() {
     <Section
       title={
         <>
-          Instala TripFlow en tu <strong>Móvil</strong>
+          Install TripFlow on Your <strong>Mobile</strong>
         </>
       }
     >
       <div className={styles.guide}>
         <div className={styles.content}>
           <p className={styles.p}>
-            Si quieres disfrutar de todas las ventajas que ofrece TripFlow,
-            descarga nuestra aplicación PWA.
+            If you want to enjoy all the benefits that TripFlow offers,
+            download our PWA application.
           </p>
           <p className={styles.p}>
-            Es fácil de instalar, rápida, funciona sin conexión y está
-            disponible tanto para móviles como para ordenadores.
+            It is easy to install, fast, works offline, and is available for
+            both mobile devices and computers.
           </p>
-          <h3 className={styles.subtitle}>¿Cómo la puedo instalar?</h3>
+
+          <h3 className={styles.subtitle}>How can I install it?</h3>
+
           <ol>
             <li className={styles.text}>
-              Abre TripFlow en tu navegador (Chrome, Edge o Firefox).
+              Open TripFlow in your browser (Chrome, Edge, or Firefox).
             </li>
+
             <li className={styles.text}>
-              Busca el icono de <strong>"Añadir a pantalla de inicio"</strong> o{" "}
-              <strong>"Instalar app"</strong> en el menú del navegador.
+              Look for the <strong>"Add to Home Screen"</strong> or{" "}
+              <strong>"Install App"</strong> option in the browser menu.
             </li>
+
             <li className={styles.text}>
-              Sigue las instrucciones para añadir TripFlow a tu dispositivo.
+              Follow the instructions to add TripFlow to your device.
             </li>
+
             <li className={styles.text}>
-              ¡Listo! Accede rápido y sin conexión cuando quieras.
+              That's it! Access TripFlow quickly, even when offline.
             </li>
           </ol>
         </div>
+
         <div className={styles.guideImage}>
           <div className={styles.imageContainer}>
             <img

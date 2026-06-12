@@ -1,0 +1,4 @@
+﻿C:\Users\akhil\Downloads\travel project\2025-TripFlow\backend\ai-service\src\main\java\com\tripflow\utils\AIItineraryPrompt.java
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\backend\api-service\src\main\java\com\tripflow\model\User.java
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\backend\notification-service\src\main\java\com\tripflow\utils\EmailUtils.java
+C:\Users\akhil\Downloads\travel project\2025-TripFlow\backend\notification-service\src\test\java\com\tripflow\unit\EmailHandlerServiceTest.java

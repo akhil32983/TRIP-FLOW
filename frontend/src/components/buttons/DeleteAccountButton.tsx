@@ -27,15 +27,15 @@ export default function DeleteAccountButton() {
         
         try {
             await deleteAccount(user.username);
-            notify("Cuenta eliminada correctamente", "success", {
-                title: "Éxito",
+            notify("Account deleted successfully", "success", {
+                title: "Success",
                 duration: 3000
             });
 
             await logout();
             deactivateDemo();
         } catch (error) {
-            notify("Error al eliminar la cuenta", "error", {
+            notify("Error deleting account", "error", {
                 title: "Error",
                 duration: 4000
             });
@@ -48,7 +48,7 @@ export default function DeleteAccountButton() {
             <Button
                 type="button"
                 style={["primary", "danger"]}
-                label="Eliminar Cuenta"
+                label="Delete Account"
                 onClick={handleDelete}
             >
                 <Trash2Icon size={20} />
@@ -56,8 +56,8 @@ export default function DeleteAccountButton() {
 
             <Modal
                 isOpen={isModalOpen}
-                title="Eliminar Cuenta"
-                message="¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer."
+                title="Delete Account"
+                message="Are you sure you want to delete your account? This action cannot be undone."
                 confirmText="Eliminar"
                 cancelText="Cancelar"
                 onConfirm={confirmDelete}

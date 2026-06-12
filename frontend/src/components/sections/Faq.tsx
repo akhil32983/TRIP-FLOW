@@ -35,7 +35,7 @@ export default function Faq() {
             </div>
             <Button
                 style={["secondary"]}
-                label="Quiero saber más"
+                label="Learn More"
                 to="/help"
             />
         </Section>

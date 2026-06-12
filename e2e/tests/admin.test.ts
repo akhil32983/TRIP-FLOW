@@ -19,11 +19,11 @@ test.describe("Admin Panel Flow", () => {
         const page = await context.newPage();
 
         await page.goto(`${FRONTEND_URL}/signup`);
-        await page.getByLabel(/correo electrónico/i).fill(targetEmail);
-        await page.getByLabel(/usuario/i).fill(targetUsername);
-        await page.getByLabel(/^contraseña/i).fill("Ab12345678");
-        await page.getByLabel(/confirmar contraseña/i).fill("Ab12345678");
-        await page.getByRole("button", { name: /registrarse/i }).click();
+        await page.getByLabel(/email/i).fill(targetEmail);
+        await page.getByLabel(/username/i).fill(targetUsername);
+        await page.getByLabel(/^password/i).fill("Ab12345678");
+        await page.getByLabel(/confirm password/i).fill("Ab12345678");
+        await page.getByRole("button", { name: /sign up/i }).click();
 
         await page.waitForURL(/\/verify/, { timeout: 10000 });
         await context.close();
@@ -31,9 +31,9 @@ test.describe("Admin Panel Flow", () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto(`${FRONTEND_URL}/login`);
-        await page.getByLabel(/usuario \/ email/i).fill(adminUsername);
-        await page.getByLabel(/contraseña/i).fill(adminPassword);
-        await page.getByRole("button", { name: /iniciar sesión/i }).click();
+        await page.getByLabel(/username \/ email/i).fill(adminUsername);
+        await page.getByLabel(/password/i).fill(adminPassword);
+        await page.getByRole("button", { name: /sign in/i }).click();
 
         await page.waitForURL(/\/dashboard|admin/, { timeout: 10000 });
     });
@@ -44,7 +44,7 @@ test.describe("Admin Panel Flow", () => {
         await adminLink.click();
 
         await expect(page).toHaveURL(/\/admin/);
-        await expect(page.getByRole("heading", { name: /administración/i })).toBeVisible();
+        await expect(page.getByRole("heading", { name: /administration/i })).toBeVisible();
     });
 
     test("should search and manage users", async ({ page }) => {
@@ -53,7 +53,7 @@ test.describe("Admin Panel Flow", () => {
         // Wait for table
         await expect(page.getByRole("table")).toBeVisible({ timeout: 20000 });
         
-        const searchInput = page.getByPlaceholder(/buscar por nombre de usuario/i);
+        const searchInput = page.getByPlaceholder(/search by username/i);
         await expect(searchInput).toBeVisible();
         
         // Search for the target user
@@ -78,10 +78,10 @@ test.describe("Admin Panel Flow", () => {
         // Verify delete confirmation modal
         const modal = page.locator("[role='dialog']"); 
         // Or specific text in modal
-        await expect(page.getByText(/¿estás seguro de que quieres eliminar al usuario/i)).toBeVisible();
+        await expect(page.getByText(/are you sure you want to delete/i)).toBeVisible();
         
         // Cancel deletion to keep state clean (or proceed if needed)
-        await page.getByRole("button", { name: /cancelar/i }).click();
-        await expect(page.getByText(/¿estás seguro de que quieres eliminar al usuario/i)).not.toBeVisible();
+        await page.getByRole("button", { name: /cancel/i }).click();
+        await expect(page.getByText(/are you sure you want to delete/i)).not.toBeVisible();
     });
 });

@@ -23,15 +23,15 @@ export function useItineraryForm(initialItinerary: ExtendedItinerary) {
 
     const validateItinerary = useCallback((): { isValid: boolean; error?: string } => {
         if (!itinerary.title.trim()) {
-            return { isValid: false, error: "Por favor, añade un título para tu itinerario." };
+            return { isValid: false, error: "Please add a title for your itinerary." };
         }
 
         if (!itinerary.place.trim()) {
-            return { isValid: false, error: "Por favor, añade un destino para tu viaje." };
+            return { isValid: false, error: "Please add a destination for your trip." };
         }
 
         if (itinerary.days.length === 0) {
-            return { isValid: false, error: "Por favor, añade al menos un día a tu itinerario." };
+            return { isValid: false, error: "Please add at least one day to your itinerary." };
         }
 
         return { isValid: true };
@@ -61,7 +61,7 @@ export function createDefaultItinerary(): ExtendedItinerary {
     
     return {
         id: -1,
-        title: "Nuevo Itinerario",
+        title: "New Itinerary",
         place: "",
         people: 1,
         budget: 0,

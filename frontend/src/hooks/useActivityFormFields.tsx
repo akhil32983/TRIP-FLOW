@@ -28,49 +28,49 @@ export function useActivityFormFields(
     const activityFields: Field[] = [
         {
             name: `activity-${activityIndex}-name`,
-            label: "Actividad",
+            label: "Activity",
             type: "text",
             value: activity.activity,
-            placeholder: "Visitar la Torre Eiffel",
+            placeholder: "Visit the Eiffel Tower",
             icon: createElement(ActivityIcon, { size: ICON_SIZE })
         },
         {
             name: `activity-${activityIndex}-start-time`,
-            label: "Hora de inicio",
+            label: "Start time",
             type: "time",
             value: activity.time,
             icon: createElement(ClockIcon, { size: ICON_SIZE })
         },
         {
             name: `activity-${activityIndex}-duration`,
-            label: "Duración",
+            label: "Duration",
             type: "text",
             value: activity.duration,
-            placeholder: "2 horas",
+            placeholder: "2 hours",
             icon: createElement(Hourglass, { size: ICON_SIZE })
         }
     ];
 
     const detailsField: Field = {
         name: `activity-${activityIndex}-details`,
-        label: "Descripción",
+        label: "Description",
         type: "textarea",
         value: activity.details,
-        placeholder: "¿Qué hace especial a esta actividad? ¿Algún consejo o nota para tu yo futuro...",
+        placeholder: "What makes this activity special? Any notes for your future self...",
     };
 
     const locationFields: Field[] = [
         {
             name: `activity-${activityIndex}-location-name`,
-            label: "Lugar",
+            label: "Place",
             type: "text",
             value: activity.location.name,
-            placeholder: "Torre Eiffel",
+            placeholder: "Eiffel Tower",
             icon: createElement(MapPinIcon, { size: ICON_SIZE })
         },
         {
             name: `activity-${activityIndex}-location-address`,
-            label: "Dirección",
+            label: "Address",
             type: "text",
             value: activity.location.address,
             placeholder: "Champ de Mars, 75007 Paris, France",
@@ -78,7 +78,7 @@ export function useActivityFormFields(
         },
         {
             name: `activity-${activityIndex}-location-latitude`,
-            label: "Latitud",
+            label: "Latitude",
             type: "number",
             value: activity.location.coordinates.latitude ?? 0,
             placeholder: "48.8584",
@@ -87,7 +87,7 @@ export function useActivityFormFields(
         },
         {
             name: `activity-${activityIndex}-location-longitude`,
-            label: "Longitud",
+            label: "Longitude",
             type: "number",
             value: activity.location.coordinates.longitude ?? 0,
             placeholder: "2.2945",

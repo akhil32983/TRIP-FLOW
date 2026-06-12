@@ -74,9 +74,9 @@ export default function VerifyPage() {
         if (!username) return;
         const res = await resendCode(username);
         if (res.status === "SUCCESS") {
-            notify("Código reenviado exitosamente", "success");
+            notify("Code resent successfully", "success");
         } else {
-            notify("Error al reenviar el código", "error");
+            notify("Error resending code", "error");
         }
     };
 
@@ -85,7 +85,7 @@ export default function VerifyPage() {
 
         const fullCode = code.join("");
         if (fullCode.length !== 6) {
-            setError("El código debe tener 6 dígitos.");
+            setError("The code must be 6 digits.");
             return;
         }
         if (!username) return;
@@ -93,13 +93,13 @@ export default function VerifyPage() {
         const res = await verify({ username, code: fullCode });
         if (res.success) {
             removeFromLocalStorage(STORAGE_KEYS.VERIFICATION_USERNAME);
-            notify("Cuenta verificada exitosamente", "success");
+            notify("Account verified successfully", "success");
             navigate("/dashboard");
         } else {
             if (res.errors?.error === "User is already verified") {
                 navigate("/login");
             } else {
-                setError("Código inválido.");
+                setError("Invalid code.");
             }
         }
     };
@@ -112,12 +112,12 @@ export default function VerifyPage() {
                         <Logo size="medium" />
                     </Button>
                     <div className={verifyStyles.verificationContainer}>
-                        <h1 className={verifyStyles.title}>Verificación Requerida</h1>
+                        <h1 className={verifyStyles.title}>Verification Required</h1>
                         <p className={verifyStyles.description}>
-                            No se ha encontrado la información del usuario a verificar.
-                            Por favor, registra una cuenta primero.
+                            User information to verify was not found.
+                            Please register an account first.
                         </p>
-                        <Button style={["primary"]} to="/signup" label="Registrarse" />
+                        <Button style={["primary"]} to="/signup" label="Sign up" />
                     </div>
                 </div>
             </Layout>
@@ -133,9 +133,9 @@ export default function VerifyPage() {
 
                 <div className={verifyStyles.verificationContainer}>
                     <div className={verifyStyles.header}>
-                        <h1 className={verifyStyles.title}>Verificación Segura</h1>
+                        <h1 className={verifyStyles.title}>Secure Verification</h1>
                         <p className={verifyStyles.description}>
-                            Hemos enviado un código de 6 dígitos a tu correo. Introduce el código para verificar tu cuenta de <strong>{username}</strong>.
+                            We have sent a 6-digit code to your email. Enter the code to verify your account for <strong>{username}</strong>.
                         </p>
                     </div>
 
@@ -160,16 +160,16 @@ export default function VerifyPage() {
 
                         <Button
                             style={["primary", "big"]}
-                            label="Verificar Cuenta"
+                            label="Verify Account"
                             type="submit"
                         />
                     </form>
 
                     <div className={styles.alternative}>
                         <div className={styles.alternativeText}>
-                            ¿No has recibido el código?
+                            Didn't receive the code?
                             <button className={verifyStyles.resendLink} type="button" onClick={handleResendCode}>
-                                Reenviar código
+                                Resend code
                             </button>
                         </div>
                     </div>

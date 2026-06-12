@@ -65,8 +65,8 @@ export default function SettingsSection() {
                     <BadgeQuestionMarkIcon size={ICON_SIZE} />
                 </div>
                 <div className={styles.labelContainer}>
-                    <span className={styles.title}>Ayuda</span>
-                    <span className={styles.description}>Obtén ayuda o reporta un problema</span>
+                    <span className={styles.title}>Help</span>
+                    <span className={styles.description}>Get help or report an issue</span>
                 </div>
                 <ChevronRightIcon size={20} className={styles.chevron} />
             </NavLink>
@@ -75,7 +75,7 @@ export default function SettingsSection() {
                     <LogOutIcon size={ICON_SIZE} />
                 </div>
                 <div className={styles.labelContainer}>
-                    <span className={styles.title}>Cerrar Sesión</span>
+                    <span className={styles.title}>Sign Out</span>
                 </div>
             </LogoutButton>
         </div>

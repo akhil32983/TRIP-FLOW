@@ -38,7 +38,7 @@ export default function TagsSection({ tags, onTagsChange, label, placeholder }: 
                             type="text"
                             value={newTag}
                             onChange={(e) => setNewTag(e.target.value)}
-                            placeholder={placeholder || "romántica, aventura, comida..."}
+                            placeholder={placeholder || "romantic, adventure, food..."}
                             onKeyDown={handleTagKeyPress}
                         />
                         <div className={styles.inputIcon}>

@@ -7,21 +7,21 @@ import { BrainIcon, CloudOffIcon, RouteIcon } from "lucide-react";
 const FEATURES_DATA = [
   {
     icon: BrainIcon,
-    title: "Itinerarios con IA",
+    title: "AI-Powered Itineraries",
     description:
-      "TripFlow genera automáticamente planes de viaje personalizados basados en tus gustos, intereses y duración del viaje, para que disfrutes al máximo sin preocupaciones.",
+      "TripFlow automatically generates customized travel itineraries based on your preferences, interests, and trip duration, allowing you to enjoy your journey without worries.",
   },
   {
     icon: CloudOffIcon,
-    title: "Acceso sin conexión",
+    title: "Offline Access",
     description:
-      "Consulta tu itinerario en cualquier momento, incluso sin conexión a internet, para que siempre tengas tu plan de viaje a mano.",
+      "Access your itinerary anytime, even without an internet connection, so your travel plans are always available.",
   },
   {
     icon: RouteIcon,
-    title: "Rutas Óptimas",
+    title: "Optimized Routes",
     description:
-      "Optimiza el orden de los lugares a visitar para ahorrar tiempo y dinero, evitando desplazamientos innecesarios y maximizando tu experiencia.",
+      "Optimize the order of places to visit, saving time and money while maximizing your travel experience.",
   },
 ];
 
@@ -30,7 +30,7 @@ export default function Features() {
     <Section
       title={
         <>
-          ¿Por qué <strong>TripFlow</strong>?
+          Why <strong>TripFlow</strong>?
         </>
       }
     >

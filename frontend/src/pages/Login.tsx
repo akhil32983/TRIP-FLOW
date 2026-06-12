@@ -78,19 +78,19 @@ export default function LoginPage() {
                 fields={[
                     {
                         name: "username",
-                        label: "Usuario / Email",
+                        label: "Username / Email",
                         placeholder: "CuB1z",
                         icon: <UserIcon size={16} />,
                     },
                     {
                         name: "password",
-                        label: "Contraseña",
+                        label: "Password",
                         type: "password",
                         placeholder: "********",
                         icon: <LockIcon size={16} />,
                     },
                 ]}
-                buttonLabel="Iniciar sesión"
+                buttonLabel="Login"
                 onSubmit={(values: LoginRequest) => handleLogin(values)}
                 errors={errors}
             />

@@ -8,7 +8,7 @@ describe("Features", () => {
     render(<Features />);
 
     const heading = screen.getByRole("heading", { level: 2 });
-    expect(heading).toHaveTextContent("¿Por qué TripFlow?");
+    expect(heading).toHaveTextContent("Why TripFlow?");
     expect(heading.querySelector("strong")).toHaveTextContent("TripFlow");
   });
 
@@ -16,9 +16,9 @@ describe("Features", () => {
     render(<Features />);
 
     // Check that all 3 features are rendered
-    expect(screen.getByText("Itinerarios con IA")).toBeInTheDocument();
-    expect(screen.getByText("Acceso sin conexión")).toBeInTheDocument();
-    expect(screen.getByText("Rutas Óptimas")).toBeInTheDocument();
+    expect(screen.getByText("AI-Powered Itineraries")).toBeInTheDocument();
+    expect(screen.getByText("Offline Access")).toBeInTheDocument();
+    expect(screen.getByText("Optimized Routes")).toBeInTheDocument();
   });
 
   it("renders feature descriptions correctly", () => {
@@ -26,19 +26,19 @@ describe("Features", () => {
 
     expect(
       screen.getByText(
-        "TripFlow genera automáticamente planes de viaje personalizados basados en tus gustos, intereses y duración del viaje, para que disfrutes al máximo sin preocupaciones."
+        "TripFlow generates automatically customized travel itineraries based on your preferences, interests, and trip duration, so you can enjoy your journey to the fullest without worries."
       )
     ).toBeInTheDocument();
 
     expect(
       screen.getByText(
-        "Consulta tu itinerario en cualquier momento, incluso sin conexión a internet, para que siempre tengas tu plan de viaje a mano."
+        "Consult your itinerary at any time, even without an internet connection, so you always have your travel plan at hand."
       )
     ).toBeInTheDocument();
 
     expect(
       screen.getByText(
-        "Optimiza el orden de los lugares a visitar para ahorrar tiempo y dinero, evitando desplazamientos innecesarios y maximizando tu experiencia."
+        "Optimize the order of places to visit to save time and money, avoiding unnecessary travel and maximizing your experience."
       )
     ).toBeInTheDocument();
   });
@@ -48,9 +48,9 @@ describe("Features", () => {
 
     const featureTitles = screen.getAllByRole("heading", { level: 3 });
     expect(featureTitles).toHaveLength(3);
-    expect(featureTitles[0]).toHaveTextContent("Itinerarios con IA");
-    expect(featureTitles[1]).toHaveTextContent("Acceso sin conexión");
-    expect(featureTitles[2]).toHaveTextContent("Rutas Óptimas");
+    expect(featureTitles[0]).toHaveTextContent("AI-Powered Itineraries");
+    expect(featureTitles[1]).toHaveTextContent("Offline Access");
+    expect(featureTitles[2]).toHaveTextContent("Optimized Routes");
   });
 
   it("has correct CSS structure", () => {

@@ -43,7 +43,7 @@ export default function AIGeneration() {
             usedQuota: status.dailyLimit - status.remainingRequests,
             remainingQuota: status.remainingRequests,
             limit: status.dailyLimit,
-            resetDate: "Mañana"
+            resetDate: "Tomorrow"
         })
     }
 
@@ -73,14 +73,14 @@ export default function AIGeneration() {
         if (!response || !response.aiUsage) {
             setRateLimit(true);
             setIsLoading(false);
-            notify("Has alcanzado el límite diario de generaciones.", "error", {
-                title: "Límite diario alcanzado"
+            notify("You have reached the daily generation limit.", "error", {
+                title: "Daily Limit Reached"
             });
             return;
         }
 
-        notify("Tu solicitud se está procesando.", "success", {
-            title: "Solicitud recibida!"
+        notify("Your request is being processed.", "success", {
+            title: "Request Received!"
         });
 
         setRateLimit(false);
