@@ -30,12 +30,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Compute image name suffix
+        id: image_name
         run: |
-          # basename: backend/**-service -> **-service
           IMAGE_SUFFIX=$(basename "${{ matrix.service }}")
-          # sanitize: to lowercase, replace underscores/slashes with hyphens
           IMAGE_SUFFIX=$(echo "$IMAGE_SUFFIX" | tr '[:upper:]' '[:lower:]' | tr '_/' '-')
-          echo "IMAGE_SUFFIX=$IMAGE_SUFFIX" >> $GITHUB_ENV
+          echo "suffix=$IMAGE_SUFFIX" >> $GITHUB_OUTPUT
 
       - name: Build and push ${{ matrix.service }}
         uses: docker/build-push-action@v6
@@ -43,7 +42,7 @@ jobs:
           context: ${{ startsWith(matrix.service, 'frontend') && './frontend' || './backend' }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ env.IMAGE_SUFFIX }}:${{ inputs.tag }}
+          tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ steps.image_name.outputs.suffix }}:${{ inputs.tag }}
           build-args: |
             PUBLIC_API_BASE_URL=${{ secrets.PUBLIC_API_BASE_URL }}
             PUBLIC_WS_BASE_URL=${{ secrets.PUBLIC_WS_BASE_URL }}
