@@ -36,7 +36,7 @@ jobs:
           context: ${{ startsWith(matrix.service, 'frontend') && './frontend' || './backend' }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ steps.image_name.outputs.suffix }}:${{ inputs.tag }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/tripflow-${{ matrix.service == 'frontend' && 'frontend' || matrix.service == 'backend/a
           build-args: |
             PUBLIC_API_BASE_URL=${{ secrets.PUBLIC_API_BASE_URL }}
             PUBLIC_WS_BASE_URL=${{ secrets.PUBLIC_WS_BASE_URL }}
